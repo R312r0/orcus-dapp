@@ -1,0 +1,19 @@
+import {InjectedConnector} from "@web3-react/injected-connector";
+
+
+
+export const MetaMask = new InjectedConnector({
+    supportedChainIds: [31337]
+});
+
+export const JSON_RPC_URL = "http://127.0.0.1:8545/";
+export const MAX_INT = "115792089237316195423570985008687907853269984665640564039457584007913129639935";
+
+export const CONTRACT_ADDRESSES = {
+    ORU: "0x26B862f640357268Bd2d9E95bc81553a2Aa81D7E",
+    OUSD: "0x70bDA08DBe07363968e9EE53d899dFE48560605B",
+    WASTR: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    USDC: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+
+    BANK: "0xefAB0Beb0A557E452b398035eA964948c750b2Fd"
+}

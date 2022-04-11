@@ -14,10 +14,14 @@ import {
   SidebarWrapper,
   WalletBtn,
 } from './styled';
+import {useBlockChainContext} from "../../context/blockchain-context";
 
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  // const {a, b} = useBlockChainContext();
+
   return (
     <SidebarWrapper>
       <LogoWrapper onClick={() => navigate(ROUTES[0].path)}>
