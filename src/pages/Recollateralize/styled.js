@@ -49,8 +49,8 @@ export const ToggleBtn = styled.div`
 export const TabWrapper = styled.div`
   flex-direction: row;
   margin-left: 10.573vw;
-  margin-top: 1.354vw;
   display: flex;
+  margin-top: 5.537vw ;
 `;
 
 
@@ -62,6 +62,7 @@ export const RecollateralizeBlockWrapper = styled.div`
   display: flex;
   background: #fff;
   border-radius: 1.042vw;
+  
 `;
 
 export const HDiv = styled.div`
