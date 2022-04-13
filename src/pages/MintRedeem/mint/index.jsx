@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import ArrowDownIcon from '../../../assets/icons/ArrowDownIcon';
 import BoldPlusIcon from '../../../assets/icons/BoldPlusIcon';
@@ -24,10 +24,146 @@ import {
   Select,
   Text,
 } from './styled';
+import {useBlockChainContext} from "../../../context/blockchain-context";
+import {ethers} from "ethers";
+import {useWeb3React} from "@web3-react/core";
+import {formattedNum, formatToDecimal} from "../../../utils";
+import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
 
 const Mint = () => {
   const [value, setValue] = React.useState('ORU');
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const [mintInfo, setMintInfo] = React.useState(null);
+  const [userInfo, setUserInfo] = React.useState(null);
+
+  const [collateralInput, setCollateralInput] = React.useState(0);
+  const [shareInput, setShareInput] = React.useState(0);
+  const [stableOutput, setStableOutput] = React.useState(0);
+  const [stableFeeVal, setStableFeeVal] = React.useState(0);
+
+  const {account} = useWeb3React();
+  const {contracts, connectWallet, signer} = useBlockChainContext();
+
+  useEffect(() => {
+
+      if (contracts) {
+        getMintInfo();
+      }
+  }, [contracts]);
+
+  useEffect(() => {
+
+    if (account) {
+      getUserInfo();
+    }
+
+  }, [account])
+
+  const getMintInfo = async () => {
+
+    const {BANK, BANK_SAFE, PRICE_ORACLE, OUSD_USDC_ORACLE, USDC} = contracts;
+
+    const tcr = +(await BANK.tcr()) / 1e6;
+    const collateralBalance = +(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE)) / 1e6;
+    const aTokenBalance = (+(await BANK_SAFE.balanceOfAToken())) / 1e6;
+
+    const prices = {
+      collatPrice: +(await PRICE_ORACLE.collatPrice()) / 1e6,
+      sharePrice: +(await PRICE_ORACLE.oruPrice()) / 1e6,
+      stablePrice: +(await PRICE_ORACLE.ousdPrice()) / 1e6
+    }
+
+    setMintInfo({
+      tcr,
+      poolBalance: collateralBalance + aTokenBalance,
+      prices,
+    })
+  }
+
+  const getUserInfo = async () => {
+
+    const {OUSD, ORU, USDC} = contracts;
+
+    const usdcBal = +(await USDC.balanceOf(account)) / 1e6;
+    const oruBal = +(await ORU.balanceOf(account)) / 1e18;
+    const ousdBal = +(await OUSD.balanceOf(account)) / 1e18;
+
+    const usdcAllowance = await USDC["allowance(address,address)"](account, CONTRACT_ADDRESSES.BANK)
+    const oruAllowance = await ORU["allowance(address,address)"](account, CONTRACT_ADDRESSES.BANK)
+
+    const allowance = {
+      collat: usdcAllowance > 0,
+      share: oruAllowance > 0
+    }
+
+    setUserInfo({
+      usdcBal,
+      oruBal,
+      ousdBal,
+      allowance
+    })
+
+  }
+
+  const approve = async (isCollat) => {
+
+    const {USDC, ORU} = contracts;
+
+    try {
+      if (isCollat) {
+        await USDC.connect(signer).approve(CONTRACT_ADDRESSES.BANK, MAX_INT);
+      }
+      else {
+        await ORU.connect(signer).approve(CONTRACT_ADDRESSES.BANK, MAX_INT);
+      }
+    }
+    catch (e) {
+      console.error(e.message);
+    }
+
+    finally {
+      await getUserInfo();
+    }
+
+  }
+
+  const mint = async () => {
+
+    const { BANK } = contracts;
+
+    const collatInE6 = formatToDecimal(collateralInput, 6);
+    const shareInE18 = formatToDecimal(shareInput, 18);
+
+    try {
+      await BANK.connect(signer).mint(collatInE6, shareInE18, 0);
+    }
+    catch (e) {
+      console.error(e.message)
+    }
+
+    finally {
+      await getMintInfo();
+      await getUserInfo();
+    }
+
+  }
+
+  const handleCollateralInput = async (value) => {
+
+      const {prices, tcr} = mintInfo;
+
+      let output = (+value * prices.collatPrice) / tcr;
+      const shareInput = (output - (+value * prices.collatPrice)) / prices.sharePrice;
+      const stableFee = output * 0.003;
+      output -= stableFee;
+
+      setCollateralInput(value);
+      setShareInput(shareInput);
+      setStableOutput(output)
+      setStableFeeVal(stableFee);
+  }
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -35,78 +171,82 @@ const Mint = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const MintButton = () => {
+
+      if (account && userInfo) {
+
+        if (!userInfo.allowance.collat) {
+            return <MintBtn onClick={() => approve(true)}> Approve USDC </MintBtn>
+        }
+
+        else if (!userInfo.allowance.share) {
+            return <MintBtn onClick={() => approve(false)}> Approve ORU </MintBtn>
+        }
+
+        else if (collateralInput > userInfo.usdcBal) {
+          return <MintBtn disabled> Insufficient USDC balance </MintBtn>
+        }
+
+        else if (shareInput > userInfo.oruBal) {
+          return <MintBtn disabled> Insufficient ORU balance </MintBtn>
+        }
+
+        else {
+          return <MintBtn onClick={() => mint()}> Mint </MintBtn>
+        }
+
+      }
+      else {
+        return <MintBtn onClick={() => connectWallet()}> Connect Wallet </MintBtn>
+      }
+  }
+
   return (
     <>
       <MintBlockWrapper>
         <HDiv>
-          <Text>TCR 84.75%</Text>
-          <Text>Balance: 0</Text>
+          <Text>TCR {mintInfo ? mintInfo.tcr * 100 : 0}%</Text>
+          <Text>Balance: {userInfo ? formattedNum(userInfo.usdcBal) : 0}</Text>
         </HDiv>
         <MintInputWrapper withSelect>
-          <input type='text' value='1.2123235412' />
-          <button>Max</button>
+          <input type='text' onChange={(e) => handleCollateralInput(e.target.value)}  value={collateralInput} />
+          <button onClick={() => handleCollateralInput(userInfo?.usdcBal)} disabled={!account}>Max</button>
           <Divider />
-          <div>
-            <Select
-              disableElevation
-              onClick={handleClick}
-              startIcon={<OUSDIcon color='#000' />}
-              endIcon={<KeyboardArrowDownIcon />}
-              disableRipple
-              disableFocusRipple
-            >
-              {value}
-            </Select>
-            <OptionsWrapper
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-            >
-              {tokenList.map((token, idx) => (
-                <Option
-                  key={idx}
-                  onClick={() => {
-                    handleClose();
-                    setValue(token.name);
-                  }}
-                  disableRipple
-                >
-                  {token.icon}
-                  {token.name}
-                </Option>
-              ))}
-            </OptionsWrapper>
-          </div>
+          <IconWrapper margin='0 0.833vw' fill='#000'>
+            <USDCIcon />
+          </IconWrapper>
+          USDC
         </MintInputWrapper>
         <IconWrapper margin='1.667vw 0 0 0'>
           <BoldPlusIcon />
         </IconWrapper>
         <HDiv>
-          <Text>Required ORU 25.75%</Text>
-          <Text>Balance: 0</Text>
+          <Text>Required ORU {mintInfo ? 100 - (mintInfo.tcr * 100) : 0 }%</Text>
+          <Text>Balance: {userInfo ? formattedNum(userInfo.oruBal) : 0}</Text>
         </HDiv>
         <MintInputWrapper>
-          <input type='text' placeholder='0' />
+          <input disabled={true} type='text' placeholder='0' value={shareInput} />
           <IconWrapper margin='0 0.833vw' fill='#000'>
-            <OUSDIcon />
+            <LogoIcon />
           </IconWrapper>
-          oUSD
+          ORU
         </MintInputWrapper>
         <IconWrapper margin='1.667vw 0 0 0' stroke='none'>
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
           <Text>Output (estimated)</Text>
-          <Text>Balance: 0</Text>
+          <Text>Balance: {userInfo ? formattedNum(userInfo.ousdBal) : 0}</Text>
         </HDiv>
         <MintInputWrapper>
-          <input type='text' placeholder='0' />
+          <input disabled={true} type='text' placeholder='0' value={stableOutput} />
           <IconWrapper margin='0 0.833vw' fill='#000'>
-            <LogoIcon />
+            <OUSDIcon />
           </IconWrapper>
-          ORU
+          oUSD
         </MintInputWrapper>
-        <MintBtn>Connect Wallet</MintBtn>
+        <MintButton/>
       </MintBlockWrapper>
       <MintDataWrapper>
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -128,9 +268,9 @@ const Mint = () => {
           <MintDataText>Minting fee</MintDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <MintDataText>
-              <b>0.3% = 0.000000</b>
+              <b>0.3% = {stableFeeVal.toFixed(3)}</b>
             </MintDataText>
-            <MintDataText ml='0.677vw'>ORU</MintDataText>
+            <MintDataText ml='0.677vw'>oUSD</MintDataText>
           </div>
         </HDiv>
         <HDivider margin='0.938vw 0 0.781vw 0' />
@@ -141,7 +281,7 @@ const Mint = () => {
           </div>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <MintDataText>
-              <b>948,264.523483</b>
+              <b>{mintInfo ? formattedNum(mintInfo.poolBalance) : 0}</b>
             </MintDataText>
             <MintDataText ml='0.677vw'>USD</MintDataText>
           </div>
@@ -160,9 +300,9 @@ const Mint = () => {
             <MintDataText>
               <b>1 </b>
             </MintDataText>
-            <MintDataText>ORU</MintDataText>
+            <MintDataText>oUSD</MintDataText>
             <MintDataText>
-              <b> = 1.000201 </b>
+              <b> = {mintInfo ? mintInfo.prices.stablePrice : 0} </b>
             </MintDataText>
             <MintDataText>USD</MintDataText>
           </div>
@@ -174,11 +314,11 @@ const Mint = () => {
             <MintDataText>
               <b>1 </b>
             </MintDataText>
-            <MintDataText>ORU</MintDataText>
+            <MintDataText>USDC</MintDataText>
             <MintDataText>
-              <b> = 0.088199 </b>
+              <b> = {mintInfo ? (mintInfo.prices.collatPrice / mintInfo.prices.stablePrice).toFixed(6) : 0} </b>
             </MintDataText>
-            <MintDataText>USD</MintDataText>
+            <MintDataText>oUSD</MintDataText>
           </div>
         </HDiv>
       </MintDataWrapper>

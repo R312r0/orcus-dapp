@@ -5,6 +5,9 @@ import {MetaMask, JSON_RPC_URL, CONTRACT_ADDRESSES} from "../constants";
 import ERC20_ABI from '../abis/ERC20.json';
 import OrcusERC20_ABI from '../abis/OrcusERC20.json';
 import BANK_ABI from '../abis/Bank.json';
+import BANK_SAFE_ABI from '../abis/BankSafe.json';
+import PRICE_ORACLE_ABI from '../abis/PriceOracle.json';
+import TWAP_ORACLE_ABI from '../abis/TwapOracle.json';
 
 const BlockchainContext  = React.createContext();
 export const useBlockChainContext = () => useContext(BlockchainContext);
@@ -48,6 +51,9 @@ export const BlockchainContextProvider = ({children}) => {
 
         const contracts = {
             BANK: new ethers.Contract(CONTRACT_ADDRESSES.BANK, BANK_ABI, readProvider),
+            BANK_SAFE: new ethers.Contract(CONTRACT_ADDRESSES.BANK_SAFE, BANK_SAFE_ABI, readProvider),
+            PRICE_ORACLE: new ethers.Contract(CONTRACT_ADDRESSES.PRICE_ORACLE, PRICE_ORACLE_ABI, readProvider),
+            OUSD_USDC_ORACLE: new ethers.Contract(CONTRACT_ADDRESSES.OUSD_USDC_ORACLE, TWAP_ORACLE_ABI, readProvider)
             // TODO: add more.
         }
 
