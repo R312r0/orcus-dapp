@@ -36,7 +36,8 @@ export const LogoText = styled.div`
 `;
 
 export const PageTab = styled.div`
-  margin-top: 3.125vw;
+  // margin-top: 3.125vw;
+  margin-top: 2.400vw;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
@@ -46,8 +47,10 @@ export const PageTab = styled.div`
 
 export const IconWrapper = styled.div`
   cursor: pointer;
-  height: 1.979vw;
-  width: 1.979vw;
+  // height: 1.979vw;
+  // width: 1.979vw;
+  height: 1.484wv;
+  width: 1.484wv;
   display: flex;
   align-items: center;
   justify-content: center;
