@@ -1,8 +1,43 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import { Divider, HDiv, ProtocolTableWrapper, Text } from './styled';
+import {useBlockChainContext} from "../../../context/blockchain-context";
+import {CONTRACT_ADDRESSES} from "../../../constants";
+import {formattedNum} from "../../../utils";
 
 const ProtocolTable = () => {
+
+    const {contracts} = useBlockChainContext();
+    const [info, setInfo] = useState(null);
+
+    useEffect(() => {
+
+        if (contracts) {
+            getInfo();
+        }
+
+    }, [contracts])
+
+
+    const getInfo = async () => {
+
+        const {USDC, BANK_SAFE, ORU, PRICE_ORACLE} = contracts
+
+        const bankTVL = (+(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE)) / 1e6) + (+(await BANK_SAFE.balanceOfAToken()) / 1e6);
+        const farmTVL = 0; // TODO: change it.
+        const stakeTVL = (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18) * (+(await PRICE_ORACLE.oruPrice()) / 1e6);
+        const protocolTVL = bankTVL + farmTVL + stakeTVL
+
+        setInfo({
+            bankTVL,
+            farmTVL,
+            stakeTVL,
+            protocolTVL
+        })
+
+    }
+
+
   return (
     <ProtocolTableWrapper>
       <HDiv>
@@ -10,22 +45,22 @@ const ProtocolTable = () => {
           <b>Protocol TVL</b>
         </Text>
         <Text>
-          <b>$1,182,215.21</b>
+          <b>${info ? formattedNum(info.protocolTVL) : 0}</b>
         </Text>
       </HDiv>
       <HDiv mt='1.094vw'>
         <Text>Bank</Text>
-        <Text>$856,215.62</Text>
+        <Text>${info ? formattedNum(info.bankTVL) : 0}</Text>
       </HDiv>
       <Divider />
       <HDiv>
         <Text>Farm</Text>
-        <Text>$1,226,295.02</Text>
+        <Text>${info ? formattedNum(info.farmTVL) : 0}</Text>
       </HDiv>
       <Divider />
       <HDiv>
         <Text>Stake</Text>
-        <Text>$569,321.64</Text>
+        <Text>${info ? formattedNum(info.stakeTVL) : 0}</Text>
       </HDiv>
     </ProtocolTableWrapper>
   );

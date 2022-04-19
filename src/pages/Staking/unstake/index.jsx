@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import ArrowDownIcon from '../../../assets/icons/ArrowDownIcon';
 import CalendarIcon from '../../../assets/icons/CalendarIcon';
@@ -17,27 +17,134 @@ import {
   UnstakeDataWrapper,
   UnstakeInputWrapper,
 } from './styled';
+import {useWeb3React} from "@web3-react/core";
+import {useBlockChainContext} from "../../../context/blockchain-context";
+import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
+import {formattedNum, formatToDecimal} from "../../../utils";
+import {StakeBtn} from "../stake/styled";
 
 const Unstake = () => {
+
+  const {account} = useWeb3React();
+  const {contracts, connectWallet, signer} = useBlockChainContext();
+
+  const [xoruInput, setXOruInput] = useState(0);
+
+  const [stakingInfo, setStakingInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+
+    if (contracts) {
+      getStakingInfo();
+    }
+
+  },[contracts])
+
+  useEffect(() => {
+
+    if (account) {
+      getUserInfo();
+    }
+
+  }, [account])
+
+  const getStakingInfo = async () => {
+
+    const {ORU,PRICE_ORACLE} = contracts;
+
+    const tvl = ((+(await PRICE_ORACLE.oruPrice())) / 1e6) * (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18);
+
+    setStakingInfo({
+      tvl,
+    })
+  }
+
+  const getUserInfo = async () => {
+
+    const {ORU, XORU} = contracts;
+    const allowance = await XORU.allowance(account, CONTRACT_ADDRESSES.ORU_STAKE) > 0;
+
+    const balances = {
+      oru: +(await ORU.balanceOf(account)) / 1e18,
+      xoru: +(await XORU.balanceOf(account)) / 1e18
+    }
+
+    setUserInfo({
+      balances,
+      allowance
+    })
+  }
+
+  const approve = async () => {
+    try {
+      await contracts.XORU.connect(signer).approve(CONTRACT_ADDRESSES.ORU_STAKE, MAX_INT);
+    }
+    catch (e) {
+      console.error(e.message);
+    }
+    finally {
+      await getStakingInfo();
+      await getUserInfo();
+    }
+
+  }
+
+  const withdraw = async () => {
+    try {
+      await contracts.ORU_STAKE.connect(signer).unstake(formatToDecimal(xoruInput, 18))
+    }
+    catch (e) {
+      console.error(e.message);
+    }
+    finally {
+      await getStakingInfo();
+      await getUserInfo();
+    }
+  }
+
+  const UnstakeButton = () => {
+
+    if (account && userInfo) {
+
+      if(!userInfo.allowance) {
+        return <UnstakeBtn onClick={() => approve()}>Approve xORU</UnstakeBtn>
+      }
+
+      else if (userInfo.balances.xoru < xoruInput) {
+        return <UnstakeBtn disabled={true}> Insufficient xORU balance </UnstakeBtn>
+      }
+
+      else {
+        return <UnstakeBtn onClick={() => withdraw()}> Withdraw </UnstakeBtn>
+      }
+    }
+
+    else {
+      return <UnstakeBtn onClick={() => connectWallet()}>Connect Wallet</UnstakeBtn>
+    }
+  }
+
+
   return (
     <>
       <UnstakeBlockWrapper>
         <HDiv>
           <Text>
-            <b>Staking APR</b>
+            <b>Staking</b>
           </Text>
           <PercentageContainer>
             <Text>
-              <b>3004.14%</b>
+              <b>3004.14% APR</b>
             </Text>
           </PercentageContainer>
         </HDiv>
         <HDiv mt='1.094vw'>
-          <Text>Depositing ORU</Text>
-          <Text>Balance: 0</Text>
+          <Text>Unstake ORU using xORU</Text>
+          <Text>Balance: {userInfo ? formattedNum(userInfo.balances.xoru) : 0}</Text>
         </HDiv>
         <UnstakeInputWrapper withBtn>
-          <input type='text' placeholder='0.0' />
+          <input type='text' placeholder='0.0' value={xoruInput} onChange={(e) => setXOruInput(e.target.value)}/>
           <button>Max</button>
           <Divider />
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
@@ -49,17 +156,18 @@ const Unstake = () => {
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
-          <Text>Receiving xORU</Text>
-          <Text>Balance: 0</Text>
+          <Text>Receiving ORU</Text>
+          <Text>Balance: {userInfo ? formattedNum(userInfo.balances.oru) : 0}</Text>
         </HDiv>
         <UnstakeInputWrapper>
-          <input type='text' value='0' />
+          <input type='text' value={xoruInput} onChange={(e) => setXOruInput(e.target.value)}/>
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
             <LogoIcon />
           </IconWrapper>
           xORU
         </UnstakeInputWrapper>
-        <UnstakeBtn>Approve ORU</UnstakeBtn>
+        <UnstakeButton/>
+
       </UnstakeBlockWrapper>
 
       <UnstakeDataWrapper>
@@ -81,24 +189,10 @@ const Unstake = () => {
         <HDiv>
           <UnstakeDataText>Stake TVL</UnstakeDataText>
           <UnstakeDataText>
-            <b>$55,288.11</b>
+            <b>${stakingInfo ?  formattedNum(stakingInfo.tvl) : 0}</b>
           </UnstakeDataText>
         </HDiv>
         <HDivider margin='0.938vw 0 0.781vw 0' />
-        <HDiv>
-          <UnstakeDataText mr='0.339vw'>Rate</UnstakeDataText>
-          <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <UnstakeDataText>
-              <b>1&nbsp;</b>
-            </UnstakeDataText>
-            <UnstakeDataText>xORU</UnstakeDataText>
-            <UnstakeDataText>
-              <b>&nbsp;= 1.4813&nbsp;</b>
-            </UnstakeDataText>
-            <UnstakeDataText>ORU</UnstakeDataText>
-          </div>
-        </HDiv>
-        <HDivider margin='0.781vw 0 0.938vw  0' />
         <HDiv>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <UnstakeDataText mr='0.339vw'>Lock Duration</UnstakeDataText>
@@ -112,19 +206,6 @@ const Unstake = () => {
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-        <HDiv>
-          <UnstakeDataText>Rates</UnstakeDataText>
-          <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <UnstakeDataText>
-              <b>1&nbsp;</b>
-            </UnstakeDataText>
-            <UnstakeDataText>USDC</UnstakeDataText>
-            <UnstakeDataText>
-              <b>&nbsp;= 1.000201&nbsp;</b>
-            </UnstakeDataText>
-            <UnstakeDataText>USD</UnstakeDataText>
-          </div>
-        </HDiv>
       </UnstakeDataWrapper>
     </>
   );

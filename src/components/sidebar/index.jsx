@@ -16,6 +16,7 @@ import {
 } from './styled';
 import {useBlockChainContext} from "../../context/blockchain-context";
 import {useWeb3React} from "@web3-react/core";
+import {formatAddress} from "../../utils";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -50,7 +51,7 @@ const Sidebar = () => {
       <WalletBtn onClick={() => account ? null : connectWallet()}>
           {account ?
                 <>
-                    {account} <ConnectedPlugsIcon />
+                    <ConnectedPlugsIcon /> {formatAddress(account)}
                 </>
                :
           "Connect Wallet"}

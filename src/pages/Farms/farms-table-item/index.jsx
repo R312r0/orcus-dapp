@@ -42,7 +42,7 @@ const FarmsTableItm = () => {
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <DepositingIcon />
               <Text fontSize='0.729vw' lineHeight='1.094vw' ml='0.313vw'>
-                Depositing ORU
+                ArthSwap
               </Text>
             </div>
           </VDiv>
@@ -112,7 +112,7 @@ const FarmsTableItm = () => {
                   <b>100%</b>
                 </Text>
               </HDiv>
-              <VestingBtn>Revards vesting</VestingBtn>
+              <VestingBtn>Deposit</VestingBtn>
               <HDiv mt='2.708vw'>
                 <Text>
                   <b>Add Liquidity</b>
@@ -167,7 +167,7 @@ const FarmsTableItm = () => {
                   <b>Rewarsd: 0 ORU</b>
                 </Text>
                 <HelpCircleIcon />
-                <VestRewardsBtn>Vest Rewards</VestRewardsBtn>
+                <VestRewardsBtn>Harvest Rewards</VestRewardsBtn>
               </HDiv>
             </VDiv>
           </ExpandedData>
