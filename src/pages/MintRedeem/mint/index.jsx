@@ -154,12 +154,12 @@ const Mint = () => {
       const {prices, tcr} = mintInfo;
 
       let output = (+value * prices.collatPrice) / tcr;
-      const shareInput = (output - (+value * prices.collatPrice)) / prices.sharePrice;
+      const shareInput = ((output - (+value * prices.collatPrice)) / prices.sharePrice);
       const stableFee = output * 0.003;
       output -= stableFee;
 
       setCollateralInput(value);
-      setShareInput(shareInput);
+      setShareInput(shareInput + (shareInput * 0.01));
       setStableOutput(output)
       setStableFeeVal(stableFee);
   }

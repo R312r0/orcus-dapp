@@ -12,7 +12,10 @@ import {
 } from './styled';
 
 const SwapPool = () => {
+
+
   const [activeTab, setActiveTab] = React.useState('Swap');
+
   return (
     <SwapPoolWrapper>
       <HeadingText style={{display: 'flex', alignItems: 'center', gap: '0.7vw'}}><img alt='Trade with Arth' style={{height: '26px', width: '26px'}} src={ArthIcon}/>Trade on ArthSwap</HeadingText>

@@ -21,21 +21,21 @@ import {CONTRACT_ADDRESSES} from "../../../constants";
 
 const OUSDTable = () => {
 
-    const { contracts } = useBlockChainContext();
+    const { contracts, liquidity } = useBlockChainContext();
     const [ousdInfo, setOusdInfo] = useState(null);
 
     useEffect(() => {
 
-        if (contracts) {
+        if (contracts && liquidity) {
             getInfo();
         }
 
-    }, [contracts])
+    }, [contracts, liquidity])
 
     const getInfo = async () => {
-        const {OUSD, PRICE_ORACLE} = contracts;
+        const {OUSD} = contracts;
 
-        const ousdPrice = +(await PRICE_ORACLE.ousdPrice()) / 1e6;
+        const ousdPrice = liquidity.ousdPrice;
         const totalSupply = +( await OUSD.totalSupply()) / 1e18;
         const marketCap = ousdPrice * totalSupply;
 

@@ -10,6 +10,7 @@ import {
 
 import { useWindowScale } from '../../../hooks';
 import { AreaChartWrapper, DateData, Text, TVLChartWrapper } from './styled';
+import {formattedNum} from "../../../utils";
 
 const data = [
   { value: 0, xAxis: '05', yAxis: 14000 },
@@ -22,14 +23,14 @@ const data = [
   { value: 5000, xAxis: '11', yAxis: 20000 },
 ];
 
-const TVLChart = () => {
+const TVLChart = ({protocolTVL}) => {
   const currentChartMargin = useWindowScale();
 
   return (
     <TVLChartWrapper>
       <Text>TVL</Text>
       <Text>
-        <b>$ 1,68b</b>
+        <b>$ {protocolTVL ? formattedNum(protocolTVL) : null }</b>
       </Text>
       <DateData>Jul 11, 2021</DateData>
       <AreaChartWrapper>

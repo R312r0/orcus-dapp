@@ -9,6 +9,9 @@ import BANK_SAFE_ABI from '../abis/BankSafe.json';
 import ORU_STAKE_ABI from '../abis/ORUStake.json';
 import PRICE_ORACLE_ABI from '../abis/PriceOracle.json';
 import TWAP_ORACLE_ABI from '../abis/TwapOracle.json';
+import MASTER_CHEF_ABI from '../abis/MasterChef.json';
+import UNISWAP_PAIR_ABI  from '../abis/UniswapPair.json';
+import UNISWAP_ROUTER_ABI from '../abis/UniswapRouter.json';
 
 const BlockchainContext  = React.createContext();
 export const useBlockChainContext = () => useContext(BlockchainContext);
@@ -20,6 +23,7 @@ export const BlockchainContextProvider = ({children}) => {
 
     const [contracts, setContracts] = useState(null);
     const [signer, setSigner] = useState(null);
+    const [liquidity, setLiquidity] = useState(null);
 
     useEffect(() => {
 
@@ -39,6 +43,45 @@ export const BlockchainContextProvider = ({children}) => {
 
     }, [active, account])
 
+
+    useEffect(() => {
+
+        if (contracts) {
+            getLiquidityPrices();
+        }
+
+
+    }, [contracts])
+
+    const getLiquidityPrices = async () => {
+
+        const {ORU_USDC, OUSD_USDC, OUSD_ORU} = contracts;
+
+        // ORU-USDC liquidity
+        const oruUsdcRes = await ORU_USDC.getReserves();
+        const oruPrice = (+oruUsdcRes[1] / 1e6) / (+oruUsdcRes[0] / 1e18)
+        const oruUsdcLiq = (oruPrice * (+oruUsdcRes[0] / 1e18)) + (+oruUsdcRes[1] / 1e6);
+
+        // ORU-USDC liquidity
+        const ousdUsdcRes = await OUSD_USDC.getReserves();
+        const ousdPrice = (+ousdUsdcRes[1] / 1e6) / (+ousdUsdcRes[0] / 1e18);
+        const ousdUsdcLiq = (ousdPrice * (+ousdUsdcRes[0] / 1e18)) + (+ousdUsdcRes[1] / 1e6);
+
+        // OUSD-ORU liquidity
+        // TODO: Add liquidity for this pair.
+        const oruOusdRes = await OUSD_ORU.getReserves();
+        const oruOusdLiq = (ousdPrice * (+oruOusdRes[0] / 1e18)) + (oruPrice * (+oruOusdRes[1] / 1e18))
+
+        setLiquidity({
+            oruPrice,
+            ousdPrice,
+            oruUsdcLiq,
+            ousdUsdcLiq,
+            oruOusdLiq
+        })
+
+    }
+
     const init = async () => {
 
         const readProvider = new ethers.providers.JsonRpcProvider(JSON_RPC_URL);
@@ -48,7 +91,13 @@ export const BlockchainContextProvider = ({children}) => {
             OUSD: new ethers.Contract(CONTRACT_ADDRESSES.OUSD, OrcusERC20_ABI, readProvider),
             USDC: new ethers.Contract(CONTRACT_ADDRESSES.USDC, ERC20_ABI, readProvider),
             WASTR: new ethers.Contract(CONTRACT_ADDRESSES.WASTR, ERC20_ABI, readProvider),
-            XORU: new ethers.Contract(CONTRACT_ADDRESSES.ORU_STAKE, ERC20_ABI, readProvider)
+            XORU: new ethers.Contract(CONTRACT_ADDRESSES.ORU_STAKE, ERC20_ABI, readProvider),
+        }
+
+        const pairs = {
+            ORU_USDC: new ethers.Contract(CONTRACT_ADDRESSES.ORU_USDC, UNISWAP_PAIR_ABI, readProvider),
+            OUSD_USDC: new ethers.Contract(CONTRACT_ADDRESSES.OUSD_USDC, UNISWAP_PAIR_ABI, readProvider),
+            OUSD_ORU: new ethers.Contract(CONTRACT_ADDRESSES.OUSD_ORU, UNISWAP_PAIR_ABI, readProvider)
         }
 
         const contracts = {
@@ -56,11 +105,13 @@ export const BlockchainContextProvider = ({children}) => {
             BANK_SAFE: new ethers.Contract(CONTRACT_ADDRESSES.BANK_SAFE, BANK_SAFE_ABI, readProvider),
             ORU_STAKE: new ethers.Contract(CONTRACT_ADDRESSES.ORU_STAKE, ORU_STAKE_ABI, readProvider),
             PRICE_ORACLE: new ethers.Contract(CONTRACT_ADDRESSES.PRICE_ORACLE, PRICE_ORACLE_ABI, readProvider),
-            OUSD_USDC_ORACLE: new ethers.Contract(CONTRACT_ADDRESSES.OUSD_USDC_ORACLE, TWAP_ORACLE_ABI, readProvider)
+            OUSD_USDC_ORACLE: new ethers.Contract(CONTRACT_ADDRESSES.OUSD_USDC_ORACLE, TWAP_ORACLE_ABI, readProvider),
+            MASTER_CHEF: new ethers.Contract(CONTRACT_ADDRESSES.MASTER_CHEF, MASTER_CHEF_ABI, readProvider),
+            ROUTER: new ethers.Contract(CONTRACT_ADDRESSES.ROUTER, UNISWAP_ROUTER_ABI, readProvider)
             // TODO: add more.
         }
 
-        setContracts({...tokens, ...contracts})
+        setContracts({...tokens, ...pairs, ...contracts})
 
     }
 
@@ -81,6 +132,7 @@ export const BlockchainContextProvider = ({children}) => {
         connectWallet,
         contracts,
         signer,
+        liquidity
     }
 
     return (

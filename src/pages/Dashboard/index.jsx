@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, {useState} from 'react';
 
 import LiquidityTable from './liquidity-table';
 import ORUTable from './oru-table';
@@ -16,13 +16,16 @@ import {
 import TVLChart from './tvl-chart';
 
 const Dashboard = () => {
+
+  const [protocolTVL, setProtocolTVL] = useState(null)
+
   return (
     <DashboardWrapper>
       <InfoBlockWrapper>
         <HeadingText>Dashboard</HeadingText>
-        <TVLChart />
+        <TVLChart protocolTVL={protocolTVL}/>
         <TableWrapper>
-          <ProtocolTable />
+          <ProtocolTable setProtocolTVL={setProtocolTVL} />
           <LiquidityTable />
           <RatioTable />
         </TableWrapper>

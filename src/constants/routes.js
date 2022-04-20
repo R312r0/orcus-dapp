@@ -11,7 +11,8 @@ export const ROUTES = [
   { path: '/mint-redeem', icon: <MintIcon /> },
   { path: '/staking', icon: <StakingIcon /> },
   { path: '/farms', icon: <FarmsIcon /> },
-  { path: '/profit-manager', icon: <ProfitManagerIcon /> },
+  // { path: '/profit-manager', icon: <ProfitManagerIcon /> },
   { path: '/recollateralize', icon: <RecollateralizeIcon /> },
   { path: '/swap', icon: <SwapIcon />},
+  // FIXME: uncomment swap.
 ];

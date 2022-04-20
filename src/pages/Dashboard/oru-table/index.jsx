@@ -22,21 +22,21 @@ import logoIcon from "../../../assets/icons/LogoIcon";
 
 const ORUTable = () => {
 
-    const { contracts } = useBlockChainContext();
+    const { contracts, liquidity } = useBlockChainContext();
     const [oruInfo, setOruInfo] = useState(null);
 
     useEffect(() => {
 
-        if (contracts) {
+        if (contracts && liquidity) {
             getInfo();
         }
 
-    }, [contracts])
+    }, [contracts, liquidity])
 
     const getInfo = async () => {
-        const {ORU, PRICE_ORACLE} = contracts;
+        const {ORU} = contracts;
 
-        const oruPrice = +(await PRICE_ORACLE.oruPrice()) / 1e6;
+        const oruPrice = liquidity.oruPrice
         const totalSupply = +( await ORU.totalSupply()) / 1e18;
         const marketCap = oruPrice * totalSupply;
 
