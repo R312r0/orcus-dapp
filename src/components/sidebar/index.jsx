@@ -9,6 +9,8 @@ import {
   ActivePageIndicator,
   IconWrapper,
   LogoText,
+  TabLabel,
+  TabArrow,
   LogoWrapper,
   PageTab,
   SidebarWrapper,
@@ -37,6 +39,7 @@ const Sidebar = () => {
             {route.icon}
           </IconWrapper>
           <ActivePageIndicator isActive={location.pathname === route.path} />
+          <TabLabel ><TabArrow></TabArrow>{route.label}</TabLabel>
         </PageTab>
       ))}
       <WalletBtn>
