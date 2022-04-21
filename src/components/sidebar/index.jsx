@@ -16,10 +16,19 @@ import {
   SidebarWrapper,
   WalletBtn,
 } from './styled';
+import {useBlockChainContext} from "../../context/blockchain-context";
+import {useWeb3React} from "@web3-react/core";
+import {formatAddress} from "../../utils";
 
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { account } = useWeb3React();
+  const { connectWallet } = useBlockChainContext();
+
+  // const {a, b} = useBlockChainContext();
+
   return (
     <SidebarWrapper>
       <LogoWrapper onClick={() => navigate(ROUTES[0].path)}>
@@ -42,9 +51,13 @@ const Sidebar = () => {
           <TabLabel ><TabArrow></TabArrow>{route.label}</TabLabel>
         </PageTab>
       ))}
-      <WalletBtn>
-        <ConnectedPlugsIcon />
-        0xDD1...10aE
+      <WalletBtn onClick={() => account ? null : connectWallet()}>
+          {account ?
+                <>
+                    <ConnectedPlugsIcon /> {formatAddress(account)}
+                </>
+               :
+          "Connect Wallet"}
       </WalletBtn>
     </SidebarWrapper>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import ArrowDownIcon from '../../assets/icons/ArrowDownIcon';
 import HelpCircleIcon from '../../assets/icons/HelpCircleIcon'
@@ -17,25 +17,169 @@ import { RecollateralizeWrapper,
   RecollateralizeDataWrapper,
   RecollateralizeInputWrapper,
 }  from './styled';
+import {useWeb3React} from "@web3-react/core";
+import {useBlockChainContext} from "../../context/blockchain-context";
+import {CONTRACT_ADDRESSES, MAX_INT} from "../../constants";
+import {formattedNum, formatToDecimal} from "../../utils";
+import {ethers} from "ethers";
 
 
 const Recollateralize = () => {
+
+  const {account} = useWeb3React()
+  const {contracts, signer, connectWallet} = useBlockChainContext();
+  const [info, setInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
+
+  const [collatInput, setCollatInput] = useState(null);
+  const [shareOutput, setShareOutput] = useState(null);
+
+  useEffect(() => {
+
+    if (contracts) {
+      getInfo();
+    }
+
+  }, [contracts])
+
+  useEffect(() => {
+
+    if (signer) {
+      getUserInfo();
+    }
+
+  }, [signer])
+
+  const getInfo = async () => {
+
+    const {BANK, BANK_SAFE, PRICE_ORACLE, USDC} = contracts;
+
+    const recollat = await BANK.recollatAvailable();
+    const tcr = +(await BANK.tcr()) / 1e6;
+    const collateralBalance = +(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE)) / 1e6;
+    const aTokenBalance = (+(await BANK_SAFE.balanceOfAToken())) / 1e6;
+
+    const prices = {
+      collatPrice: +(await PRICE_ORACLE.collatPrice()) / 1e6,
+      sharePrice: +(await PRICE_ORACLE.oruPrice()) / 1e6,
+    }
+
+    setInfo({
+      recollatAvailable: prices.sharePrice * (+recollat / 1e18),
+      tcr,
+      prices,
+      poolBalance: collateralBalance + aTokenBalance,
+
+    })
+
+    console.log(+recollat / 1e18)
+  }
+
+  const handleCollatInput = async (value) => {
+    // 0.005 bonus rate.
+
+    // uint256 _oruOut = (_collatInE18 *
+    //         _collatPrice *
+    //         (RATIO_PRECISION + bonusRate)) /
+    //     RATIO_PRECISION /
+    //     _oruPrice;
+    setCollatInput(value);
+    setShareOutput((value * info.prices.collatPrice) / info.prices.sharePrice);
+
+  }
+
+  const getUserInfo = async () => {
+
+    const {USDC, ORU} = contracts;
+    const bal = +(await USDC.balanceOf(account)) / 1e6;
+    const oruBal = +(await ORU.balanceOf(account)) / 1e18;
+    const allowance = await USDC.allowance(account, CONTRACT_ADDRESSES.BANK) > 0;
+
+    setUserInfo({
+      bal,
+      oruBal,
+      allowance
+    })
+
+  }
+
+  const handleRecollat = async () => {
+
+      const {BANK} = contracts;
+
+      try {
+          const tx = await BANK.connect(signer).recollateralize(formatToDecimal(collatInput, 6), 0);
+          // const tx = await BANK.connect(signer).update();
+          await tx.wait()
+          await getInfo();
+          await getUserInfo();
+      }
+      catch (e) {
+        console.log(e.message)
+      }
+  }
+
+  const handleApprove = async () => {
+
+    const {USDC} = contracts;
+
+    try {
+      const tx = await USDC.connect(signer).approve(CONTRACT_ADDRESSES.BANK, MAX_INT);
+      await tx.wait();
+      await getUserInfo();
+    }
+
+    catch (e) {
+      console.log(e.message)
+    }
+
+  }
+
+  const RecollatButton = () => {
+
+    if (account && signer) {
+      if (info?.recollatAvailable === 0) {
+        return <RecollateralizeBtn disabled={true}>Recollaterize unavailable</RecollateralizeBtn>
+      }
+      else if (!userInfo?.allowance) {
+        return <RecollateralizeBtn onClick={() => handleApprove()}>Approve USDC</RecollateralizeBtn>
+      }
+
+      else if (userInfo?.bal < collatInput) {
+        return <RecollateralizeBtn disabled={true}>Insufficient USDC balance</RecollateralizeBtn>
+      }
+
+      else if (collatInput > info?.recollatAvailable) {
+        return <RecollateralizeBtn onClick={() => handleRecollat()} disabled={false}>Insufficient recollat amount</RecollateralizeBtn>
+      }
+
+      else {
+        return <RecollateralizeBtn onClick={() => handleRecollat()}>Recolaterize</RecollateralizeBtn>
+      }
+    }
+    else {
+      return <RecollateralizeBtn onClick={() => connectWallet()}>Connect Wallet</RecollateralizeBtn>
+
+    }
+
+  }
+
   return <RecollateralizeWrapper>
     <StakingWrapper>
       <HeadingText>Recollateralize</HeadingText>
       <TabWrapper>
       <RecollateralizeBlockWrapper>
         <HDiv mt='1.094vw'>
-          <Text>Recollat available</Text>
+          <Text>Recollaterize available</Text>
           <Text>Balance:</Text>
         </HDiv>
         <HDiv mt='1.094vw'>
-          <Text fontWeight='500'>0.0000 USDC</Text>
-          <Text fontWeight='500'>0 USDC</Text>
+          <Text fontWeight='500'>{info ? formattedNum(info.recollatAvailable) : 0.000 } USDC</Text>
+          <Text fontWeight='500'>{userInfo ? formattedNum(userInfo.bal) : 0} USDC</Text>
         </HDiv>
         <RecollateralizeInputWrapper withBtn>
-          <input type='text' placeholder='0.0' />
-          <button>Max</button>
+          <input type='text' placeholder='0.0' value={collatInput} onChange={({target}) => handleCollatInput(target.value)}/>
+          <button onClick={() => userInfo ? handleCollatInput(userInfo.bal) : null}>Max</button>
           <Divider />
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
             <USDCIcon />
@@ -47,16 +191,16 @@ const Recollateralize = () => {
         </IconWrapper>
         <HDiv>
           <Text>Receiving ORU</Text>
-          <Text>Balance: 0</Text>
+          <Text>Balance: {userInfo ? formattedNum(userInfo.oruBal) : 0}</Text>
         </HDiv>
         <RecollateralizeInputWrapper>
-          <input type='text' value='0' />
+          <input type='text' value={shareOutput} disabled={true} />
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
             <LogoIcon />
           </IconWrapper>
-          xORU
+          ORU
         </RecollateralizeInputWrapper>
-        <RecollateralizeBtn>Connect Wallet</RecollateralizeBtn>
+        <RecollatButton/>
       </RecollateralizeBlockWrapper>
 
       <RecollateralizeDataWrapper>
@@ -78,7 +222,7 @@ const Recollateralize = () => {
         <HDiv>
           <RecollateralizeDataText>Bonus Rate</RecollateralizeDataText>
           <RecollateralizeDataText>
-            <b>0%</b>
+            <b>0.005%</b>
           </RecollateralizeDataText>
         </HDiv>
         <HDivider margin='0.938vw 0 0.781vw 0' />
@@ -89,7 +233,7 @@ const Recollateralize = () => {
           </div>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <RecollateralizeDataText>
-              <b>&nbsp;948,264.523483&nbsp;</b>
+              <b>&nbsp;{info ? formattedNum(info.poolBalance) : 0}&nbsp;</b>
             </RecollateralizeDataText>
             <RecollateralizeDataText>USD</RecollateralizeDataText>
           </div>
@@ -112,7 +256,7 @@ const Recollateralize = () => {
             </RecollateralizeDataText>
             <RecollateralizeDataText>USDC</RecollateralizeDataText>
             <RecollateralizeDataText>
-              <b>&nbsp;= 1.000201&nbsp;</b>
+              <b>&nbsp;= {info ? info.prices.collatPrice : 0}&nbsp;</b>
             </RecollateralizeDataText>
             <RecollateralizeDataText>USD</RecollateralizeDataText>
           </div>
@@ -126,7 +270,7 @@ const Recollateralize = () => {
             </RecollateralizeDataText>
             <RecollateralizeDataText>ORU</RecollateralizeDataText>
             <RecollateralizeDataText>
-              <b>&nbsp;= 0.088199&nbsp;</b>
+              <b>&nbsp;= {info ? info.prices.sharePrice : 0}&nbsp;</b>
             </RecollateralizeDataText>
             <RecollateralizeDataText>USD</RecollateralizeDataText>
           </div>

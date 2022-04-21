@@ -14,7 +14,7 @@ const LiquidityTable = () => {
         <VDiv>
           <Text>Protocol Owned Liquidity</Text>
           <Text mt='0.156vw'>
-            <b>$569,321.64</b>
+            <b>Not calculated yet!</b>
           </Text>
         </VDiv>
       </HDiv>
@@ -25,7 +25,7 @@ const LiquidityTable = () => {
         <VDiv>
           <Text>Protocol Rented Liquidity</Text>
           <Text mt='0.156vw'>
-            <b>$569,321.64</b>
+            <b>Not calculated yet!</b>
           </Text>
         </VDiv>
       </HDiv>

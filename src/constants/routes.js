@@ -7,6 +7,7 @@ import StakingIcon from '../assets/icons/navbar/StakingIcon';
 import SwapIcon from '../assets/icons/navbar/SwapIcon';
 
 export const ROUTES = [
+
   { label: 'Dashboard', path: '/', icon: <DashboardIcon /> },
   { label: 'Mint / Redeem', path: '/mint-redeem', icon: <MintIcon /> },
   { label: 'Staking', path: '/staking', icon: <StakingIcon /> },
@@ -14,4 +15,5 @@ export const ROUTES = [
   { label: 'Profit Manager', path: '/profit-manager', icon: <ProfitManagerIcon /> },
   { label: 'Recollateralize', path: '/recollateralize', icon: <RecollateralizeIcon /> },
   { label: 'Swap', path: '/swap', icon: <SwapIcon />},
+
 ];

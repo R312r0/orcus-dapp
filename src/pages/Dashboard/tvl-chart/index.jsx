@@ -10,6 +10,7 @@ import {
 
 import { useWindowScale } from '../../../hooks';
 import { AreaChartWrapper, DateData, Text, TVLChartWrapper } from './styled';
+import {formattedNum} from "../../../utils";
 
 const data = [
   { value: 0, xAxis: '05', yAxis: 14000 },
@@ -22,45 +23,47 @@ const data = [
   { value: 5000, xAxis: '11', yAxis: 20000 },
 ];
 
-const TVLChart = () => {
+const TVLChart = ({protocolTVL}) => {
   const currentChartMargin = useWindowScale();
 
   return (
     <TVLChartWrapper>
       <Text>TVL</Text>
       <Text>
-        <b>$ 1,68b</b>
+        <b>$ {protocolTVL ? formattedNum(protocolTVL) : null }</b>
       </Text>
-      <DateData>Jul 11, 2021</DateData>
-      <AreaChartWrapper>
-        <ResponsiveContainer width='100%' height='100%'>
-          <AreaChart data={data} margin={currentChartMargin}>
-            <CartesianGrid stroke={'#BDBDBD'} />
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              dataKey='yAxis'
-              stroke={'#9299B1'}
-              fontSize={'0.729vw'}
-            />
-            <XAxis
-              width={'100%'}
-              dataKey='xAxis'
-              axisLine={false}
-              tickLine={false}
-              stroke={'#9299B1'}
-              fontSize={'0.729vw'}
-            />
-            <Area
-              type='monotone'
-              strokeWidth={'0.104vw'}
-              dataKey='value'
-              stroke='#767676'
-              fill='rgba(180, 180, 180, 0.2)'
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </AreaChartWrapper>
+      {/*Apr 11, 2021*/}
+      <DateData></DateData>
+      <h1> Data is not calculated yet </h1>
+      {/*<AreaChartWrapper>*/}
+      {/*  <ResponsiveContainer width='100%' height='100%'>*/}
+      {/*    <AreaChart data={data} margin={currentChartMargin}>*/}
+      {/*      <CartesianGrid stroke={'#BDBDBD'} />*/}
+      {/*      <YAxis*/}
+      {/*        axisLine={false}*/}
+      {/*        tickLine={false}*/}
+      {/*        dataKey='yAxis'*/}
+      {/*        stroke={'#9299B1'}*/}
+      {/*        fontSize={'0.729vw'}*/}
+      {/*      />*/}
+      {/*      <XAxis*/}
+      {/*        width={'100%'}*/}
+      {/*        dataKey='xAxis'*/}
+      {/*        axisLine={false}*/}
+      {/*        tickLine={false}*/}
+      {/*        stroke={'#9299B1'}*/}
+      {/*        fontSize={'0.729vw'}*/}
+      {/*      />*/}
+      {/*      <Area*/}
+      {/*        type='monotone'*/}
+      {/*        strokeWidth={'0.104vw'}*/}
+      {/*        dataKey='value'*/}
+      {/*        stroke='#767676'*/}
+      {/*        fill='rgba(180, 180, 180, 0.2)'*/}
+      {/*      />*/}
+      {/*    </AreaChart>*/}
+      {/*  </ResponsiveContainer>*/}
+      {/*</AreaChartWrapper>*/}
     </TVLChartWrapper>
   );
 };
