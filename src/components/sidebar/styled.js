@@ -35,14 +35,45 @@ export const LogoText = styled.div`
   }
 `;
 
+export const TabLabel = styled.div`
+  position: absolute;
+  color: white;
+  margin-left: 7.24vw;
+  white-space: nowrap;
+  padding: 6px 10px;
+  z-index: 22;
+  font-size: 0.8vw;
+  border-radius: 0.3vw;
+  // display: flex;
+  background-color: #333;
+  align-items: center;
+  display: none;
+  opacity: 0;
+`
+export const TabArrow = styled.div`
+
+  z-index: -1;
+  width: 0.8vw;
+  transform: rotate(45deg);
+  margin-left: -1.05vw;
+  background-color: #333;
+  height: 0.8vw;
+`
+
 export const PageTab = styled.div`
   // margin-top: 3.125vw;
   margin-top: 2.400vw;
   justify-content: space-between;
+  position: relative;
   align-items: center;
   flex-direction: row;
   display: flex;
   width: 100%;
+  &:hover ${TabLabel}{
+    display: flex;
+    opacity: 1;
+  }
+  
 `;
 
 export const IconWrapper = styled.div`

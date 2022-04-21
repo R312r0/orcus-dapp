@@ -7,12 +7,13 @@ import StakingIcon from '../assets/icons/navbar/StakingIcon';
 import SwapIcon from '../assets/icons/navbar/SwapIcon';
 
 export const ROUTES = [
-  { path: '/', icon: <DashboardIcon /> },
-  { path: '/mint-redeem', icon: <MintIcon /> },
-  { path: '/staking', icon: <StakingIcon /> },
-  { path: '/farms', icon: <FarmsIcon /> },
-  // { path: '/profit-manager', icon: <ProfitManagerIcon /> },
-  { path: '/recollateralize', icon: <RecollateralizeIcon /> },
-  { path: '/swap', icon: <SwapIcon />},
-  // FIXME: uncomment swap.
+
+  { label: 'Dashboard', path: '/', icon: <DashboardIcon /> },
+  { label: 'Mint / Redeem', path: '/mint-redeem', icon: <MintIcon /> },
+  { label: 'Staking', path: '/staking', icon: <StakingIcon /> },
+  { label: 'Farms', path: '/farms', icon: <FarmsIcon /> },
+  { label: 'Profit Manager', path: '/profit-manager', icon: <ProfitManagerIcon /> },
+  { label: 'Recollateralize', path: '/recollateralize', icon: <RecollateralizeIcon /> },
+  { label: 'Swap', path: '/swap', icon: <SwapIcon />},
+
 ];
