@@ -4,6 +4,72 @@ import Button from '@mui/material/Button';
 import { styled as styledMUI } from '@mui/system';
 import styled from 'styled-components';
 
+
+export const PseudoSelectContainer = styled.div`
+  position: absolute;
+  width: 8.5vw;
+  // background-color: red;
+  margin-left: -1vw;
+
+  border-radius: 0.8vw;
+  border: none;
+  overflow: hidden;
+
+  margin-top: 8.5vw;
+`
+export const PseudoOption = styled.div`
+
+  width: 100%;
+  height: 2vw;
+  padding: 5px 1vw;
+  background-color: white;
+  z-index: 5;
+  color: #333;
+  display: flex;
+  align-items: center;
+
+cursor: pointer;
+&:hover{
+  background-color: #E4DDEF;
+}
+  
+`
+export const PseudoPoolSelect = styled.div`
+border: 1px solid #F2F2F2;
+padding: 8px 12px;
+font-size: 0.8vw;
+border-radius: 0.8vw;
+font-weight: 500;
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 8.5vw;
+cursor: pointer;
+color: #333;
+`
+
+export const PoolSelect = styled.select`
+border: 1px solid #F2F2F2;
+padding: 8px 12px;
+font-size: 0.8vw;
+border-radius: 0.8vw;
+
+font-weight: 500;
+color: #333;
+`
+
+export const PoolOption = styled.option`
+  background-color: white;
+  padding: 8px 12px;
+  position: absolute;
+  background-color: DodgerBlue;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+`
+
+
 export const SwapBlockWrapper = styled.div`
   padding: 2.76vw 2.969vw 3.333vw 2.969vw;
   height: 28.865vw;

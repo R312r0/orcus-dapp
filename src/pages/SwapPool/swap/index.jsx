@@ -14,6 +14,11 @@ import {
   SwapInputWrapper,
   Option,
   OptionsWrapper,
+  PseudoOption,
+  PseudoPoolSelect,
+  PseudoSelectContainer,
+  PoolSelect,
+  PoolOption,
   Select,
   Text,
 } from './styled';
@@ -32,6 +37,7 @@ const Swap = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [swapPools, setSwapPools] = React.useState(null);
   const [secondTarget, setSecondTarget] = React.useState(null);
+  const [isDropdownOpen, setDropdownopen] = React.useState(false)
 
   const [allowances, setAllowances] = React.useState(null);
   const [reserves, setReserves] = React.useState(null);
@@ -85,19 +91,22 @@ const Swap = () => {
   const init = () => {
 
     const obj = [
-      {name: "OUSD", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><OUSDIcon /></IconWrapper>,
-        tokensToSwap: [{name: "USDC", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><USDCIcon /></IconWrapper>}, {name: "ORU", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><LogoIcon /></IconWrapper>}]
+      {name: "OUSD", icon: <IconWrapper ><OUSDIcon /></IconWrapper>,
+        tokensToSwap: [{name: "USDC", icon: <IconWrapper><USDCIcon /></IconWrapper>}, {name: "ORU", icon: <IconWrapper ><LogoIcon /></IconWrapper>}]
       },
-      {name: "ORU", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><LogoIcon /></IconWrapper>,
-        tokensToSwap: [{name: "USDC", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><USDCIcon /></IconWrapper>}, {name: "OUSD", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><OUSDIcon /></IconWrapper>}]
+      {name: "ORU", icon: <IconWrapper><LogoIcon /></IconWrapper>,
+        tokensToSwap: [{name: "USDC", icon: <IconWrapper ><USDCIcon /></IconWrapper>}, {name: "OUSD", icon: <IconWrapper ><OUSDIcon /></IconWrapper>}]
       },
-      {name: "USDC", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><USDCIcon /></IconWrapper>,
-        tokensToSwap: [{name: "ORU", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><LogoIcon /></IconWrapper>}, {name: "OUSD", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><OUSDIcon /></IconWrapper>}]
+      {name: "USDC", icon: <IconWrapper ><USDCIcon /></IconWrapper>,
+        tokensToSwap: [{name: "ORU", icon: <IconWrapper ><LogoIcon /></IconWrapper>}, {name: "OUSD", icon: <IconWrapper ><OUSDIcon /></IconWrapper>}]
       },
     ]
     setSwapPools(obj)
   }
 
+  const toggleDropdown = () => {
+    setDropdownopen(!isDropdownOpen);
+  }
 
   const getUserInfo = async () => {
 
@@ -220,23 +229,45 @@ const Swap = () => {
 
   }
 
+  
+
   return (
     <>
       <SwapBlockWrapper>
+        <div style={{display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between'}}>
         <HDiv>
             <b>SWAP</b>
         </HDiv>
         <HDiv>
-          {pools && selectedPool ?
-              <select value={selectedPool?.name} onChange={(e) => setSelectedPool(pools.find(item => item.name === e.target.value))}>
+          {/* {pools && selectedPool ?
+              <PoolSelect value={selectedPool?.name} onChange={(e) => setSelectedPool(pools.find(item => item.name === e.target.value))}>
                 {pools && pools.map(pool => {
-                  return <option value={pool.name} onClick={( ) => setSelectedPool(pool)}>{pool.token0.icon}{pool.token1.icon}{pool.name}</option>
+                  return <PoolOption value={pool.name} onClick={( ) => setSelectedPool(pool)}>{pool.token0.icon}{pool.token1.icon}{pool.name}</PoolOption>
                 })}
-              </select>
+              </PoolSelect>
+              :
+              null
+          } */}
+          {pools && selectedPool ?
+              <PseudoPoolSelect onClick={toggleDropdown} onChange={(e) => setSelectedPool(pools.find(item => item.name === e.target.value))}>
+                {selectedPool?.name}
+                <div > 
+                  <svg style={ isDropdownOpen ? {} : { transform: 'rotate(180deg)'}} width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0.69133 5.41949C0.984222 5.71238 1.4591 5.71238 1.75199 5.41949L4.99956 2.17193L8.24701 5.41948C8.53989 5.71238 9.01477 5.71239 9.30767 5.4195C9.60056 5.12661 9.60057 4.65174 9.30768 4.35884L5.5299 0.580941C5.38925 0.440286 5.19849 0.361265 4.99957 0.361263C4.80066 0.361262 4.60989 0.440279 4.46924 0.580932L0.691331 4.35883C0.398438 4.65172 0.398437 5.12659 0.69133 5.41949Z" fill="#6D859E"/>
+                  </svg>
+                </div>
+                { isDropdownOpen ? <PseudoSelectContainer>
+                {pools && pools.map(pool => {
+                  return <PseudoOption value={pool.name} onClick={( ) => setSelectedPool(pool)}>{pool.name}</PseudoOption>
+                })}
+                </PseudoSelectContainer> : <></>}
+              </PseudoPoolSelect>
               :
               null
           }
 
+          </HDiv>
+          </div>
           {/*<Select*/}
           {/*    disableElevation*/}
           {/*    onClick={handleClick}*/}
@@ -267,7 +298,7 @@ const Swap = () => {
           {/*    ))}*/}
           {/*  </OptionsWrapper>*/}
           {/*</Select>*/}
-        </HDiv>
+          
         <HDiv mt='2vw'>
           <Text>From</Text>
         </HDiv>

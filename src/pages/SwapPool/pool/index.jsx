@@ -13,7 +13,12 @@ import {
   PoolBlockWrapper,
   OrangeBlock,
   PoolBtn,
+  OrangeRow,
+  PseudoOption,
+  PseudoPoolSelect,
+  PseudoSelectContainer,
   PoolInputWrapper,
+  RemoveLiqBtn,
   Option,
   OptionsWrapper,
   Select,
@@ -30,6 +35,7 @@ const Pool = () => {
 
     const [ isAddLiquidity, setAddLiquidity ] = useState(false);
     const [ isRemoveLiquidity, setRemoveLiquidity ] = useState(false);
+    const [isDropdownOpen , setDropdownopen] = useState(false)
 
     const [token0Input, setToken0Input] = useState(0);
     const [token1Input, setToken1Input] = useState(0);
@@ -39,6 +45,10 @@ const Pool = () => {
 
     const subpageHandler = () => {
         setAddLiquidity(!isAddLiquidity);
+    }
+
+    const toggleDropdown = () => {
+      setDropdownopen(!isDropdownOpen);
     }
 
     const removeLiquidityWindowHandler = () => {
@@ -174,25 +184,38 @@ const Pool = () => {
 
     return (
     <>
-      <PoolBlockWrapper>
+      <PoolBlockWrapper height={ isRemoveLiquidity ? '20vw' : ''}>
           { isAddLiquidity || isRemoveLiquidity ? <>
+            <div style={{display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '0.875vw'}}> 
                 <a onClick={() => isRemoveLiquidity ? removeLiquidityWindowHandler() : subpageHandler()}><ArrowLeftIcon/></a>
             <b>{isRemoveLiquidity ? "Remove Liquidity" : "Add Liquidity"}</b>
             </div>
+            {pools && selectedPool ?
+              <PseudoPoolSelect onClick={toggleDropdown} onChange={(e) => setSelectedPool(pools.find(item => item.name === e.target.value))}>
+                {selectedPool?.name}
+                <div > 
+                  <svg style={ isDropdownOpen ? {} : { transform: 'rotate(180deg)'}} width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0.69133 5.41949C0.984222 5.71238 1.4591 5.71238 1.75199 5.41949L4.99956 2.17193L8.24701 5.41948C8.53989 5.71238 9.01477 5.71239 9.30767 5.4195C9.60056 5.12661 9.60057 4.65174 9.30768 4.35884L5.5299 0.580941C5.38925 0.440286 5.19849 0.361265 4.99957 0.361263C4.80066 0.361262 4.60989 0.440279 4.46924 0.580932L0.691331 4.35883C0.398438 4.65172 0.398437 5.12659 0.69133 5.41949Z" fill="#6D859E"/>
+                  </svg>
+                </div>
+                { isDropdownOpen ? <PseudoSelectContainer>
+                {pools && pools.map(pool => {
+                  return <PseudoOption value={pool.name} onClick={( ) => setSelectedPool(pool)}>{pool.name}</PseudoOption>
+                })}
+                </PseudoSelectContainer> : <></>}
+              </PseudoPoolSelect>
+              :
+              null
+          }
+            </div>
             <HDiv mt='2vw'>
-                {pools && selectedPool ?
-                    <select value={selectedPool?.name} onChange={(e) => setSelectedPool(pools.find(item => item.name === e.target.value))}>
-                        {pools && pools.map(pool => {
-                            return <option value={pool.name} onClick={( ) => setSelectedPool(pool)}>{pool.token0.icon}{pool.token1.icon}{pool.name}</option>
-                        })}
-                    </select>
-                    :
-                    null
-                }
-          <Text>Input</Text>
+                
+          
         </HDiv>
         <HDiv>
+            
+
             <Text>Balance: {userBal ? userBal : null} </Text>
         </HDiv>
         <PoolInputWrapper>
@@ -211,8 +234,8 @@ const Pool = () => {
                             <BoldPlusIcon />
                         </IconWrapper>
                         <HDiv>
-                            <Text>Input</Text>
-                            <Text>Select a currency</Text>
+                        <Text>Input</Text>
+                            
                         </HDiv>
                         <PoolInputWrapper>
                             <input type='number' value={token1Input} disabled={true} placeholder='0' />
@@ -235,18 +258,25 @@ const Pool = () => {
           <Text>Add liquidity to receive LP tokens</Text>
         </HDiv>
         <PoolBtn onClick={subpageHandler}>Add Liquidity</PoolBtn>
-        <PoolBtn onClick={removeLiquidityWindowHandler}>Remove Liquidity</PoolBtn>
+        <RemoveLiqBtn onClick={removeLiquidityWindowHandler}>Remove Liquidity</RemoveLiqBtn>
 
-          <HDivider margin={'2.6vw 0 0 0 '}></HDivider>
+          <HDivider margin={'0.6vw 0 0 0 '}></HDivider>
         <HDiv mt='1.125vw'>
           <Text>Your Liquidity</Text>
         </HDiv>
         <OrangeBlock>
             {userLiq ?
                 <>
-                    <div><LogoIcon color={"black"}/><USDCIcon/> ORU/USDC - {formattedNum(userLiq.ORU_USDC_USER)} </div>
-                    <div><OUSDIcon color={"black"}/><USDCIcon/> OUSD/USDC - {formattedNum(userLiq.OUSD_USDC_USER)} </div>
-                    <div><LogoIcon color={"black"}/><OUSDIcon color={"black"}/> ORU/OUSD - {formattedNum(userLiq.ORU_OUSD_USER)} </div>
+                    <OrangeRow>
+                      <div>ORU/USDC</div>
+                      <div>{formattedNum(userLiq.ORU_USDC_USER)}</div> </OrangeRow>
+                    <OrangeRow>
+                      <div>
+                       OUSD/USDC</div><div>{formattedNum(userLiq.OUSD_USDC_USER)} </div></OrangeRow>
+                    <OrangeRow>
+                      <div> ORU/OUSD</div>
+                    {/* <LogoIcon color={"black"}/><OUSDIcon color={"black"}/> */}
+                     <div> {formattedNum(userLiq.ORU_OUSD_USER)} </div></OrangeRow>
                 </>
                 :
                 "Connect wallet to see your liquidity"

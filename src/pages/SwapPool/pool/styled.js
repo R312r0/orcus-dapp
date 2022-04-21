@@ -4,9 +4,80 @@ import Button from '@mui/material/Button';
 import { styled as styledMUI } from '@mui/system';
 import styled from 'styled-components';
 
+export const OrangeRow = styled.div`
+display: flex;
+align-items: center;
+justify-content: space-between;
+`
+
+export const PseudoSelectContainer = styled.div`
+  position: absolute;
+  width: 8.5vw;
+  // background-color: red;
+  margin-left: -1vw;
+
+  border-radius: 0.8vw;
+  border: none;
+  overflow: hidden;
+
+  margin-top: 8.5vw;
+`
+export const PseudoOption = styled.div`
+
+  width: 100%;
+  height: 2vw;
+  padding: 5px 1vw;
+  background-color: white;
+  z-index: 5;
+  color: #333;
+  display: flex;
+  align-items: center;
+
+cursor: pointer;
+&:hover{
+  background-color: #E4DDEF;
+}
+  
+`
+export const PseudoPoolSelect = styled.div`
+border: 1px solid #F2F2F2;
+padding: 8px 12px;
+font-size: 0.8vw;
+border-radius: 0.8vw;
+font-weight: 500;
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 8.5vw;
+cursor: pointer;
+color: #333;
+`
+
+export const PoolSelect = styled.select`
+border: 1px solid #F2F2F2;
+padding: 8px 12px;
+font-size: 0.8vw;
+border-radius: 0.8vw;
+
+font-weight: 500;
+color: #333;
+`
+
+export const PoolOption = styled.option`
+  background-color: white;
+  padding: 8px 12px;
+  position: absolute;
+  background-color: DodgerBlue;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+`
+
 export const PoolBlockWrapper = styled.div`
   padding: 2.76vw 2.969vw 3.333vw 2.969vw;
-  height: 28.865vw;
+  height: ${ props => props.height ?? '28.865vw'};
+
   width: 38.385vw;
   flex-direction: column;
   display: flex;
@@ -23,6 +94,10 @@ export const OrangeBlock = styled.div`
     border-radius: 0.625vw;
     padding: 0.76vw 0.969vw 0.333vw 0.969vw;
     color: #333;
+    & div {
+      display: flex;
+      align-items: center;
+    }
 `
 export const HDivider = styled.div`
   margin: ${(props) => props.margin};
@@ -131,11 +206,37 @@ export const Divider = styled.div`
   width: 0.052vw;
 `;
 
-export const PoolBtn = styled.button`
-  background: #333;
-  margin-top: 2.031vw;
+export const RemoveLiqBtn = styled.button`
+background: white;
+  margin-top: 0.431vw;
+  margin-bottom: 0.731vw;
   border-radius: 0.625vw;
   height: 3.542vw;
+  min-height: 3.5vw;
+  width: 32.448vw;
+  display: flex;
+  color: #333;
+  border: 1px solid #333;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 0.833vw;
+
+  align-self: center;
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s;
+    background: #F4BD50;
+  }
+`
+
+export const PoolBtn = styled.button`
+  background: #333;
+  margin-top: 1.431vw;
+  margin-bottom: 0.431vw;
+  border-radius: 0.625vw;
+  height: 3.542vw;
+  min-height: 3.5vw;
   width: 32.448vw;
   display: flex;
   align-items: center;
