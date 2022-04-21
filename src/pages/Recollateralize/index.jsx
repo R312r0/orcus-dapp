@@ -139,7 +139,7 @@ const Recollateralize = () => {
 
     if (account && signer) {
       if (info?.recollatAvailable === 0) {
-        return <RecollateralizeBtn disabled={true}>Recollat unavailable</RecollateralizeBtn>
+        return <RecollateralizeBtn disabled={true}>Recollaterize unavailable</RecollateralizeBtn>
       }
       else if (!userInfo?.allowance) {
         return <RecollateralizeBtn onClick={() => handleApprove()}>Approve USDC</RecollateralizeBtn>
@@ -170,7 +170,7 @@ const Recollateralize = () => {
       <TabWrapper>
       <RecollateralizeBlockWrapper>
         <HDiv mt='1.094vw'>
-          <Text>Recollat available</Text>
+          <Text>Recollaterize available</Text>
           <Text>Balance:</Text>
         </HDiv>
         <HDiv mt='1.094vw'>

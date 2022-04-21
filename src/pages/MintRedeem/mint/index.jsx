@@ -112,20 +112,19 @@ const Mint = () => {
 
     try {
       if (isCollat) {
-        await USDC.connect(signer).approve(CONTRACT_ADDRESSES.BANK, MAX_INT);
+        const tx = await USDC.connect(signer).approve(CONTRACT_ADDRESSES.BANK, MAX_INT);
+        await tx.wait();
+        await getUserInfo();
       }
       else {
-        await ORU.connect(signer).approve(CONTRACT_ADDRESSES.BANK, MAX_INT);
+        const tx = await ORU.connect(signer).approve(CONTRACT_ADDRESSES.BANK, MAX_INT);
+        await tx.wait();
+        await getUserInfo();
       }
     }
     catch (e) {
       console.error(e.message);
     }
-
-    finally {
-      await getUserInfo();
-    }
-
   }
 
   const mint = async () => {
@@ -136,15 +135,13 @@ const Mint = () => {
     const shareInE18 = formatToDecimal(shareInput, 18);
 
     try {
-      await BANK.connect(signer).mint(collatInE6, shareInE18, 0);
+      const tx = await BANK.connect(signer).mint(collatInE6,  parseFloat(shareInE18).toFixed(0), 0);
+      await tx.wait()
+      await getMintInfo();
+      await getUserInfo();
     }
     catch (e) {
       console.error(e.message)
-    }
-
-    finally {
-      await getMintInfo();
-      await getUserInfo();
     }
 
   }

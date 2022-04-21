@@ -19,11 +19,14 @@ import {useBlockChainContext} from "../../../context/blockchain-context";
 import {formattedNum} from "../../../utils";
 import {CONTRACT_ADDRESSES} from "../../../constants";
 import logoIcon from "../../../assets/icons/LogoIcon";
+import {useNavigate} from "react-router";
 
 const ORUTable = () => {
 
     const { contracts, liquidity } = useBlockChainContext();
     const [oruInfo, setOruInfo] = useState(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -99,13 +102,13 @@ const ORUTable = () => {
           <PlusIcon />
           Add
         </AddBtn>
-        <BuyBtn>
+        <BuyBtn onClick={() => navigate("/swap")}>
           <ShoppingBagIcon fill='#fff' />
           Buy
         </BuyBtn>
       </HDiv>
       <LastUpdatedData>
-        Last updated: 02.18.2022, 10:09:49 AM UTC
+
       </LastUpdatedData>
     </ORUTableWrapper>
   );

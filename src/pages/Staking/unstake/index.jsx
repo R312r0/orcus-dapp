@@ -78,28 +78,25 @@ const Unstake = () => {
 
   const approve = async () => {
     try {
-      await contracts.XORU.connect(signer).approve(CONTRACT_ADDRESSES.ORU_STAKE, MAX_INT);
+      const tx = await contracts.XORU.connect(signer).approve(CONTRACT_ADDRESSES.ORU_STAKE, MAX_INT);
+      await tx.wait();
+      await getStakingInfo();
+      await getUserInfo();
     }
     catch (e) {
       console.error(e.message);
     }
-    finally {
-      await getStakingInfo();
-      await getUserInfo();
-    }
-
   }
 
   const withdraw = async () => {
     try {
-      await contracts.ORU_STAKE.connect(signer).unstake(formatToDecimal(xoruInput, 18))
+      const tx = await contracts.ORU_STAKE.connect(signer).unstake(formatToDecimal(xoruInput, 18))
+      await tx.wait();
+      await getStakingInfo();
+      await getUserInfo();
     }
     catch (e) {
       console.error(e.message);
-    }
-    finally {
-      await getStakingInfo();
-      await getUserInfo();
     }
   }
 

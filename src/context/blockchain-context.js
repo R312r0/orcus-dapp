@@ -64,8 +64,12 @@ export const BlockchainContextProvider = ({children}) => {
 
         // ORU-USDC liquidity
         const ousdUsdcRes = await OUSD_USDC.getReserves();
-        const ousdPrice = (+ousdUsdcRes[1] / 1e6) / (+ousdUsdcRes[0] / 1e18);
-        const ousdUsdcLiq = (ousdPrice * (+ousdUsdcRes[0] / 1e18)) + (+ousdUsdcRes[1] / 1e6);
+
+        console.log(+ousdUsdcRes[0]);
+        console.log(+ousdUsdcRes[1]);
+
+        const ousdPrice = (+ousdUsdcRes[1] / 1e18) / (+ousdUsdcRes[0] / 1e6);
+        const ousdUsdcLiq = (ousdPrice * (+ousdUsdcRes[0] / 1e6)) + (+ousdUsdcRes[1] / 1e18);
 
         // OUSD-ORU liquidity
         // TODO: Add liquidity for this pair.

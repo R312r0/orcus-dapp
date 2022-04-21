@@ -79,28 +79,25 @@ const Stake = () => {
 
   const approve = async () => {
     try {
-        await contracts.ORU.connect(signer).approve(CONTRACT_ADDRESSES.ORU_STAKE, MAX_INT);
+        const tx = await contracts.ORU.connect(signer).approve(CONTRACT_ADDRESSES.ORU_STAKE, MAX_INT);
+        await tx.wait();
+        await getStakingInfo();
+        await getUserInfo();
     }
     catch (e) {
         console.error(e.message);
     }
-    finally {
-      await getStakingInfo();
-      await getUserInfo();
-    }
-
   }
 
   const deposit = async () => {
       try {
-        await contracts.ORU_STAKE.connect(signer).stake(formatToDecimal(oruInput, 18))
+        const tx = await contracts.ORU_STAKE.connect(signer).stake(formatToDecimal(oruInput, 18))
+        await tx.wait();
+        await getStakingInfo();
+        await getUserInfo();
       }
       catch (e) {
         console.error(e.message);
-      }
-      finally {
-        await getStakingInfo();
-        await getUserInfo();
       }
   }
 

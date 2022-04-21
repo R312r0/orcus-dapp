@@ -50,7 +50,7 @@ const RatioTable = () => {
         <VDiv>
           <Text>Effective Collateral Ratio</Text>
           <Text mt='0.156vw'>
-            <b>{rates ? rates.ecr : 0} %</b>
+            <b>{rates ? rates.ecr : 0}%</b>
           </Text>
         </VDiv>
       </HDiv>

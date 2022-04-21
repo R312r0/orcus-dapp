@@ -28,7 +28,9 @@ import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
 import {formattedNum, formatToDecimal} from "../../../utils";
 import {CONTRACT_ADDRESSES, MAX_INT, ORU_PER_BLOCK} from "../../../constants";
+import ArthIcon from '../../../assets/icons/ArthIcon.png'
 import pool from "../../SwapPool/pool";
+import {useNavigate} from "react-router";
 
 const PERCENTAGES = {
   1: 0,
@@ -42,6 +44,7 @@ const FarmsTableItm = ({index, item}) => {
 
   const { account } = useWeb3React();
   const { contracts, signer, liquidity } = useBlockChainContext();
+  const navigate = useNavigate();
 
   const [poolInfo, setPoolInfo] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
@@ -81,6 +84,8 @@ const FarmsTableItm = ({index, item}) => {
 
     const apr = (((((liquidity.oruPrice * ORU_PER_BLOCK * 86400 * 30 * 12)) / 2) / ((lpPrice * lpBalance)) * 100)).toFixed(0);
 
+    console.log(lpPrice);
+
     setPoolInfo({
       lockDuration: +poolInfo.lockDuration,
       tvl: lpPrice * lpBalance,
@@ -106,9 +111,9 @@ const FarmsTableItm = ({index, item}) => {
       console.log(currentVestingSlot);
 
       setUserInfo({
-        lpBalance: +balance / 1e18,
+        lpBalance: +balance,
         allowance: allowance > 0,
-        depositedAmt: +userContractInfo.amount / 1e18,
+        depositedAmt: +userContractInfo.amount,
         currentVestingSlot,
         pendingReward,
         locked
@@ -119,8 +124,6 @@ const FarmsTableItm = ({index, item}) => {
     try {
 
       const {lpToken} = item;
-
-      console.log(lpToken);
 
       const tx = await lpToken.connect(signer).approve(CONTRACT_ADDRESSES.MASTER_CHEF, MAX_INT);
 
@@ -151,8 +154,8 @@ const FarmsTableItm = ({index, item}) => {
     const {MASTER_CHEF} = contracts;
 
     try {
-      // const tx = await MASTER_CHEF.connect(signer).deposit(index, depositInput.toString(), account);
-      const tx = await MASTER_CHEF.connect(signer).massUpdatePools();
+      const tx = await MASTER_CHEF.connect(signer).deposit(index, depositInput.toString(), account);
+      // const tx = await MASTER_CHEF.connect(signer).massUpdatePools();
       await tx.wait();
       await getUserInfo();
     }
@@ -218,7 +221,7 @@ const FarmsTableItm = ({index, item}) => {
               <b>{item.name}</b>
             </Text>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <DepositingIcon />
+              <img src={ArthIcon} width={15} height={15} />
               <Text fontSize='0.729vw' lineHeight='1.094vw' ml='0.313vw'>
                 ArthSwap
               </Text>
@@ -231,7 +234,7 @@ const FarmsTableItm = ({index, item}) => {
             <b>ORU</b>
           </Text>
           <Text ml='7.813vw' minW='12.552vw'>
-            <b>${poolInfo && userInfo ? formattedNum(poolInfo.lpPrice * userInfo.depositedAmt) : 0}</b>
+            <b>${poolInfo && userInfo ? formattedNum(poolInfo.lpPrice * (userInfo.depositedAmt / 1e18)) : 0}</b>
           </Text>
           <Text minW='11.979vw'>
             <b>${poolInfo ? formattedNum(poolInfo?.tvl) : 0}</b>
@@ -301,10 +304,10 @@ const FarmsTableItm = ({index, item}) => {
               </VestingBtn>
               <HDiv mt='2.708vw'>
                 <Text>
-                  <b>Add Liquidity</b>
+                  <a onClick={() => navigate("/swap")}><b>Add Liquidity</b></a>
                 </Text>
                 <Text ml='1.875vw'>
-                  <b>Remove Liquidity</b>
+                  <a onClick={() => navigate("/swap")}><b>Remove Liquidity</b></a>
                 </Text>
               </HDiv>
             </VDiv>

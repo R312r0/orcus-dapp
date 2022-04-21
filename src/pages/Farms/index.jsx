@@ -71,12 +71,12 @@ const Farms = () => {
           <Balance>$ {farmsTVL ? formattedNum(farmsTVL) : null}</Balance>
         </VDiv>
         <VDiv>
-          <TotalHarvestedInfo>
-            <span>Total harvested rewards </span>
-            <div />
-            <b>0.0 ORU</b>
-          </TotalHarvestedInfo>
-          <RewardBtn>Rewards vesting</RewardBtn>
+          {/*<TotalHarvestedInfo>*/}
+          {/*  <span>Total harvested rewards </span>*/}
+          {/*  <div />*/}
+          {/*  <b>0.0 ORU</b>*/}
+          {/*</TotalHarvestedInfo>*/}
+          {/*<RewardBtn>Rewards vesting</RewardBtn>*/}
         </VDiv>
       </HDiv>
       <HDiv mt='2.083vw'>

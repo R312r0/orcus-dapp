@@ -20,6 +20,7 @@ import {
 import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
 import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
+import {formatToDecimal} from "../../../utils";
 
 const Swap = () => {
 
@@ -36,6 +37,9 @@ const Swap = () => {
   const [reserves, setReserves] = React.useState(null);
   const [token0Input, setToken0Input] = React.useState(0);
   const [token1Input, setToken1Input] = React.useState(0);
+
+  const [pools, setPools] = React.useState(null);
+  const [selectedPool, setSelectedPool] = React.useState(null);
 
   const open = Boolean(anchorEl);
   const secondOpen = Boolean(secondTarget);
@@ -62,21 +66,20 @@ const Swap = () => {
     const resOusdOru = await OUSD_ORU.getReserves();
 
     const reserves = {
-      ousdUsdc: {token0: +resOusdUsdc[0] / 1e18, token1: +resOusdUsdc[1] / 1e6},
+      ousdUsdc: {token0: +resOusdUsdc[0] / 1e6, token1: +resOusdUsdc[1] / 1e18},
       oruUSsdc: {token0: +resOruUsdc[0] / 1e18, token1: +resOruUsdc[1] / 1e6},
       ousdOru: {token0: +resOusdOru[0] / 1e18, token1: +resOusdOru[1] / 1e18}
 
     }
 
-    // const lol = {
-    //   USDC: {
-    //     ORU: ,
-    //     OUSD: ,
-    //   }
-    // }
+    const pools = [
+        {name: "USDC/OUSD", price0: reserves.ousdUsdc.token0 / reserves.ousdUsdc.token1, token0: {name: "USDC", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><USDCIcon/> </IconWrapper> }, token1: {name: "OUSD", icon: <OUSDIcon color={"black"}/>},  price1: reserves.ousdUsdc.token1 / reserves.ousdUsdc.token0 },
+        {name: "ORU/USDC", price0: reserves.oruUSsdc.token0 / reserves.oruUSsdc.token1, token0: {name: "ORU", icon: <LogoIcon color={"black"}/>}, token1: {name: "USDC", icon: <USDCIcon/>}, price1: reserves.oruUSsdc.token1 / reserves.oruUSsdc.token0 },
+        {name: "OUSD/ORU", price0: reserves.ousdOru.token0 / reserves.ousdOru.token1, token0: {name: "OUSD", icon: <OUSDIcon color={"black"}/>}, token1: {name: "ORU", icon: <LogoIcon width={"15"} height={"15"} color={"black"}/>}, price1: reserves.ousdOru.token1 / reserves.ousdOru.token0 },
+    ]
 
-    setReserves(reserves);
-
+    setPools(pools);
+    setSelectedPool(pools[0]);
   }
 
   const init = () => {
@@ -171,8 +174,17 @@ const Swap = () => {
 
   const swap = async () => {
 
-    try {
+    const {ROUTER} = contracts;
 
+    try {
+        const tx = await ROUTER.connect(signer).swapExactTokensForTokens(
+            formatToDecimal(token0Input, selectedPool.token0.name === "USDC" ? 6 : 18) ,
+            0,
+            [CONTRACT_ADDRESSES[selectedPool.token0.name], CONTRACT_ADDRESSES[selectedPool.token1.name]],
+            account,
+            9999999999999
+        )
+        await tx.wait();
     }
     catch (e) {
       console.log(e.message);
@@ -181,17 +193,30 @@ const Swap = () => {
 
   const handleTokenInput = (num) => {
 
-    console.log(value)
-    console.log(secondValueIndex || "USDC")
-
-    let price =
-
-
-
-    // const price = reserves
-
     setToken0Input(num);
-    setToken1Input(num * 2);
+
+    console.log(selectedPool.price0);
+
+    setToken1Input(num * selectedPool.price1);
+
+  }
+
+  const changeTokenPlaces = () => {
+    setSelectedPool(prevState => {
+      return {
+        ...prevState,
+        price0: prevState.price1,
+        price1: prevState.price0,
+        token0: {
+          name: prevState.token1.name,
+          icon: prevState.token1.icon
+        },
+        token1: {
+          name: prevState.token0.name,
+          icon: prevState.token0.icon
+        }
+      }
+    })
 
   }
 
@@ -201,47 +226,59 @@ const Swap = () => {
         <HDiv>
             <b>SWAP</b>
         </HDiv>
+        <HDiv>
+          {pools && selectedPool ?
+              <select value={selectedPool?.name} onChange={(e) => setSelectedPool(pools.find(item => item.name === e.target.value))}>
+                {pools && pools.map(pool => {
+                  return <option value={pool.name} onClick={( ) => setSelectedPool(pool)}>{pool.token0.icon}{pool.token1.icon}{pool.name}</option>
+                })}
+              </select>
+              :
+              null
+          }
+
+          {/*<Select*/}
+          {/*    disableElevation*/}
+          {/*    onClick={handleClick}*/}
+          {/*    startIcon={() => (<>{selectedPool?.token0.icon}{selectedPool?.token1.icon}</>) }*/}
+          {/*    endIcon={<KeyboardArrowDownIcon />}*/}
+          {/*    disableRipple*/}
+          {/*    disableFocusRipple*/}
+          {/*>*/}
+          {/*  <OptionsWrapper*/}
+          {/*      anchorEl={selectedPool}*/}
+          {/*      open={open}*/}
+          {/*      onClose={handleClose}*/}
+          {/*  >*/}
+          {/*    {pools?.filter(item => item.name !== selectedPool?.name).map((pool, idx) => (*/}
+          {/*        <Option*/}
+          {/*            key={idx}*/}
+          {/*            onClick={() => {*/}
+          {/*              handleClose();*/}
+          {/*              setSelectedPool(pool);*/}
+          {/*            }}*/}
+          {/*            disableRipple*/}
+          {/*        >*/}
+          {/*          {pool.token0.icon}*/}
+          {/*          {pool.token1.icon}*/}
+          {/*          {pool.name}*/}
+
+          {/*        </Option>*/}
+          {/*    ))}*/}
+          {/*  </OptionsWrapper>*/}
+          {/*</Select>*/}
+        </HDiv>
         <HDiv mt='2vw'>
           <Text>From</Text>
         </HDiv>
         <SwapInputWrapper>
           <input type='text' value={token0Input} onChange={({target}) => handleTokenInput(target.value)} />
-          {/* <button>Max</button> */}
-          {/* <Divider /> */}
-          <div>
-            <Select
-              disableElevation
-              onClick={handleClick}
-              startIcon={swapPools?.find(item => item.name === value).icon}
-              endIcon={<KeyboardArrowDownIcon />}
-              disableRipple
-              disableFocusRipple
-            >
-              {value}
-            </Select>
-            <OptionsWrapper
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-            >
-              {swapPools?.filter(item => item.name !== value).map((token, idx) => (
-                <Option
-                  key={idx}
-                  onClick={() => {
-                    handleClose();
-                    setValue(token.name);
-                  }}
-                  disableRipple
-                >
-                  {token.icon}
-                  {token.name}
-                </Option>
-              ))}
-            </OptionsWrapper>
-          </div>
+            {selectedPool && selectedPool.token0.icon}
+            {selectedPool && selectedPool.token0.name}
         </SwapInputWrapper>
         <IconWrapper margin='1.667vw 0 0 0'>
-        <ArrowDownIcon />
+          <a onClick={() => changeTokenPlaces()}><ArrowDownIcon/></a>
+
         </IconWrapper>
         <HDiv>
           <Text>To</Text>
@@ -249,36 +286,8 @@ const Swap = () => {
         </HDiv>
         <SwapInputWrapper>
           <input disabled={true} type='text' placeholder='0' value={token1Input} />
-          <Select
-              disableElevation
-              onClick={handleSecondClick}
-              startIcon={!secondValueIndex ?  swapPools?.find(item => item.name === value).tokensToSwap[0].icon : swapPools?.find(item => item.name === value).tokensToSwap.find(sec => sec.name === secondValueIndex).icon}
-              endIcon={<KeyboardArrowDownIcon />}
-              disableRipple
-              disableFocusRipple
-          >
-            {!secondValueIndex ?  swapPools?.find(item => item.name === value).tokensToSwap[0].name : swapPools?.find(item => item.name === value).tokensToSwap.find(sec => sec.name === secondValueIndex).name}
-          </Select>
-          <OptionsWrapper
-              anchorEl={secondTarget}
-              open={secondOpen}
-              onClose={handleSecClose}
-          >
-            {swapPools?.find(item => item.name === value).tokensToSwap.filter((pat, _ind) =>
-                !secondValueIndex ?  pat.name !== swapPools.find(i => i.name === value).tokensToSwap[0].name : pat.name !== secondValueIndex).map((token, idx) => (
-                <Option
-                    key={idx}
-                    onClick={() => {
-                      handleSecClose();
-                      setSecondValueIndex(token.name);
-                    }}
-                    disableRipple
-                >
-                  {token.icon}
-                  {token.name}
-                </Option>
-            ))}
-          </OptionsWrapper>
+          {selectedPool && selectedPool.token1.icon}
+          {selectedPool && selectedPool.token1.name}
         </SwapInputWrapper>
         <SwapButton/>
       </SwapBlockWrapper>

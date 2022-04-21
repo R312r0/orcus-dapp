@@ -122,42 +122,36 @@ const Redeem = () => {
 
   const redeem = async () => {
       try {
-        await contracts.BANK.connect(signer).redeem(formatToDecimal(stalbeInput, 18), 0, 0);
+        const tx = await contracts.BANK.connect(signer).redeem(formatToDecimal(stalbeInput, 18), 0, 0);
+        await tx.wait();
+        await getRedeemInfo();
+        await getUserInfo();
       }
       catch (e) {
         console.error(e.message);
       }
-      finally {
-        await getRedeemInfo();
-        await getUserInfo();
-      }
-
   }
 
   const collect = async () => {
     try {
-      await contracts.BANK.connect(signer).collect();
+      const tx = await contracts.BANK.connect(signer).collect();
+      await tx.wait();
+      await getRedeemInfo();
+      await getUserInfo();
     }
     catch (e) {
       console.error(e.message);
-    }
-
-    finally {
-      await getRedeemInfo();
-      await getUserInfo();
     }
   }
 
   const approve = async () => {
       try {
-        await contracts.OUSD.connect(signer).approve(CONTRACT_ADDRESSES.BANK, MAX_INT)
+        const tx = await contracts.OUSD.connect(signer).approve(CONTRACT_ADDRESSES.BANK, MAX_INT)
+        await tx.wait()
+        await getUserInfo();
       }
       catch (e) {
         console.error(e.message);
-      }
-
-      finally {
-        await getUserInfo();
       }
   };
 
@@ -228,7 +222,7 @@ const Redeem = () => {
           <Text>Balance: {userInfo ? formattedNum(userInfo.balances.oruBalance) : 0}</Text>
         </HDiv>
         <RedeemInputWrapper>
-          <input type='text' placeholder='0' disabled={true} />
+          <input type='text' placeholder='0' value={shareOutput} disabled={true} />
           <IconWrapper margin='0 0.833vw' fill='#000'>
             <LogoIcon />
           </IconWrapper>

@@ -18,11 +18,13 @@ import {
 import {useBlockChainContext} from "../../../context/blockchain-context";
 import {formattedNum} from "../../../utils";
 import {CONTRACT_ADDRESSES} from "../../../constants";
+import {useNavigate} from "react-router";
 
 const OUSDTable = () => {
 
     const { contracts, liquidity } = useBlockChainContext();
     const [ousdInfo, setOusdInfo] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -103,13 +105,12 @@ const OUSDTable = () => {
           <PlusIcon />
           Add
         </AddBtn>
-        <BuyBtn>
-          <ShoppingBagIcon fill='#fff' />
+        <BuyBtn onClick={()  => navigate("/swap")}>
+          <ShoppingBagIcon fill='#fff'/>
           Buy
         </BuyBtn>
       </HDiv>
       <LastUpdatedData>
-        Last updated: 02.18.2022, 10:09:49 AM UTC
       </LastUpdatedData>
     </OUSDTableWrapper>
   );
