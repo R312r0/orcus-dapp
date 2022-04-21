@@ -25,7 +25,6 @@ const Sidebar = () => {
   const { account } = useWeb3React();
   const { connectWallet } = useBlockChainContext();
 
-  // const {a, b} = useBlockChainContext();
 
   return (
     <SidebarWrapper>

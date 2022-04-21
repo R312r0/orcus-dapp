@@ -12,6 +12,7 @@ import TWAP_ORACLE_ABI from '../abis/TwapOracle.json';
 import MASTER_CHEF_ABI from '../abis/MasterChef.json';
 import UNISWAP_PAIR_ABI  from '../abis/UniswapPair.json';
 import UNISWAP_ROUTER_ABI from '../abis/UniswapRouter.json';
+import {formatFromDecimal} from "../utils";
 
 const BlockchainContext  = React.createContext();
 export const useBlockChainContext = () => useContext(BlockchainContext);
@@ -59,17 +60,24 @@ export const BlockchainContextProvider = ({children}) => {
 
         // ORU-USDC liquidity
         const oruUsdcRes = await ORU_USDC.getReserves();
-        const oruPrice = (+oruUsdcRes[1] / 1e6) / (+oruUsdcRes[0] / 1e18)
-        const oruUsdcLiq = (oruPrice * (+oruUsdcRes[0] / 1e18)) + (+oruUsdcRes[1] / 1e6);
+
+        console.log(+oruUsdcRes[0]);
+        console.log(+oruUsdcRes[1]);
+
+        const oruPrice =  (formatFromDecimal(+oruUsdcRes[0], 6)) / (formatFromDecimal(+oruUsdcRes[1], 18));
+
+        console.log(formatFromDecimal(+oruUsdcRes[1], 18))
+
+        const oruUsdcLiq = (oruPrice * (+oruUsdcRes[0] / 1e6)) + (+oruUsdcRes[1] / 1e18);
 
         // ORU-USDC liquidity
         const ousdUsdcRes = await OUSD_USDC.getReserves();
 
-        console.log(+ousdUsdcRes[0]);
-        console.log(+ousdUsdcRes[1]);
+        // console.log(+ousdUsdcRes[0]);
+        // console.log(+ousdUsdcRes[1]);
 
-        const ousdPrice = (+ousdUsdcRes[1] / 1e18) / (+ousdUsdcRes[0] / 1e6);
-        const ousdUsdcLiq = (ousdPrice * (+ousdUsdcRes[0] / 1e6)) + (+ousdUsdcRes[1] / 1e18);
+        const ousdPrice = (+ousdUsdcRes[1] / 1e6) / (+ousdUsdcRes[0] / 1e18);
+        const ousdUsdcLiq = (ousdPrice * (+ousdUsdcRes[0] / 1e18)) + (+ousdUsdcRes[1] / 1e6);
 
         // OUSD-ORU liquidity
         // TODO: Add liquidity for this pair.

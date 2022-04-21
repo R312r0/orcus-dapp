@@ -20,7 +20,7 @@ import {
 import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
 import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
-import {formatToDecimal} from "../../../utils";
+import {formatFromDecimal, formatToDecimal} from "../../../utils";
 
 const Swap = () => {
 
@@ -65,16 +65,22 @@ const Swap = () => {
     const resOruUsdc = await ORU_USDC.getReserves();
     const resOusdOru = await OUSD_ORU.getReserves();
 
+    console.log(+resOruUsdc[0], +resOruUsdc[1]);
+
+    console.log(+formatFromDecimal(+resOruUsdc[1], 18));
+
     const reserves = {
-      ousdUsdc: {token0: +resOusdUsdc[0] / 1e6, token1: +resOusdUsdc[1] / 1e18},
-      oruUSsdc: {token0: +resOruUsdc[0] / 1e18, token1: +resOruUsdc[1] / 1e6},
+      ousdUsdc: {token0: +resOusdUsdc[0] / 1e18, token1: +resOusdUsdc[1] / 1e6},
+      oruUSsdc: {token0: +resOruUsdc[0] / 1e6, token1: +formatFromDecimal(+resOruUsdc[1], 18)},
       ousdOru: {token0: +resOusdOru[0] / 1e18, token1: +resOusdOru[1] / 1e18}
 
     }
 
+    console.log(reserves);
+
     const pools = [
         {name: "USDC/OUSD", price0: reserves.ousdUsdc.token0 / reserves.ousdUsdc.token1, token0: {name: "USDC", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><USDCIcon/> </IconWrapper> }, token1: {name: "OUSD", icon: <OUSDIcon color={"black"}/>},  price1: reserves.ousdUsdc.token1 / reserves.ousdUsdc.token0 },
-        {name: "ORU/USDC", price0: reserves.oruUSsdc.token0 / reserves.oruUSsdc.token1, token0: {name: "ORU", icon: <LogoIcon color={"black"}/>}, token1: {name: "USDC", icon: <USDCIcon/>}, price1: reserves.oruUSsdc.token1 / reserves.oruUSsdc.token0 },
+        {name: "ORU/USDC", price0: reserves.oruUSsdc.token1 / reserves.oruUSsdc.token0, token0: {name: "ORU", icon: <LogoIcon color={"black"}/>}, token1: {name: "USDC", icon: <USDCIcon/>}, price1: reserves.oruUSsdc.token0 / reserves.oruUSsdc.token1 },
         {name: "OUSD/ORU", price0: reserves.ousdOru.token0 / reserves.ousdOru.token1, token0: {name: "OUSD", icon: <OUSDIcon color={"black"}/>}, token1: {name: "ORU", icon: <LogoIcon width={"15"} height={"15"} color={"black"}/>}, price1: reserves.ousdOru.token1 / reserves.ousdOru.token0 },
     ]
 

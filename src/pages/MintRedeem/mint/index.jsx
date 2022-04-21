@@ -134,8 +134,11 @@ const Mint = () => {
     const collatInE6 = formatToDecimal(collateralInput, 6);
     const shareInE18 = formatToDecimal(shareInput, 18);
 
+    console.log(collatInE6);
+    console.log(shareInE18);
+
     try {
-      const tx = await BANK.connect(signer).mint(collatInE6,  parseFloat(shareInE18).toFixed(0), 0);
+      const tx = await BANK.connect(signer).mint(collatInE6,  shareInE18, 0);
       await tx.wait()
       await getMintInfo();
       await getUserInfo();
