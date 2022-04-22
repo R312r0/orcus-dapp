@@ -25,16 +25,16 @@ const Array = [1, 2, 3];
 
 const Farms = () => {
 
-  const {contracts, liquidity} = useBlockChainContext();
+  const {contracts, liquidity, account, signer} = useBlockChainContext();
   const [masterChefPools, setMasterChefPools] = useState(null);
   const [farmsTVL, setFarmsTVL] = useState(null);
+  const [userRewards, setUserRewards] = useState(null);
 
   useEffect(() => {
 
     if (contracts && liquidity) {
         init();
     }
-
   }, [contracts, liquidity]);
 
   const init = async () => {
@@ -68,16 +68,16 @@ const Farms = () => {
       <HDiv justifyContent='space-between' alignItems='flex-start'>
         <VDiv>
           <HeadingText>Farms TVL</HeadingText>
-          <Balance>$ {farmsTVL ? formattedNum(farmsTVL) : null}</Balance>
+          <Balance>$ {farmsTVL ? formattedNum(farmsTVL) : 0}</Balance>
         </VDiv>
-        <VDiv>
-          {/*<TotalHarvestedInfo>*/}
-          {/*  <span>Total harvested rewards </span>*/}
-          {/*  <div />*/}
-          {/*  <b>0.0 ORU</b>*/}
-          {/*</TotalHarvestedInfo>*/}
-          {/*<RewardBtn>Rewards vesting</RewardBtn>*/}
-        </VDiv>
+        {/*<VDiv>*/}
+        {/*  <TotalHarvestedInfo>*/}
+        {/*    <span>Total harvested rewards </span>*/}
+        {/*    <div />*/}
+        {/*    <b>0.0 ORU</b>*/}
+        {/*  </TotalHarvestedInfo>*/}
+        {/*  /!*<RewardBtn>Rewards vesting</RewardBtn>*!/*/}
+        {/*</VDiv>*/}
       </HDiv>
       <HDiv mt='2.083vw'>
         <Text ml='3.802vw'>Asset</Text>

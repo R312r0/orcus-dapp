@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React, {useEffect, useState} from 'react';
-import {ethers} from "ethers";
+import {ethers, FixedNumber} from "ethers";
 import UNISWAP_PAIR_ABI from '../../../abis/UniswapPair.json';
 
 import DepositingIcon from '../../../assets/icons/DepositingIcon';
@@ -31,6 +31,8 @@ import {CONTRACT_ADDRESSES, MAX_INT, ORU_PER_BLOCK} from "../../../constants";
 import ArthIcon from '../../../assets/icons/ArthIcon.png'
 import pool from "../../SwapPool/pool";
 import {useNavigate} from "react-router";
+import fromExponential from "from-exponential";
+import ProfitControllerABI from '../../../abis/ProfitController.json';
 
 const PERCENTAGES = {
   1: 0,
@@ -75,12 +77,14 @@ const FarmsTableItm = ({index, item}) => {
 
 
   const getPoolInfo = async () => {
-    const {MASTER_CHEF} = contracts;
+    const {MASTER_CHEF, ORU} = contracts;
     const {lpToken} = item;
 
     const lpPrice = item.liquidity /  (+(await lpToken.totalSupply()) / 1e18);
     const lpBalance = +(await lpToken.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18;
     const poolInfo = await MASTER_CHEF.poolInfo(index);
+
+    console.log(poolInfo)
 
     const apr = (((((liquidity.oruPrice * ORU_PER_BLOCK * 86400 * 30 * 12)) / 2) / ((lpPrice * lpBalance)) * 100)).toFixed(0);
 
@@ -140,11 +144,13 @@ const FarmsTableItm = ({index, item}) => {
   const handleSlider = (isDeposit, value) => {
 
     if (isDeposit) {
-      setDepositInput(userInfo.lpBalance * PERCENTAGES[value])
+      const depositAmt = ((userInfo.lpBalance * PERCENTAGES[value]) - ((userInfo.lpBalance * PERCENTAGES[value]) * 0.00005)).toFixed(0)
+      setDepositInput(depositAmt)
       setDepositSliderPosition(value);
     }
     else {
-      setWithdrawInput(userInfo.depositedAmt * PERCENTAGES[value])
+      const withdrawAmt = ((userInfo.depositedAmt * PERCENTAGES[value]) - ((userInfo.depositedAmt * PERCENTAGES[value]) * 0.00005)).toFixed(0)
+      setWithdrawInput(withdrawAmt);
       setWithdrawSliderPosition(value)
     }
   }
@@ -153,9 +159,10 @@ const FarmsTableItm = ({index, item}) => {
 
     const {MASTER_CHEF} = contracts;
 
+    console.log(depositInput);
+
     try {
-      const tx = await MASTER_CHEF.connect(signer).deposit(index, depositInput.toString(), account);
-      // const tx = await MASTER_CHEF.connect(signer).massUpdatePools();
+      const tx = await MASTER_CHEF.connect(signer).deposit(index, ethers.BigNumber.from(fromExponential(depositInput)), account);
       await tx.wait();
       await getUserInfo();
     }
@@ -181,10 +188,8 @@ const FarmsTableItm = ({index, item}) => {
   const handleWithdraw = async () => {
     const {MASTER_CHEF} = contracts;
 
-    const amt = withdrawInput * 1e18;
-
     try {
-      const tx = await MASTER_CHEF.connect(signer).withdraw(index, amt.toFixed(0));
+      const tx = await MASTER_CHEF.connect(signer).withdraw(index, ethers.BigNumber.from(fromExponential(withdrawInput)));
       await tx.wait();
       await getUserInfo();
     }
@@ -203,6 +208,19 @@ const FarmsTableItm = ({index, item}) => {
     }
     catch (e) {
       alert("Vesting does not pass yet!");
+    }
+  }
+
+  const handleClaimWithPenalty = async () => {
+    const {MASTER_CHEF} = contracts;
+
+    try {
+      const tx = await MASTER_CHEF.connect(signer).claimWithPenalty(index, userInfo.currentVestingSlot);
+      await tx.wait();
+      await getUserInfo();
+    }
+    catch (e) {
+      console.log(e.message);
     }
   }
 
@@ -258,14 +276,14 @@ const FarmsTableItm = ({index, item}) => {
               <HDiv>
                 <Text ml='0.833vw'>Balance:&nbsp;</Text>
                 <Text>
-                  <b>{userInfo ? userInfo.lpBalance : 0.00}&nbsp;</b>
+                  <b>{userInfo ? formattedNum(userInfo.lpBalance / 1e18) : 0.00}&nbsp;</b>
                 </Text>
                 <Text>{item.name} </Text>
               </HDiv>
               <FarmsInputContainer>
                 <input type='text'
                        disabled={true}
-                       value={depositInput}/>
+                       value={fromExponential(depositInput / 1e18)}/>
                 <Text>
                   <b>{item.name}</b>
                 </Text>
@@ -315,14 +333,14 @@ const FarmsTableItm = ({index, item}) => {
               <HDiv>
                 <Text ml='0.833vw'>Balance:&nbsp;</Text>
                 <Text>
-                  <b>{userInfo ? userInfo.depositedAmt : 0.0}&nbsp;</b>
+                  <b>{userInfo ?  fromExponential(userInfo.depositedAmt / 1e18) : 0.0}&nbsp;</b>
                 </Text>
                 <Text>{item.name} </Text>
               </HDiv>
               <FarmsInputContainer>
                 <input type='text'
                        disabled={true}
-                       value={withdrawInput}
+                       value={fromExponential(withdrawInput / 1e18)}
                        />
                 <Text>
                   <b>{item.name}</b>
@@ -366,8 +384,9 @@ const FarmsTableItm = ({index, item}) => {
                   <b>Rewards: {userInfo ? formattedNum(userInfo.pendingReward) : 0} ORU</b>
                 </Text>
                 <HelpCircleIcon />
-                <VestRewardsBtn disabled={userInfo ? userInfo.pendingReward === 0 : true} onClick={() => handleHarvest()}>Harvest Rewards</VestRewardsBtn>
+                <VestRewardsBtn disabled={userInfo ? userInfo.pendingReward === 0 : true} onClick={() => handleHarvest()}>Start Vesting</VestRewardsBtn>
                 <VestRewardsBtn onClick={() => handleClaim()}>Claim</VestRewardsBtn>
+                <VestRewardsBtn onClick={() => handleClaimWithPenalty()}>Claim With Penalty</VestRewardsBtn>
               </HDiv>
             </VDiv>
           </ExpandedData>

@@ -23,6 +23,8 @@ const ProtocolTable = ({setProtocolTVL}) => {
 
         const {USDC, BANK_SAFE, ORU, PRICE_ORACLE, ORU_USDC, OUSD_USDC, OUSD_ORU} = contracts
 
+        console.log(liquidity);
+
         const oruUSDCTVL =
             (+(await ORU_USDC.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18) *
             (liquidity.oruUsdcLiq / (+(await ORU_USDC.totalSupply()) / 1e18 ));
@@ -35,13 +37,12 @@ const ProtocolTable = ({setProtocolTVL}) => {
             (+(await OUSD_ORU.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18) *
             (liquidity.oruOusdLiq / (+(await OUSD_ORU.totalSupply()) / 1e18 ));
 
-
         const bankTVL = (+(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE)) / 1e6) + (+(await BANK_SAFE.balanceOfAToken()) / 1e6);
         const farmTVL = oruUSDCTVL + ousdUSDCTVL + ousdOruTVL; // TODO: change it.
         const stakeTVL = (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18) * (+(await PRICE_ORACLE.oruPrice()) / 1e6);
-        const protocolTVL = bankTVL + farmTVL + stakeTVL
+        const protocolTVL = liquidity.oruOusdLiq + liquidity.oruUsdcLiq + liquidity.ousdUsdcLiq
 
-        setProtocolTVL(protocolTVL)
+            setProtocolTVL(protocolTVL)
 
         setInfo({
             bankTVL,

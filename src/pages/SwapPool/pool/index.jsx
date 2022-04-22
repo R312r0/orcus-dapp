@@ -26,8 +26,10 @@ import {
 } from './styled';
 import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
-import {CONTRACT_ADDRESSES} from "../../../constants";
+import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
 import {formatFromDecimal, formattedNum, formatToDecimal} from "../../../utils";
+import fromExponential from "from-exponential";
+import {ethers} from "ethers";
 
 const Pool = () => {
     const {account} = useWeb3React();
@@ -61,6 +63,7 @@ const Pool = () => {
 
     const [pools, setPools] = useState(null);
     const [selectedPool, setSelectedPool] = useState(null);
+    const [userAllowance, setUserAllowance] = useState(null);
 
     useEffect(() => {
 
@@ -75,6 +78,7 @@ const Pool = () => {
 
         if (account && signer) {
             getUserLiquidity();
+            getUserLPAllowance();
             getUserLPBalance();
         }
 
@@ -128,7 +132,14 @@ const Pool = () => {
         const pool = contracts[selectedPool.token0.name + "_" + selectedPool.token1.name] || contracts[selectedPool.token1.name + "_" + selectedPool.token0.name];
         const bal = await pool.balanceOf(account);
 
-        setUserBal(+bal);
+        setUserBal(+bal / 1e18);
+    }
+
+    const getUserLPAllowance = async () => {
+        const pool = contracts[selectedPool.token0.name + "_" + selectedPool.token1.name] || contracts[selectedPool.token1.name + "_" + selectedPool.token0.name];
+        const all = await pool.allowance(account, CONTRACT_ADDRESSES.ROUTER);
+
+        setUserAllowance(all > 0);
     }
 
     const handleTokenInput = (num) => {
@@ -140,12 +151,14 @@ const Pool = () => {
 
         const {ROUTER} = contracts;
 
+        console.log(formatToDecimal(token1Input, selectedPool.token1.name === "USDC" ? 6 : 18));
+
         try {
             const tx = await ROUTER.connect(signer).addLiquidity(
                 CONTRACT_ADDRESSES[selectedPool.token0.name],
                 CONTRACT_ADDRESSES[selectedPool.token1.name],
-                formatToDecimal(token0Input, selectedPool.token0.name === "USDC" ? 6 : 18),
-                formatToDecimal(token1Input, selectedPool.token1.name === "USDC" ? 6 : 18),
+                (+formatToDecimal(token0Input, selectedPool.token0.name === "USDC" ? 6 : 18)).toFixed(0),
+                (+formatToDecimal(token1Input, selectedPool.token1.name === "USDC" ? 6 : 18)).toFixed(0),
                 0,
                 0,
                 account,
@@ -158,15 +171,30 @@ const Pool = () => {
         }
     }
 
+    const approveLp = async () => {
+        try {
+            const pool = contracts[selectedPool.token0.name + "_" + selectedPool.token1.name] || contracts[selectedPool.token1.name + "_" + selectedPool.token0.name];
+            const tx  = await pool.connect(signer).approve(CONTRACT_ADDRESSES.ROUTER, MAX_INT);
+
+            await tx.wait()
+            await getUserLPAllowance();
+
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+    }
+
     const removeLiquidity = async () => {
 
-        const {ROUTER} = contracts;
+        console.log(ethers.BigNumber.from(String(fromExponential(token0Input * 1e18))))
 
+        const {ROUTER} = contracts;
         try {
             const tx = await ROUTER.connect(signer).removeLiquidity(
                 CONTRACT_ADDRESSES[selectedPool.token0.name],
                 CONTRACT_ADDRESSES[selectedPool.token1.name],
-                token0Input,
+                ethers.BigNumber.from(String(fromExponential(token0Input * 1e18))),
                 0,
                 0,
                 account,
@@ -214,7 +242,7 @@ const Pool = () => {
         <HDiv>
             
 
-            <Text>Balance: {userBal ? userBal : null} </Text>
+            <Text>Balance: {userBal ? fromExponential(userBal) : null} </Text>
         </HDiv>
         <PoolInputWrapper>
           <input type='number' value={token0Input} onChange={(e) => handleTokenInput(e.target.value)}/>
@@ -246,7 +274,7 @@ const Pool = () => {
                       :
                       null
                   }
-        <PoolBtn onClick={() => isRemoveLiquidity ? removeLiquidity() :  addLiquidity()}>{isRemoveLiquidity ? "Remove liquidity" : "Add liquidity"}</PoolBtn>
+        <PoolBtn onClick={() => isRemoveLiquidity ? userAllowance ?  removeLiquidity() : approveLp() :  addLiquidity()}>{isRemoveLiquidity ? userAllowance ?  "Remove liquidity" : "Approve your LPs" : "Add liquidity"}</PoolBtn>
         </>
               : <>
         <HDiv>

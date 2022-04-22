@@ -25,7 +25,7 @@ import {formattedNum, formatToDecimal} from "../../../utils";
 const Stake = () => {
 
   const {account} = useWeb3React();
-  const {contracts, connectWallet, signer} = useBlockChainContext();
+  const {contracts, connectWallet, signer, liquidity} = useBlockChainContext();
 
   const [oruInput, setOruInput] = useState(0);
 
@@ -34,11 +34,11 @@ const Stake = () => {
 
   useEffect(() => {
 
-    if (contracts) {
+    if (contracts && liquidity) {
       getStakingInfo();
     }
 
-  },[contracts])
+  },[contracts, liquidity])
 
   useEffect(() => {
 
@@ -54,10 +54,14 @@ const Stake = () => {
 
     const tvl = ((+(await PRICE_ORACLE.oruPrice())) / 1e6) * (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18);
     const rate = +(await ORU_STAKE.oruPerShare()) / 1e18;
+    const lpBalance = (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18) - 45000;
+    const apr = (((((liquidity.oruPrice * 45000 * 30 * 12)) / 2) / ((liquidity.oruPrice * lpBalance)) * 100)).toFixed(0);
+
 
     setStakingInfo({
       tvl,
-      rate
+      rate,
+      apr,
     })
   }
 
@@ -90,8 +94,11 @@ const Stake = () => {
   }
 
   const deposit = async () => {
+
+    const amt = oruInput - (oruInput * 0.005) // Slippage
+
       try {
-        const tx = await contracts.ORU_STAKE.connect(signer).stake(formatToDecimal(oruInput, 18))
+        const tx = await contracts.ORU_STAKE.connect(signer).stake(formatToDecimal(amt, 18))
         await tx.wait();
         await getStakingInfo();
         await getUserInfo();
@@ -131,7 +138,7 @@ const Stake = () => {
           </Text>
           <PercentageContainer>
             <Text>
-              <b>3004.14% APR</b>
+              <b>{stakingInfo?.apr}% APR</b>
             </Text>
           </PercentageContainer>
         </HDiv>

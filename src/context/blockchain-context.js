@@ -61,20 +61,11 @@ export const BlockchainContextProvider = ({children}) => {
         // ORU-USDC liquidity
         const oruUsdcRes = await ORU_USDC.getReserves();
 
-        console.log(+oruUsdcRes[0]);
-        console.log(+oruUsdcRes[1]);
-
         const oruPrice =  (formatFromDecimal(+oruUsdcRes[0], 6)) / (formatFromDecimal(+oruUsdcRes[1], 18));
-
-        console.log(formatFromDecimal(+oruUsdcRes[1], 18))
-
-        const oruUsdcLiq = (oruPrice * (+oruUsdcRes[0] / 1e6)) + (+oruUsdcRes[1] / 1e18);
+        const oruUsdcLiq = ((+oruUsdcRes[0] / 1e6)) + ((+oruUsdcRes[1] / 1e18) * oruPrice);
 
         // ORU-USDC liquidity
         const ousdUsdcRes = await OUSD_USDC.getReserves();
-
-        // console.log(+ousdUsdcRes[0]);
-        // console.log(+ousdUsdcRes[1]);
 
         const ousdPrice = (+ousdUsdcRes[1] / 1e6) / (+ousdUsdcRes[0] / 1e18);
         const ousdUsdcLiq = (ousdPrice * (+ousdUsdcRes[0] / 1e18)) + (+ousdUsdcRes[1] / 1e6);
@@ -129,13 +120,34 @@ export const BlockchainContextProvider = ({children}) => {
 
     const connectWallet = async () => {
 
-        // TODO: Add more wallets if needed.
         try {
-            await activate(MetaMask);
+            await window.ethereum.request({
+                method: "wallet_switchEthereumChain",
+                params: [{chainId: `0x250`}]
+            })
         }
-        catch (e) {
-            console.error(e.message);
+        catch (switchErrorCode) {
+
+            if (switchErrorCode.code === 4902) {
+                try {
+                    await window.ethereum.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [
+                            {
+                                chainId: `0x250`,
+                                chainName: 'Astar',
+                                rpcUrls: ['https://astar.api.onfinality.io/public'] /* ... */,
+                            },
+                        ],
+                    });
+                }
+                catch (e) {
+                    console.log(e.message);
+                }
+            }
+
         }
+        activate(MetaMask)
     }
 
     const createSigner = async () => await library.getSigner();

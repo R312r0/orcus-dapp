@@ -16,90 +16,91 @@ const ProfitManager = () => {
           </div>
           <div>
           <Text>Total Protocol Profit</Text>
-          <TPPLabel>$ 29,679</TPPLabel>
+          <TPPLabel> Not calculated yet </TPPLabel>
           </div>
         </VerticalSpaceBetween>
       </div>
-      <div>
-        <THRContainer>
-          <THRContent>
-            <THRLabel>Total harvested rewards </THRLabel>
-            <Line color='white'></Line>
-            <THRValue>0.0 ORU</THRValue>
-          </THRContent>
-        </THRContainer>
-        <THRButton>
-        Rewards vesting
-        </THRButton>
-        </div>
+      {/*<div>*/}
+      {/*  <THRContainer>*/}
+      {/*    <THRContent>*/}
+      {/*      <THRLabel>Total harvested rewards </THRLabel>*/}
+      {/*      <Line color='white'></Line>*/}
+      {/*      <THRValue>0.0 ORU</THRValue>*/}
+      {/*    </THRContent>*/}
+      {/*  </THRContainer>*/}
+      {/*  <THRButton>*/}
+      {/*  Rewards vesting*/}
+      {/*  </THRButton>*/}
+      {/*  </div>*/}
     </HorizontalSpaceBetween>
     </ProfitManagerHeader>
-    <HistoryContainer>
-      <HistoryContent  paddingTop='32px'>
-        <HistoryHeader>History</HistoryHeader>
-        <HistoryTableHead>
-          <div>
-            Date
-          </div>
-          <div>
-            Fee Collector
-          </div>
-          <div>
-          Collateral Invest
-          </div>
-          <div>
-          Arbitrager
-          </div>
-          <div>
-          Penalty
-          </div>
-          <div>
-          TOTAL in ORU
-          </div>
-          <div>
-          TOTAL in $
-          </div>
-          <div>
-          Tx
-          </div>
-        </HistoryTableHead>
-      </HistoryContent>
-        <Line color='#F2F2F2'></Line>
-        <HistoryContent paddingTop='0px'>
+    <TPPLabel> No data yet </TPPLabel>
+    {/*<HistoryContainer>*/}
+    {/*  <HistoryContent  paddingTop='32px'>*/}
+    {/*    <HistoryHeader>History</HistoryHeader>*/}
+    {/*    <HistoryTableHead>*/}
+    {/*      <div>*/}
+    {/*        Date*/}
+    {/*      </div>*/}
+    {/*      <div>*/}
+    {/*        Fee Collector*/}
+    {/*      </div>*/}
+    {/*      <div>*/}
+    {/*      Collateral Invest*/}
+    {/*      </div>*/}
+    {/*      <div>*/}
+    {/*      Arbitrager*/}
+    {/*      </div>*/}
+    {/*      <div>*/}
+    {/*      Penalty*/}
+    {/*      </div>*/}
+    {/*      <div>*/}
+    {/*      TOTAL in ORU*/}
+    {/*      </div>*/}
+    {/*      <div>*/}
+    {/*      TOTAL in $*/}
+    {/*      </div>*/}
+    {/*      <div>*/}
+    {/*      Tx*/}
+    {/*      </div>*/}
+    {/*    </HistoryTableHead>*/}
+    {/*  </HistoryContent>*/}
+    {/*    <Line color='#F2F2F2'></Line>*/}
+    {/*    <HistoryContent paddingTop='0px'>*/}
 
-          { historyArray.map(row => {
-            return (<HistoryTableRow key={Math.random()}>
+    {/*      { historyArray.map(row => {*/}
+    {/*        return (<HistoryTableRow key={Math.random()}>*/}
 
-          
-              <div>
-                  {row.date}
-                </div>
-                <div>
-                  {row.fee}
-                </div>
-                <div>
-                {row.collateral}
-                </div>
-                <div>
-                {row.arbitrager}
-                </div>
-                <div>
-                {row.penalty}
-                </div>
-                <div>
-                {row.totalORU}
-                </div>
-                <div>
-                {row.totalUSD}
-                </div>
-                <div>
-                {row.txHash}
-                </div>
-                </HistoryTableRow>);
-          })}
-          
-        </HistoryContent>
-    </HistoryContainer>
+
+    {/*          <div>*/}
+    {/*              {row.date}*/}
+    {/*            </div>*/}
+    {/*            <div>*/}
+    {/*              {row.fee}*/}
+    {/*            </div>*/}
+    {/*            <div>*/}
+    {/*            {row.collateral}*/}
+    {/*            </div>*/}
+    {/*            <div>*/}
+    {/*            {row.arbitrager}*/}
+    {/*            </div>*/}
+    {/*            <div>*/}
+    {/*            {row.penalty}*/}
+    {/*            </div>*/}
+    {/*            <div>*/}
+    {/*            {row.totalORU}*/}
+    {/*            </div>*/}
+    {/*            <div>*/}
+    {/*            {row.totalUSD}*/}
+    {/*            </div>*/}
+    {/*            <div>*/}
+    {/*            {row.txHash}*/}
+    {/*            </div>*/}
+    {/*            </HistoryTableRow>);*/}
+    {/*      })}*/}
+    {/*      */}
+    {/*    </HistoryContent>*/}
+    {/*</HistoryContainer>*/}
   </ProfitManagerWrapper>;
 };
 

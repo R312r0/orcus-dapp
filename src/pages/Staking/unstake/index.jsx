@@ -19,14 +19,14 @@ import {
 } from './styled';
 import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
-import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
+import {CONTRACT_ADDRESSES, MAX_INT, ORU_PER_BLOCK} from "../../../constants";
 import {formattedNum, formatToDecimal} from "../../../utils";
-import {StakeBtn} from "../stake/styled";
+import {StakeBtn, StakeDataText} from "../stake/styled";
 
 const Unstake = () => {
 
   const {account} = useWeb3React();
-  const {contracts, connectWallet, signer} = useBlockChainContext();
+  const {contracts, connectWallet, signer, liquidity} = useBlockChainContext();
 
   const [xoruInput, setXOruInput] = useState(0);
 
@@ -51,12 +51,17 @@ const Unstake = () => {
 
   const getStakingInfo = async () => {
 
-    const {ORU,PRICE_ORACLE} = contracts;
+    const {ORU, ORU_STAKE, PRICE_ORACLE} = contracts;
 
+    const lpBalance = (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18) - 45000;
+    const apr = (((((liquidity.oruPrice * 45000 * 30 * 12)) / 2) / ((liquidity.oruPrice * lpBalance)) * 100)).toFixed(0);
+    const rate = +(await ORU_STAKE.oruPerShare()) / 1e18;
     const tvl = ((+(await PRICE_ORACLE.oruPrice())) / 1e6) * (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18);
 
     setStakingInfo({
       tvl,
+      rate,
+      apr
     })
   }
 
@@ -132,7 +137,7 @@ const Unstake = () => {
           </Text>
           <PercentageContainer>
             <Text>
-              <b>3004.14% APR</b>
+              <b>{stakingInfo ?  stakingInfo.apr : 0}% APR</b>
             </Text>
           </PercentageContainer>
         </HDiv>
@@ -147,7 +152,7 @@ const Unstake = () => {
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
             <LogoIcon />
           </IconWrapper>
-          ORU
+          xORU
         </UnstakeInputWrapper>
         <IconWrapper margin='1.719vw 0 0 0'>
           <ArrowDownIcon />
@@ -161,7 +166,7 @@ const Unstake = () => {
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
             <LogoIcon />
           </IconWrapper>
-          xORU
+          ORU
         </UnstakeInputWrapper>
         <UnstakeButton/>
 
@@ -200,6 +205,19 @@ const Unstake = () => {
               <b>7&nbsp;</b>
             </UnstakeDataText>
             <UnstakeDataText>Days</UnstakeDataText>
+          </div>
+        </HDiv>
+        <HDiv>
+          <StakeDataText mr='0.339vw'>Rate</StakeDataText>
+          <div style={{ display: 'inherit', alignItems: 'inherit' }}>
+            <StakeDataText>
+              <b>1&nbsp;</b>
+            </StakeDataText>
+            <StakeDataText>xORU</StakeDataText>
+            <StakeDataText>
+              <b>&nbsp;= {stakingInfo ? stakingInfo.rate : 0}&nbsp;</b>
+            </StakeDataText>
+            <StakeDataText>ORU</StakeDataText>
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
