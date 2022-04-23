@@ -15,6 +15,8 @@ import {
   FarmsInputContainer,
   FarmsSlider,
   FarmsTableItem,
+  FarmsRow,
+  FarmsColumn,
   HDiv,
   IconWrapper,
   MainData,
@@ -22,6 +24,8 @@ import {
   VDiv,
   VestingBtn,
   VestRewardsBtn,
+  HelpCircleContainer,
+  HelpText,
   WithdrawBtn,
 } from './styled';
 import {useWeb3React} from "@web3-react/core";
@@ -227,7 +231,9 @@ const FarmsTableItm = ({index, item}) => {
   return (
     <FarmsTableItem isExpanded={expanded}>
       <MainData>
-        <HDiv alignItems='center'>
+        {/* <HDiv alignItems='center'> */}
+        <FarmsRow>
+          <FarmsColumn>
           <IconWrapper>
             {item.token0Icon}
           </IconWrapper>
@@ -245,29 +251,50 @@ const FarmsTableItm = ({index, item}) => {
               </Text>
             </div>
           </VDiv>
-          <IconWrapper ml='8.698vw'>
+          </FarmsColumn>
+          <FarmsColumn center> 
+          <IconWrapper 
+          // ml='8.698vw'
+          >
             <LogoIcon />
           </IconWrapper>
           <Text ml='0.7vw'>
             <b>ORU</b>
           </Text>
-          <Text ml='7.813vw' minW='12.552vw'>
+          </FarmsColumn>
+          <FarmsColumn center>
+          <Text
+          //  ml='7.813vw' 
+          //  minW='12.552vw'
+           >
             <b>${poolInfo && userInfo ? formattedNum(poolInfo.lpPrice * (userInfo.depositedAmt / 1e18)) : 0}</b>
           </Text>
-          <Text minW='11.979vw'>
+          </FarmsColumn>
+          <FarmsColumn center>
+          <Text 
+          // minW='11.979vw'
+          >
             <b>${poolInfo ? formattedNum(poolInfo?.tvl) : 0}</b>
           </Text>
+          </FarmsColumn>
+          <FarmsColumn center>
           <Text>APR</Text>
-          <Text ml='0.885vw' minW='11vw'>
+          <Text ml='0.885vw' 
+          // minW='11vw'
+          >
             <b>{poolInfo ? formattedNum(poolInfo.apr) : 0}%</b>
           </Text>
+          </FarmsColumn>
+          <FarmsColumn center>
           <ExpandBtn
             onClick={() => setExpanded(!expanded)}
             isExpanded={expanded}
           >
             <KeyboardArrowDownIcon />
           </ExpandBtn>
-        </HDiv>
+          </FarmsColumn>
+        {/* </HDiv> */}
+        </FarmsRow>
       </MainData>
       {expanded ? (
         <ExpandedDataWrapper>
@@ -383,7 +410,14 @@ const FarmsTableItm = ({index, item}) => {
                 <Text mr='0.573vw'>
                   <b>Rewards: {userInfo ? formattedNum(userInfo.pendingReward) : 0} ORU</b>
                 </Text>
-                <HelpCircleIcon />
+                <HelpCircleContainer>
+                  <HelpCircleIcon />
+                  <HelpText>
+                  To start vesting rewards please click on Start Vesting at first, then you will be eligible to claim<br/><br/>
+                  Early exit penalty until 4 weeks - 50%
+                  </HelpText>
+                </HelpCircleContainer>
+                
                 <VestRewardsBtn disabled={userInfo ? userInfo.pendingReward === 0 : true} onClick={() => handleHarvest()}>Start Vesting</VestRewardsBtn>
                 <VestRewardsBtn onClick={() => handleClaim()}>Claim</VestRewardsBtn>
                 <VestRewardsBtn onClick={() => handleClaimWithPenalty()}>Claim With Penalty</VestRewardsBtn>

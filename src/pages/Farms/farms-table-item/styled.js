@@ -2,6 +2,39 @@ import { Slider } from '@mui/material';
 import { styled as styledMUI } from '@mui/material/styles';
 import styled from 'styled-components';
 
+
+export const HelpText = styled.div`
+  position: absolute;
+  display: none;
+  background-color: white;
+  border: 1px solid #EAEAEA;
+  border-radius: 0.25vw;
+  font-size: 0.8vw;
+  width: 12vw;
+  cursor: default;
+  margin-left: -5vw;
+  padding: 0.8vw;
+`
+export const HelpCircleContainer = styled.div`
+  &:hover ${HelpText}{
+    display: block;
+  }
+  position: relative;
+  cursor: pointer;
+`
+export const FarmsColumn = styled.div`
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+  ${props => props.center ? ' justify-content: center;' : ''}
+`
+
+export const FarmsRow = styled.div`
+  display: grid;
+  grid-template-columns: 4fr 4fr 3fr 2fr 4fr 2fr;
+`
+
+
 export const FarmsTableItem = styled.div`
   transition: 0.3s all;
   flex-direction: column;
