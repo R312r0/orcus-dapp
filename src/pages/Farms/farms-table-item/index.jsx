@@ -24,9 +24,13 @@ import {
   VDiv,
   VestingBtn,
   VestRewardsBtn,
+  ColorfulBtn,
+  ColorfulBlock,
+  ColorfulBtnContainer,
   HelpCircleContainer,
   HelpText,
   WithdrawBtn,
+  OutlineBtn,
 } from './styled';
 import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
@@ -37,6 +41,8 @@ import pool from "../../SwapPool/pool";
 import {useNavigate} from "react-router";
 import fromExponential from "from-exponential";
 import ProfitControllerABI from '../../../abis/ProfitController.json';
+import PlusIcon from '../../../assets/icons/PlusIcon';
+import TrashIcon from '../../../assets/icons/TrashIcon';
 
 const PERCENTAGES = {
   1: 0,
@@ -347,18 +353,28 @@ const FarmsTableItm = ({index, item}) => {
                   onClick={() => userInfo ? userInfo.allowance ? handleDeposit() : handleApprove() : null}>
                 {userInfo ? userInfo.allowance ? "Deposit" : "Approve" : null}
               </VestingBtn>
-              <HDiv mt='2.708vw'>
-                <Text>
-                  <a onClick={() => navigate("/swap")}><b>Add Liquidity</b></a>
-                </Text>
+              <HDiv mt='1.708vw' style={{display: 'flex', justifyContent: 'space-between'}}>
+                <OutlineBtn gap='12px' onClick={() => navigate("/swap")} width='15.8vw'>
+                  <PlusIcon color='#333'></PlusIcon>
+                  <Text>
+                    <b>Add Liquidity</b>
+                  </Text>
+                </OutlineBtn>
+                <OutlineBtn gap='12px' onClick={() => navigate("/swap")} width='15.8vw'>
+                  <TrashIcon></TrashIcon>
+                  <Text>
+                  <b>Remove Liquidity</b>
+                  </Text>
+                </OutlineBtn>
+{/*                 
                 <Text ml='1.875vw'>
-                  <a onClick={() => navigate("/swap")}><b>Remove Liquidity</b></a>
-                </Text>
+                  
+                </Text> */}
               </HDiv>
             </VDiv>
             <VDiv w='33.021vw' ml='10.260vw'>
               <HDiv>
-                <Text ml='0.833vw'>Balance:&nbsp;</Text>
+                <Text ml='0.833vw'>Deposited:&nbsp;</Text>
                 <Text>
                   <b>{userInfo ?  fromExponential(userInfo.depositedAmt / 1e18) : 0.0}&nbsp;</b>
                 </Text>
@@ -400,12 +416,13 @@ const FarmsTableItm = ({index, item}) => {
                   <b>100%</b>
                 </Text>
               </HDiv>
-              <WithdrawBtn
+              <OutlineBtn
+                  mt='2vw'
                   disabled={userInfo && userInfo.locked}
                   onClick={() => handleWithdraw()}
               >
                 {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" : null}
-              </WithdrawBtn>
+              </OutlineBtn>
               <HDiv mt='2.240vw' justifyContent='flex-end' alignItems='center'>
                 <Text mr='0.573vw'>
                   <b>Rewards: {userInfo ? formattedNum(userInfo.pendingReward) : 0} ORU</b>
@@ -417,10 +434,17 @@ const FarmsTableItm = ({index, item}) => {
                   Early exit penalty until 4 weeks - 50%
                   </HelpText>
                 </HelpCircleContainer>
-                
-                <VestRewardsBtn disabled={userInfo ? userInfo.pendingReward === 0 : true} onClick={() => handleHarvest()}>Start Vesting</VestRewardsBtn>
-                <VestRewardsBtn onClick={() => handleClaim()}>Claim</VestRewardsBtn>
-                <VestRewardsBtn onClick={() => handleClaimWithPenalty()}>Claim With Penalty</VestRewardsBtn>
+                <ColorfulBtnContainer>
+                <ColorfulBlock width='10vw' bgColor='#DEC9FF'></ColorfulBlock>
+                <ColorfulBlock width='10vw' bgColor='#C1FCC9' ml='-4vw'></ColorfulBlock>
+                <ColorfulBlock width='8vw'  bgColor='#FEEFB5' ml='-4vw'></ColorfulBlock>
+                <ColorfulBtn>
+                  Start vesting
+                </ColorfulBtn>
+                </ColorfulBtnContainer>
+                {/* <VestRewardsBtn disabled={userInfo ? userInfo.pendingReward === 0 : true} onClick={() => handleHarvest()}>Start Vesting</VestRewardsBtn> */}
+                {/* <VestRewardsBtn onClick={() => handleClaim()}>Claim</VestRewardsBtn> */}
+                {/* <VestRewardsBtn onClick={() => handleClaimWithPenalty()}>Claim With Penalty</VestRewardsBtn> */}
               </HDiv>
             </VDiv>
           </ExpandedData>

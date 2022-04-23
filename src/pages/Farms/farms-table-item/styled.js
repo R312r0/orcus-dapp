@@ -3,6 +3,68 @@ import { styled as styledMUI } from '@mui/material/styles';
 import styled from 'styled-components';
 
 
+export const ColorfulBlock = styled.div`
+  border-radius: 99px;
+  width: ${props => props.width ?? '0px' };
+  height: 3.2vw;
+  
+  transition: 0.3s all;
+  margin-left: ${props => props.ml ?? '0px'};
+  background-color: ${props => props.bgColor ?? 'white'};
+  
+  cursor: pointer;
+`
+export const ColorfulBtnContainer = styled.div`
+  position: relative;
+  height: 2.7vw;
+  width: 8vw;
+  margin-left: 2.2vw;
+  // margin-right: 1.75vw;
+  display: flex;
+  cursor: pointer;
+  transition: 0.3s all;
+  &:hover ${ColorfulBlock}{
+    background-color: #333;
+  }
+`
+
+
+export const ColorfulBtn = styled.div`
+  padding: 0.8vw 1.2vw;
+  background-color: #333;
+  border-radius: 99px;
+  color: #fff;
+  font-size: 0.8vw;
+  position: absolute;
+  margin-top: 0.3vw;
+  margin-left: 0.25vw;
+  white-space: nowrap;
+  
+  cursor: pointer;
+`
+
+export const OutlineBtn = styled.div`
+font-family: 'Poppins';
+background: transparent;
+margin-top: ${props => props.mt ?? '0px'};
+border: 1px solid #333;
+border-radius: 0.625vw;
+height: 3.542vw;
+gap: ${props => props.gap ?? '0px'};
+width: ${props => props.width ?? '100%'};
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 500;
+font-size: 0.833vw;
+// color: #fff;
+cursor: pointer;
+&:hover {
+  transition: all 0.3s;
+  background: #F4BD50;
+}
+
+`
 export const HelpText = styled.div`
   position: absolute;
   display: none;
@@ -14,7 +76,9 @@ export const HelpText = styled.div`
   cursor: default;
   margin-left: -5vw;
   padding: 0.8vw;
+  z-index: 10;
 `
+
 export const HelpCircleContainer = styled.div`
   &:hover ${HelpText}{
     display: block;
