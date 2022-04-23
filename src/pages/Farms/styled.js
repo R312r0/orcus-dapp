@@ -1,5 +1,69 @@
 import styled from 'styled-components';
 
+
+export const RewardsValues=  styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`
+
+export const ManageButton = styled.button`
+  border: none;
+  width: 100%;
+  border-radius: 1.042vw;
+  background-color: #FEEFB5;
+  color: #333;
+  margin-top: 1.8vw;
+  cursor: pointer;
+  padding: 0.7vw;
+  transition: 0.25s;
+  &:hover{
+    background-color: #F4BD50;
+  }
+`
+export const RewardsBlock = styled.div`
+  background-color: white;
+  border-radius: 1.042vw;
+`
+export const RewardsBlockContent = styled.div`
+  padding: 0.8vw;
+  display: grid;
+  grid-direction: column;
+  align-items: center;
+`
+
+export const RewardsContainer = styled.div`
+  padding: 0.7vw;
+  height: 10vw;
+  width: 200px;
+  width: 57.75vw;
+  margin-right: 2.8vw;
+  border-radius: 1.042vw;
+  border: 1px solid white;
+  display: grid;
+  grid-template-columns: 1fr 2fr 3fr 3fr 3fr;
+  font-size: 1vw;
+  gap: 0.75vw;
+`
+
+export const PurpleRewards = styled.div`
+  background-color: #DEC9FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1.042vw;
+  height: 100%;
+`
+
+export const RewardsContent = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: white;
+
+`
+
+
 export const FarmsWrapper = styled.div`
   flex-direction: column;
   margin-top: 0.365vw;

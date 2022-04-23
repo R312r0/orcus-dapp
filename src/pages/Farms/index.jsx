@@ -11,6 +11,14 @@ import {
   RewardBtn,
   Text,
   TotalHarvestedInfo,
+  RewardsContainer,
+  PurpleRewards,
+  RewardsBlock,
+  RewardsBlockContent,
+
+  RewardsValues,
+  ManageButton,
+  RewardsContent,
   VDiv,
 } from './styled';
 import {ethers} from "ethers";
@@ -20,6 +28,8 @@ import LogoIcon from "../../assets/icons/LogoIcon";
 import USDCIcon from "../../assets/icons/USDCIcon";
 import OUSDIcon from "../../assets/icons/OUSDIcon";
 import {formattedNum} from "../../utils";
+import RewardsIcon from '../../assets/icons/RewardsIcon';
+import PlusIcon from '../../assets/icons/PlusIcon';
 
 const Array = [1, 2, 3];
 
@@ -70,14 +80,80 @@ const Farms = () => {
           <HeadingText>Farms TVL</HeadingText>
           <Balance>$ {farmsTVL ? formattedNum(farmsTVL) : 0}</Balance>
         </VDiv>
-        {/*<VDiv>*/}
-        {/*  <TotalHarvestedInfo>*/}
-        {/*    <span>Total harvested rewards </span>*/}
-        {/*    <div />*/}
-        {/*    <b>0.0 ORU</b>*/}
-        {/*  </TotalHarvestedInfo>*/}
-        {/*  /!*<RewardBtn>Rewards vesting</RewardBtn>*!/*/}
-        {/*</VDiv>*/}
+        <RewardsContainer>
+          <PurpleRewards>
+            <RewardsIcon></RewardsIcon>
+          </PurpleRewards>
+          {/* <RewardsContent></RewardsContent> */}
+          <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+            <b>Rewards</b>
+            Management
+          </div>
+          <RewardsBlock>
+            <RewardsBlockContent>
+              <RewardsValues>
+                <div>
+                  
+                <b>ORU</b><br/>
+                50%
+                </div>
+                <PlusIcon color="#C4C4C4"></PlusIcon>
+                <div>
+                <b>USDC</b><br/>
+                50%
+                </div>
+              </RewardsValues>
+              
+              <ManageButton>Manage</ManageButton>
+            </RewardsBlockContent>
+          </RewardsBlock>
+          
+          <RewardsBlock>
+          <RewardsBlockContent>
+          <RewardsValues>
+                <div>
+                
+                <b>oUSD</b><br/>
+                50%
+                </div>
+                <PlusIcon color="#C4C4C4"></PlusIcon>
+                <div>
+                <b>USDC</b><br/>
+                50%
+                </div>
+              </RewardsValues>
+              
+              <ManageButton>Manage</ManageButton>
+            </RewardsBlockContent>
+          </RewardsBlock>
+          
+          <RewardsBlock>
+          <RewardsBlockContent>
+          <RewardsValues>
+                <div>
+                <b>ORU</b><br/>
+                50%
+                </div>
+                <PlusIcon color="#C4C4C4"></PlusIcon>
+                <div>
+                <b>USDC</b><br/>
+                50%
+                </div>
+              </RewardsValues>
+              
+              <ManageButton>Manage</ManageButton>
+            </RewardsBlockContent>
+          </RewardsBlock>
+        </RewardsContainer>
+{/*         
+        <VDiv>
+         <TotalHarvestedInfo>
+           <span>Total harvested rewards </span>
+           <div />
+           <b>0.0 ORU</b>
+         </TotalHarvestedInfo>
+         <RewardBtn>Rewards vesting</RewardBtn>
+        </VDiv> */}
       </HDiv>
       <HDiv mt='2.083vw'>
         <Text ml='3.802vw'>Asset</Text>
