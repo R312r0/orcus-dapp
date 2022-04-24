@@ -6,7 +6,7 @@ import UNISWAP_PAIR_ABI from '../../../abis/UniswapPair.json';
 
 import DepositingIcon from '../../../assets/icons/DepositingIcon';
 import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
-import LogoIcon from '../../../assets/icons/LogoIcon';
+import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 import OUSDIcon from '../../../assets/icons/OUSDIcon';
 import {
   ExpandBtn,
@@ -262,7 +262,7 @@ const FarmsTableItm = ({index, item}) => {
           <IconWrapper 
           // ml='8.698vw'
           >
-            <LogoIcon />
+            <LogoIconBlack />
           </IconWrapper>
           <Text ml='0.7vw'>
             <b>ORU</b>

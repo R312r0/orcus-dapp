@@ -10,26 +10,40 @@ import {
   HeadingText,
   RewardBtn,
   Text,
+  BlackBtn,
+  OverlayGreyText,
+  OverlayText,
+  OverlayValue,
+  HDivider,
   TotalHarvestedInfo,
+  RewardsHead,
   RewardsContainer,
   PurpleRewards,
   RewardsBlock,
   RewardsBlockContent,
-
+  FarmsOverlay,
+  FarmsOverlayContent,
+  RewardsPercentage,
   RewardsValues,
   ManageButton,
+  RewardsCoinname,
   RewardsContent,
   VDiv,
 } from './styled';
 import {ethers} from "ethers";
 import UNISWAP_PAIR_ABI from "../../abis/UniswapPair.json";
 import {useBlockChainContext} from "../../context/blockchain-context";
-import LogoIcon from "../../assets/icons/LogoIcon";
+import LogoIconBlack from "../../assets/icons/LogoIconBlack";
 import USDCIcon from "../../assets/icons/USDCIcon";
 import OUSDIcon from "../../assets/icons/OUSDIcon";
+
+import CalendarIcon from "../../assets/icons/CalendarIcon";
 import {formattedNum} from "../../utils";
 import RewardsIcon from '../../assets/icons/RewardsIcon';
 import PlusIcon from '../../assets/icons/PlusIcon';
+import { OutlineBtn } from './farms-table-item/styled';
+import ORUIcon from '../../assets/icons/ORUIcon';
+import CloseIcon from '../../assets/icons/CloseIcon';
 
 const Array = [1, 2, 3];
 
@@ -39,6 +53,7 @@ const Farms = () => {
   const [masterChefPools, setMasterChefPools] = useState(null);
   const [farmsTVL, setFarmsTVL] = useState(null);
   const [userRewards, setUserRewards] = useState(null);
+  const [ isRewardsOverlay, setRewardsOverlay ] = useState(false);
 
   useEffect(() => {
 
@@ -66,14 +81,71 @@ const Farms = () => {
     setFarmsTVL(oruUSDCTVL + ousdUSDCTVL + ousdOruTVL);
 
     setMasterChefPools([
-        {name: "ORU/USDC", lpToken: ORU_USDC, liquidity:  liquidity.oruUsdcLiq, token0Icon: <LogoIcon/>, token1Icon: <USDCIcon/>},
+        {name: "ORU/USDC", lpToken: ORU_USDC, liquidity:  liquidity.oruUsdcLiq, token0Icon: <LogoIconBlack/>, token1Icon: <USDCIcon/>},
         {name: "oUSD/USDC", lpToken: OUSD_USDC, liquidity: liquidity.ousdUsdcLiq,token0Icon: <OUSDIcon/>, token1Icon: <USDCIcon/>},
-        {name: "oUSD/ORU", lpToken: OUSD_ORU, liquidity:  liquidity.oruOusdLiq,token0Icon: <OUSDIcon/>, token1Icon: <LogoIcon/>},
+        {name: "oUSD/ORU", lpToken: OUSD_ORU, liquidity:  liquidity.oruOusdLiq,token0Icon: <OUSDIcon/>, token1Icon: <LogoIconBlack/>},
     ])
 
   }
 
+  const openOverlay = ( ) => {
+    setRewardsOverlay(true)
+  }
+
+  const closeOverlay = ( ) => {
+
+    setRewardsOverlay(false)
+  }
+
   return (
+    <>
+    {isRewardsOverlay ? <>
+      <FarmsOverlay>
+        <FarmsOverlayContent>
+            <RewardsHead>
+              <PurpleRewards>
+                <RewardsIcon></RewardsIcon>
+              </PurpleRewards>
+              <div style={{display: 'block', paddingLeft: '0.8vw'}}>
+                <Text>Vested Rewards</Text><br/>
+                <OverlayValue>356.69 ORU</OverlayValue>
+                </div>
+                <div style={{display: 'flex', alignItems: 'top', height: '100%', cursor: 'pointer', justifyContent: 'flex-end'}}>
+                  <div  onClick={closeOverlay}>
+                  <CloseIcon></CloseIcon>
+                    </div>
+                </div>
+            </RewardsHead>
+            <div style={{display: 'flex', marginTop: '2vw', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '0.8vw'}}>
+                <ORUIcon></ORUIcon>
+                <div style={{flexDirection:'column'}}>
+                <OverlayText>ORU</OverlayText>
+                
+                <OverlayGreyText fs='12px'>50%</OverlayGreyText>
+                </div>
+              </div>
+              <PlusIcon color='#C4C4C4'></PlusIcon>
+              <div style={{display: 'flex', alignItems: 'center', gap: '0.8vw'}}>
+                <USDCIcon></USDCIcon>
+                <div style={{flexDirection:'column'}}>
+                <OverlayText>USDC</OverlayText>
+                
+                <OverlayGreyText fs='12px'>50%</OverlayGreyText>
+                </div>
+              </div>
+            </div>
+            <HDivider style={{marginTop: '0.8vw'}}></HDivider>
+            <div style={{display: 'flex',marginTop: '0.8vw', alignItems: 'center', justifyContent: 'space-between'}}>
+              <OverlayGreyText style={{display: 'flex', gap: '0.4vw', alignItems: 'center'}}>Until the full claim <CalendarIcon></CalendarIcon></OverlayGreyText>
+              <OverlayGreyText><b>28</b> days left</OverlayGreyText>
+            </div>
+            <BlackBtn>Claim</BlackBtn>
+            <OutlineBtn mt='0.8vw'>Claim with Penalty</OutlineBtn>
+        </FarmsOverlayContent>
+      </FarmsOverlay>
+    
+    </> : <></>}
     <FarmsWrapper>
       <HDiv justifyContent='space-between' alignItems='flex-start'>
         <VDiv>
@@ -92,56 +164,78 @@ const Farms = () => {
           <RewardsBlock>
             <RewardsBlockContent>
               <RewardsValues>
-                <div>
-                  
-                <b>ORU</b><br/>
-                50%
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
+                <ORUIcon ratio={'1.192vw'}></ORUIcon>
+                  <div style={{flexDirection: 'column'}}>
+                    <RewardsCoinname>ORU</RewardsCoinname>
+                    <RewardsPercentage>50%</RewardsPercentage>
+                    </div>
                 </div>
                 <PlusIcon color="#C4C4C4"></PlusIcon>
-                <div>
-                <b>USDC</b><br/>
-                50%
-                </div>
-              </RewardsValues>
-              
-              <ManageButton>Manage</ManageButton>
-            </RewardsBlockContent>
-          </RewardsBlock>
-          
-          <RewardsBlock>
-          <RewardsBlockContent>
-          <RewardsValues>
-                <div>
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
+                  <USDCIcon ratio={'1.192vw'}></USDCIcon>
+                  <div style={{flexDirection: 'column'}}>
+                  <RewardsCoinname>USDC</RewardsCoinname>
                 
-                <b>oUSD</b><br/>
-                50%
+                  <RewardsPercentage>50%</RewardsPercentage>
                 </div>
-                <PlusIcon color="#C4C4C4"></PlusIcon>
-                <div>
-                <b>USDC</b><br/>
-                50%
                 </div>
+
               </RewardsValues>
               
-              <ManageButton>Manage</ManageButton>
+              <ManageButton onClick={openOverlay}>Manage</ManageButton>
             </RewardsBlockContent>
           </RewardsBlock>
           
           <RewardsBlock>
           <RewardsBlockContent>
           <RewardsValues>
-                <div>
-                <b>ORU</b><br/>
-                50%
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
+                <OUSDIcon ratio={'1.192vw'}></OUSDIcon>
+                <div style={{flexDirection: 'column'}}>
+                <RewardsCoinname>oUSD</RewardsCoinname>
+                
+                <RewardsPercentage>50%</RewardsPercentage>
+                </div>
                 </div>
                 <PlusIcon color="#C4C4C4"></PlusIcon>
-                <div>
-                <b>USDC</b><br/>
-                50%
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
+                  <USDCIcon ratio={'1.192vw'}></USDCIcon>
+                  <div style={{flexDirection: 'column'}}>
+                  <RewardsCoinname>USDC</RewardsCoinname>
+                
+                  <RewardsPercentage>50%</RewardsPercentage>
+                </div>
                 </div>
               </RewardsValues>
               
-              <ManageButton>Manage</ManageButton>
+              <ManageButton onClick={openOverlay}>Manage</ManageButton>
+            </RewardsBlockContent>
+          </RewardsBlock>
+          
+          <RewardsBlock>
+          <RewardsBlockContent>
+          <RewardsValues>
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
+                  <ORUIcon ratio={'1.192vw'}></ORUIcon>
+                  <div style={{flexDirection: 'column'}}>
+                  <RewardsCoinname>ORU</RewardsCoinname>
+                  
+                  <RewardsPercentage>50%</RewardsPercentage>
+                </div>
+                </div>
+                <PlusIcon color="#C4C4C4"></PlusIcon>
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
+                  <USDCIcon ratio={'1.192vw'}></USDCIcon>
+                  <div style={{flexDirection: 'column'}}>
+                  <RewardsCoinname>USDC</RewardsCoinname>
+                
+                  <RewardsPercentage>50%</RewardsPercentage>
+                </div>
+                </div>
+              </RewardsValues>
+              
+              <ManageButton onClick={openOverlay}>Manage</ManageButton>
             </RewardsBlockContent>
           </RewardsBlock>
         </RewardsContainer>
@@ -168,6 +262,7 @@ const Farms = () => {
         ))}
       </FarmsTableWrapper>
     </FarmsWrapper>
+    </>
   );
 };
 

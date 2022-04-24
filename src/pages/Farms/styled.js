@@ -1,5 +1,113 @@
 import styled from 'styled-components';
 
+export const OverlayText = styled.div`
+
+
+font-family: 'Poppins';
+font-weight: 500;
+font-size: 16px;
+
+`
+
+export const OverlayGreyText = styled.div`
+font-family: Poppins;
+font-size: ${props => props.fs ?? '14px'};
+font-weight: 400;
+color: #828282;
+& b{
+  font-weight: 500;
+  color: #333;
+}
+
+`
+
+
+export const HDivider = styled.div`
+  margin: ${(props) => props.margin};
+  height: 0.052vw;
+  width: 100%;
+  background: #f2f2f2;
+`;
+
+export const OverlayValue = styled.div`
+font-family: Poppins;
+font-size: 24px;
+font-weight: 500;
+`
+
+export const BlackBtn = styled.button`
+  font-family: 'Poppins';
+  background: #333;
+  margin-top: 2.083vw;
+  border-radius: 0.625vw;
+  height: 3.542vw;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 0.833vw;
+  color: #fff;
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s;
+    background: #000;
+  }
+`;
+
+
+export const OutlineBtn = styled.div`
+font-family: 'Poppins';
+background: transparent;
+margin-top: ${props => props.mt ?? '0px'};
+border: 1px solid #333;
+border-radius: 0.625vw;
+height: 3.542vw;
+gap: ${props => props.gap ?? '0px'};
+width: ${props => props.width ?? '100%'};
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 500;
+font-size: 0.833vw;
+// color: #fff;
+cursor: pointer;
+&:hover {
+  transition: all 0.3s;
+  background: #F4BD50;
+}
+
+`;
+export const FarmsOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+export const FarmsOverlayContent = styled.div`
+  width: 32vw;
+  height: 28vw;
+  background-color: white;
+  border-radius: 1.042vw;
+  box-shadow: 0px 4px 40px rgba(124, 122, 122, 0.16);
+  padding: 2vw;
+  display: flex;
+  flex-direction: column;
+`
+
+export const RewardsHead = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 8fr 1fr;
+  align-items: center;
+  height: 5vw;
+`
 
 export const RewardsValues=  styled.div`
   display: flex;
@@ -14,7 +122,7 @@ export const ManageButton = styled.button`
   border-radius: 1.042vw;
   background-color: #FEEFB5;
   color: #333;
-  margin-top: 1.8vw;
+  margin-top: 1.05vw;
   cursor: pointer;
   padding: 0.7vw;
   transition: 0.25s;
@@ -32,11 +140,25 @@ export const RewardsBlockContent = styled.div`
   grid-direction: column;
   align-items: center;
 `
+export const RewardsCoinname = styled.div`
+font-family: 'Poppins';
+font-weight: 500;
+color: #272A30;
+`
 
+export const RewardsPercentage = styled.div`
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+color: #828282;
+
+`
 export const RewardsContainer = styled.div`
   padding: 0.7vw;
-  height: 10vw;
-  width: 200px;
+  height: 9.78vw;
+
   width: 57.75vw;
   margin-right: 2.8vw;
   border-radius: 1.042vw;
