@@ -6,7 +6,7 @@ import ArrowDownIcon from '../../../assets/icons/ArrowDownIcon';
 import BoldPlusIcon from '../../../assets/icons/BoldPlusIcon';
 import ClipboardIcon from '../../../assets/icons/ClipboardIcon';
 import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
-import LogoIcon from '../../../assets/icons/LogoIcon';
+import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 import OUSDIcon from '../../../assets/icons/OUSDIcon';
 import USDCIcon from '../../../assets/icons/USDCIcon';
 import {
@@ -228,7 +228,7 @@ const Mint = () => {
         <MintInputWrapper>
           <input disabled={true} type='text' placeholder='0' value={shareInput} />
           <IconWrapper margin='0 0.833vw' fill='#000'>
-            <LogoIcon />
+            <LogoIconBlack />
           </IconWrapper>
           ORU
         </MintInputWrapper>
@@ -349,7 +349,7 @@ const tokenList = [
     name: 'oUSD',
     icon: (
       <IconWrapper fill='#000' margin='0 1.042vw 0 1.250vw'>
-        <LogoIcon />
+        <LogoIconBlack />
       </IconWrapper>
     ),
   },

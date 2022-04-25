@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import ArrowDownIcon from '../../../assets/icons/ArrowDownIcon';
 import CalendarIcon from '../../../assets/icons/CalendarIcon';
 import ClipboardIcon from '../../../assets/icons/ClipboardIcon';
-import LogoIcon from '../../../assets/icons/LogoIcon';
+import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 import {
   Divider,
   HDiv,
@@ -151,7 +151,7 @@ const Stake = () => {
           <button onClick={() => setOruInput(userInfo?.balances.oru)} >Max</button>
           <Divider />
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
-            <LogoIcon />
+            <LogoIconBlack />
           </IconWrapper>
           ORU
         </StakeInputWrapper>
@@ -165,7 +165,7 @@ const Stake = () => {
         <StakeInputWrapper>
           <input type='text' placeholder={"0.0"} value={oruInput} disabled={true}/>
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
-            <LogoIcon />
+            <LogoIconBlack />
           </IconWrapper>
           xORU
         </StakeInputWrapper>

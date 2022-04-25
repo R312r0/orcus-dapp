@@ -19,6 +19,7 @@ import {useBlockChainContext} from "../../../context/blockchain-context";
 import {formattedNum} from "../../../utils";
 import {CONTRACT_ADDRESSES} from "../../../constants";
 import {useNavigate} from "react-router";
+import UnwrappedOUSDIcon from '../../../assets/icons/UnwrappedOUSDIcon';
 
 const OUSDTable = () => {
 
@@ -71,9 +72,9 @@ const OUSDTable = () => {
     <OUSDTableWrapper>
       <HDiv>
         <VDiv>
-          <IconWrapper>
-            <OUSDIcon />
-          </IconWrapper>
+          {/* <IconWrapper> */}
+            <UnwrappedOUSDIcon />
+          {/* </IconWrapper> */}
           <Text
             fontFamily='Montserrat'
             fontWeight='600'

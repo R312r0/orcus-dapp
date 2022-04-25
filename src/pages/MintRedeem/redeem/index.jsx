@@ -6,7 +6,7 @@ import BoldPlusIcon from '../../../assets/icons/BoldPlusIcon';
 import ClipboardIcon from '../../../assets/icons/ClipboardIcon';
 import CollectRedemtionIcon from '../../../assets/icons/CollectRedemtionIcon';
 import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
-import LogoIcon from '../../../assets/icons/LogoIcon';
+import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 import OUSDIcon from '../../../assets/icons/OUSDIcon';
 import USDCIcon from '../../../assets/icons/USDCIcon';
 import {
@@ -224,7 +224,7 @@ const Redeem = () => {
         <RedeemInputWrapper>
           <input type='text' placeholder='0' value={shareOutput} disabled={true} />
           <IconWrapper margin='0 0.833vw' fill='#000'>
-            <LogoIcon />
+            <LogoIconBlack />
           </IconWrapper>
           ORU
         </RedeemInputWrapper>
@@ -358,7 +358,7 @@ const tokenList = [
     name: 'oUSD',
     icon: (
       <IconWrapper fill='#000' margin='0 1.042vw 0 1.250vw'>
-        <LogoIcon />
+        <LogoIconBlack />
       </IconWrapper>
     ),
   },

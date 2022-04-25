@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import ArrowDownIcon from '../../../assets/icons/ArrowDownIcon';
 import CalendarIcon from '../../../assets/icons/CalendarIcon';
 import ClipboardIcon from '../../../assets/icons/ClipboardIcon';
-import LogoIcon from '../../../assets/icons/LogoIcon';
+import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 import {
   Divider,
   HDiv,
@@ -150,7 +150,7 @@ const Unstake = () => {
           <button>Max</button>
           <Divider />
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
-            <LogoIcon />
+            <LogoIconBlack />
           </IconWrapper>
           xORU
         </UnstakeInputWrapper>
@@ -164,7 +164,7 @@ const Unstake = () => {
         <UnstakeInputWrapper>
           <input type='text' value={xoruInput} onChange={(e) => setXOruInput(e.target.value)}/>
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
-            <LogoIcon />
+            <LogoIconBlack />
           </IconWrapper>
           ORU
         </UnstakeInputWrapper>

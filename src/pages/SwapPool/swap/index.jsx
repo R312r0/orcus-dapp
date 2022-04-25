@@ -26,6 +26,7 @@ import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
 import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
 import {formatFromDecimal, formatToDecimal} from "../../../utils";
+import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 
 const Swap = () => {
 
@@ -85,9 +86,9 @@ const Swap = () => {
     console.log(reserves);
 
     const pools = [
-        {name: "USDC/OUSD", price0: reserves.ousdUsdc.token0 / reserves.ousdUsdc.token1, token0: {name: "USDC", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><USDCIcon/> </IconWrapper> }, token1: {name: "OUSD", icon: <OUSDIcon color={"black"}/>},  price1: reserves.ousdUsdc.token1 / reserves.ousdUsdc.token0 },
-        {name: "ORU/USDC", price0: reserves.oruUSsdc.token1 / reserves.oruUSsdc.token0, token0: {name: "ORU", icon: <LogoIcon color={"black"}/>}, token1: {name: "USDC", icon: <USDCIcon/>}, price1: reserves.oruUSsdc.token0 / reserves.oruUSsdc.token1 },
-        {name: "OUSD/ORU", price0: reserves.ousdOru.token0 / reserves.ousdOru.token1, token0: {name: "OUSD", icon: <OUSDIcon color={"black"}/>}, token1: {name: "ORU", icon: <LogoIcon width={"15"} height={"15"} color={"black"}/>}, price1: reserves.ousdOru.token1 / reserves.ousdOru.token0 },
+        {name: "USDC/OUSD", price0: reserves.ousdUsdc.token0 / reserves.ousdUsdc.token1, token0: {name: "USDC", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><USDCIcon/> </IconWrapper> }, token1: {name: "OUSD", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><OUSDIcon color={"black"}/></IconWrapper>},  price1: reserves.ousdUsdc.token1 / reserves.ousdUsdc.token0 },
+        {name: "ORU/USDC", price0: reserves.oruUSsdc.token1 / reserves.oruUSsdc.token0, token0: {name: "ORU", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><LogoIconBlack color={"black"}/></IconWrapper>}, token1: {name: "USDC", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><USDCIcon/></IconWrapper>}, price1: reserves.oruUSsdc.token0 / reserves.oruUSsdc.token1 },
+        {name: "OUSD/ORU", price0: reserves.ousdOru.token0 / reserves.ousdOru.token1, token0: {name: "OUSD", icon:  <IconWrapper margin='0 1.042vw 0 1.250vw'><OUSDIcon color={"black"}/></IconWrapper>}, token1: {name: "ORU", icon: <IconWrapper margin='0 1.042vw 0 1.250vw'><LogoIconBlack color={"black"}/></IconWrapper>}, price1: reserves.ousdOru.token1 / reserves.ousdOru.token0 },
     ]
 
     setPools(pools);

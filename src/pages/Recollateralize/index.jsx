@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import ArrowDownIcon from '../../assets/icons/ArrowDownIcon';
 import HelpCircleIcon from '../../assets/icons/HelpCircleIcon'
 import ClipboardIcon from '../../assets/icons/ClipboardIcon';
-import LogoIcon from '../../assets/icons/LogoIcon';
+import LogoIconBlack from '../../assets/icons/LogoIconBlack';
 import USDCIcon from '../../assets/icons/USDCIcon';
 import { RecollateralizeWrapper,
   HeadingText, StakingWrapper,Divider, TabWrapper,
@@ -196,7 +196,7 @@ const Recollateralize = () => {
         <RecollateralizeInputWrapper>
           <input type='text' value={shareOutput} disabled={true} />
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
-            <LogoIcon />
+            <LogoIconBlack />
           </IconWrapper>
           ORU
         </RecollateralizeInputWrapper>

@@ -47,7 +47,7 @@ export const PercentageContainer = styled.div`
 
 export const StakeInputWrapper = styled.div`
   /* margin-top: ${(props) => props.mt}; */
-  background: ${(props) => (props.withBtn ? '#FCFCFD' : '#D5ECD8')};
+  background: ${(props) => (props.withBtn ? '#FCFCFD' : '#e4ddef;')};
   box-shadow: ${(props) =>
     props.withBtn
       ? 'inset 0 0.208vw 0.833vw rgba(197, 197, 197, 0.25)'
