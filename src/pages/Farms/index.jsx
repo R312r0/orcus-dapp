@@ -28,6 +28,10 @@ import {
   ManageButton,
   RewardsCoinname,
   RewardsContent,
+  ClaimsContainer,
+  OverlayClaim,
+  OverlayOutline,
+  ClaimsRow,
   VDiv,
 } from './styled';
 import {ethers} from "ethers";
@@ -140,8 +144,58 @@ const Farms = () => {
               <OverlayGreyText style={{display: 'flex', gap: '0.4vw', alignItems: 'center'}}>Until the full claim <CalendarIcon></CalendarIcon></OverlayGreyText>
               <OverlayGreyText><b>28</b> days left</OverlayGreyText>
             </div>
-            <BlackBtn>Claim</BlackBtn>
-            <OutlineBtn mt='0.8vw'>Claim with Penalty</OutlineBtn>
+            <ClaimsContainer>
+              <ClaimsRow>
+                <div>Date</div>
+                
+                <div>Date</div>
+                
+                <div>1000 t.</div>
+
+                <OverlayClaim>Claim</OverlayClaim>
+                
+                <OverlayOutline>Claim with Penalty</OverlayOutline>
+
+              </ClaimsRow>
+              <ClaimsRow>
+                <div>Date</div>
+                
+                <div>Date</div>
+                
+                <div>1000 t.</div>
+
+                <OverlayClaim>Claim</OverlayClaim>
+                
+                <OverlayOutline>Claim with Penalty</OverlayOutline>
+
+              </ClaimsRow>
+              <ClaimsRow>
+                <div>Date</div>
+                
+                <div>Date</div>
+                
+                <div>1000 t.</div>
+
+                <OverlayClaim>Claim</OverlayClaim>
+                
+                <OverlayOutline>Claim with Penalty</OverlayOutline>
+
+              </ClaimsRow>
+              <ClaimsRow>
+                <div>Date</div>
+                
+                <div>Date</div>
+                
+                <div>1000 t.</div>
+
+                <OverlayClaim>Claim</OverlayClaim>
+                
+                <OverlayOutline>Claim with Penalty</OverlayOutline>
+
+              </ClaimsRow>
+            </ClaimsContainer>
+            {/* <BlackBtn>Claim</BlackBtn> */}
+            {/* <OutlineBtn mt='0.8vw'>Claim with Penalty</OutlineBtn> */}
         </FarmsOverlayContent>
       </FarmsOverlay>
     

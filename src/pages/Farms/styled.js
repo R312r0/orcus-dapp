@@ -1,5 +1,43 @@
 import styled from 'styled-components';
 
+export const OverlayClaim = styled.button`
+
+font-size: 0.8vw;
+white-space: nowrap;
+padding: 0.25vw;
+border-radius: 0.225vw;
+background-color: #333;
+
+border: 1px solid #333;
+color: white;
+`
+export const OverlayOutline = styled.button`
+color: #333;
+background-color: white;
+border: 1px solid #333;
+border-radius: 0.225vw;
+font-size: 0.8vw;
+white-space: nowrap;
+padding: 0.25vw;
+`
+export const ClaimsRow = styled.div`
+  display: grid;
+  margin-top: 0.44vw;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.25vw;
+  grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+  color: grey;
+  font-size: 0.78vw;
+  align-items: center;
+  gap: 0.25vw;
+`
+export const ClaimsContainer = styled.div`
+  width: 100%;
+  height: 6.48vw;
+  overflow-y: scroll;
+`
+
+
 export const OverlayText = styled.div`
 
 
