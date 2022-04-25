@@ -1,40 +1,85 @@
 import styled from 'styled-components';
 
+
+export const ClaimsHead = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 4fr 2fr 2fr 4fr;
+  color: #828282;
+  font-size: 1vw;
+  margin-top: 1.24vw;
+  font-family: 'Poppins';
+  padding-left: 1.12vw;
+`
+
+
+export const VestedContaner = styled.div`
+  width: 32vw;  
+`
 export const OverlayClaim = styled.button`
-
-font-size: 0.8vw;
-white-space: nowrap;
-padding: 0.25vw;
-border-radius: 0.225vw;
-background-color: #333;
-
-border: 1px solid #333;
-color: white;
+  font-size: 1vw;
+  white-space: nowrap;
+  padding-top: 0.78vw;
+  padding-bottom: 0.78vw;
+  padding-right: 1vw;
+  padding-left: 1vw;
+  width: 7vw;
+  border-radius: 0.825vw;
+  background-color: #333;
+  border: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: white;
+  cursor: pointer;
+  transition: 0.1s;
+  &:hover{
+    background-color: black;
+  }
 `
 export const OverlayOutline = styled.button`
 color: #333;
 background-color: white;
 border: 1px solid #333;
-border-radius: 0.225vw;
-font-size: 0.8vw;
+border-radius: 0.825vw;
+font-size: 1vw;
 white-space: nowrap;
-padding: 0.25vw;
+padding: 0.78vw;
+display: flex;
+align-items: center;
+justify-content: space-around;
+cursor: pointer;
+&:hover {
+  transition: all 0.1s;
+  background: #F4BD50;
+}
 `
 export const ClaimsRow = styled.div`
   display: grid;
+  font-family: 'Poppins';
   margin-top: 0.44vw;
-  border-bottom: 1px solid #333;
-  padding-bottom: 0.25vw;
-  grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
-  color: grey;
-  font-size: 0.78vw;
+  grid-template-columns: 1fr 4fr 2fr 2fr 4fr;
+  color: #333;
+  font-size: 1vw;
   align-items: center;
   gap: 0.25vw;
+  padding: 0.75vw;
+  
+  ${props => props.last ?? 'border-bottom: 1px solid #F2F2F2'};
+  & div{
+    padding-left: 0.61vw;
+    text-align: left;
+  }
 `
 export const ClaimsContainer = styled.div`
   width: 100%;
-  height: 6.48vw;
-  overflow-y: scroll;
+  height: min-content;
+  border: 1px solid #F2F2F2;
+box-sizing: border-box;
+filter: drop-shadow(0px 4px 40px rgba(124, 122, 122, 0.16));
+border-radius: 1.024vw;
+  margin-top: 0.64vw;
+  
 `
 
 
@@ -128,9 +173,19 @@ export const FarmsOverlay = styled.div`
   align-items: center;
   justify-content: center;
 `
+export const PagesRow = styled.div`
+  padding-left: 35.5%;
+  padding-right: 35.5%;
+  margin-top: 1.24vw;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
 export const FarmsOverlayContent = styled.div`
-  width: 32vw;
-  height: 28vw;
+  width: 65vw;
+  height: min-content;
   background-color: white;
   border-radius: 1.042vw;
   box-shadow: 0px 4px 40px rgba(124, 122, 122, 0.16);
@@ -142,7 +197,7 @@ export const FarmsOverlayContent = styled.div`
 export const RewardsHead = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 2fr 8fr 1fr;
+  grid-template-columns: 1fr 9fr 1fr;
   align-items: center;
   height: 5vw;
 `

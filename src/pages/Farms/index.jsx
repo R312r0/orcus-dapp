@@ -32,6 +32,8 @@ import {
   OverlayClaim,
   OverlayOutline,
   ClaimsRow,
+  ClaimsHead,
+  PagesRow,
   VDiv,
 } from './styled';
 import {ethers} from "ethers";
@@ -40,7 +42,8 @@ import {useBlockChainContext} from "../../context/blockchain-context";
 import LogoIconBlack from "../../assets/icons/LogoIconBlack";
 import USDCIcon from "../../assets/icons/USDCIcon";
 import OUSDIcon from "../../assets/icons/OUSDIcon";
-
+import BriefcaseIcon from '../../assets/icons/BriefcaseIcon';
+import CrosshairsIcon from '../../assets/icons/CrosshairsIcon';
 import CalendarIcon from "../../assets/icons/CalendarIcon";
 import {formattedNum} from "../../utils";
 import RewardsIcon from '../../assets/icons/RewardsIcon';
@@ -48,6 +51,8 @@ import PlusIcon from '../../assets/icons/PlusIcon';
 import { OutlineBtn } from './farms-table-item/styled';
 import ORUIcon from '../../assets/icons/ORUIcon';
 import CloseIcon from '../../assets/icons/CloseIcon';
+import PageRightIcon from '../../assets/icons/PageRightIcon';
+import PageLeftIcon from '../../assets/icons/PageLeftIcon';
 
 const Array = [1, 2, 3];
 
@@ -144,58 +149,63 @@ const Farms = () => {
               <OverlayGreyText style={{display: 'flex', gap: '0.4vw', alignItems: 'center'}}>Until the full claim <CalendarIcon></CalendarIcon></OverlayGreyText>
               <OverlayGreyText><b>28</b> days left</OverlayGreyText>
             </div>
+            <ClaimsHead>
+              <div>#</div>
+              <div>Date</div>
+              <div>Vesting</div>
+              <div>Amount</div>
+            </ClaimsHead>
             <ClaimsContainer>
               <ClaimsRow>
-                <div>Date</div>
-                
-                <div>Date</div>
-                
-                <div>1000 t.</div>
-
-                <OverlayClaim>Claim</OverlayClaim>
-                
-                <OverlayOutline>Claim with Penalty</OverlayOutline>
-
+                <div>1</div>
+                <div>22.04.2022 - 25.04.2022</div>
+                <div>Vesting 1 </div>
+                <div>2256 ORU</div><div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
+                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
+                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
+                </div>
               </ClaimsRow>
               <ClaimsRow>
-                <div>Date</div>
-                
-                <div>Date</div>
-                
-                <div>1000 t.</div>
-
-                <OverlayClaim>Claim</OverlayClaim>
-                
-                <OverlayOutline>Claim with Penalty</OverlayOutline>
-
+                <div>1</div>
+                <div>22.04.2022 - 25.04.2022</div>
+                <div>Vesting 1 </div>
+                <div>2256 ORU</div>
+                <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
+                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
+                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
+                </div>
               </ClaimsRow>
               <ClaimsRow>
-                <div>Date</div>
-                
-                <div>Date</div>
-                
-                <div>1000 t.</div>
-
-                <OverlayClaim>Claim</OverlayClaim>
-                
-                <OverlayOutline>Claim with Penalty</OverlayOutline>
-
+                <div>1</div>
+                <div>22.04.2022 - 25.04.2022</div>
+                <div>Vesting 1 </div>
+                <div>2256 ORU</div>
+                <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
+                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
+                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
+                </div>
               </ClaimsRow>
-              <ClaimsRow>
-                <div>Date</div>
-                
-                <div>Date</div>
-                
-                <div>1000 t.</div>
-
-                <OverlayClaim>Claim</OverlayClaim>
-                
-                <OverlayOutline>Claim with Penalty</OverlayOutline>
-
+              <ClaimsRow last>
+                <div>1</div>
+                <div>22.04.2022 - 25.04.2022</div>
+                <div>Vesting 1 </div>
+                <div>2256 ORU</div>
+                <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
+                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
+                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
+                </div>
               </ClaimsRow>
+              
             </ClaimsContainer>
-            {/* <BlackBtn>Claim</BlackBtn> */}
-            {/* <OutlineBtn mt='0.8vw'>Claim with Penalty</OutlineBtn> */}
+            <PagesRow>
+              <PageLeftIcon></PageLeftIcon>
+              <div>1</div>
+              <div>2</div>
+              <div>...</div>
+              <div>15</div>
+              <PageRightIcon></PageRightIcon>
+            </PagesRow>
+            
         </FarmsOverlayContent>
       </FarmsOverlay>
     
