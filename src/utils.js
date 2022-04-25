@@ -96,3 +96,18 @@ export const formatFromDecimal = (value, decimals) => {
 export const formatAddress = (address) => {
     return `${address.slice(0, 5)}...${address.slice(-3)}`;
 };
+
+// Format date for chart
+export const formatDate = (date) => {
+    let d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}

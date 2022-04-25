@@ -45,7 +45,7 @@ import OUSDIcon from "../../assets/icons/OUSDIcon";
 import BriefcaseIcon from '../../assets/icons/BriefcaseIcon';
 import CrosshairsIcon from '../../assets/icons/CrosshairsIcon';
 import CalendarIcon from "../../assets/icons/CalendarIcon";
-import {formattedNum} from "../../utils";
+import {formattedNum, getDateDiff} from "../../utils";
 import RewardsIcon from '../../assets/icons/RewardsIcon';
 import PlusIcon from '../../assets/icons/PlusIcon';
 import { OutlineBtn } from './farms-table-item/styled';
@@ -53,16 +53,20 @@ import ORUIcon from '../../assets/icons/ORUIcon';
 import CloseIcon from '../../assets/icons/CloseIcon';
 import PageRightIcon from '../../assets/icons/PageRightIcon';
 import PageLeftIcon from '../../assets/icons/PageLeftIcon';
+import {useWeb3React} from "@web3-react/core";
 
 const Array = [1, 2, 3];
 
 const Farms = () => {
 
-  const {contracts, liquidity, account, signer} = useBlockChainContext();
+  const {account} = useWeb3React();
+  const {contracts, liquidity, signer} = useBlockChainContext();
   const [masterChefPools, setMasterChefPools] = useState(null);
   const [farmsTVL, setFarmsTVL] = useState(null);
   const [userRewards, setUserRewards] = useState(null);
   const [ isRewardsOverlay, setRewardsOverlay ] = useState(false);
+
+  const [poolId, setPoolId] = useState(0);
 
   useEffect(() => {
 
@@ -70,6 +74,14 @@ const Farms = () => {
         init();
     }
   }, [contracts, liquidity]);
+
+  useEffect(() => {
+
+    if (contracts && signer) {
+      getUserRewardInfo();
+    }
+
+  }, [signer, contracts])
 
   const init = async () => {
 
@@ -97,7 +109,17 @@ const Farms = () => {
 
   }
 
-  const openOverlay = ( ) => {
+  const getUserRewardInfo = async () => {
+
+    const {MASTER_CHEF} = contracts;
+    const info = await MASTER_CHEF.getUserInfo(account);
+
+    setUserRewards(info);
+
+  }
+
+  const openOverlay = ( id) => {
+    setPoolId(id);
     setRewardsOverlay(true)
   }
 
@@ -156,46 +178,34 @@ const Farms = () => {
               <div>Amount</div>
             </ClaimsHead>
             <ClaimsContainer>
-              <ClaimsRow>
-                <div>1</div>
-                <div>22.04.2022 - 25.04.2022</div>
-                <div>Vesting 1 </div>
-                <div>2256 ORU</div><div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
-                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
-                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
-                </div>
-              </ClaimsRow>
-              <ClaimsRow>
-                <div>1</div>
-                <div>22.04.2022 - 25.04.2022</div>
-                <div>Vesting 1 </div>
-                <div>2256 ORU</div>
-                <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
-                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
-                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
-                </div>
-              </ClaimsRow>
-              <ClaimsRow>
-                <div>1</div>
-                <div>22.04.2022 - 25.04.2022</div>
-                <div>Vesting 1 </div>
-                <div>2256 ORU</div>
-                <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
-                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
-                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
-                </div>
-              </ClaimsRow>
-              <ClaimsRow last>
-                <div>1</div>
-                <div>22.04.2022 - 25.04.2022</div>
-                <div>Vesting 1 </div>
-                <div>2256 ORU</div>
-                <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
-                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
-                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
-                </div>
-              </ClaimsRow>
-              
+              {userRewards && userRewards[poolId].vestings.length > 0 ?
+                  <>
+                    {
+
+                      userRewards[poolId]?.vestings.filter(item => +item.amount > 0).map((item, _ind) => {
+
+                        const currentTime = new Date()
+                        const endTime = new Date((+item.startTime - 345600) * 1000);
+                        const diff = getDateDiff(endTime, currentTime);
+
+                        return (
+                            <ClaimsRow>
+                              <div>{_ind + 1}</div>
+                              <div> {endTime.getTime() - currentTime.getTime() <= 0 ? "Vesting complete!" : diff.day + " days " + diff.hour +  " hours " + diff.minute + " minutes"}  </div>
+                              <div>Vesting {_ind + 1}</div>
+                              <div>{formattedNum(+item.amount / 1e18)} ORU</div>
+                              <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
+                                <OverlayClaim disabled={currentTime.getTime() > endTime.getTime()}  onClick={() => console.log("Working!")}><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
+                                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
+                              </div>
+                            </ClaimsRow>
+                        )
+                      })
+                    }
+                  </>
+                  :
+                  <h3 style={{marginLeft: "1vw"}}> You have no vestings on this pool! </h3>
+              }
             </ClaimsContainer>
             <PagesRow>
               <PageLeftIcon></PageLeftIcon>
@@ -225,82 +235,44 @@ const Farms = () => {
             <b>Rewards</b>
             Management
           </div>
-          <RewardsBlock>
-            <RewardsBlockContent>
-              <RewardsValues>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
-                <ORUIcon ratio={'1.192vw'}></ORUIcon>
-                  <div style={{flexDirection: 'column'}}>
-                    <RewardsCoinname>ORU</RewardsCoinname>
-                    <RewardsPercentage>50%</RewardsPercentage>
-                    </div>
-                </div>
-                <PlusIcon color="#C4C4C4"></PlusIcon>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
-                  <USDCIcon ratio={'1.192vw'}></USDCIcon>
-                  <div style={{flexDirection: 'column'}}>
-                  <RewardsCoinname>USDC</RewardsCoinname>
-                
-                  <RewardsPercentage>50%</RewardsPercentage>
-                </div>
-                </div>
-                
-              </RewardsValues>
-              
-              <ManageButton onClick={openOverlay}>Manage</ManageButton>
-            </RewardsBlockContent>
-          </RewardsBlock>
-          
-          <RewardsBlock>
-          <RewardsBlockContent>
-          <RewardsValues>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
-                <OUSDIcon ratio={'1.192vw'}></OUSDIcon>
-                <div style={{flexDirection: 'column'}}>
-                <RewardsCoinname>oUSD</RewardsCoinname>
-                
-                <RewardsPercentage>50%</RewardsPercentage>
-                </div>
-                </div>
-                <PlusIcon color="#C4C4C4"></PlusIcon>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
-                  <USDCIcon ratio={'1.192vw'}></USDCIcon>
-                  <div style={{flexDirection: 'column'}}>
-                  <RewardsCoinname>USDC</RewardsCoinname>
-                
-                  <RewardsPercentage>50%</RewardsPercentage>
-                </div>
-                </div>
-              </RewardsValues>
-              
-              <ManageButton onClick={openOverlay}>Manage</ManageButton>
-            </RewardsBlockContent>
-          </RewardsBlock>
-          
-          <RewardsBlock>
-          <RewardsBlockContent>
-          <RewardsValues>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
-                  <ORUIcon ratio={'1.192vw'}></ORUIcon>
-                  <div style={{flexDirection: 'column'}}>
-                  <RewardsCoinname>ORU</RewardsCoinname>
-                  <RewardsPercentage>50%</RewardsPercentage>
-                </div>
-                </div>
-                <PlusIcon color="#C4C4C4"></PlusIcon>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
-                  <USDCIcon ratio={'1.192vw'}></USDCIcon>
-                  <div style={{flexDirection: 'column'}}>
-                  <RewardsCoinname>USDC</RewardsCoinname>
-                  <RewardsPercentage>50%</RewardsPercentage>
-                </div>
-                </div>
-              </RewardsValues>
-              <ManageButton onClick={openOverlay}>Manage</ManageButton>
-            </RewardsBlockContent>
-          </RewardsBlock>
+
+          {userRewards ?
+            userRewards.map((item, _ind) => {
+
+              return (
+                  <RewardsBlock>
+                    <RewardsBlockContent>
+                      <RewardsValues>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
+                          <ORUIcon ratio={'1.192vw'}></ORUIcon>
+                          <div style={{flexDirection: 'column'}}>
+                            <RewardsCoinname>ORU</RewardsCoinname>
+                            <RewardsPercentage>50%</RewardsPercentage>
+                          </div>
+                        </div>
+                        <PlusIcon color="#C4C4C4"></PlusIcon>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
+                          <USDCIcon ratio={'1.192vw'}></USDCIcon>
+                          <div style={{flexDirection: 'column'}}>
+                            <RewardsCoinname>USDC</RewardsCoinname>
+
+                            <RewardsPercentage>50%</RewardsPercentage>
+                          </div>
+                        </div>
+
+                      </RewardsValues>
+
+                      <ManageButton onClick={() => openOverlay(_ind)}>Manage</ManageButton>
+                    </RewardsBlockContent>
+                  </RewardsBlock>
+              )
+
+            })
+              :
+              null
+          }
         </RewardsContainer>
-{/*         
+{/*
         <VDiv>
          <TotalHarvestedInfo>
            <span>Total harvested rewards </span>

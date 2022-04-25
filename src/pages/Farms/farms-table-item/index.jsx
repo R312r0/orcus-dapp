@@ -438,13 +438,10 @@ const FarmsTableItm = ({index, item}) => {
                 <ColorfulBlock width='10vw' bgColor='#DEC9FF'></ColorfulBlock>
                 <ColorfulBlock width='10vw' bgColor='#C1FCC9' ml='-4vw'></ColorfulBlock>
                 <ColorfulBlock width='8vw'  bgColor='#FEEFB5' ml='-4vw'></ColorfulBlock>
-                <ColorfulBtn>
+                <ColorfulBtn onClick={() => handleHarvest()}>
                   Start vesting
                 </ColorfulBtn>
                 </ColorfulBtnContainer>
-                {/* <VestRewardsBtn disabled={userInfo ? userInfo.pendingReward === 0 : true} onClick={() => handleHarvest()}>Start Vesting</VestRewardsBtn> */}
-                {/* <VestRewardsBtn onClick={() => handleClaim()}>Claim</VestRewardsBtn> */}
-                {/* <VestRewardsBtn onClick={() => handleClaimWithPenalty()}>Claim With Penalty</VestRewardsBtn> */}
               </HDiv>
             </VDiv>
           </ExpandedData>
