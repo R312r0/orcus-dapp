@@ -90,7 +90,7 @@ const OUSDTable = () => {
       <HDiv>
         <Text>Supply</Text>
         <Text>
-          <b>${ousdInfo ? formattedNum(ousdInfo.totalSupply) : 0}</b>
+          <b>{ousdInfo ? formattedNum(ousdInfo.totalSupply) : 0}</b>
         </Text>
       </HDiv>
       <Divider margin='0.938vw 0 0.781vw 0' />

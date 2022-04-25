@@ -86,7 +86,7 @@ const ORUTable = () => {
       <HDiv>
         <Text>Supply</Text>
         <Text>
-          <b>${oruInfo ? formattedNum(oruInfo.totalSupply) : 0}</b>
+          <b>{oruInfo ? formattedNum(oruInfo.totalSupply) : 0}</b>
         </Text>
       </HDiv>
       <Divider margin='0.938vw 0 0.781vw 0' />

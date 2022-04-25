@@ -122,7 +122,7 @@ export const ManageButton = styled.button`
   border-radius: 1.042vw;
   background-color: #FEEFB5;
   color: #333;
-  margin-top: 0.1vw;
+  margin-top: 1vw;
   cursor: pointer;
   padding: 0.7vw;
   transition: 0.25s;
