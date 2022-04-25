@@ -227,14 +227,19 @@ const Farms = () => {
 
                       userRewards[poolId]?.vestings.map((item, _ind) => {
 
+
+
                         const amt = item.amount
                         const currentTime = new Date()
-                        const endTime = new Date((+item.startTime - 345600) * 1000);
-                        const diff = getDateDiff(endTime, currentTime);
+
+
+                        const endTime = new Date((+item.startTime + (604800 * 3)) * 1000);
+                        const diff = getDateDiff(currentTime,endTime);
 
 
                         if (amt > 0) {
-                          console.log(currentTime.getTime() > endTime.getTime());
+                          console.log(+item.startTime)
+                          console.log(diff);
                         }
 
 
@@ -242,10 +247,10 @@ const Farms = () => {
                             <>
                               {amt > 0 ?
                                     <ClaimsRow>
-                                      <div> {endTime.getTime() - currentTime.getTime() <= 0 ? "Vesting complete!" : diff.day + " days " + diff.hour +  " hours " + diff.minute + " minutes"}  </div>
+                                      <div> {currentTime.getTime() > endTime.getTime()  ? "Vesting complete!" : diff.day + " days " + diff.hour +  " hours " + diff.minute + " minutes"}  </div>
                                       <div>{formattedNum(+item.amount / 1e18)} ORU</div>
                                       <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
-                                        <OverlayClaim disabled={!(currentTime.getTime() > endTime.getTime())}  onClick={() => claimReward(_ind)}><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
+                                        <OverlayClaim disabled={(currentTime.getTime() < endTime.getTime())}  onClick={() => claimReward(_ind)}><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
                                         <OverlayOutline disabled={currentTime.getTime() > endTime.getTime()} onClick={() => claimWithPenalty(_ind)} ><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
                                       </div>
                                     </ClaimsRow>

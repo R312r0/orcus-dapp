@@ -59,6 +59,8 @@ export const toK = (num) => {
 export const getDateDiff = (date1, date2) => {
     const diff = new Date(date2.getTime() - date1.getTime());
 
+    console.log(diff)
+
     return {
         year: diff.getUTCFullYear() - 1970,
         month: diff.getUTCMonth(),
