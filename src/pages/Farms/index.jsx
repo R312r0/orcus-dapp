@@ -180,9 +180,10 @@ const Farms = () => {
                   <RewardsPercentage>50%</RewardsPercentage>
                 </div>
                 </div>
-
+                
               </RewardsValues>
               
+              <RewardsCoinname>1000 <b>ORU</b></RewardsCoinname>
               <ManageButton onClick={openOverlay}>Manage</ManageButton>
             </RewardsBlockContent>
           </RewardsBlock>
@@ -209,6 +210,7 @@ const Farms = () => {
                 </div>
               </RewardsValues>
               
+              <RewardsCoinname>1000 <b>ORU</b></RewardsCoinname>
               <ManageButton onClick={openOverlay}>Manage</ManageButton>
             </RewardsBlockContent>
           </RewardsBlock>
@@ -220,7 +222,6 @@ const Farms = () => {
                   <ORUIcon ratio={'1.192vw'}></ORUIcon>
                   <div style={{flexDirection: 'column'}}>
                   <RewardsCoinname>ORU</RewardsCoinname>
-                  
                   <RewardsPercentage>50%</RewardsPercentage>
                 </div>
                 </div>
@@ -229,12 +230,11 @@ const Farms = () => {
                   <USDCIcon ratio={'1.192vw'}></USDCIcon>
                   <div style={{flexDirection: 'column'}}>
                   <RewardsCoinname>USDC</RewardsCoinname>
-                
                   <RewardsPercentage>50%</RewardsPercentage>
                 </div>
                 </div>
               </RewardsValues>
-              
+              <RewardsCoinname>1000 <b>ORU</b></RewardsCoinname>
               <ManageButton onClick={openOverlay}>Manage</ManageButton>
             </RewardsBlockContent>
           </RewardsBlock>

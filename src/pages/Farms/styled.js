@@ -122,7 +122,7 @@ export const ManageButton = styled.button`
   border-radius: 1.042vw;
   background-color: #FEEFB5;
   color: #333;
-  margin-top: 1.05vw;
+  margin-top: 0.1vw;
   cursor: pointer;
   padding: 0.7vw;
   transition: 0.25s;
@@ -137,6 +137,7 @@ export const RewardsBlock = styled.div`
 export const RewardsBlockContent = styled.div`
   padding: 0.8vw;
   display: grid;
+  height: auto;
   grid-direction: column;
   align-items: center;
 `
@@ -157,8 +158,7 @@ color: #828282;
 `
 export const RewardsContainer = styled.div`
   padding: 0.7vw;
-  height: 9.78vw;
-
+  height: min-content;
   width: 57.75vw;
   margin-right: 2.8vw;
   border-radius: 1.042vw;
