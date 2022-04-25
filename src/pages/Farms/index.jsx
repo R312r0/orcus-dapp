@@ -63,6 +63,9 @@ const Farms = () => {
   const [farmsTVL, setFarmsTVL] = useState(null);
   const [userRewards, setUserRewards] = useState(null);
   const [ isRewardsOverlay, setRewardsOverlay ] = useState(false);
+  const [ vestedItems, setVestedItems ] = useState([]);
+  const [ selectedVestedItems, setSelectedVestedItems ] = useState([]);
+  const [pageIndex, setPageIndex] = useState(0);
 
   useEffect(() => {
 
@@ -70,6 +73,60 @@ const Farms = () => {
         init();
     }
   }, [contracts, liquidity]);
+
+  useEffect(() => {
+    
+    // <div>{item.idx}</div>
+    //               <div>{item.timeLeft}</div>
+    //               <div>{item.name}</div>
+    //               <div>{item.amount} ORU</div>
+
+    const testVested = [
+      {idx: 0, timeLeft: '28 days 16 hours 12 minutes', name: 'Vested', amount: '1000'},
+      {idx: 1, timeLeft: '28 days 16 hours 12 minutes', name: 'Vested', amount: '1000'},
+      {idx: 2, timeLeft: '28 days 16 hours 12 minutes', name: 'Vested', amount: '1000'},
+      {idx: 3, timeLeft: '28 days 16 hours 12 minutes', name: 'Vested', amount: '1000'},
+      {idx: 4, timeLeft: '28 days 16 hours 12 minutes', name: 'Vested', amount: '1000'},
+      {idx: 5, timeLeft: '28 days 16 hours 12 minutes', name: 'Vested', amount: '1000'},
+      {idx: 6, timeLeft: '28 days 16 hours 12 minutes', name: 'Vested', amount: '1000'},
+    ]
+
+    const select = [ testVested[0], testVested[1],testVested[2],testVested[3] ];
+    setVestedItems(testVested);
+    setSelectedVestedItems(select)
+  }, [])
+
+  const nextPage = (event) => {
+    event.preventDefault();
+    let idx = pageIndex + 1;
+    setPageIndex(idx);
+    updateSelected(idx);
+  }
+
+  const prevPage = (event) => {
+    event.preventDefault();
+    let idx = pageIndex
+    idx = idx - 1;
+    if(idx < 0){
+      return setPageIndex(0);
+    }
+    setPageIndex(pageIndex - 1);
+    updateSelected(idx);
+  }
+
+  const updateSelected = (idx) => {
+    let arr = [];
+    let start = idx * 4;
+    let end = start + 4;
+    for( let i = start; i < end; i++){
+      if(vestedItems[i] === undefined){
+        break;
+      }
+      arr.push(vestedItems[i]);
+    }
+    setSelectedVestedItems(arr);
+    // setSelectedVestedItems([ vestedItems[4 * idx], vestedItems[(4 * idx) + 1], vestedItems[(4 * idx) + 2], vestedItems[(4 * idx) + 3], ])
+  }
 
   const init = async () => {
 
@@ -151,60 +208,44 @@ const Farms = () => {
             </div>
             <ClaimsHead>
               <div>#</div>
-              <div>Date</div>
+              <div>Time left</div>
               <div>Vesting</div>
               <div>Amount</div>
             </ClaimsHead>
             <ClaimsContainer>
-              <ClaimsRow>
-                <div>1</div>
-                <div>22.04.2022 - 25.04.2022</div>
-                <div>Vesting 1 </div>
-                <div>2256 ORU</div><div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
-                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
-                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
-                </div>
-              </ClaimsRow>
-              <ClaimsRow>
-                <div>1</div>
-                <div>22.04.2022 - 25.04.2022</div>
-                <div>Vesting 1 </div>
-                <div>2256 ORU</div>
-                <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
-                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
-                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
-                </div>
-              </ClaimsRow>
-              <ClaimsRow>
-                <div>1</div>
-                <div>22.04.2022 - 25.04.2022</div>
-                <div>Vesting 1 </div>
-                <div>2256 ORU</div>
-                <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
-                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
-                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
-                </div>
-              </ClaimsRow>
-              <ClaimsRow last>
-                <div>1</div>
-                <div>22.04.2022 - 25.04.2022</div>
-                <div>Vesting 1 </div>
-                <div>2256 ORU</div>
-                <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
-                <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
-                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
-                </div>
-              </ClaimsRow>
+              { selectedVestedItems.map( (item ) => {
+                  return( <ClaimsRow>
+                  <div>{item.idx}</div>
+                  <div>{item.timeLeft}</div>
+                  <div>{item.name}</div>
+                  <div>{item.amount} ORU</div>
+                  <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
+                    <OverlayClaim><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
+                    <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
+                  </div>
+                </ClaimsRow>)
+              } )}
               
             </ClaimsContainer>
+
+            { vestedItems.length > 4 ? 
             <PagesRow>
-              <PageLeftIcon></PageLeftIcon>
+              <div onClick={prevPage}>
+              <PageLeftIcon ></PageLeftIcon>
+              </div>
               <div>1</div>
-              <div>2</div>
-              <div>...</div>
-              <div>15</div>
-              <PageRightIcon></PageRightIcon>
+              {
+                (vestedItems.length / 4 > 12 ) ? <div>...</div> : <></>
+              }
+              {
+                Math.round(vestedItems.length / 4)
+              }
+              <div onClick={nextPage}>
+              <PageRightIcon ></PageRightIcon>
+              </div>
+              
             </PagesRow>
+             : <></> } 
             
         </FarmsOverlayContent>
       </FarmsOverlay>
