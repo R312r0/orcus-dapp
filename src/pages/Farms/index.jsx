@@ -183,7 +183,7 @@ const Farms = () => {
                 
               </RewardsValues>
               
-              <RewardsCoinname>1000 <b>ORU</b></RewardsCoinname>
+              <RewardsPercentage>1000 <b>ORU</b></RewardsPercentage>
               <ManageButton onClick={openOverlay}>Manage</ManageButton>
             </RewardsBlockContent>
           </RewardsBlock>
@@ -210,7 +210,7 @@ const Farms = () => {
                 </div>
               </RewardsValues>
               
-              <RewardsCoinname>1000 <b>ORU</b></RewardsCoinname>
+              <RewardsPercentage>1000 <b>ORU</b></RewardsPercentage>
               <ManageButton onClick={openOverlay}>Manage</ManageButton>
             </RewardsBlockContent>
           </RewardsBlock>
@@ -234,7 +234,7 @@ const Farms = () => {
                 </div>
                 </div>
               </RewardsValues>
-              <RewardsCoinname>1000 <b>ORU</b></RewardsCoinname>
+              <RewardsPercentage>1000 <b>ORU</b></RewardsPercentage>
               <ManageButton onClick={openOverlay}>Manage</ManageButton>
             </RewardsBlockContent>
           </RewardsBlock>
