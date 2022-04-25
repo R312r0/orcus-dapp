@@ -67,6 +67,7 @@ const Farms = () => {
   const [ isRewardsOverlay, setRewardsOverlay ] = useState(false);
 
   const [poolId, setPoolId] = useState(0);
+  const [vestedAmt, setVestedAmt] = useState(0);
 
   useEffect(() => {
 
@@ -82,6 +83,14 @@ const Farms = () => {
     }
 
   }, [signer, contracts])
+
+  useEffect(() => {
+
+    if (userRewards && isRewardsOverlay) {
+      getVestedAmt();
+    }
+
+  }, [userRewards, isRewardsOverlay])
 
   const init = async () => {
 
@@ -106,13 +115,22 @@ const Farms = () => {
         {name: "oUSD/USDC", lpToken: OUSD_USDC, liquidity: liquidity.ousdUsdcLiq,token0Icon: <OUSDIcon/>, token1Icon: <USDCIcon/>},
         {name: "oUSD/ORU", lpToken: OUSD_ORU, liquidity:  liquidity.oruOusdLiq,token0Icon: <OUSDIcon/>, token1Icon: <LogoIconBlack/>},
     ])
+  }
 
+  const getVestedAmt = () => {
+    let reward = 0;
+    userRewards[poolId].vestings.forEach(item => {
+      reward += +(item.amount) / 1e18
+    })
+
+    setVestedAmt(reward);
   }
 
   const getUserRewardInfo = async () => {
 
     const {MASTER_CHEF} = contracts;
     const info = await MASTER_CHEF.getUserInfo(account);
+
 
     setUserRewards(info);
 
@@ -128,6 +146,37 @@ const Farms = () => {
     setRewardsOverlay(false)
   }
 
+  const claimReward = async (vid) => {
+
+    const {MASTER_CHEF} = contracts;
+
+    try {
+      const tx = await MASTER_CHEF.connect(signer).claim(poolId, vid)
+      await tx.wait();
+
+    }
+    catch (e) {
+      console.log(e.message);
+    }
+
+  }
+
+  const claimWithPenalty = async (vid) => {
+    const {MASTER_CHEF} = contracts;
+
+    try {
+        const tx = await MASTER_CHEF.connect(signer).claimWithPenalty(poolId, vid)
+        await tx.wait();
+    }
+    catch (e) {
+      console.log(e.message);
+    }
+
+  }
+
+  console.log("vested amt")
+  console.log(vestedAmt)
+
   return (
     <>
     {isRewardsOverlay ? <>
@@ -139,7 +188,7 @@ const Farms = () => {
               </PurpleRewards>
               <div style={{display: 'block', paddingLeft: '0.8vw'}}>
                 <Text>Vested Rewards</Text><br/>
-                <OverlayValue>356.69 ORU</OverlayValue>
+                <OverlayValue> {formattedNum(vestedAmt)} ORU</OverlayValue>
                 </div>
                 <div style={{display: 'flex', alignItems: 'top', height: '100%', cursor: 'pointer', justifyContent: 'flex-end'}}>
                   <div  onClick={closeOverlay}>
@@ -149,32 +198,26 @@ const Farms = () => {
             </RewardsHead>
             <div style={{display: 'flex', marginTop: '2vw', alignItems: 'center', justifyContent: 'space-between'}}>
               <div style={{display: 'flex', alignItems: 'center', gap: '0.8vw'}}>
-                <ORUIcon></ORUIcon>
+                {MASTER_CHEF_POOLS[poolId].token0Icon}
                 <div style={{flexDirection:'column'}}>
-                <OverlayText>ORU</OverlayText>
+                <OverlayText>{MASTER_CHEF_POOLS[poolId].token0}</OverlayText>
                 
                 <OverlayGreyText fs='12px'>50%</OverlayGreyText>
                 </div>
               </div>
               <PlusIcon color='#C4C4C4'></PlusIcon>
               <div style={{display: 'flex', alignItems: 'center', gap: '0.8vw'}}>
-                <USDCIcon></USDCIcon>
+                {MASTER_CHEF_POOLS[poolId].token1Icon}
                 <div style={{flexDirection:'column'}}>
-                <OverlayText>USDC</OverlayText>
+                <OverlayText>{MASTER_CHEF_POOLS[poolId].token1}</OverlayText>
                 
                 <OverlayGreyText fs='12px'>50%</OverlayGreyText>
                 </div>
               </div>
             </div>
             <HDivider style={{marginTop: '0.8vw'}}></HDivider>
-            <div style={{display: 'flex',marginTop: '0.8vw', alignItems: 'center', justifyContent: 'space-between'}}>
-              <OverlayGreyText style={{display: 'flex', gap: '0.4vw', alignItems: 'center'}}>Until the full claim <CalendarIcon></CalendarIcon></OverlayGreyText>
-              <OverlayGreyText><b>28</b> days left</OverlayGreyText>
-            </div>
             <ClaimsHead>
-              <div>#</div>
-              <div>Date</div>
-              <div>Vesting</div>
+              <div>Time left</div>
               <div>Amount</div>
             </ClaimsHead>
             <ClaimsContainer>
@@ -182,23 +225,35 @@ const Farms = () => {
                   <>
                     {
 
-                      userRewards[poolId]?.vestings.filter(item => +item.amount > 0).map((item, _ind) => {
+                      userRewards[poolId]?.vestings.map((item, _ind) => {
 
+                        const amt = item.amount
                         const currentTime = new Date()
                         const endTime = new Date((+item.startTime - 345600) * 1000);
                         const diff = getDateDiff(endTime, currentTime);
 
+
+                        if (amt > 0) {
+                          console.log(currentTime.getTime() > endTime.getTime());
+                        }
+
+
                         return (
-                            <ClaimsRow>
-                              <div>{_ind + 1}</div>
-                              <div> {endTime.getTime() - currentTime.getTime() <= 0 ? "Vesting complete!" : diff.day + " days " + diff.hour +  " hours " + diff.minute + " minutes"}  </div>
-                              <div>Vesting {_ind + 1}</div>
-                              <div>{formattedNum(+item.amount / 1e18)} ORU</div>
-                              <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
-                                <OverlayClaim disabled={currentTime.getTime() > endTime.getTime()}  onClick={() => console.log("Working!")}><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
-                                <OverlayOutline><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
-                              </div>
-                            </ClaimsRow>
+                            <>
+                              {amt > 0 ?
+                                    <ClaimsRow>
+                                      <div> {endTime.getTime() - currentTime.getTime() <= 0 ? "Vesting complete!" : diff.day + " days " + diff.hour +  " hours " + diff.minute + " minutes"}  </div>
+                                      <div>{formattedNum(+item.amount / 1e18)} ORU</div>
+                                      <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
+                                        <OverlayClaim disabled={!(currentTime.getTime() > endTime.getTime())}  onClick={() => claimReward(_ind)}><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
+                                        <OverlayOutline disabled={currentTime.getTime() > endTime.getTime()} onClick={() => claimWithPenalty(_ind)} ><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
+                                      </div>
+                                    </ClaimsRow>
+                                    :
+                                    null
+                              }
+                            </>
+
                         )
                       })
                     }
@@ -207,15 +262,6 @@ const Farms = () => {
                   <h3 style={{marginLeft: "1vw"}}> You have no vestings on this pool! </h3>
               }
             </ClaimsContainer>
-            <PagesRow>
-              <PageLeftIcon></PageLeftIcon>
-              <div>1</div>
-              <div>2</div>
-              <div>...</div>
-              <div>15</div>
-              <PageRightIcon></PageRightIcon>
-            </PagesRow>
-            
         </FarmsOverlayContent>
       </FarmsOverlay>
     
@@ -244,17 +290,17 @@ const Farms = () => {
                     <RewardsBlockContent>
                       <RewardsValues>
                         <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
-                          <ORUIcon ratio={'1.192vw'}></ORUIcon>
+                          {MASTER_CHEF_POOLS[_ind].token0Icon}
                           <div style={{flexDirection: 'column'}}>
-                            <RewardsCoinname>ORU</RewardsCoinname>
+                            <RewardsCoinname>{MASTER_CHEF_POOLS[_ind].token0}</RewardsCoinname>
                             <RewardsPercentage>50%</RewardsPercentage>
                           </div>
                         </div>
                         <PlusIcon color="#C4C4C4"></PlusIcon>
                         <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
-                          <USDCIcon ratio={'1.192vw'}></USDCIcon>
+                          {MASTER_CHEF_POOLS[_ind].token1Icon}
                           <div style={{flexDirection: 'column'}}>
-                            <RewardsCoinname>USDC</RewardsCoinname>
+                            <RewardsCoinname>{MASTER_CHEF_POOLS[_ind].token1}</RewardsCoinname>
 
                             <RewardsPercentage>50%</RewardsPercentage>
                           </div>

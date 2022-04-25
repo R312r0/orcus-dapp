@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const ClaimsHead = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 4fr 2fr 2fr 4fr;
+  grid-template-columns: 4fr 2fr 4fr;
   color: #828282;
   font-size: 1vw;
   margin-top: 1.24vw;
@@ -25,12 +25,13 @@ export const OverlayClaim = styled.button`
   padding-left: 1vw;
   width: 7vw;
   border-radius: 0.825vw;
-  background-color: #333;
-  border: 1px solid #333;
+  background-color: ${props => props.disabled ? "#969696" : "#333"};
+  border: 1px solid ${props => props.disabled ? "#969696" : "#333"};
   display: flex;
   align-items: center;
   justify-content: space-around;
-  color: white;
+  pointer-events: ${props => props.disabled ? "none" : "all"};
+  color: ${props => props.disabled ? "#666666;" : "white"};
   cursor: pointer;
   transition: 0.1s;
   &:hover{
@@ -58,7 +59,7 @@ export const ClaimsRow = styled.div`
   display: grid;
   font-family: 'Poppins';
   margin-top: 0.44vw;
-  grid-template-columns: 1fr 4fr 2fr 2fr 4fr;
+  grid-template-columns: 4fr 2fr 4fr;
   color: #333;
   font-size: 1vw;
   align-items: center;

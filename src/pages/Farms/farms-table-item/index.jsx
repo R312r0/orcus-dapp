@@ -208,32 +208,6 @@ const FarmsTableItm = ({index, item}) => {
     }
   }
 
-  const handleClaim = async () => {
-    const {MASTER_CHEF} = contracts;
-
-    try {
-      const tx = await MASTER_CHEF.connect(signer).claim(index, userInfo.currentVestingSlot);
-      await tx.wait();
-      await getUserInfo();
-    }
-    catch (e) {
-      alert("Vesting does not pass yet!");
-    }
-  }
-
-  const handleClaimWithPenalty = async () => {
-    const {MASTER_CHEF} = contracts;
-
-    try {
-      const tx = await MASTER_CHEF.connect(signer).claimWithPenalty(index, userInfo.currentVestingSlot);
-      await tx.wait();
-      await getUserInfo();
-    }
-    catch (e) {
-      console.log(e.message);
-    }
-  }
-
   return (
     <FarmsTableItem isExpanded={expanded}>
       <MainData>
