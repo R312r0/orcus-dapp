@@ -8,6 +8,7 @@ import DepositingIcon from '../../../assets/icons/DepositingIcon';
 import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
 import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 import OUSDIcon from '../../../assets/icons/OUSDIcon';
+import arbABI from '../../../abis/Arbitrager.json';
 import {
   ExpandBtn,
   ExpandedData,
@@ -168,9 +169,6 @@ const FarmsTableItm = ({index, item}) => {
   const handleDeposit = async () => {
 
     const {MASTER_CHEF} = contracts;
-
-    console.log(depositInput);
-
     try {
       const tx = await MASTER_CHEF.connect(signer).deposit(index, ethers.BigNumber.from(fromExponential(depositInput)), account);
       await tx.wait();

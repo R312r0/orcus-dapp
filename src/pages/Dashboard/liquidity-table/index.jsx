@@ -1,10 +1,43 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import OwnedLiqIcon from '../../../assets/icons/OwnedLiqIcon';
 import RentedLiqIcon from '../../../assets/icons/RentedLiqIcon';
 import { HDiv, IconWrapper, LiquidityTableWrapper, Text, VDiv } from './styled';
+import {useBlockChainContext} from "../../../context/blockchain-context";
+import {CONTRACT_ADDRESSES} from "../../../constants";
+import {formattedNum} from "../../../utils";
 
 const LiquidityTable = () => {
+
+  const { contracts, liquidity } = useBlockChainContext()
+
+  const [protocolLiquidity, setProtocolLiquidity] = useState(null)
+
+  useEffect(() => {
+
+    if (contracts && liquidity) {
+      getProtocolLiquidity()
+    }
+
+  }, [contracts, liquidity])
+
+  const getProtocolLiquidity = async () => {
+
+    const {ORU_USDC} = contracts;
+
+    const lpTotalSupply = +(await ORU_USDC.totalSupply()) / 1e18;
+    const lpPrice = liquidity.oruUsdcLiq / lpTotalSupply;
+
+    const protocolOwned = (+(await ORU_USDC.balanceOf(CONTRACT_ADDRESSES.TREASURY)) / 1e18) * lpPrice;
+    const protocolRented = (+(await ORU_USDC.balanceOf(CONTRACT_ADDRESSES.DUSTBIN)) / 1e18) * lpPrice;
+
+    setProtocolLiquidity({
+      protocolOwned,
+      protocolRented
+    })
+
+  }
+
   return (
     <LiquidityTableWrapper>
       <HDiv>
@@ -14,7 +47,7 @@ const LiquidityTable = () => {
         <VDiv>
           <Text>Protocol Owned Liquidity</Text>
           <Text mt='0.156vw'>
-            <b>Not calculated yet!</b>
+            <b>${protocolLiquidity ? formattedNum(protocolLiquidity.protocolOwned) : 0}</b>
           </Text>
         </VDiv>
       </HDiv>
@@ -25,7 +58,7 @@ const LiquidityTable = () => {
         <VDiv>
           <Text>Protocol Rented Liquidity</Text>
           <Text mt='0.156vw'>
-            <b>Not calculated yet!</b>
+            <b>${protocolLiquidity ? formattedNum(protocolLiquidity.protocolRented) : 0}</b>
           </Text>
         </VDiv>
       </HDiv>

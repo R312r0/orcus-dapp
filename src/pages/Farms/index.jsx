@@ -233,15 +233,8 @@ const Farms = () => {
                         const currentTime = new Date()
 
 
-                        const endTime = new Date((+item.startTime + (604800 * 3)) * 1000);
+                        const endTime = new Date((+item.startTime + (604800 + (604800 * (4 - 1)))) * 1000);
                         const diff = getDateDiff(currentTime,endTime);
-
-
-                        if (amt > 0) {
-                          console.log(+item.startTime)
-                          console.log(diff);
-                        }
-
 
                         return (
                             <>

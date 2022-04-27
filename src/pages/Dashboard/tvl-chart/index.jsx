@@ -52,7 +52,7 @@ const TVLChart = ({protocolTVL}) => {
     const getData = async () => {
 
         try {
-            const {data: tvlCharts} = JSON.parse((await (await fetch("https://app.gc.subsquid.io/beta/orcus/1/graphql", requestOptions)).text()))
+            const {data: tvlCharts} = JSON.parse((await (await fetch("https://app.gc.subsquid.io/beta/orcus/main/graphql", requestOptions)).text()))
             const chart =  tvlCharts.tvlCharts.map(item => {
                 return {
                     time: formatDate(new Date(+item.currentTimestamp)),
