@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const AddLiquidityBtn = styled.button`
   padding: 0.65vw 0.8vw;
-  border: 1px solid #333333;
+  border: 1px solid #595959;
   display: flex;
   gap: 0.4vw;
   align-items: center;
@@ -12,7 +12,30 @@ export const AddLiquidityBtn = styled.button`
   white-space: nowrap;
   background: transparent;
   cursor: pointer;
-  
+  color: #595959;
+  transition: 0.1s;
+  & svg{
+    fill: #595959 !important;
+    transition: 0.1s;
+    color: #595959 !important;
+  }
+  & path{
+    fill: #595959 !important;
+    color: #595959 !important;
+    transition: 0.1s;
+  }
+  &:hover{
+    color: #333;
+    border: 1px solid #333;
+  }
+  &:hover svg{
+    fill: #333 !important;
+    color: #333 !important;
+  }
+  &:hover path{
+    fill: #333 !important;
+    color: #333 !important;
+  }
 `
 export const FarmsColumn = styled.div`
   display: flex;
@@ -24,6 +47,8 @@ export const FarmsColumn = styled.div`
 export const Scroll = styled.div`
   overflow: scroll;
 `
+
+
 
 export const IconWrapper = styled.div`
   margin-left: ${(props) => props.ml};
@@ -73,6 +98,10 @@ export const MainData = styled.div`
   padding: 2.188vw 2.708vw 2.396vw 2.344vw;
   overflow: hidden;
   background: linear-gradient(90.51deg, rgba(129, 137, 253, 0.22) -1.37%, rgba(206, 152, 249, 0.55) 98.98%);
+  transition: background 1000ms linear;
+  &:hover{
+    background-color: rgba(206, 152, 249, 0.55);
+  }
 `;
 
 export const ClaimsHead = styled.div`

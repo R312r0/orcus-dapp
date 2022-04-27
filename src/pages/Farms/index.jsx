@@ -435,9 +435,7 @@ const Farms = () => {
           </Text>
           </FarmsColumn>
           <FarmsColumn center>
-            <AddLiquidityBtn>Add Liquidity 
-            <ArrowTopRightIcon></ArrowTopRightIcon>
-
+            <AddLiquidityBtn>Add Liquidity<ArrowTopRightIcon></ArrowTopRightIcon>
             </AddLiquidityBtn>
           </FarmsColumn>
 
