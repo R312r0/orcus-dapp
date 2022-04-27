@@ -18,6 +18,7 @@ import {
   TotalHarvestedInfo,
   RewardsHead,
   RewardsContainer,
+  Scroll,
   PurpleRewards,
   RewardsBlock,
   RewardsBlockContent,
@@ -339,6 +340,7 @@ const Farms = () => {
          <RewardBtn>Rewards vesting</RewardBtn>
         </VDiv> */}
       </HDiv>
+      <Scroll>
       <HDiv mt='2.083vw'>
         <Text ml='3.802vw'>Asset</Text>
         <Text ml='18.177vw'>Rewards</Text>
@@ -443,7 +445,9 @@ const Farms = () => {
       </MainData>
       </FarmsTableItem>
       </FarmsTableWrapper>
+      </Scroll>
     </FarmsWrapper>
+    
     </>
   );
 };

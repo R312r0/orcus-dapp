@@ -21,6 +21,10 @@ export const FarmsColumn = styled.div`
   ${props => props.center ? ' justify-content: center;' : ''}
 `
 
+export const Scroll = styled.div`
+  overflow: scroll;
+`
+
 export const IconWrapper = styled.div`
   margin-left: ${(props) => props.ml};
   justify-content: center;
