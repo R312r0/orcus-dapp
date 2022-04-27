@@ -36,13 +36,13 @@ export const Text = styled.span`
 `;
 
 export const PercentageContainer = styled.div`
-  padding: 0.729vw 1.563vw 0.521vw 0;
+  padding: 0.729vw 1.563vw 2.521vw 1.563vw;
   background: #e4ddef;
   border-radius: 1.042vw;
   height: 3.125vw;
-  width: 12.135vw;
   display: flex;
   justify-content: flex-end;
+  text-align: center;
 `;
 
 export const StakeInputWrapper = styled.div`
