@@ -211,7 +211,6 @@ const FarmsTableItm = ({index, item}) => {
   return (
     <FarmsTableItem isExpanded={expanded}>
       <MainData>
-        {/* <HDiv alignItems='center'> */}
         <FarmsRow>
           <FarmsColumn>
           <IconWrapper>
@@ -234,7 +233,7 @@ const FarmsTableItm = ({index, item}) => {
           </FarmsColumn>
           <FarmsColumn center> 
           <IconWrapper 
-          // ml='8.698vw'
+
           >
             <LogoIconBlack />
           </IconWrapper>
@@ -244,15 +243,13 @@ const FarmsTableItm = ({index, item}) => {
           </FarmsColumn>
           <FarmsColumn center>
           <Text
-          //  ml='7.813vw' 
-          //  minW='12.552vw'
            >
             <b>${poolInfo && userInfo ? formattedNum(poolInfo.lpPrice * (userInfo.depositedAmt / 1e18)) : 0}</b>
           </Text>
           </FarmsColumn>
           <FarmsColumn center>
           <Text 
-          // minW='11.979vw'
+
           >
             <b>${poolInfo ? formattedNum(poolInfo?.tvl) : 0}</b>
           </Text>
@@ -260,7 +257,7 @@ const FarmsTableItm = ({index, item}) => {
           <FarmsColumn center>
           <Text>APR</Text>
           <Text ml='0.885vw' 
-          // minW='11vw'
+
           >
             <b>{poolInfo ? formattedNum(poolInfo.apr) : 0}%</b>
           </Text>
@@ -273,7 +270,7 @@ const FarmsTableItm = ({index, item}) => {
             <KeyboardArrowDownIcon />
           </ExpandBtn>
           </FarmsColumn>
-        {/* </HDiv> */}
+
         </FarmsRow>
       </MainData>
       {expanded ? (
@@ -340,10 +337,6 @@ const FarmsTableItm = ({index, item}) => {
                   <b>Remove Liquidity</b>
                   </Text>
                 </OutlineBtn>
-{/*                 
-                <Text ml='1.875vw'>
-                  
-                </Text> */}
               </HDiv>
             </VDiv>
             <VDiv w='33.021vw' ml='10.260vw'>

@@ -1,5 +1,75 @@
 import styled from 'styled-components';
 
+export const AddLiquidityBtn = styled.button`
+  padding: 0.65vw 0.8vw;
+  border: 1px solid #333333;
+  display: flex;
+  gap: 0.4vw;
+  align-items: center;
+  font-size: 1vw;
+  box-sizing: border-box;
+  border-radius: 0.6vw;
+  white-space: nowrap;
+  background: transparent;
+  cursor: pointer;
+  
+`
+export const FarmsColumn = styled.div`
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+  ${props => props.center ? ' justify-content: center;' : ''}
+`
+
+export const IconWrapper = styled.div`
+  margin-left: ${(props) => props.ml};
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: ${(props) => props.h ?? '2.292vw'};
+  width: ${(props) => props.w ?? '3.021vw'};
+
+  svg {
+    fill: #000;
+  }
+`;
+export const Text2 = styled.span`
+  margin-right: ${(props) => props.mr};
+  margin-left: ${(props) => props.ml};
+  min-width: ${(props) => props.minW};
+  font-family: 'Poppins';
+  font-weight: 300;
+  font-size: ${(props) => props.fontSize ?? '0.938vw'};
+  line-height: ${(props) => props.lineHeight ?? '1.406vw'};
+  color: #4f4f4f;
+
+  b {
+    font-weight: 500;
+    font-size: 0.938vw;
+    line-height: 1.406vw;
+    color: #333;
+  }
+`;
+
+export const FarmsRow = styled.div`
+  display: grid;
+  grid-template-columns: 5fr 4fr 3fr 2fr 4fr 2fr;
+  overflow: hidden;
+`
+export const FarmsTableItem = styled.div`
+  transition: 0.3s all;
+  flex-direction: column;
+  height: ${(props) => (props.isExpanded ? '30.781vw' : '7.083vw')};
+  width: 81.302vw;
+  // background: #e4ddef;
+  
+  display: flex;
+`;
+export const MainData = styled.div`
+  padding: 2.188vw 2.708vw 2.396vw 2.344vw;
+  overflow: hidden;
+  background: linear-gradient(90.51deg, rgba(129, 137, 253, 0.22) -1.37%, rgba(206, 152, 249, 0.55) 98.98%);
+`;
 
 export const ClaimsHead = styled.div`
   width: 100%;
@@ -387,7 +457,7 @@ export const FarmsTableWrapper = styled.div`
 
   border-radius: 1.042vw;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: ${props => props.overflow ?? 'auto'};
   display: flex;
 
   &::-webkit-scrollbar {
