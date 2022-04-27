@@ -353,9 +353,9 @@ const Farms = () => {
           <FarmsTableItm key={idx} index={idx} item={item} />
         ))}
       </FarmsTableWrapper>
-      <VDiv>
+      {/* <VDiv>
           <HeadingText style={{marginTop: '2.24vw'}}>Orcus Metapool</HeadingText>
-    </VDiv>
+    </VDiv> */}
     {/* <FarmsTableWrapper >
     <FarmsTableItem>
       <MainData>
