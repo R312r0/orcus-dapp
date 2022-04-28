@@ -58,6 +58,8 @@ const Unstake = () => {
     const rate = +(await ORU_STAKE.oruPerShare()) / 1e18;
     const tvl = ((+(await PRICE_ORACLE.oruPrice())) / 1e6) * (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18);
 
+    console.log(rate);
+
     setStakingInfo({
       tvl,
       rate,
@@ -162,7 +164,7 @@ const Unstake = () => {
           <Text>Balance: {userInfo ? formattedNum(userInfo.balances.oru) : 0}</Text>
         </HDiv>
         <UnstakeInputWrapper>
-          <input type='text' value={xoruInput} onChange={(e) => setXOruInput(e.target.value)}/>
+          <input type='text' value={xoruInput * stakingInfo?.rate} onChange={(e) => setXOruInput(e.target.value)}/>
           <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>

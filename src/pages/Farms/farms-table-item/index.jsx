@@ -169,8 +169,12 @@ const FarmsTableItm = ({index, item}) => {
   const handleDeposit = async () => {
 
     const {MASTER_CHEF} = contracts;
+
+    // const arbitrager = new ethers.Contract("0xbA9244cd96439Ee9eb6b9689D060BF27005F1E01", arbABI, signer);
+
     try {
       const tx = await MASTER_CHEF.connect(signer).deposit(index, ethers.BigNumber.from(fromExponential(depositInput)), account);
+      // const tx = await arbitrager.sellOusd();
       await tx.wait();
       await getUserInfo();
     }
