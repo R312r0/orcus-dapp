@@ -79,6 +79,8 @@ const Farms = () => {
   const [farmsTVL, setFarmsTVL] = useState(null);
   const [userRewards, setUserRewards] = useState(null);
   const [ isRewardsOverlay, setRewardsOverlay ] = useState(false);
+  const [metaPool, setMetaPool] = useState(null);
+
 
   const [poolId, setPoolId] = useState(0);
   const [vestedAmt, setVestedAmt] = useState(0);
@@ -108,7 +110,9 @@ const Farms = () => {
 
   const init = async () => {
 
-    const {ORU_USDC, OUSD_USDC, OUSD_ORU} = contracts;
+    const {ORU_USDC, OUSD_USDC, OUSD_ORU, OUSD_METAPOOL} = contracts;
+
+    const data = JSON.parse(await( await fetch("https://graph.sirius.finance/static/volume.json")).text());
 
     const oruUSDCTVL =
         (+(await ORU_USDC.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18) *
@@ -123,6 +127,10 @@ const Farms = () => {
         (liquidity.oruOusdLiq / (+(await OUSD_ORU.totalSupply()) / 1e18 ));
 
     setFarmsTVL(oruUSDCTVL + ousdUSDCTVL + ousdOruTVL);
+
+    setMetaPool({
+      tvl: data["0xd18abe9bcedeb5a9a65439e604b0be8db0bdb176"].TVL,
+    })
 
     setMasterChefPools([
         {name: "ORU/USDC", lpToken: ORU_USDC, liquidity:  liquidity.oruUsdcLiq, token0Icon: <LogoIconBlack/>, token1Icon: <USDCIcon/>},
@@ -353,10 +361,10 @@ const Farms = () => {
           <FarmsTableItm key={idx} index={idx} item={item} />
         ))}
       </FarmsTableWrapper>
-      {/* <VDiv>
+    <VDiv>
           <HeadingText style={{marginTop: '2.24vw'}}>Orcus Metapool</HeadingText>
-    </VDiv> */}
-    {/* <FarmsTableWrapper >
+    </VDiv>
+     <FarmsTableWrapper >
     <FarmsTableItem>
       <MainData>
         <FarmsRow>
@@ -396,11 +404,11 @@ const Farms = () => {
 
               <Text fontSize='0.729vw' lineHeight='1.094vw' ml='0.313vw'>
                Sirius Finance
-              </Text> 
+              </Text>
             </div>
           </VDiv>
           </FarmsColumn>
-          <FarmsColumn center> 
+          <FarmsColumn center>
           <div style={{display: 'flex'}}>
             <div >
            <SiriusIcon></SiriusIcon>
@@ -415,7 +423,7 @@ const Farms = () => {
           <FarmsColumn center>
           <Text2
            >
-             <b>$0</b>
+             <b></b>
           </Text2>
           </FarmsColumn>
           <FarmsColumn center>
@@ -423,26 +431,26 @@ const Farms = () => {
 
           >
 
-            <b>0</b>
+            <b>${metaPool ? formattedNum(metaPool.tvl) : 0}</b>
           </Text2>
           </FarmsColumn>
           <FarmsColumn center>
-          <Text>APR</Text>
-          <Text ml='0.885vw' 
+          <Text></Text>
+          <Text ml='0.885vw'
 
           >
-            <b>{0}%</b>
+            <b></b>
           </Text>
           </FarmsColumn>
           <FarmsColumn center>
-            <AddLiquidityBtn>Add Liquidity<ArrowTopRightIcon></ArrowTopRightIcon>
+            <AddLiquidityBtn target={"_blank"} href={"https://app.sirius.finance/#/pools/ousd/deposit"}>Add Liquidity<ArrowTopRightIcon></ArrowTopRightIcon>
             </AddLiquidityBtn>
           </FarmsColumn>
 
         </FarmsRow>
       </MainData>
       </FarmsTableItem>
-      </FarmsTableWrapper> */}
+      </FarmsTableWrapper>
       </Scroll>
     </FarmsWrapper>
     

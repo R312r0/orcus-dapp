@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
-export const AddLiquidityBtn = styled.button`
+export const AddLiquidityBtn = styled.a`
   padding: 0.65vw 0.8vw;
   border: 1px solid #595959;
   display: flex;
+  text-decoration: none;
   gap: 0.4vw;
   align-items: center;
   font-size: 1vw;
