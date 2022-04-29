@@ -9,6 +9,10 @@ export const OUSDTableWrapper = styled.div`
   height: 18.854vw;
   width: 20.521vw;
   display: flex;
+  @media (max-device-width: 480px){
+    height: auto;
+    width: 100%;
+  }
 `;
 export const HDiv = styled.div`
   margin-top: ${(props) => props.mt};
@@ -25,10 +29,18 @@ export const IconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   svg {
+    @media (max-device-width: 480px){
+      height: 6.344vw;
+      width: 6.344vw;
+    }
     height: 2.24vw;
     width: 3.021vw;
     stroke: #000;
     fill: #000;
+  }
+  @media (max-device-width: 480px){
+    width: 6vw;
+    height: 4vw;
   }
 `;
 
@@ -37,6 +49,10 @@ export const TokenPrice = styled.span`
   line-height: 1.875vw;
   font-size: 1.25vw;
   font-weight: 500;
+  @media (max-device-width: 480px){
+    font-size: 16px;
+    line-height: 16px;
+  }
 `;
 
 export const VDiv = styled.div`
@@ -51,9 +67,17 @@ export const Text = styled.span`
   font-size: 0.729vw;
   font-weight: 400;
   color: #828282;
+  @media (max-device-width: 480px){
+    font-size: 12px;
+    line-height: 16px;
+  }
 
   b {
     line-height: 1.094vw;
+    @media (max-device-width: 480px){
+      font-size: 16px;
+      line-height: 16px;
+    }
     font-size: 0.729vw;
     font-weight: ${(props) => props.fontWeight ?? 500};
     color: #333;
@@ -80,6 +104,15 @@ export const AddBtn = styled.button`
   width: 8.073vw;
   color: #4f4f4f;
   display: flex;
+  @media (max-device-width: 480px){
+    width: 45%;
+    height: auto;
+    padding: 6px 10px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   &:hover {
     transition: 0.3s all;
@@ -87,6 +120,10 @@ export const AddBtn = styled.button`
   }
 
   svg {
+    @media (max-device-width: 480px){
+      height: 3vw;
+      width: 3vw;
+    }
     margin-left: 1.042vw;
     margin-right: 0.885vw;
     height: 1.25vw;
@@ -107,6 +144,16 @@ export const BuyBtn = styled.button`
   display: flex;
   border: none;
   color: #fff;
+  @media (max-device-width: 480px){
+    width: 45%;
+    height: auto;
+    padding: 6px 10px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
 
   &:hover {
     transition: 0.3s all;
@@ -114,6 +161,10 @@ export const BuyBtn = styled.button`
   }
 
   svg {
+    @media (max-device-width: 480px){
+      height: 3vw;
+      width: 3vw;
+    }
     margin-left: 1.042vw;
     margin-right: 0.885vw;
     height: 1.25vw;

@@ -67,19 +67,21 @@ const OUSDTable = () => {
             console.log(error);
         }
     }
+    const isMobileScreen = ( ) => {
+      let query = window.matchMedia('(max-device-width: 480px)')
+      return query.matches
+    }
 
   return (
     <OUSDTableWrapper>
       <HDiv>
-        <VDiv>
-          {/* <IconWrapper> */}
-            <UnwrappedOUSDIcon />
-          {/* </IconWrapper> */}
+      <VDiv style={{ justifyContent: isMobileScreen() ? 'center' : '', gap: isMobileScreen() ? '4px' : '', alignItems: isMobileScreen() ? 'center' : ''}}>
+
+            <UnwrappedOUSDIcon ratio={isMobileScreen() ? '5.344vw' : undefined }/>
           <Text
             fontFamily='Montserrat'
             fontWeight='600'
-            ml='0.104vw'
-            mt='0.313vw'
+
           >
             <b>oUSD</b>
           </Text>

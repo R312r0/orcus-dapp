@@ -68,12 +68,16 @@ const ORUTable = () => {
             console.log(error);
         }
     }
+    const isMobileScreen = ( ) => {
+      let query = window.matchMedia('(max-device-width: 480px)')
+      return query.matches
+    }
 
     return (
     <ORUTableWrapper>
       <HDiv>
-        <VDiv>
-          <IconWrapper>
+        <VDiv style={{ justifyContent: isMobileScreen() ? 'center' : '', gap: isMobileScreen() ? '8px' : '', alignItems: isMobileScreen() ? 'center' : ''}}>
+          <IconWrapper >
             <LogoIcon />
           </IconWrapper>
           <Text fontFamily='Montserrat' fontWeight='600' ml='0.260vw'>

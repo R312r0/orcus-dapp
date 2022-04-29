@@ -12,28 +12,55 @@ import {
   HeadingText,
   InfoBlockWrapper,
   TableWrapper,
+  ToggleBtnWrapper,
+  ToggleBtn,
 } from './styled';
 import TVLChart from './tvl-chart';
 
 const Dashboard = () => {
 
-  const [protocolTVL, setProtocolTVL] = useState(null)
+  const [protocolTVL, setProtocolTVL] = useState(null);
+  const [activeTab, setActiveTab ] = useState('ORU');
+
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
+  }
 
   return (
     <DashboardWrapper>
       <InfoBlockWrapper>
         <HeadingText>Dashboard</HeadingText>
         <TVLChart protocolTVL={protocolTVL}/>
+        { isMobileScreen() ? <ToggleBtnWrapper>
+        <ToggleBtn
+          onClick={() => setActiveTab('ORU')}
+          isActive={activeTab === 'ORU'}
+        >
+          ORU
+        </ToggleBtn>
+        <ToggleBtn
+          onClick={() => setActiveTab('oUSD')}
+          isActive={activeTab === 'oUSD'}
+        >
+          oUSD
+        </ToggleBtn>
+      </ToggleBtnWrapper>: <></>}
+        { isMobileScreen() ? <BuyBlockWrapper>
+          { activeTab === 'ORU' ? <ORUTable /> :<OUSDTable /> }
+        
+        
+      </BuyBlockWrapper> : <></>}
         <TableWrapper>
           <ProtocolTable setProtocolTVL={setProtocolTVL} />
           <LiquidityTable />
           <RatioTable />
         </TableWrapper>
       </InfoBlockWrapper>
-      <BuyBlockWrapper>
+      { !isMobileScreen() ? <BuyBlockWrapper>
         <ORUTable />
         <OUSDTable />
-      </BuyBlockWrapper>
+      </BuyBlockWrapper> : <></> }
     </DashboardWrapper>
   );
 };
