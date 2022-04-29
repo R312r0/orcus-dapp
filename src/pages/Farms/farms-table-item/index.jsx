@@ -97,7 +97,7 @@ const FarmsTableItm = ({index, item}) => {
 
     console.log(poolInfo)
 
-    const apr = (((((liquidity.oruPrice * ORU_PER_BLOCK * 86400 * 30 * 12)) / 2) / ((lpPrice * lpBalance)) * 100)).toFixed(0);
+    const apr = (((((liquidity.oruPrice * (ORU_PER_BLOCK / 3) * 86400 * 30 * 12)) / 2) / ((lpPrice * lpBalance)) * 100)).toFixed(0);
 
     console.log(lpPrice);
 

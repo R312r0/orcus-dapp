@@ -20,7 +20,7 @@ import {
 import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
 import {CONTRACT_ADDRESSES, MAX_INT, ORU_PER_BLOCK} from "../../../constants";
-import {formattedNum, formatToDecimal} from "../../../utils";
+import {formattedNum, formatToDecimal, getDateDiff} from "../../../utils";
 import {StakeBtn, StakeDataText} from "../stake/styled";
 
 const Unstake = () => {
@@ -69,8 +69,16 @@ const Unstake = () => {
 
   const getUserInfo = async () => {
 
-    const {ORU, XORU} = contracts;
+    const {ORU, XORU, ORU_STAKE} = contracts;
     const allowance = await XORU.allowance(account, CONTRACT_ADDRESSES.ORU_STAKE) > 0;
+
+    const userLocks = await ORU_STAKE.userLocks(account);
+
+    const currentDate = new Date()
+    const endDate = new Date((+userLocks.unlockTime) * 1000);
+
+    const isExpired = (+currentDate) - (+endDate) >= 0;
+    const diff = getDateDiff(currentDate, endDate);
 
     const balances = {
       oru: +(await ORU.balanceOf(account)) / 1e18,
@@ -79,7 +87,11 @@ const Unstake = () => {
 
     setUserInfo({
       balances,
-      allowance
+      allowance,
+      lock: {
+        isExpired,
+        diff
+      }
     })
   }
 
@@ -117,6 +129,11 @@ const Unstake = () => {
 
       else if (userInfo.balances.xoru < xoruInput) {
         return <UnstakeBtn disabled={true}> Insufficient xORU balance </UnstakeBtn>
+      }
+
+      else if (!userInfo.lock.isExpired) {
+        return <UnstakeBtn disabled={true}> {userInfo.lock.diff.day} days {userInfo.lock.diff.hour} hours {userInfo.lock.diff.minute} minutes
+        </UnstakeBtn>
       }
 
       else {
@@ -209,6 +226,7 @@ const Unstake = () => {
             <UnstakeDataText>Days</UnstakeDataText>
           </div>
         </HDiv>
+        <HDivider margin='0.938vw 0 0.781vw 0' />
         <HDiv>
           <StakeDataText mr='0.339vw'>Rate</StakeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>

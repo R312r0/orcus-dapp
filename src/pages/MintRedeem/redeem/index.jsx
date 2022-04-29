@@ -318,7 +318,7 @@ const Redeem = () => {
                 Collect redemtion
               </span>
             </div>
-            <RedemtionBtn disabled={userInfo?.claims.collat <= 0 || userInfo?.claims.share} onClick={() => collect()}>Collect</RedemtionBtn>
+            <RedemtionBtn disabled={userInfo?.claims.collat <= 0 || userInfo?.claims.share <= 0} onClick={() => collect()}>Collect</RedemtionBtn>
           </HDiv>
           <HDivider margin='1.87vw 0 0.781vw 0' />
           <HDiv>

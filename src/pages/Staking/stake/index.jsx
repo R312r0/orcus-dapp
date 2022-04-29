@@ -20,7 +20,7 @@ import {
 import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
 import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
-import {formattedNum, formatToDecimal} from "../../../utils";
+import {formattedNum, formatToDecimal, getDateDiff} from "../../../utils";
 
 const Stake = () => {
 
@@ -77,7 +77,7 @@ const Stake = () => {
 
     setUserInfo({
       balances,
-      allowance
+      allowance,
     })
   }
 

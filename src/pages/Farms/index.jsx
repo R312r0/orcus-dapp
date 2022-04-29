@@ -68,6 +68,7 @@ import PageRightIcon from '../../assets/icons/PageRightIcon';
 import PageLeftIcon from '../../assets/icons/PageLeftIcon';
 import {useWeb3React} from "@web3-react/core";
 import SiriusIcon from '../../assets/icons/SiriusIcon';
+import fromExponential from "from-exponential";
 
 const Array = [1, 2, 3];
 
@@ -80,6 +81,7 @@ const Farms = () => {
   const [userRewards, setUserRewards] = useState(null);
   const [ isRewardsOverlay, setRewardsOverlay ] = useState(false);
   const [metaPool, setMetaPool] = useState(null);
+  const [depositedInMeta, setDepositedInMeta] = useState(null);
 
 
   const [poolId, setPoolId] = useState(0);
@@ -110,9 +112,35 @@ const Farms = () => {
 
   const init = async () => {
 
-    const {ORU_USDC, OUSD_USDC, OUSD_ORU, OUSD_METAPOOL} = contracts;
+    const {ORU_USDC, OUSD_USDC, OUSD_ORU, OUSD_METAPOOL, OUSD_METAPOOL_ERC20, SRS, GAGUE_CONTROLLER, SRS_LP_TOKEN, GAGUE_OUSD} = contracts;
 
-    const data = JSON.parse(await( await fetch("https://graph.sirius.finance/static/volume.json")).text());
+    const srsRate = await SRS.rate();
+    const relativeWeight = await GAGUE_CONTROLLER.gaugeRelativeWeight("0x5FF4735274b0C7ADf7de52768645aA08AE4bcB20", 1651104000);
+    const farmTvl = await SRS_LP_TOKEN.balanceOf("0x5FF4735274b0C7ADf7de52768645aA08AE4bcB20");
+    const rewardTokenPerSecondSRS = await GAGUE_OUSD.rewardData("0x9448610696659de8F72e1831d392214aE1ca4838");
+    const rewardTokenPerSecondORU = await GAGUE_OUSD.rewardData(CONTRACT_ADDRESSES.ORU);
+
+    const baseApr = (+srsRate / 1e18) * 86400 * 365 * 0.1 * (+relativeWeight / 1e18) * 100 / (farmTvl / 1e18);
+    const extraApr =  (+rewardTokenPerSecondORU.rate / 1e18 + (+rewardTokenPerSecondSRS.rate / 1e18) ) * 86400 * 365 * liquidity.oruPrice * 100 / (farmTvl / 1e18);
+
+    const metaApr = baseApr + extraApr;
+
+    try{
+      const data = JSON.parse(await( await fetch("https://graph.sirius.finance/static/volume.json")).text());
+      setMetaPool({
+        tvl: data["0xd18abe9bcedeb5a9a65439e604b0be8db0bdb176"].TVL,
+        metaApr
+      })
+    }
+    catch (e) {
+      console.log(e.message);
+      setMetaPool({
+        tvl: 0,
+        metaApr
+      })
+    }
+
+
 
     const oruUSDCTVL =
         (+(await ORU_USDC.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18) *
@@ -128,9 +156,7 @@ const Farms = () => {
 
     setFarmsTVL(oruUSDCTVL + ousdUSDCTVL + ousdOruTVL);
 
-    setMetaPool({
-      tvl: data["0xd18abe9bcedeb5a9a65439e604b0be8db0bdb176"].TVL,
-    })
+
 
     setMasterChefPools([
         {name: "ORU/USDC", lpToken: ORU_USDC, liquidity:  liquidity.oruUsdcLiq, token0Icon: <LogoIconBlack/>, token1Icon: <USDCIcon/>},
@@ -150,11 +176,12 @@ const Farms = () => {
 
   const getUserRewardInfo = async () => {
 
-    const {MASTER_CHEF} = contracts;
+    const {MASTER_CHEF, OUSD_METAPOOL, SRS_LP_TOKEN} = contracts;
     const info = await MASTER_CHEF.getUserInfo(account);
 
-
-    setUserRewards(info);
+    const depositedInMeta = await SRS_LP_TOKEN.balanceOf(account);
+    setDepositedInMeta(+depositedInMeta / 1e18)
+    setUserRewards(info)
 
   }
 
@@ -196,8 +223,6 @@ const Farms = () => {
 
   }
 
-  console.log("vested amt")
-  console.log(vestedAmt)
 
   return (
     <>
@@ -249,13 +274,10 @@ const Farms = () => {
 
                       userRewards[poolId]?.vestings.map((item, _ind) => {
 
-
-
                         const amt = item.amount
                         const currentTime = new Date()
+                        const endTime = new Date((+item.startTime + (604800 * (4 - 1))) * 1000);
 
-
-                        const endTime = new Date((+item.startTime + (604800 + (604800 * (4 - 1)))) * 1000);
                         const diff = getDateDiff(currentTime,endTime);
 
                         return (
@@ -338,15 +360,6 @@ const Farms = () => {
               null
           }
         </RewardsContainer>
-{/*
-        <VDiv>
-         <TotalHarvestedInfo>
-           <span>Total harvested rewards </span>
-           <div />
-           <b>0.0 ORU</b>
-         </TotalHarvestedInfo>
-         <RewardBtn>Rewards vesting</RewardBtn>
-        </VDiv> */}
       </HDiv>
       <Scroll>
       <HDiv mt='2.083vw'>
@@ -423,7 +436,7 @@ const Farms = () => {
           <FarmsColumn center>
           <Text2
            >
-             <b></b>
+             <b>${depositedInMeta ? formattedNum(depositedInMeta) : 0}</b>
           </Text2>
           </FarmsColumn>
           <FarmsColumn center>
@@ -435,11 +448,11 @@ const Farms = () => {
           </Text2>
           </FarmsColumn>
           <FarmsColumn center>
-          <Text></Text>
+          <Text> APR </Text>
           <Text ml='0.885vw'
 
           >
-            <b></b>
+            <b> {metaPool ? formattedNum(metaPool.metaApr) : 0 }%</b>
           </Text>
           </FarmsColumn>
           <FarmsColumn center>

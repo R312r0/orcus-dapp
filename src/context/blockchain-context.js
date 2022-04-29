@@ -12,7 +12,13 @@ import TWAP_ORACLE_ABI from '../abis/TwapOracle.json';
 import MASTER_CHEF_ABI from '../abis/MasterChef.json';
 import UNISWAP_PAIR_ABI  from '../abis/UniswapPair.json';
 import UNISWAP_ROUTER_ABI from '../abis/UniswapRouter.json';
+
 import OUSD_METAPOOL_ABI from '../abis/oUSDmetapool.json';
+import SRS_ABI from '../abis/SRS.json';
+import GAGUE_ABI from '../abis/GaugeController.json'
+import LP_TOKEN_SRS from '../abis/lpTokenGuarded.json'
+import GAGUE_OUSD_ABI from '../abis/LiquidityGauge.json'
+
 import {formatFromDecimal} from "../utils";
 
 const BlockchainContext  = React.createContext();
@@ -112,7 +118,12 @@ export const BlockchainContextProvider = ({children}) => {
             OUSD_USDC_ORACLE: new ethers.Contract(CONTRACT_ADDRESSES.OUSD_USDC_ORACLE, TWAP_ORACLE_ABI, readProvider),
             MASTER_CHEF: new ethers.Contract(CONTRACT_ADDRESSES.MASTER_CHEF, MASTER_CHEF_ABI, readProvider),
             ROUTER: new ethers.Contract(CONTRACT_ADDRESSES.ROUTER, UNISWAP_ROUTER_ABI, readProvider),
-            OUSD_METAPOOL: new ethers.Contract(CONTRACT_ADDRESSES.OUSD_METAPOOL, OUSD_METAPOOL_ABI, readProvider)
+
+            OUSD_METAPOOL: new ethers.Contract(CONTRACT_ADDRESSES.OUSD_METAPOOL, OUSD_METAPOOL_ABI, readProvider),
+            SRS: new ethers.Contract(CONTRACT_ADDRESSES.SRS, SRS_ABI, readProvider),
+            GAGUE_CONTROLLER: new ethers.Contract(CONTRACT_ADDRESSES.GAGUE_CONTROLLER, GAGUE_ABI, readProvider),
+            SRS_LP_TOKEN: new ethers.Contract(CONTRACT_ADDRESSES.SRS_LP_TOKEN, LP_TOKEN_SRS, readProvider),
+            GAGUE_OUSD: new ethers.Contract(CONTRACT_ADDRESSES.GAGUE_OUSD, GAGUE_OUSD_ABI, readProvider)
 
             // TODO: add more.
         }
