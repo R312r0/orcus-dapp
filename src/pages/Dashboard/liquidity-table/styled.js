@@ -7,6 +7,16 @@ export const LiquidityTableWrapper = styled.div`
   background: #e4ddef;
   height: 11.042vw;
   width: 16.094vw;
+  @media (max-device-width: 480px){
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 16px;
+    padding-right: 0;
+    height: auto;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin-left: 0;
+  }
 `;
 
 export const IconWrapper = styled.div`
@@ -18,12 +28,20 @@ export const IconWrapper = styled.div`
   height: 2.708vw;
   width: 2.708vw;
   display: flex;
+  @media (max-device-width: 480px){
+    height: 8.708vw;
+    width: 8.708vw;
+  }
 
   svg {
     fill: ${(props) => props.fill};
     height: 1.563vw;
     width: 1.563vw;
     stroke: #fff;
+    @media (max-device-width: 480px){
+      height: 6.408vw;
+      width: 6.408vw;
+    }
   }
 `;
 
@@ -32,6 +50,10 @@ export const HDiv = styled.div`
   align-items: center;
   flex-direction: row;
   display: flex;
+  @media (max-device-width: 480px){
+    width: min-content;
+    white-space: nowrap;
+  }
 `;
 
 export const VDiv = styled.div`
@@ -46,11 +68,19 @@ export const Text = styled.span`
   font-size: 0.729vw;
   font-weight: 400;
   color: #828282;
+  @media (max-device-width: 480px){
+    font-size: 14px;
+    line-height: 16px;
+  }
 
   b {
     line-height: 1.25vw;
     font-size: 0.833vw;
     font-weight: 500;
     color: #333;
+    @media (max-device-width: 480px){
+      font-size: 18px;
+      line-height: 18px;
+    }
   }
 `;

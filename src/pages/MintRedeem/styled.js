@@ -3,6 +3,9 @@ import styled from 'styled-components';
 export const MintRedeemWrapper = styled.div`
   flex-direction: column;
   display: flex;
+  @media (max-device-width: 480px){
+    width: 100%;
+  }
 `;
 
 export const HeadingText = styled.span`
@@ -12,6 +15,13 @@ export const HeadingText = styled.span`
   font-size: 1.25vw;
   font-weight: 500;
   color: #333;
+  @media (max-device-width: 480px){
+    font-size: 16px;
+    line-height: 32px;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+  }
 `;
 
 export const ToggleBtnWrapper = styled.div`
@@ -19,6 +29,10 @@ export const ToggleBtnWrapper = styled.div`
   margin-top: 2.135vw;
   align-items: center;
   display: flex;
+  @media (max-device-width: 480px){
+    background-color: #F2F2F2;
+    margin: 0;
+  }
 `;
 
 export const ToggleBtn = styled.div`
@@ -35,6 +49,19 @@ export const ToggleBtn = styled.div`
   align-items: center;
   height: 2.135vw;
   display: flex;
+  @media (max-device-width: 480px){
+    font-size: 14px;
+    width: 50%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    line-height: 16px;
+    margin: 0;
+    padding: 0;
+  }
+  
 `;
 
 export const TabWrapper = styled.div`
@@ -42,4 +69,8 @@ export const TabWrapper = styled.div`
   margin-left: 10.573vw;
   margin-top: 1.354vw;
   display: flex;
+  @media (max-device-width: 480px){
+    flex-direction: column;
+    margin: 0;
+  }
 `;

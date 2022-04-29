@@ -9,6 +9,11 @@ export const TVLChartWrapper = styled.div`
   height: 26.667vw;
   width: 62.135vw;
   display: flex;
+  @media (max-device-width: 480px){
+    width: 100%;
+    height: auto;
+    background: #f6f6f6;
+  }
 `;
 
 export const HDiv = styled.div`
@@ -48,8 +53,16 @@ export const Text = styled.span`
   font-size: 1.25vw;
   font-weight: 600;
   color: #333;
+  @media (max-device-width: 480px){
+    font-size: 14px;
+    line-height: 17px;
+  }
 
   b {
+    @media (max-device-width: 480px){
+      font-size: 18px;
+      line-height: 21px;
+    }
     line-height: 2.813vw;
     font-size: 1.875vw;
     font-weight: 500;
@@ -69,6 +82,12 @@ export const AreaChartWrapper = styled.div`
   /* background: teal; */
   height: 17.448vw;
   width: 55.052vw;
+  @media (max-device-width: 480px){
+    width: 100%;
+    
+    background: #f6f6f6;
+    height: 300px;
+  }
 `;
 
 // export const AddBtn = styled.button`

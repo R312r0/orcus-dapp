@@ -1,11 +1,11 @@
 import React from 'react';
 
-function ClipboardIcon({ color }) {
+function ClipboardIcon({ color , ratio }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='2.188vw'
-      height='2.188vw'
+      width={ ratio ?? '2.188vw'}
+      height={ ratio ?? '2.188vw'}
       fill='none'
       viewBox='0 0 42 42'
     >
