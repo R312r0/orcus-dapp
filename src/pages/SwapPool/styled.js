@@ -4,6 +4,9 @@ export const SwapPoolWrapper = styled.div`
   flex-direction: column;
   display: flex;
   width: 100%;
+  @media (max-device-width: 480px){
+    width: 100%;
+  }
 `;
 
 export const HeadingText = styled.span`
@@ -19,6 +22,7 @@ export const HeadingText = styled.span`
     margin-top: 24px !important;
     margin-bottom: 24px !important;
     text-align: center;
+    justify-content: center;
     width: 100%;
     margin: 0;
   }
@@ -73,4 +77,9 @@ export const TabWrapper = styled.div`
   margin-left: 20.573vw;
   margin-top: 1.354vw;
   display: flex;
+  @media (max-device-width: 480px){
+    flex-direction: column;
+    margin-top: 24px !important;
+    margin: 0;
+  }
 `;

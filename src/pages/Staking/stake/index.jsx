@@ -93,6 +93,10 @@ const Stake = () => {
         console.error(e.message);
     }
   }
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
+  }
 
   const deposit = async () => {
 
@@ -173,8 +177,8 @@ const Stake = () => {
       </StakeBlockWrapper>
 
       <StakeDataWrapper>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <ClipboardIcon color='#000' />
+        <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
+          <ClipboardIcon   ratio={ isMobileScreen() ? '5vw' : undefined} color='#000' color='#000' />
           <CustomSpan>Data</CustomSpan>
         </div>
         <HDivider margin='1.875vw 0 0.77vw 0' />

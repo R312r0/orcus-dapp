@@ -78,6 +78,12 @@ export const SwapBlockWrapper = styled.div`
   display: flex;
   background: #fff;
   border-radius: 1.042vw;
+  @media (max-device-width: 480px){
+    padding: 0;
+    width: 100%;
+    margin: 0;
+    height: auto;
+  }
 `;
 export const HDivider = styled.div`
   margin: ${(props) => props.margin};
@@ -102,6 +108,10 @@ export const Text = styled.span`
   font-size: 0.938vw;
   font-weight: 300;
   color: #4f4f4f;
+  @media (max-device-width: 480px){
+    font-size: 12px;
+    line-height: 16px;
+  }
 `;
 
 export const SwapInputWrapper = styled.div`
@@ -124,6 +134,11 @@ export const SwapInputWrapper = styled.div`
   font-weight: 500;
   color: #272a30;
   display: flex;
+  @media (max-device-width: 480px){
+    width: 100%;
+    height: 32px;
+    font-size: 12px;
+  }
 
   input {
     width: ${(props) => (props.withSelect ? '18.906vw' : '24.3vw')};
@@ -134,6 +149,11 @@ export const SwapInputWrapper = styled.div`
     height: inherit;
     ::placeholder {
       color: #272a30;
+    }
+    @media (max-device-width: 480px){
+      width: 90%;
+      height: 32px;
+      font-size: 14px;
     }
   }
 
@@ -204,6 +224,14 @@ export const SwapBtn = styled.button`
     transition: all 0.3s;
     background: #000;
   }
+  @media (max-device-width: 480px){
+    width: 100%;
+    font-size: 14px;
+    line-height: 14px;
+    height: 48px;
+    margin-bottom: 32px;
+  }
+  
 `;
 
 export const SwapDataWrapper = styled.div`
