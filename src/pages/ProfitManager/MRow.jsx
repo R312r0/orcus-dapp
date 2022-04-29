@@ -11,7 +11,6 @@ const MRow = ({ index, row }) => {
     console.log(row);
     return (
         <>
-
         <HistoryTableRowMobile key={Math.random()}>
         <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
         <LogoIconBlack ratio='5vw'></LogoIconBlack>
@@ -88,27 +87,9 @@ const MRow = ({ index, row }) => {
                 <div style={{width: '5vw'}}></div>
                 <GreyText>Tx</GreyText>
             </div>
-            <div style={{maxWidth: '35%', overflow: 'hidden'}}>{formatAddress(row.txHash)}</div>
+            <div style={{maxWidth: '35%', overflow: 'hidden'}}><a href={`https://blockscout.com/astar/tx/${row.txHash}`} target={"_blank"}  style={{color: "black", textDecoration: "none"}}>{formatAddress(row.txHash)} </a></div>
             </HistoryTableRowMobile>
 
-            {/* <div>
-                  {formattedNum(row.fee)} ORU
-                </div>
-                <div>
-                {formattedNum(row.collateral)} USD
-                </div>
-                <div>
-                {formattedNum(row.arbitrager)} ORU
-                </div>
-                <div>
-                {formattedNum(row.penalty)} ORU
-                </div>
-                <div>
-                {formattedNum(row.totalORU)} ORU
-                </div>
-                <div>
-                {formattedNum(row.totalUSD)} USD
-                </div> */}
         </> : <></>}
         </>
     );

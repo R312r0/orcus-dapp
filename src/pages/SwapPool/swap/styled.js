@@ -231,7 +231,6 @@ export const SwapBtn = styled.button`
     height: 48px;
     margin-bottom: 32px;
   }
-  
 `;
 
 export const SwapDataWrapper = styled.div`

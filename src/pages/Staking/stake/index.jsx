@@ -155,12 +155,19 @@ const Stake = () => {
           <input type='text' placeholder='0.0' value={oruInput} onChange={(e) => setOruInput(e.target.value)} />
           <button onClick={() => setOruInput(userInfo?.balances.oru)} >Max</button>
           <Divider />
-          <IconWrapper w='5vw' h='5vw' fill='#000' margin='0 0.833vw 0 0'>
+          <IconWrapper  
+            w={ isMobileScreen() ? '5vw' : undefined}
+            h={ isMobileScreen() ? '5vw' : undefined}
+             fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>
           ORU
         </StakeInputWrapper>
-        <IconWrapper  w='5vw' h='5vw' margin='1.719vw 0 0 0'>
+        <IconWrapper 
+        
+        w={ isMobileScreen() ? '5vw' : undefined}
+        h={ isMobileScreen() ? '5vw' : undefined}
+         margin='1.719vw 0 0 0'>
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
@@ -169,7 +176,9 @@ const Stake = () => {
         </HDiv>
         <StakeInputWrapper>
           <input type='text' placeholder={"0.0"} value={oruInput} disabled={true}/>
-          <IconWrapper  w='5vw' h='5vw' fill='#000' margin='0 0.833vw 0 0'>
+          <IconWrapper 
+           w={ isMobileScreen() ? '5vw' : undefined}
+           h={ isMobileScreen() ? '5vw' : undefined} fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>
           xORU

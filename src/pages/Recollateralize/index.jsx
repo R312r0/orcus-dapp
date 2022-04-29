@@ -189,12 +189,18 @@ const Recollateralize = () => {
           <input type='text' placeholder='0.0' value={collatInput} onChange={({target}) => handleCollatInput(target.value)}/>
           <button onClick={() => userInfo ? handleCollatInput(userInfo.bal) : null}>Max</button>
           <Divider />
-          <IconWrapper  w='5vw' h='5vw'  fill='#000' margin='0 0.833vw 0 0'>
+          <IconWrapper 
+          
+          w={ isMobileScreen() ? '5vw' : undefined}
+          h={ isMobileScreen() ? '5vw' : undefined} fill='#000' margin='0 0.833vw 0 0'>
             <USDCIcon  />
           </IconWrapper>
           USDC
         </RecollateralizeInputWrapper>
-        <IconWrapper  w='5vw' h='5vw'  margin='1.719vw 0 0 0'>
+        <IconWrapper 
+         w={ isMobileScreen() ? '5vw' : undefined}
+         h={ isMobileScreen() ? '5vw' : undefined}
+        margin='1.719vw 0 0 0'>
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
@@ -203,7 +209,8 @@ const Recollateralize = () => {
         </HDiv>
         <RecollateralizeInputWrapper>
           <input type='text' value={shareOutput} disabled={true} />
-          <IconWrapper  w='5vw' h='5vw'  fill='#000' margin='0 0.833vw 0 0'>
+          <IconWrapper  w={ isMobileScreen() ? '5vw' : undefined}
+        h={ isMobileScreen() ? '5vw' : undefined} fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>
           ORU
