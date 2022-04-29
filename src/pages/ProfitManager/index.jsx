@@ -63,13 +63,7 @@ const ProfitManager = () => {
 
   const isMobileScreen = ( ) => {
     let query = window.matchMedia('(max-device-width: 480px)')
-    if(query.matches){
-      console.log('match')
-      return true;
-    }else{
-      console.log('no match')
-      return false;
-    }
+    return query.matches
   }
 
   return <ProfitManagerWrapper>

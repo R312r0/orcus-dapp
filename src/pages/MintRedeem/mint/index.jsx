@@ -202,6 +202,10 @@ const Mint = () => {
         return <MintBtn onClick={() => connectWallet()}> Connect Wallet </MintBtn>
       }
   }
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
+  }
 
   return (
     <>
@@ -250,8 +254,8 @@ const Mint = () => {
         <MintButton/>
       </MintBlockWrapper>
       <MintDataWrapper>
-        <div style={{ display: 'flex', gap: '1vw', alignItems: 'center' }}>
-          <ClipboardIcon  color='#000' />
+        <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
+          <ClipboardIcon ratio={ isMobileScreen() ? '5vw' : undefined} color='#000' />
           <CustomSpan>
             Data
           </CustomSpan>

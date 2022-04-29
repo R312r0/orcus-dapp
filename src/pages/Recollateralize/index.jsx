@@ -22,6 +22,7 @@ import {useBlockChainContext} from "../../context/blockchain-context";
 import {CONTRACT_ADDRESSES, MAX_INT} from "../../constants";
 import {formattedNum, formatToDecimal} from "../../utils";
 import {ethers} from "ethers";
+import { CustomSpan } from '../Staking/stake/styled';
 
 
 const Recollateralize = () => {
@@ -73,6 +74,11 @@ const Recollateralize = () => {
     })
 
     console.log(+recollat / 1e18)
+  }
+
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
   }
 
   const handleCollatInput = async (value) => {
@@ -164,6 +170,8 @@ const Recollateralize = () => {
 
   }
 
+  
+
   return <RecollateralizeWrapper>
     <StakingWrapper>
       <HeadingText>Recollateralize</HeadingText>
@@ -181,12 +189,12 @@ const Recollateralize = () => {
           <input type='text' placeholder='0.0' value={collatInput} onChange={({target}) => handleCollatInput(target.value)}/>
           <button onClick={() => userInfo ? handleCollatInput(userInfo.bal) : null}>Max</button>
           <Divider />
-          <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
-            <USDCIcon />
+          <IconWrapper  w='5vw' h='5vw'  fill='#000' margin='0 0.833vw 0 0'>
+            <USDCIcon  />
           </IconWrapper>
           USDC
         </RecollateralizeInputWrapper>
-        <IconWrapper margin='1.719vw 0 0 0'>
+        <IconWrapper  w='5vw' h='5vw'  margin='1.719vw 0 0 0'>
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
@@ -195,7 +203,7 @@ const Recollateralize = () => {
         </HDiv>
         <RecollateralizeInputWrapper>
           <input type='text' value={shareOutput} disabled={true} />
-          <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
+          <IconWrapper  w='5vw' h='5vw'  fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>
           ORU
@@ -204,19 +212,12 @@ const Recollateralize = () => {
       </RecollateralizeBlockWrapper>
 
       <RecollateralizeDataWrapper>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <ClipboardIcon color='#000' />
-          <span
-            style={{
-              fontFamily: 'Poppins',
-              fontWeight: '500',
-              color: '#333',
-              fontSize: '1.250vw',
-              marginLeft: '1.094vw',
-            }}
+        <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
+          <ClipboardIcon ratio={ isMobileScreen() ? '5vw' : undefined}  color='#000' />
+          <CustomSpan
           >
             Data
-          </span>
+          </CustomSpan>
         </div>
         <HDivider margin='1.875vw 0 0.77vw 0' />
         <HDiv>
