@@ -1,5 +1,39 @@
 import styled from 'styled-components';
 
+
+
+export const ExpandBtn = styled.div`
+  border-radius: 0.521vw;
+  background: #f2f2f2;
+  width: 2.083vw;
+  height: 2.083vw;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  cursor: pointer;
+  @media (max-device-width: 480px){
+    width: 5vw;
+    height: 5vw;
+  }
+  svg {
+    transition: 0.3s all;
+    transform: ${(props) =>
+      props.isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};
+    color: #828282;
+    width: 1.25vw;
+    height: 1.25vw;
+    @media (max-device-width: 480px){
+      width: 3.5vw;
+      height: 3.5vw;
+    }
+  }
+
+  &:hover {
+    transition: 0.3s all;
+    background: #e0e0e0;
+  }
+`;
+
 export const ProfitManagerWrapper = styled.div`
   flex-direction: column;
   display: flex;
@@ -11,7 +45,7 @@ export const GreyText = styled.div`
 `
 export const HistoryTableRowMobile = styled.div`
   display:flex;
-  margin-top: 8px;
+  margin-top: ${props => props.mt ?? '8px'};
   align-items: center;
   justify-content: space-between;
   width: 100%;

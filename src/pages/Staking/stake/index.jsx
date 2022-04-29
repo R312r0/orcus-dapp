@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDownIcon from '../../../assets/icons/ArrowDownIcon';
 import CalendarIcon from '../../../assets/icons/CalendarIcon';
 import ClipboardIcon from '../../../assets/icons/ClipboardIcon';

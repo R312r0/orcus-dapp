@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 
-import { ProfitManagerWrapper, GreyText, HistoryTableRowMobile, HeadingText, HistoryHeader, HistoryTableRow,HistoryTableHead,HistoryContainer, HorizontalSpaceBetween,THRButton, Text,Line, THRValue, THRLabel,THRContainer, TPPLabel, ProfitManagerHeader, VerticalSpaceBetween, THRContent, HistoryContent  } from './styled';
+import { ProfitManagerWrapper, HeadingText, HistoryHeader, HistoryTableRow,HistoryTableHead,HistoryContainer, HorizontalSpaceBetween, Text,Line, TPPLabel, ProfitManagerHeader, VerticalSpaceBetween,  HistoryContent  } from './styled';
 import {formatAddress, formatDate, formattedNum} from "../../utils";
-import LogoIconBlack from '../../assets/icons/LogoIconBlack';
+import MRow from './MRow';
+import { getTableRowUtilityClass } from '@mui/material';
 
 const  myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
@@ -148,28 +149,8 @@ const ProfitManager = () => {
 
         </HistoryContent>
         : <HistoryContent paddingTop='0px'>
-        {historyArray && historyArray.map(row => {
-          return (<HistoryTableRowMobile key={Math.random()}>
-              <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
-              <LogoIconBlack ratio='5vw'></LogoIconBlack>
-              <div style={{display: 'flex', flexDirection: 'column'}}>
-                <div>
-                  <b>ORU</b>
-                </div>
-                  <GreyText>{row.date}</GreyText>
-              </div>
-              </div>
-              <div>
-              <div style={{textAlign: 'right'}}>
-                <GreyText>
-                TOTAL in $
-                  </GreyText>
-              <div>
-              ${formattedNum(row.totalUSD)}
-              </div>
-              </div>
-              </div>
-              </HistoryTableRowMobile>);
+        {historyArray && historyArray.map((row, idx) => {
+          return (<MRow index={idx} row={row}/>);
         })}
 
       </HistoryContent> }
