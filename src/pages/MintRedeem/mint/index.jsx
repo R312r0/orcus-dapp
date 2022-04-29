@@ -22,6 +22,7 @@ import {
   Option,
   OptionsWrapper,
   Select,
+  CustomSpan,
   Text,
 } from './styled';
 import {useBlockChainContext} from "../../../context/blockchain-context";
@@ -214,12 +215,12 @@ const Mint = () => {
           <button onClick={() => handleCollateralInput(userInfo?.usdcBal)} disabled={!account}>Max</button>
           <Divider />
           <IconWrapper margin='0 0.833vw' fill='#000'>
-            <USDCIcon />
+            <USDCIcon ratio='5vw' />
           </IconWrapper>
           USDC
         </MintInputWrapper>
         <IconWrapper margin='1.667vw 0 0 0'>
-          <BoldPlusIcon />
+          <BoldPlusIcon ratio='5vw'/>
         </IconWrapper>
         <HDiv>
           <Text>Required ORU {mintInfo ? 100 - (mintInfo.tcr * 100) : 0 }%</Text>
@@ -228,7 +229,7 @@ const Mint = () => {
         <MintInputWrapper>
           <input disabled={true} type='text' placeholder='0' value={shareInput} />
           <IconWrapper margin='0 0.833vw' fill='#000'>
-            <LogoIconBlack />
+            <LogoIconBlack ratio='5vw'/>
           </IconWrapper>
           ORU
         </MintInputWrapper>
@@ -249,19 +250,11 @@ const Mint = () => {
         <MintButton/>
       </MintBlockWrapper>
       <MintDataWrapper>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <ClipboardIcon color='#000' />
-          <span
-            style={{
-              fontFamily: 'Poppins',
-              fontWeight: '500',
-              color: '#333',
-              fontSize: '1.250vw',
-              marginLeft: '1.094vw',
-            }}
-          >
+        <div style={{ display: 'flex', gap: '1vw', alignItems: 'center' }}>
+          <ClipboardIcon  color='#000' />
+          <CustomSpan>
             Data
-          </span>
+          </CustomSpan>
         </div>
         <HDivider margin='1.875vw 0 0.77vw 0' />
         <HDiv>

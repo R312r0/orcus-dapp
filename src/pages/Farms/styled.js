@@ -397,6 +397,15 @@ export const HeadingText = styled.span`
   font-size: 1.25vw;
   font-weight: 500;
   color: #333;
+  @media (max-device-width: 480px){
+    font-size: 16px;
+    line-height: 32px;
+    margin-top: 24px !important;
+    margin-bottom: 24px !important;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+  }
 `;
 
 export const Balance = styled.span`

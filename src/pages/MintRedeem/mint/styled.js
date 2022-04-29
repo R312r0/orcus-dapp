@@ -4,6 +4,18 @@ import Button from '@mui/material/Button';
 import { styled as styledMUI } from '@mui/system';
 import styled from 'styled-components';
 
+
+
+export const CustomSpan = styled.span`
+  fontFamily: 'Poppins',
+  fontWeight: 500,
+  color: #333,
+  font-size: 1.250vw,
+  margin-left: 1.094vw,
+  @media (max-device-width: 480px){
+    font-size: 16px;
+  }
+`
 export const MintBlockWrapper = styled.div`
   padding: 2.76vw 2.969vw 3.333vw 2.969vw;
   height: 32.865vw;
@@ -71,6 +83,7 @@ export const MintInputWrapper = styled.div`
   @media (max-device-width: 480px){
     width: 100%;
     height: 32px;
+    font-size: 12px;
   }
 
   input {
@@ -91,6 +104,12 @@ export const MintInputWrapper = styled.div`
   }
 
   button {
+    @media (max-device-width: 480px){
+      font-size: 8px;
+      height: auto;
+      padding: 4px 8px;
+      width: auto;
+    }
     border-radius: 0.521vw;
     background: #333;
     height: 1.875vw;
@@ -117,6 +136,10 @@ export const IconWrapper = styled.div`
   align-items: center;
   align-self: center;
   display: flex;
+  @media (max-device-width: 480px){
+    height: 5vw !important;
+    width: 5vw !important;
+  }
 
   svg {
     fill: ${(props) => props.fill ?? '#BDBDBD'};
@@ -178,7 +201,12 @@ export const MintDataWrapper = styled.div`
   @media (max-device-width: 480px){
     margin: 0;
     width: 100%;
-    
+    padding-top: 16px;
+    padding-bottom: 16px;
+    height: auto;
+    margin-top: 16px;
+    margin-bottom: 32px;
+
   }
 `;
 

@@ -23,6 +23,7 @@ import {
   RedeemInputWrapper,
   RedemtionBtn,
   RedemtionWrapper,
+  CustomSpan,
   Select,
   Text,
 } from './styled';
@@ -234,17 +235,11 @@ const Redeem = () => {
         <RedeemDataWrapper>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <ClipboardIcon color='#000' />
-            <span
-              style={{
-                fontFamily: 'Poppins',
-                fontWeight: '500',
-                color: '#333',
-                fontSize: '1.250vw',
-                marginLeft: '1.094vw',
-              }}
+            <CustomSpan
+              
             >
               Data
-            </span>
+            </CustomSpan>
           </div>
           <HDivider margin='1.875vw 0 0.77vw 0' />
           <HDiv>
@@ -306,17 +301,11 @@ const Redeem = () => {
           <HDiv>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <CollectRedemtionIcon />
-              <span
-                style={{
-                  fontFamily: 'Poppins',
-                  fontSize: '0.938vw',
-                  color: '#333',
-                  fontWeight: '500',
-                  marginLeft: '1.042vw',
-                }}
+              <CustomSpan
+                
               >
                 Collect redemtion
-              </span>
+              </CustomSpan>
             </div>
             <RedemtionBtn disabled={userInfo?.claims.collat <= 0 || userInfo?.claims.share} onClick={() => collect()}>Collect</RedemtionBtn>
           </HDiv>

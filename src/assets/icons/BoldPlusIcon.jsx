@@ -1,11 +1,11 @@
 import React from 'react';
 
-function BoldPlusIcon({ color }) {
+function BoldPlusIcon({ color, ratio }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='1.25vw'
-      height='1.25vw'
+      width={ratio ?? '1.25vw'}
+      height={ratio ?? '1.25vw'}
       fill='none'
       viewBox='0 0 21 20'
     >
