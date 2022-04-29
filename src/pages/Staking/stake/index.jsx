@@ -16,6 +16,7 @@ import {
   StakeDataWrapper,
   StakeInputWrapper,
   Text,
+  CustomSpan,
 } from './styled';
 import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
@@ -123,7 +124,6 @@ const Stake = () => {
        }
 
     }
-
     else {
       return <StakeBtn onClick={() => connectWallet()}>Connect Wallet</StakeBtn>
     }
@@ -150,12 +150,12 @@ const Stake = () => {
           <input type='text' placeholder='0.0' value={oruInput} onChange={(e) => setOruInput(e.target.value)} />
           <button onClick={() => setOruInput(userInfo?.balances.oru)} >Max</button>
           <Divider />
-          <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
+          <IconWrapper w='5vw' h='5vw' fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>
           ORU
         </StakeInputWrapper>
-        <IconWrapper margin='1.719vw 0 0 0'>
+        <IconWrapper  w='5vw' h='5vw' margin='1.719vw 0 0 0'>
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
@@ -164,7 +164,7 @@ const Stake = () => {
         </HDiv>
         <StakeInputWrapper>
           <input type='text' placeholder={"0.0"} value={oruInput} disabled={true}/>
-          <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
+          <IconWrapper  w='5vw' h='5vw' fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>
           xORU
@@ -175,23 +175,13 @@ const Stake = () => {
       <StakeDataWrapper>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <ClipboardIcon color='#000' />
-          <span
-            style={{
-              fontFamily: 'Poppins',
-              fontWeight: '500',
-              color: '#333',
-              fontSize: '1.250vw',
-              marginLeft: '1.094vw',
-            }}
-          >
-            Data
-          </span>
+          <CustomSpan>Data</CustomSpan>
         </div>
         <HDivider margin='1.875vw 0 0.77vw 0' />
         <HDiv>
           <StakeDataText>Stake TVL</StakeDataText>
           <StakeDataText>
-            <b>$ {stakingInfo ? formattedNum(stakingInfo.tvl) : 0}</b>
+            <b>${stakingInfo ? formattedNum(stakingInfo.tvl) : 0}</b>
           </StakeDataText>
         </HDiv>
         <HDivider margin='0.938vw 0 0.781vw 0' />
@@ -222,7 +212,6 @@ const Stake = () => {
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-
       </StakeDataWrapper>
     </>
   );

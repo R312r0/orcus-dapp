@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+export const CustomSpan = styled.span`
+  fontFamily: 'Poppins',
+  fontWeight: 500,
+  color: #333,
+  font-size: 1.250vw,
+  margin-left: 1.094vw,
+  @media (max-device-width: 480px){
+    font-size: 16px;
+  }
+`
 export const StakeBlockWrapper = styled.div`
   padding: 1.615vw 2.969vw 3.333vw 2.969vw;
   height: 32.865vw;
@@ -8,6 +18,12 @@ export const StakeBlockWrapper = styled.div`
   display: flex;
   background: #fff;
   border-radius: 1.042vw;
+  @media (max-device-width: 480px){
+    padding: 0;
+    width: 100%;
+    margin: 0;
+    height: auto;
+  }
 `;
 
 export const HDiv = styled.div`
@@ -26,8 +42,15 @@ export const Text = styled.span`
   font-size: 0.938vw;
   font-weight: 300;
   color: #4f4f4f;
-
+  @media (max-device-width: 480px){
+    font-size: 12px;
+    line-height: 16px;
+  }
   b {
+    @media (max-device-width: 480px){
+      font-size: 18px;
+      line-height: 18px;
+    }
     font-weight: 600;
     font-size: 1.25vw;
     line-height: 1.875vw;
@@ -43,6 +66,11 @@ export const PercentageContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   text-align: center;
+  @media (max-device-width: 480px){
+    height: auto;
+    align-items: center;
+    padding: 4px 8px;
+  }
 `;
 
 export const StakeInputWrapper = styled.div`
@@ -65,6 +93,12 @@ export const StakeInputWrapper = styled.div`
   font-weight: 500;
   color: #272a30;
   display: flex;
+  @media (max-device-width: 480px){
+    width: 100%;
+    height: 32px;
+    font-size: 12px;
+  }
+  
 
   input {
     width: ${(props) => (props.withBtn ? '18.8vw' : '24.7vw')};
@@ -75,6 +109,11 @@ export const StakeInputWrapper = styled.div`
     height: inherit;
     ::placeholder {
       color: #bdbdbd;
+    }
+    @media (max-device-width: 480px){
+      width: 90%;
+      height: 32px;
+      font-size: 14px;
     }
   }
 
@@ -152,6 +191,12 @@ export const StakeBtn = styled.button`
     transition: all 0.3s;
     background: #000;
   }
+  @media (max-device-width: 480px){
+    width: 100%;
+    font-size: 14px;
+    line-height: 14px;
+    height: 48px;
+  }
 `;
 
 export const StakeDataWrapper = styled.div`
@@ -163,6 +208,16 @@ export const StakeDataWrapper = styled.div`
   height: 22.188vw;
   width: 25.573vw;
   display: flex;
+  @media (max-device-width: 480px){
+    margin: 0;
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    height: auto;
+    margin-top: 16px;
+    margin-bottom: 32px;
+
+  }
 `;
 
 export const StakeDataText = styled.span`
@@ -173,8 +228,16 @@ export const StakeDataText = styled.span`
   font-size: 0.729vw;
   font-weight: 400;
   color: #828282;
+  @media (max-device-width: 480px){
+    font-size: 14px; 
+    line-height: 14px;
+  }
 
   b {
+    @media (max-device-width: 480px){
+      font-size: 14px; 
+      line-height: 14px;
+    }
     line-height: 1.094vw;
     font-size: 0.729vw;
     font-weight: 500;

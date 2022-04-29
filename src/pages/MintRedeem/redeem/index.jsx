@@ -301,9 +301,7 @@ const Redeem = () => {
           <HDiv>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <CollectRedemtionIcon />
-              <CustomSpan
-                
-              >
+              <CustomSpan>
                 Collect redemtion
               </CustomSpan>
             </div>
