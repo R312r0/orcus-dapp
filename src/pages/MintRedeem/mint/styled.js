@@ -4,6 +4,18 @@ import Button from '@mui/material/Button';
 import { styled as styledMUI } from '@mui/system';
 import styled from 'styled-components';
 
+
+
+export const CustomSpan = styled.span`
+  fontFamily: 'Poppins',
+  fontWeight: 500,
+  color: #333,
+  font-size: 1.250vw,
+  margin-left: 1.094vw,
+  @media (max-device-width: 480px){
+    font-size: 16px;
+  }
+`
 export const MintBlockWrapper = styled.div`
   padding: 2.76vw 2.969vw 3.333vw 2.969vw;
   height: 32.865vw;
@@ -12,6 +24,12 @@ export const MintBlockWrapper = styled.div`
   display: flex;
   background: #fff;
   border-radius: 1.042vw;
+  @media (max-device-width: 480px){
+    padding: 0;
+    width: 100%;
+    margin: 0;
+    height: auto;
+  }
 `;
 export const HDivider = styled.div`
   margin: ${(props) => props.margin};
@@ -36,6 +54,10 @@ export const Text = styled.span`
   font-size: 0.938vw;
   font-weight: 300;
   color: #4f4f4f;
+  @media (max-device-width: 480px){
+    font-size: 12px;
+    line-height: 16px;
+  }
 `;
 
 export const MintInputWrapper = styled.div`
@@ -58,6 +80,11 @@ export const MintInputWrapper = styled.div`
   font-weight: 500;
   color: #272a30;
   display: flex;
+  @media (max-device-width: 480px){
+    width: 100%;
+    height: 32px;
+    font-size: 12px;
+  }
 
   input {
     width: ${(props) => (props.withSelect ? '18.906vw' : '24.3vw')};
@@ -69,9 +96,20 @@ export const MintInputWrapper = styled.div`
     ::placeholder {
       color: #272a30;
     }
+    @media (max-device-width: 480px){
+      width: 90%;
+      height: 32px;
+      font-size: 14px;
+    }
   }
 
   button {
+    @media (max-device-width: 480px){
+      font-size: 8px;
+      height: auto;
+      padding: 4px 8px;
+      width: auto;
+    }
     border-radius: 0.521vw;
     background: #333;
     height: 1.875vw;
@@ -98,6 +136,10 @@ export const IconWrapper = styled.div`
   align-items: center;
   align-self: center;
   display: flex;
+  @media (max-device-width: 480px){
+    height: 5vw !important;
+    width: 5vw !important;
+  }
 
   svg {
     fill: ${(props) => props.fill ?? '#BDBDBD'};
@@ -118,6 +160,7 @@ export const Divider = styled.div`
   background: #eaebeb;
   height: 2.083vw;
   width: 0.052vw;
+  
 `;
 
 export const MintBtn = styled.button`
@@ -138,6 +181,12 @@ export const MintBtn = styled.button`
     transition: all 0.3s;
     background: #000;
   }
+  @media (max-device-width: 480px){
+    width: 100%;
+    font-size: 14px;
+    line-height: 14px;
+    height: 48px;
+  }
 `;
 
 export const MintDataWrapper = styled.div`
@@ -149,6 +198,16 @@ export const MintDataWrapper = styled.div`
   height: 22.188vw;
   width: 25.573vw;
   display: flex;
+  @media (max-device-width: 480px){
+    margin: 0;
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    height: auto;
+    margin-top: 16px;
+    margin-bottom: 32px;
+
+  }
 `;
 
 export const MintDataText = styled.span`
@@ -159,12 +218,20 @@ export const MintDataText = styled.span`
   font-size: 0.729vw;
   font-weight: 400;
   color: #828282;
+  @media (max-device-width: 480px){
+    font-size: 14px; 
+    line-height: 14px;
+  }
 
   b {
     line-height: 1.094vw;
     font-size: 0.729vw;
     font-weight: 500;
     color: #333;
+    @media (max-device-width: 480px){
+      font-size: 14px; 
+      line-height: 14px;
+    }
   }
 `;
 

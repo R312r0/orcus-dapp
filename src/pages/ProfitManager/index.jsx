@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 
-import { ProfitManagerWrapper, HeadingText, HistoryHeader, HistoryTableRow,HistoryTableHead,HistoryContainer, HorizontalSpaceBetween,THRButton, Text,Line, THRValue, THRLabel,THRContainer, TPPLabel, ProfitManagerHeader, VerticalSpaceBetween, THRContent, HistoryContent  } from './styled';
+import { ProfitManagerWrapper, HeadingText, HistoryHeader, HistoryTableRow,HistoryTableHead,HistoryContainer, HorizontalSpaceBetween, Text,Line, TPPLabel, ProfitManagerHeader, VerticalSpaceBetween,  HistoryContent  } from './styled';
 import {formatAddress, formatDate, formattedNum} from "../../utils";
+import MRow from './MRow';
+import { getTableRowUtilityClass } from '@mui/material';
 
 const  myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
@@ -60,6 +62,11 @@ const ProfitManager = () => {
 
   }
 
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
+  }
+
   return <ProfitManagerWrapper>
     <ProfitManagerHeader>
     <HorizontalSpaceBetween>
@@ -79,6 +86,7 @@ const ProfitManager = () => {
     <HistoryContainer>
       <HistoryContent  paddingTop='32px'>
         <HistoryHeader>History</HistoryHeader>
+        { !isMobileScreen() ? 
         <HistoryTableHead>
           <div>
             Date
@@ -104,14 +112,13 @@ const ProfitManager = () => {
           <div>
           Tx
           </div>
-        </HistoryTableHead>
+        </HistoryTableHead>  : <></>}
       </HistoryContent>
         <Line color='#F2F2F2'></Line>
+        { !isMobileScreen() ? 
         <HistoryContent paddingTop='0px'>
-
           {historyArray && historyArray.map(row => {
             return (<HistoryTableRow key={Math.random()}>
-
 
               <div>
                   {row.date}
@@ -141,6 +148,12 @@ const ProfitManager = () => {
           })}
 
         </HistoryContent>
+        : <HistoryContent paddingTop='0px'>
+        {historyArray && historyArray.map((row, idx) => {
+          return (<MRow index={idx} row={row}/>);
+        })}
+
+      </HistoryContent> }
     </HistoryContainer>
   </ProfitManagerWrapper>;
 };

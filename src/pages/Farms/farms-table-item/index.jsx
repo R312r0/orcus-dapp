@@ -5,6 +5,7 @@ import {ethers, FixedNumber} from "ethers";
 import UNISWAP_PAIR_ABI from '../../../abis/UniswapPair.json';
 
 import DepositingIcon from '../../../assets/icons/DepositingIcon';
+
 import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
 import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 import OUSDIcon from '../../../assets/icons/OUSDIcon';

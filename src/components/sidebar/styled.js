@@ -1,11 +1,49 @@
 import styled from 'styled-components';
 
+
+
+
+export const SidebarMenu = styled.div`
+  position: fixed;
+  height: 100vh;
+  top: 0;
+
+  background-color: #191919;
+  z-index: 10;
+  width: 100%;
+  left: 0;
+
+
+`
+
+export const NavigationWrapper = styled.div`
+  
+
+`
+
+export const TopBarWrapper = styled.div`
+width: 100%;
+display: none;
+align-items: center;
+padding-left: 10%;
+margin-top: 5%;
+padding-right: 10%;
+justify-content: space-between;
+@media (max-device-width: 480px){
+  display: flex;
+}
+`
+
+
 export const SidebarWrapper = styled.div`
   flex-direction: column;
   width: 10.156vw;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  @media (max-device-width: 480px){
+    display: none;
+  }
 `;
 
 export const LogoWrapper = styled.div`
@@ -22,16 +60,21 @@ export const LogoWrapper = styled.div`
 
 export const LogoText = styled.div`
   margin-top: ${(props) => props.mt};
-  line-height: 0.573vw;
-  font-size: 0.469vw;
+
+  line-height: ${ props => props.fS ?? '0.573vw'};
+  font-size: ${props => props.fS ?? '0.469vw'};
   font-weight: 400;
   color: #fff;
   display: flex;
 
   b {
-    line-height: 1.25vw;
-    font-size: 1.042vw;
+    line-height: ${ props => props.fS ?? ' 1.25vw'};
+    font-size: ${props => props.fS ?? '1.042vw'};
     font-weight: 600;
+  }
+  @media (max-device-width: 480px){
+    text-align: center;
+    justify-content: center;
   }
 `;
 
@@ -85,8 +128,12 @@ export const IconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  
   svg {
+    @media (max-device-width: 480px){
+      height: 5vw;
+      height: 5vw;
+    }
     stroke: ${(props) => (props.isActive ? '#fff' : '#4F4F4F')};
     transition: 0.3s all;
     &:hover {

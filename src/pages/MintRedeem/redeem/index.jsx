@@ -23,6 +23,7 @@ import {
   RedeemInputWrapper,
   RedemtionBtn,
   RedemtionWrapper,
+  CustomSpan,
   Select,
   Text,
 } from './styled';
@@ -184,6 +185,10 @@ const Redeem = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
+  }
   return (
     <>
       <RedeemBlockWrapper>
@@ -232,19 +237,13 @@ const Redeem = () => {
       </RedeemBlockWrapper>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <RedeemDataWrapper>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <ClipboardIcon color='#000' />
-            <span
-              style={{
-                fontFamily: 'Poppins',
-                fontWeight: '500',
-                color: '#333',
-                fontSize: '1.250vw',
-                marginLeft: '1.094vw',
-              }}
+          <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
+          <ClipboardIcon ratio={ isMobileScreen() ? '5vw' : undefined} color='#000' />
+            <CustomSpan
+              
             >
               Data
-            </span>
+            </CustomSpan>
           </div>
           <HDivider margin='1.875vw 0 0.77vw 0' />
           <HDiv>
@@ -304,19 +303,11 @@ const Redeem = () => {
         </RedeemDataWrapper>
         <RedemtionWrapper>
           <HDiv>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <CollectRedemtionIcon />
-              <span
-                style={{
-                  fontFamily: 'Poppins',
-                  fontSize: '0.938vw',
-                  color: '#333',
-                  fontWeight: '500',
-                  marginLeft: '1.042vw',
-                }}
-              >
+            <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
+              <CollectRedemtionIcon  ratio={ isMobileScreen() ? '5vw' : undefined}/>
+              <CustomSpan>
                 Collect redemtion
-              </span>
+              </CustomSpan>
             </div>
             <RedemtionBtn disabled={userInfo?.claims.collat <= 0 || userInfo?.claims.share <= 0} onClick={() => collect()}>Collect</RedemtionBtn>
           </HDiv>

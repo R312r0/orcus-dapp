@@ -12,6 +12,12 @@ export const RedeemBlockWrapper = styled.div`
   display: flex;
   background: #fff;
   border-radius: 1.042vw;
+  @media (max-device-width: 480px){
+    padding: 0;
+    width: 100%;
+    margin: 0;
+    height: auto;
+  }
 `;
 
 export const HDiv = styled.div`
@@ -30,6 +36,10 @@ export const Text = styled.span`
   font-size: 0.938vw;
   font-weight: 300;
   color: #4f4f4f;
+  @media (max-device-width: 480px){
+    font-size: 12px;
+    line-height: 16px;
+  }
 `;
 
 export const RedeemInputWrapper = styled.div`
@@ -52,6 +62,11 @@ export const RedeemInputWrapper = styled.div`
   font-weight: 500;
   color: #272a30;
   display: flex;
+  @media (max-device-width: 480px){
+    width: 100%;
+    height: 32px;
+    font-size: 12px;
+  }
 
   input {
     width: ${(props) => (props.withSelect ? '18.906vw' : '24.3vw')};
@@ -62,6 +77,11 @@ export const RedeemInputWrapper = styled.div`
     height: inherit;
     ::placeholder {
       color: #272a30;
+    }
+    @media (max-device-width: 480px){
+      width: 90%;
+      height: 32px;
+      font-size: 14px;
     }
   }
 
@@ -92,7 +112,10 @@ export const IconWrapper = styled.div`
   align-items: center;
   align-self: center;
   display: flex;
-
+  @media (max-device-width: 480px){
+    height: 5vw !important;
+    width: 5vw !important;
+  }
   svg {
     fill: ${(props) => props.fill ?? '#BDBDBD'};
     /* stroke: ${(props) => props.stroke ?? '#BDBDBD'}; */
@@ -139,7 +162,25 @@ export const RedeemBtn = styled.button`
     transition: all 0.3s;
     background: #000;
   }
+  @media (max-device-width: 480px){
+    width: 100%;
+    font-size: 14px;
+    line-height: 14px;
+    height: 48px;
+  }
+  
 `;
+
+export const CustomSpan = styled.span`
+  fontFamily: 'Poppins',
+  fontWeight: 500,
+  color: #333,
+  font-size: 1.250vw,
+  margin-left: 1.094vw,
+  @media (max-device-width: 480px){
+    font-size: 16px;
+  }
+`
 
 export const RedeemDataWrapper = styled.div`
   padding: 2.604vw 2.188vw 2.396vw 2.188vw;
@@ -150,6 +191,15 @@ export const RedeemDataWrapper = styled.div`
   height: 22.188vw;
   width: 25.573vw;
   display: flex;
+  @media (max-device-width: 480px){
+    margin: 0;
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    height: auto;
+    margin-top: 16px;
+    margin-bottom: 32px;
+  }
 `;
 
 export const RedeemDataText = styled.span`
@@ -160,12 +210,21 @@ export const RedeemDataText = styled.span`
   font-size: 0.729vw;
   font-weight: 400;
   color: #828282;
+  @media (max-device-width: 480px){
+    font-size: 14px; 
+    line-height: 14px;
+  }
+
 
   b {
     line-height: 1.094vw;
     font-size: 0.729vw;
     font-weight: 500;
     color: #333;
+    @media (max-device-width: 480px){
+      font-size: 14px; 
+      line-height: 14px;
+    }
   }
 `;
 
@@ -179,6 +238,15 @@ export const RedemtionWrapper = styled.div`
   height: 9.896vw;
   width: 25.573vw;
   display: flex;
+  @media (max-device-width: 480px){
+    margin: 0;
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    height: auto;
+    margin-top: 16px;
+    margin-bottom: 32px;
+  }
 `;
 
 export const RedemtionBtn = styled.button`
@@ -195,7 +263,14 @@ export const RedemtionBtn = styled.button`
   line-height: 1.094vw;
   font-size: 0.729vw;
   font-weight: 400;
+  @media (max-device-width: 480px){
 
+    font-size: 14px;
+    line-height: 14px;
+    padding: 4px 8px;
+    width: auto;
+    height: auto;
+  }
   &:hover {
     transition: 0.3s all;
     background: #333;

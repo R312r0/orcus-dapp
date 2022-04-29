@@ -1,13 +1,13 @@
 import React from 'react';
 
-function MintIcon({ color }) {
+function MintIcon({ color, ratio }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       // width='1.979vw'
       // height='1.979vw'
-      height='1.484vw'
-      width='1.484vw'
+      height={ ratio ?? '1.484vw'}
+      width={ ratio ?? '1.484vw'}
       fill='none'
       viewBox='0 0 38 38'
     >

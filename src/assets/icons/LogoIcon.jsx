@@ -1,11 +1,11 @@
 import React from 'react';
 
-function LogoIcon({ color }) {
+function LogoIcon({ color, width, height }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='3.125vw'
-      height='2.344vw'
+      width={width ?? '3.125vw'}
+      height={height ?? '2.344vw'}
       fill='none'
       viewBox='0 0 60 45'
     >

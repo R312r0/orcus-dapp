@@ -15,6 +15,7 @@ import {
   UnstakeBtn,
   UnstakeDataText,
   UnstakeDataWrapper,
+  CustomSpan,
   UnstakeInputWrapper,
 } from './styled';
 import {useWeb3React} from "@web3-react/core";
@@ -168,12 +169,12 @@ const Unstake = () => {
           <input type='text' placeholder='0.0' value={xoruInput} onChange={(e) => setXOruInput(e.target.value)}/>
           <button>Max</button>
           <Divider />
-          <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
+          <IconWrapper  w='5vw' h='5vw' fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>
           xORU
         </UnstakeInputWrapper>
-        <IconWrapper margin='1.719vw 0 0 0'>
+        <IconWrapper  w='5vw' h='5vw' margin='1.719vw 0 0 0'>
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
@@ -181,8 +182,8 @@ const Unstake = () => {
           <Text>Balance: {userInfo ? formattedNum(userInfo.balances.oru) : 0}</Text>
         </HDiv>
         <UnstakeInputWrapper>
-          <input type='text' value={xoruInput * stakingInfo?.rate} onChange={(e) => setXOruInput(e.target.value)}/>
-          <IconWrapper fill='#000' margin='0 0.833vw 0 0'>
+          <input type='text' value={xoruInput} onChange={(e) => setXOruInput(e.target.value)}/>
+          <IconWrapper  w='5vw' h='5vw' fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>
           ORU
@@ -194,17 +195,10 @@ const Unstake = () => {
       <UnstakeDataWrapper>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <ClipboardIcon color='#000' />
-          <span
-            style={{
-              fontFamily: 'Poppins',
-              fontWeight: '500',
-              color: '#333',
-              fontSize: '1.250vw',
-              marginLeft: '1.094vw',
-            }}
+          <CustomSpan
           >
             Data
-          </span>
+          </CustomSpan>
         </div>
         <HDivider margin='1.875vw 0 0.77vw 0' />
         <HDiv>
@@ -226,7 +220,7 @@ const Unstake = () => {
             <UnstakeDataText>Days</UnstakeDataText>
           </div>
         </HDiv>
-        <HDivider margin='0.938vw 0 0.781vw 0' />
+        <HDivider margin='0.781vw 0 0.938vw  0' />
         <HDiv>
           <StakeDataText mr='0.339vw'>Rate</StakeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>

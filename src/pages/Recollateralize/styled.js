@@ -3,6 +3,9 @@ import styled from 'styled-components';
 export const RecollateralizeWrapper = styled.div`
   flex-direction: row;
   display: flex;
+  @media (max-device-width: 480px){
+    width: 100%;
+  }
 `;
 export const RecollateralizeContent = styled.div`
   display: flex;
@@ -14,12 +17,24 @@ export const HeadingText = styled.span`
   font-size: 1.25vw;
   font-weight: 500;
   color: #333;
+  @media (max-device-width: 480px){
+    font-size: 16px;
+    line-height: 32px;
+    margin-top: 24px !important;
+    margin-bottom: 24px !important;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+  }
 `;
 
 
 export const StakingWrapper = styled.div`
   flex-direction: column;
   display: flex;
+  @media (max-device-width: 480px){
+    width: 100%;
+  }
 `;
 
 
@@ -28,6 +43,12 @@ export const ToggleBtnWrapper = styled.div`
   margin-top: 2.135vw;
   align-items: center;
   display: flex;
+  @media (max-device-width: 480px){
+    background-color: #F2F2F2;
+    margin: 0;
+    border-radius: 12vw;
+    padding: 4px;
+  }
 `;
 
 export const ToggleBtn = styled.div`
@@ -44,6 +65,21 @@ export const ToggleBtn = styled.div`
   align-items: center;
   height: 2.135vw;
   display: flex;
+  @media (max-device-width: 480px){
+    background-color: ${(props) => (props.isActive ? '#fff' : '#f2f2f2')};
+    color: #333;
+    font-size: 14px;
+    width: 50%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    border-radius: 12vw;
+    line-height: 16px;
+    margin: 0;
+    padding: 0;
+  }
 `;
 
 export const TabWrapper = styled.div`
@@ -51,6 +87,12 @@ export const TabWrapper = styled.div`
   margin-left: 10.573vw;
   display: flex;
   margin-top: 5.537vw ;
+  @media (max-device-width: 480px){
+    width: 100%;
+    flex-direction: column;
+    margin-left: 0;
+
+  }
 `;
 
 
@@ -62,6 +104,10 @@ export const RecollateralizeBlockWrapper = styled.div`
   display: flex;
   background: #fff;
   border-radius: 1.042vw;
+  @media (max-device-width: 480px){
+    width: 100%;
+    height: auto;
+  }
   
 `;
 
@@ -81,8 +127,15 @@ export const Text = styled.span`
   font-size: 0.938vw;
   font-weight: ${props => props.fontWeight ?? '300'};
   color: #4f4f4f;
-
+  @media (max-device-width: 480px){
+    font-size: 12px;
+    line-height: 16px;
+  }
   b {
+    @media (max-device-width: 480px){
+      font-size: 16px;
+      line-height: 16px;
+    }
     font-weight: 600;
     font-size: 1.25vw;
     line-height: 1.875vw;
@@ -120,6 +173,11 @@ export const RecollateralizeInputWrapper = styled.div`
   font-weight: 500;
   color: #272a30;
   display: flex;
+  @media (max-device-width: 480px){
+    width: 100%;
+    height: 32px;
+    font-size: 12px;
+  }
 
   input {
     width: ${(props) => (props.withBtn ? '18.8vw' : '24.7vw')};
@@ -130,6 +188,11 @@ export const RecollateralizeInputWrapper = styled.div`
     height: inherit;
     ::placeholder {
       color: #bdbdbd;
+    }
+    @media (max-device-width: 480px){
+      width: 90%;
+      height: 32px;
+      font-size: 14px;
     }
   }
 
@@ -203,6 +266,12 @@ export const RecollateralizeBtn = styled.button`
   color: #fff;
   align-self: center;
   cursor: pointer;
+  @media (max-device-width: 480px){
+    width: 100%;
+    font-size: 14px;
+    line-height: 14px;
+    height: 48px;
+  }
   &:hover {
     transition: all 0.3s;
     background: #000;
@@ -218,6 +287,15 @@ export const RecollateralizeDataWrapper = styled.div`
   height: 22.188vw;
   width: 25.573vw;
   display: flex;
+  @media (max-device-width: 480px){
+    margin: 0;
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    height: auto;
+    margin-top: 16px;
+    margin-bottom: 32px;
+  }
 `;
 
 export const RecollateralizeDataText = styled.span`
@@ -228,11 +306,20 @@ export const RecollateralizeDataText = styled.span`
   font-size: 0.729vw;
   font-weight: 400;
   color: #828282;
+  @media (max-device-width: 480px){
+    font-size: 14px; 
+    line-height: 14px;
+  }
+
 
   b {
     line-height: 1.094vw;
     font-size: 0.729vw;
     font-weight: 500;
     color: #333;
+    @media (max-device-width: 480px){
+      font-size: 14px; 
+      line-height: 14px;
+    }
   }
 `;

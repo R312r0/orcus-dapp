@@ -8,6 +8,10 @@ export const OrangeRow = styled.div`
 display: flex;
 align-items: center;
 justify-content: space-between;
+@media (max-device-width: 480px){
+  font-size: 14px;
+  line-height: 14px;
+}
 `
 
 export const PseudoSelectContainer = styled.div`
@@ -83,6 +87,12 @@ export const PoolBlockWrapper = styled.div`
   display: flex;
   background: #fff;
   border-radius: 1.042vw;
+  @media (max-device-width: 480px){
+    padding: 0;
+    width: 100%;
+    margin: 0;
+    height: auto;
+  }
 `;
 
 export const OrangeBlock = styled.div`
@@ -97,6 +107,14 @@ export const OrangeBlock = styled.div`
     & div {
       display: flex;
       align-items: center;
+    }
+    @media (max-device-width: 480px){
+      width: 100%;
+      font-size: 14px;
+      line-height: 14px;
+      padding: 8px;
+      text-align: center;
+      margin-bottom: 32px;
     }
 `
 export const HDivider = styled.div`
@@ -122,6 +140,10 @@ export const Text = styled.span`
   font-size: 0.938vw;
   font-weight: 300;
   color: #4f4f4f;
+  @media (max-device-width: 480px){
+    font-size: 12px;
+    line-height: 16px;
+  
 `;
 
 export const PoolInputWrapper = styled.div`
@@ -228,6 +250,13 @@ background: white;
     transition: all 0.3s;
     background: #F4BD50;
   }
+  @media (max-device-width: 480px){
+    width: 100%;
+    font-size: 14px;
+    line-height: 14px;
+    height: 48px;
+    margin-bottom: 12px;
+  }
 `
 
 export const PoolBtn = styled.button`
@@ -249,6 +278,13 @@ export const PoolBtn = styled.button`
   &:hover {
     transition: all 0.3s;
     background: #000;
+  }
+  @media (max-device-width: 480px){
+    width: 100%;
+    font-size: 14px;
+    line-height: 14px;
+    height: 48px;
+    margin-bottom: 8px;
   }
 `;
 
