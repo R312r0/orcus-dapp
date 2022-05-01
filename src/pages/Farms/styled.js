@@ -114,6 +114,9 @@ export const ClaimsHead = styled.div`
   margin-top: 1.24vw;
   font-family: 'Poppins';
   padding-left: 1.12vw;
+  @media (max-device-width: 480px){
+    font-size: 12px;
+  }
 `
 
 
@@ -184,6 +187,9 @@ box-sizing: border-box;
 filter: drop-shadow(0px 4px 40px rgba(124, 122, 122, 0.16));
 border-radius: 1.024vw;
   margin-top: 0.64vw;
+  @media (max-device-width: 480px){
+font-size: 12px;
+  }
   
 `
 
@@ -277,6 +283,9 @@ export const FarmsOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-device-width: 480px){
+    background: none; 
+  }
 `
 export const PagesRow = styled.div`
   padding-left: 35.5%;
@@ -297,6 +306,13 @@ export const FarmsOverlayContent = styled.div`
   padding: 2vw;
   display: flex;
   flex-direction: column;
+  
+  @media (max-device-width: 480px){
+    width: 100%;
+    padding-top: 24px;
+    padding-bottom :48px;
+  }
+  
 `
 
 export const RewardsHead = styled.div`
@@ -305,6 +321,10 @@ export const RewardsHead = styled.div`
   grid-template-columns: 1fr 9fr 1fr;
   align-items: center;
   height: 5vw;
+  @media (max-device-width: 480px){
+    height: auto;
+
+  }
 `
 
 export const RewardsValues=  styled.div`
@@ -490,6 +510,10 @@ export const Text = styled.span`
   font-size: 0.938vw;
   line-height: 1.406vw;
   color: #4f4f4f;
+  @media (max-device-width: 480px){
+    font-size: 14px;
+
+  }
 `;
 
 export const TotalHarvestedInfo = styled.div`

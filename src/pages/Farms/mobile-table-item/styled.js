@@ -267,6 +267,9 @@ export const ExpandedDataWrapper = styled.div`
   width: 100%;
   @media (max-device-width: 480px){
       height: auto;
+      padding-top: 24px;
+      padding-bottom: 12px;
+      border-radius: 12vw;
   }
 `;
 

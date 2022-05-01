@@ -231,7 +231,7 @@ const Farms = () => {
 
   return (
     <>
-    {isRewardsOverlay ? <>
+    {(isRewardsOverlay && !isMobileScreen()) ? <>
       <FarmsOverlay>
         <FarmsOverlayContent>
             <RewardsHead>
@@ -314,6 +314,8 @@ const Farms = () => {
     
     </> : <></>}
     <FarmsWrapper>
+      { !(isRewardsOverlay && isMobileScreen()) ? 
+      <>
       <HDiv justifyContent='space-between' alignItems='flex-start'>
         <VDiv>
           <HeadingText>Farms TVL</HeadingText>
@@ -530,7 +532,89 @@ const Farms = () => {
       </FarmsTableItem>
       </FarmsTableWrapper> </> : <></> }
       </Scroll>
+      </>
+      :<>
+
+        <FarmsOverlayContent>
+            <RewardsHead>
+              <PurpleRewards>
+                <RewardsIcon></RewardsIcon>
+              </PurpleRewards>
+              <div style={{display: 'block', paddingLeft: '0.8vw'}}>
+                <Text>Vested Rewards</Text><br/>
+                <OverlayValue> {formattedNum(vestedAmt)} ORU</OverlayValue>
+                </div>
+                <div style={{display: 'flex', alignItems: 'top', height: '100%', cursor: 'pointer', justifyContent: 'flex-end'}}>
+                  <div  onClick={closeOverlay}>
+                    <CloseIcon></CloseIcon>
+                  </div>
+                </div>
+            </RewardsHead>
+            <div style={{display: 'flex', marginTop: '20px', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '0.8vw'}}>
+                {MASTER_CHEF_POOLS[poolId].mobileToken0Icon}
+                <div style={{flexDirection:'column'}}>
+                <OverlayText>{MASTER_CHEF_POOLS[poolId].token0}</OverlayText>
+                <OverlayGreyText fs='12px'>50%</OverlayGreyText>
+                </div>
+              </div>
+              <PlusIcon color='#C4C4C4' ratio='5vw'></PlusIcon>
+              <div style={{display: 'flex', alignItems: 'center', gap: '0.8vw'}}>
+                {MASTER_CHEF_POOLS[poolId].mobileToken1Icon}
+                <div style={{flexDirection:'column'}}>
+                <OverlayText>{MASTER_CHEF_POOLS[poolId].token1}</OverlayText>
+                
+                <OverlayGreyText fs='12px'>50%</OverlayGreyText>
+                </div>
+              </div>
+            </div>
+            <HDivider style={{marginTop: '0.8vw'}}></HDivider>
+            <ClaimsHead>
+              <div>Time left</div>
+              <div>Amount</div>
+            </ClaimsHead>
+            <ClaimsContainer>
+              {userRewards && userRewards[poolId].vestings.length > 0 ?
+                  <>
+                    {
+
+                      userRewards[poolId]?.vestings.map((item, _ind) => {
+
+                        const amt = item.amount
+                        const currentTime = new Date()
+                        const endTime = new Date((+item.startTime + (604800 * (4 - 1))) * 1000);
+
+                        const diff = getDateDiff(currentTime,endTime);
+
+                        return (
+                            <>
+                              {amt > 0 ?
+                                    <ClaimsRow>
+                                      <div> {currentTime.getTime() > endTime.getTime()  ? "Vesting complete!" : diff.day + " days " + diff.hour +  " hours " + diff.minute + " minutes"}  </div>
+                                      <div>{formattedNum(+item.amount / 1e18)} ORU</div>
+                                      <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
+                                        <OverlayClaim disabled={(currentTime.getTime() < endTime.getTime())}  onClick={() => claimReward(_ind)}><BriefcaseIcon></BriefcaseIcon>Claim</OverlayClaim>
+                                        <OverlayOutline disabled={currentTime.getTime() > endTime.getTime()} onClick={() => claimWithPenalty(_ind)} ><CrosshairsIcon></CrosshairsIcon>Claim with Penalty</OverlayOutline>
+                                      </div>
+                                    </ClaimsRow>
+                                    :
+                                    null
+                              }
+                            </>
+
+                        )
+                      })
+                    }
+                  </>
+                  :
+                  <h3 style={{marginLeft: "1vw"}}> You have no vestings on this pool! </h3>
+              }
+            </ClaimsContainer>
+        </FarmsOverlayContent>
+
+      </>}
     </FarmsWrapper>
+    
     
     </>
   );
