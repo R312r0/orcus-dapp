@@ -1,11 +1,11 @@
 import React from 'react';
 
-function PlusIcon({ color }) {
+function PlusIcon({ color, ratio }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='1.250vw'
-      height='1.250vw'
+      width={ratio ?? '1.250vw'}
+      height={ratio ?? '1.250vw'}
       fill='none'
       viewBox='0 0 24 24'
     >

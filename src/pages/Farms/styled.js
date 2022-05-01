@@ -312,6 +312,11 @@ export const RewardsValues=  styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  
+  @media (max-device-width: 480px){
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `
 
 export const ManageButton = styled.button`
@@ -326,6 +331,11 @@ export const ManageButton = styled.button`
   transition: 0.25s;
   &:hover{
     background-color: #F4BD50;
+  }
+  
+  @media (max-device-width: 480px){
+    font-size: 14px;
+    min-height: 35px;
   }
 `
 export const RewardsBlock = styled.div`
@@ -354,6 +364,16 @@ font-size: 12px;
 color: #828282;
 
 `
+export const MobileRewardsContainer = styled.div`
+  display: flex;
+  width: 100%;
+  font-size: 16px;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 1.042vw;
+  border: 1px solid #CECECE;
+  padding: 8px;
+`
 export const RewardsContainer = styled.div`
   padding: 0.7vw;
   height: min-content;
@@ -374,6 +394,17 @@ export const PurpleRewards = styled.div`
   justify-content: center;
   border-radius: 1.042vw;
   height: 100%;
+  
+  @media (max-device-width: 480px){
+    width: 50px;
+    height: 50px;
+  }
+  & svg {
+    @media (max-device-width: 480px){
+      width: 5vw;
+      height: 5vw;
+    }
+  }
 `
 
 export const RewardsContent = styled.div`
@@ -389,6 +420,11 @@ export const FarmsWrapper = styled.div`
   margin-top: 0.365vw;
   display: flex;
   width: 100%;
+  
+  @media (max-device-width: 480px){
+
+  }
+  
 `;
 
 export const HeadingText = styled.span`
@@ -415,6 +451,13 @@ export const Balance = styled.span`
   font-size: 1.875vw;
   font-weight: 600;
   color: #333;
+  
+  @media (max-device-width: 480px){
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 12px;
+  }
 `;
 
 export const HDiv = styled.div`
@@ -423,11 +466,20 @@ export const HDiv = styled.div`
   align-items: ${(props) => props.alignItems};
   flex-direction: row;
   display: flex;
+  
+  @media (max-device-width: 480px){
+    flex-direction: column;
+  }
 `;
 
 export const VDiv = styled.div`
   flex-direction: column;
   display: flex;
+  
+  @media (max-device-width: 480px){
+    width: 100%;
+
+  }
 `;
 
 export const Text = styled.span`
@@ -506,4 +558,7 @@ export const FarmsTableWrapper = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  @media (max-device-width: 480px){
+    width: 100%;
+}
 `;

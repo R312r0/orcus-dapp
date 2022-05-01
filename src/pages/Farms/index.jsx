@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 import FarmsTableItm from './farms-table-item';
+import MobileTableItm from './mobile-table-item';
 import {CONTRACT_ADDRESSES, MASTER_CHEF_POOLS} from '../../constants'
 import {
   Balance,
@@ -15,7 +16,7 @@ import {
   OverlayText,
   OverlayValue,
   HDivider,
-  TotalHarvestedInfo,
+  MobileRewardsContainer,
   RewardsHead,
   RewardsContainer,
   Scroll,
@@ -223,6 +224,10 @@ const Farms = () => {
 
   }
 
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
+  }
 
   return (
     <>
@@ -314,11 +319,10 @@ const Farms = () => {
           <HeadingText>Farms TVL</HeadingText>
           <Balance>$ {farmsTVL ? formattedNum(farmsTVL) : 0}</Balance>
         </VDiv>
-        <RewardsContainer>
+        { !isMobileScreen() ? <RewardsContainer>
           <PurpleRewards>
             <RewardsIcon></RewardsIcon>
           </PurpleRewards>
-          {/* <RewardsContent></RewardsContent> */}
           <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
             <b>Rewards</b>
             Management
@@ -359,9 +363,61 @@ const Farms = () => {
               :
               null
           }
-        </RewardsContainer>
+        </RewardsContainer> : <>
+        <MobileRewardsContainer>
+          <div>
+            <div style={{display: 'flex', gap: '8px'}}>
+          <PurpleRewards>
+              <RewardsIcon></RewardsIcon>
+          </PurpleRewards>
+          <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+            <b>Rewards</b>
+            Management
+          </div>
+          </div>
+          <div>
+          </div>
+          {userRewards ?
+            userRewards.map((item, _ind) => {
+              return (
+                  <RewardsBlock>
+                    <RewardsBlockContent>
+                      <RewardsValues>
+                        <div style={{display: 'flex', alignItems: 'center', justifyContent:'flex-start', gap: '4px'}}>
+                          {MASTER_CHEF_POOLS[_ind].mobileToken0Icon}
+                          <div style={{flexDirection: 'column'}}>
+                            <RewardsCoinname>{MASTER_CHEF_POOLS[_ind].token0}</RewardsCoinname>
+                            <RewardsPercentage>50%</RewardsPercentage>
+                          </div>
+                        </div>
+                        <div style={{display: 'flex', alignItems: 'center', justifyContent:'center', gap: '4px'}}>
+                        <PlusIcon ratio='5vw' color="#C4C4C4"></PlusIcon>
+                        </div>
+                        
+                        <div style={{display: 'flex', alignItems: 'center', justifyContent:'flex-end', gap: '4px'}}>
+                          {MASTER_CHEF_POOLS[_ind].mobileToken1Icon}
+                          <div style={{flexDirection: 'column'}}>
+                            <RewardsCoinname>{MASTER_CHEF_POOLS[_ind].token1}</RewardsCoinname>
+                            <RewardsPercentage>50%</RewardsPercentage>
+                          </div>
+                        </div>
+                      </RewardsValues>
+
+                      <ManageButton onClick={() => openOverlay(_ind)}>Manage</ManageButton>
+                    </RewardsBlockContent>
+                  </RewardsBlock>
+              )
+            })
+              :
+              null
+          }
+          </div>
+          </MobileRewardsContainer></>}
+        
       </HDiv>
+      
       <Scroll>
+      { !isMobileScreen() ? <>
       <HDiv mt='2.083vw'>
         <Text ml='3.802vw'>Asset</Text>
         <Text ml='18.177vw'>Rewards</Text>
@@ -373,7 +429,16 @@ const Farms = () => {
         {masterChefPools && masterChefPools.map((item, idx) => (
           <FarmsTableItm key={idx} index={idx} item={item} />
         ))}
+      </FarmsTableWrapper></> : <>
+      
+      <FarmsTableWrapper>
+        {masterChefPools && masterChefPools.map((item, idx) => (
+          <MobileTableItm key={idx} index={idx} item={item} />
+        ))}
       </FarmsTableWrapper>
+      
+      </>  }
+      { !isMobileScreen() ? <>
     <VDiv>
           <HeadingText style={{marginTop: '2.24vw'}}>Orcus Metapool</HeadingText>
     </VDiv>
@@ -463,7 +528,7 @@ const Farms = () => {
         </FarmsRow>
       </MainData>
       </FarmsTableItem>
-      </FarmsTableWrapper>
+      </FarmsTableWrapper> </> : <></> }
       </Scroll>
     </FarmsWrapper>
     
