@@ -16,6 +16,11 @@ export const PseudoSelectContainer = styled.div`
   overflow: hidden;
 
   margin-top: 8.5vw;
+  @media (max-device-width: 480px){
+    font-size: 14px;
+    width: auto;
+    margin-top: 112px;
+  }
 `
 export const PseudoOption = styled.div`
 
@@ -27,6 +32,11 @@ export const PseudoOption = styled.div`
   color: #333;
   display: flex;
   align-items: center;
+  @media (max-device-width: 480px){
+    font-size: 14px;
+    height: auto;
+    background-color: white;
+  }
 
 cursor: pointer;
 &:hover{
@@ -46,6 +56,11 @@ justify-content: space-between;
 width: 8.5vw;
 cursor: pointer;
 color: #333;
+@media (max-device-width: 480px){
+  font-size: 14px;
+  width: auto;
+}
+
 `
 
 export const PoolSelect = styled.select`
