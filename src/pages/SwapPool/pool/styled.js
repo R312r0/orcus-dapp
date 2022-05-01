@@ -11,6 +11,7 @@ justify-content: space-between;
 @media (max-device-width: 480px){
   font-size: 14px;
   line-height: 14px;
+
 }
 `
 
@@ -113,6 +114,7 @@ export const OrangeBlock = styled.div`
       font-size: 14px;
       line-height: 14px;
       padding: 8px;
+      height: auto;
       text-align: center;
       margin-bottom: 32px;
     }
