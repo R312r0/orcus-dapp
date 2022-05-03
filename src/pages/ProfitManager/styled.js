@@ -14,6 +14,7 @@ export const ExpandBtn = styled.div`
   @media (max-device-width: 480px){
     width: 5vw;
     height: 5vw;
+    background: inherit;
   }
   svg {
     transition: 0.3s all;
@@ -31,6 +32,9 @@ export const ExpandBtn = styled.div`
   &:hover {
     transition: 0.3s all;
     background: #e0e0e0;
+    @media (max-device-width: 480px){
+      background: inherit;
+    }
   }
 `;
 

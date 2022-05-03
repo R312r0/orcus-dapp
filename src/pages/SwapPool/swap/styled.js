@@ -197,6 +197,9 @@ export const SwapInputWrapper = styled.div`
     &:hover {
       transition: all 0.3s;
       background: #000;
+      @media (max-device-width: 480px){
+        background: inherit;
+      }
     }
   }
 `;

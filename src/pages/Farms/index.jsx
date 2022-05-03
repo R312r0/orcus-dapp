@@ -70,6 +70,7 @@ import PageLeftIcon from '../../assets/icons/PageLeftIcon';
 import {useWeb3React} from "@web3-react/core";
 import SiriusIcon from '../../assets/icons/SiriusIcon';
 import fromExponential from "from-exponential";
+import ArrowLeftIcon from '../../assets/icons/ArrowLeftIcon';
 
 const Array = [1, 2, 3];
 
@@ -280,6 +281,7 @@ const Farms = () => {
                       userRewards[poolId]?.vestings.map((item, _ind) => {
 
                         const amt = item.amount
+                        
                         const currentTime = new Date()
                         const endTime = new Date((+item.startTime + (604800 * (4 - 1))) * 1000);
 
@@ -536,19 +538,20 @@ const Farms = () => {
       :<>
 
         <FarmsOverlayContent>
-            <RewardsHead>
+        <div style={{display: 'flex', alignItems: 'top',  cursor: 'pointer', justifyContent: 'flex-start'}}>
+                  <div  onClick={closeOverlay}>
+                    <ArrowLeftIcon ratio='5vw'></ArrowLeftIcon>
+                  </div>
+                </div>
+            <RewardsHead style={{marginTop: '16px'}}>
               <PurpleRewards>
                 <RewardsIcon></RewardsIcon>
               </PurpleRewards>
-              <div style={{display: 'block', paddingLeft: '0.8vw'}}>
+              <div style={{display: 'block', paddingLeft: '0.8vw', gap: '8px'}}>
                 <Text>Vested Rewards</Text><br/>
                 <OverlayValue> {formattedNum(vestedAmt)} ORU</OverlayValue>
                 </div>
-                <div style={{display: 'flex', alignItems: 'top', height: '100%', cursor: 'pointer', justifyContent: 'flex-end'}}>
-                  <div  onClick={closeOverlay}>
-                    <CloseIcon></CloseIcon>
-                  </div>
-                </div>
+                
             </RewardsHead>
             <div style={{display: 'flex', marginTop: '20px', alignItems: 'center', justifyContent: 'space-between'}}>
               <div style={{display: 'flex', alignItems: 'center', gap: '0.8vw'}}>
@@ -568,7 +571,7 @@ const Farms = () => {
                 </div>
               </div>
             </div>
-            <HDivider style={{marginTop: '0.8vw'}}></HDivider>
+            <HDivider style={{marginTop: isMobileScreen() ? '16px' : '0.8vw'}}></HDivider>
             <ClaimsHead>
               <div>Time left</div>
               <div>Amount</div>
@@ -581,6 +584,7 @@ const Farms = () => {
                       userRewards[poolId]?.vestings.map((item, _ind) => {
 
                         const amt = item.amount
+
                         const currentTime = new Date()
                         const endTime = new Date((+item.startTime + (604800 * (4 - 1))) * 1000);
 

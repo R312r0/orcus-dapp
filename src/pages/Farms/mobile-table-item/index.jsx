@@ -14,6 +14,8 @@ import {
   ExpandBtn,
   ExpandedData,
   ExpandedDataWrapper,
+  AdditionalExpanded,
+  AdditionalRow,
   Locked,
   FarmsInputContainer,
   FarmsSlider,
@@ -47,6 +49,7 @@ import fromExponential from "from-exponential";
 import ProfitControllerABI from '../../../abis/ProfitController.json';
 import PlusIcon from '../../../assets/icons/PlusIcon';
 import TrashIcon from '../../../assets/icons/TrashIcon';
+import { HDivider } from '../styled';
 
 const PERCENTAGES = {
   1: 0,
@@ -274,7 +277,7 @@ const MobileTableItm = ({index, item}) => {
           </Text>
           </FarmsColumn> */}
           <FarmsColumn  style={{flexDirection: 'column', textAlign: 'right', justifyContent: 'end', alignItems: 'end'}}>
-              <div style={{fontSize: '12px', color: 'grey'}}>TVL</div>
+              <div style={{fontSize: '10px', color: 'grey'}}>TVL</div>
           <Text>
             <b>${poolInfo ? formattedNum(poolInfo?.tvl) : 0}</b>
           </Text>
@@ -288,15 +291,37 @@ const MobileTableItm = ({index, item}) => {
         </FarmsRow>
       </MainData>
       {expanded ? (
+        <>
+        <AdditionalExpanded>
+          <AdditionalRow>
+            <div>Rewards</div>
+            <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+            <IconWrapper >
+              <LogoIconBlack />
+            </IconWrapper>
+            <b>ORU</b>
+            </div>
+          </AdditionalRow>
+          <HDivider></HDivider>
+          <AdditionalRow>
+            <div>Deposited</div>
+            <div><b>$ {poolInfo && userInfo ? formattedNum(poolInfo.lpPrice * (userInfo.depositedAmt / 1e18)) : 0}</b></div>
+          </AdditionalRow>    
+          <HDivider></HDivider>      
+          <AdditionalRow>
+            <div>Rates</div>
+            <div>
+              APR <b>{poolInfo ? formattedNum(poolInfo.apr) : 0}%</b></div>
+          </AdditionalRow>
+        </AdditionalExpanded>
         <ExpandedDataWrapper>
           <ExpandedData>
             <VDiv w='100%'>
               <HDiv>
-                <Text ml='0.833vw'>Balance:&nbsp;</Text>
+                <Text color='#4F4F4F' fW='300' ml='0.833vw'>Balance: {userInfo ? formattedNum(userInfo.lpBalance / 1e18) : 0.00} {item.name} </Text>
                 <Text>
-                  <b>{userInfo ? formattedNum(userInfo.lpBalance / 1e18) : 0.00}&nbsp;</b>{item.name} 
+                  <b></b>
                 </Text>
-                
               </HDiv>
               <FarmsInputContainer>
                 <input type='text'
@@ -339,25 +364,22 @@ const MobileTableItm = ({index, item}) => {
                 {userInfo ? userInfo.allowance ? "Deposit" : "Approve" : null}
               </VestingBtn>
               <HDiv mt='1.708vw' style={{display: 'flex', justifyContent: 'space-between'}}>
-                <OutlineBtn gap='12px' onClick={() => proxyNavigation(item.addURL)} width={ isMobileScreen() ? '45%' : '15.8vw'}>
+                <OutlineBtn gap='12px' onClick={() => proxyNavigation(item.addURL)} width={ isMobileScreen() ? '48%' : '15.8vw'}>
                   <PlusIcon ratio={isMobileScreen() ? '5vw' : undefined} color='#333'></PlusIcon>
-                  <Text>
-                    <b>Add Liquidity</b>
-                  </Text>
+                  Add Liquidity
                 </OutlineBtn>
-                <OutlineBtn gap='12px' onClick={() => proxyNavigation(item.removeURL)} width={ isMobileScreen() ? '45%' : '15.8vw'}>
+                <OutlineBtn gap='12px' onClick={() => proxyNavigation(item.removeURL)} width={ isMobileScreen() ? '48%' : '15.8vw'}>
                   <TrashIcon ratio={isMobileScreen() ? '5vw' : undefined} ></TrashIcon>
-                  <Text>
-                  <b>Remove Liquidity</b>
-                  </Text>
+                  Remove Liquidity
+
                 </OutlineBtn>
               </HDiv>
             </VDiv>
             <VDiv w='100%' style={{marginTop: '24px'}}>
               <HDiv>
-                <Text ml='0.833vw'>Deposited:&nbsp;</Text>
+                <Text ml='0.833vw'>Balance: {userInfo ?  fromExponential(userInfo.depositedAmt / 1e18) : 0.0}&nbsp;{item.name} </Text>
                 <Text>
-                  <b>{userInfo ?  fromExponential(userInfo.depositedAmt / 1e18) : 0.0}&nbsp; </b>{item.name} 
+                  
                 </Text>
 
               </HDiv>
@@ -399,28 +421,31 @@ const MobileTableItm = ({index, item}) => {
                 </Text>
               </HDiv>
               <OutlineBtn
-                  mt='2vw'
+                  mt='32px'
                   disabled={userInfo && userInfo.locked}
                   onClick={() => handleWithdraw()}
               >
                 {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" : null}
               </OutlineBtn>
               <Locked>3 days of lockup</Locked>
-              <HDiv mt='2.240vw' justifyContent='flex-end' alignItems='center'>
-                <Text mr='0.573vw'>
-                  <b>Rewards: {userInfo ? formattedNum(userInfo.pendingReward) : 0} ORU</b>
-                </Text>
+              <HDiv mt='2.240vw' justifyContent='space-between' alignItems='center'>
+                <div style={{display: 'flex', gap: '4px'}}>
                 <HelpCircleContainer>
-                  <HelpCircleIcon />
-                  <HelpText>
+                  <HelpCircleIcon ratio='3vw'/>
+                <HelpText>
                   To start vesting rewards please click on Start Vesting at first, then you will be eligible to claim<br/><br/>
                   Early exit penalty until 4 weeks - 50%
                   </HelpText>
                 </HelpCircleContainer>
-                <ColorfulBtnContainer>
-                <ColorfulBlock width='105px' bgColor='#DEC9FF'></ColorfulBlock>
-                <ColorfulBlock width='105px' bgColor='#C1FCC9' ml='-45px'></ColorfulBlock>
-                <ColorfulBlock width='105px'  bgColor='#FEEFB5' ml='-45px'></ColorfulBlock>
+                <Text color='#333' fw='500' fontSize='12px' mr='0.573vw'>
+                  Pending Rewards:<br/> {userInfo ? formattedNum(userInfo.pendingReward) : 0} ORU
+                </Text>
+                </div>
+                
+                  <ColorfulBtnContainer>
+                  <ColorfulBlock width='105px' bgColor='#DEC9FF'></ColorfulBlock>
+                  <ColorfulBlock width='105px' bgColor='#C1FCC9' ml='-45px'></ColorfulBlock>
+                  <ColorfulBlock width='105px'  bgColor='#FEEFB5' ml='-45px'></ColorfulBlock>
                 <ColorfulBtn onClick={() => handleHarvest()}>
                   Start vesting
                 </ColorfulBtn>
@@ -429,8 +454,10 @@ const MobileTableItm = ({index, item}) => {
             </VDiv>
           </ExpandedData>
         </ExpandedDataWrapper>
+        </>
       ) : null}
     </FarmsTableItem>
+    
   );
 };
 

@@ -1,11 +1,11 @@
 import React from 'react';
 
-function HelpCircleIcon() {
+function HelpCircleIcon({ ratio }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='0.938vw'
-      height='0.938vw'
+      width={ ratio ?? '0.938vw'}
+      height={ ratio ?? '0.938vw'}
       fill='none'
       viewBox='0 0 18 18'
     >
