@@ -84,6 +84,7 @@ export const Text = styled.span`
     @media (max-device-width: 480px){
       font-size: 18px;
       line-height: 16px;
+      font-weight: 500;
     }
     font-size: 0.729vw;
     font-weight: ${(props) => props.fontWeight ?? 500};
@@ -119,6 +120,8 @@ export const AddBtn = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    
+    border-radius: 30px;
   }
 
   &:hover {
@@ -157,6 +160,8 @@ export const BuyBtn = styled.button`
     padding: 6px 10px;
     font-size: 16px;
     display: flex;
+    
+    border-radius: 30px;
     align-items: center;
     justify-content: center;
     

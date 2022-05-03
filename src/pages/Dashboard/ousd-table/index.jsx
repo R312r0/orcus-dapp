@@ -81,6 +81,7 @@ const OUSDTable = () => {
   return (
     <OUSDTableWrapper>
       <HDiv>
+        { !isMobileScreen() ? 
       <VDiv style={{ justifyContent: isMobileScreen() ? 'center' : '', gap: isMobileScreen() ? '4px' : '', alignItems: isMobileScreen() ? 'center' : ''}}>
 
             <UnwrappedOUSDIcon ratio={isMobileScreen() ? '5.344vw' : undefined }/>
@@ -91,7 +92,8 @@ const OUSDTable = () => {
           >
             <b>oUSD</b>
           </Text>
-        </VDiv>
+        </VDiv> : <></>
+        }
         <TokenPrice>${ousdInfo ? formattedNum(ousdInfo.ousdPrice) : 0}</TokenPrice>
       </HDiv>
       <Divider margin='0.729vw 0' />

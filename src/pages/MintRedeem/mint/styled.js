@@ -26,6 +26,7 @@ export const BuyBtn = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 120px;
     
   }
 
@@ -52,6 +53,9 @@ font-weight: 400;
 color: #828282;
 & a {
   color: #333;
+}
+@media (max-device-width: 480px){
+  font-size: 14px;
 }
 `
 export const RedemtionWrapper = styled.div`
@@ -88,7 +92,7 @@ export const RedeemDataText = styled.span`
   @media (max-device-width: 480px){
     font-size: 14px; 
     line-height: 14px;
-    
+    font-weight: 300;
     margin-top: 8px;
     margin-bottom: 8px;
   }
@@ -197,6 +201,7 @@ export const Text = styled.span`
   @media (max-device-width: 480px){
     font-size: 12px;
     line-height: 16px;
+    font-weight: 300;
   }
 `;
 
@@ -225,6 +230,7 @@ export const MintInputWrapper = styled.div`
     height: 44px;
     font-size: 12px;
     border-radius: 8px;
+   
   }
 
   input {
@@ -250,6 +256,10 @@ export const MintInputWrapper = styled.div`
       height: auto;
       padding: 4px 8px;
       width: auto;
+      background-color: none;
+      background: none;
+      color: #333;
+      font-size: 14px;
     }
     border-radius: 0.521vw;
     background: #333;

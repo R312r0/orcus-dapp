@@ -129,10 +129,14 @@ export const StakeInputWrapper = styled.div`
 
   button {
     @media (max-device-width: 480px){
-      font-size: 8px;
+      
       height: auto;
       padding: 4px 8px;
       width: auto;
+      background-color: none;
+      background: none;
+      color: #333;
+      font-size: 14px;
     }
     border-radius: 0.521vw;
     background: #333;
