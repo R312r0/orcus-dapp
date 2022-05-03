@@ -57,7 +57,7 @@ export const TokenPrice = styled.span`
   font-size: 1.25vw;
   font-weight: 500;
   @media (max-device-width: 480px){
-    font-size: 18px;
+    font-size: 16px;
     line-height: 16px;
   }
 `;

@@ -16,7 +16,7 @@ const MintRedeeem = () => {
     let query = window.matchMedia('(max-device-width: 480px)')
     return query.matches
   }
-
+// 
   return (
     <MintRedeemWrapper>
       <HeadingText>Mint</HeadingText>
