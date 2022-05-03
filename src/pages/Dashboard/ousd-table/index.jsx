@@ -71,6 +71,12 @@ const OUSDTable = () => {
       let query = window.matchMedia('(max-device-width: 480px)')
       return query.matches
     }
+    const proxyNavigation = ( link ) => {
+      window.open(
+        'https://app.arthswap.org/#/swap',
+        '_blank' // <- This is what makes it open in a new window.
+      );
+    }
 
   return (
     <OUSDTableWrapper>
@@ -108,7 +114,7 @@ const OUSDTable = () => {
           <PlusIcon />
           Add
         </AddBtn>
-        <BuyBtn onClick={()  => navigate("/swap")}>
+        <BuyBtn onClick={()  => proxyNavigation()}>
           <ShoppingBagIcon fill='#fff'/>
           Buy
         </BuyBtn>
