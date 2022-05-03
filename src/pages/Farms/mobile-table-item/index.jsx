@@ -14,6 +14,7 @@ import {
   ExpandBtn,
   ExpandedData,
   ExpandedDataWrapper,
+  Locked,
   FarmsInputContainer,
   FarmsSlider,
   FarmsTableItem,
@@ -184,6 +185,13 @@ const MobileTableItm = ({index, item}) => {
       console.log(e.message);
     }
   }
+  const proxyNavigation = ( link ) => {
+    window.open(
+      link,
+      '_blank' // <- This is what makes it open in a new window.
+    );
+  }
+
 
   const handleHarvest = async () => {
 
@@ -331,13 +339,13 @@ const MobileTableItm = ({index, item}) => {
                 {userInfo ? userInfo.allowance ? "Deposit" : "Approve" : null}
               </VestingBtn>
               <HDiv mt='1.708vw' style={{display: 'flex', justifyContent: 'space-between'}}>
-                <OutlineBtn gap='12px' onClick={() => navigate("/swap")} width={ isMobileScreen() ? '45%' : '15.8vw'}>
+                <OutlineBtn gap='12px' onClick={() => proxyNavigation(item.addURL)} width={ isMobileScreen() ? '45%' : '15.8vw'}>
                   <PlusIcon ratio={isMobileScreen() ? '5vw' : undefined} color='#333'></PlusIcon>
                   <Text>
                     <b>Add Liquidity</b>
                   </Text>
                 </OutlineBtn>
-                <OutlineBtn gap='12px' onClick={() => navigate("/swap")} width={ isMobileScreen() ? '45%' : '15.8vw'}>
+                <OutlineBtn gap='12px' onClick={() => proxyNavigation(item.removeURL)} width={ isMobileScreen() ? '45%' : '15.8vw'}>
                   <TrashIcon ratio={isMobileScreen() ? '5vw' : undefined} ></TrashIcon>
                   <Text>
                   <b>Remove Liquidity</b>
@@ -397,6 +405,7 @@ const MobileTableItm = ({index, item}) => {
               >
                 {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" : null}
               </OutlineBtn>
+              <Locked>3 days of lockup</Locked>
               <HDiv mt='2.240vw' justifyContent='flex-end' alignItems='center'>
                 <Text mr='0.573vw'>
                   <b>Rewards: {userInfo ? formattedNum(userInfo.pendingReward) : 0} ORU</b>

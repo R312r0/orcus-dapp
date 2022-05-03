@@ -5,6 +5,8 @@ import React, {useEffect} from 'react';
 import ArrowDownIcon from '../../../assets/icons/ArrowDownIcon';
 import BoldPlusIcon from '../../../assets/icons/BoldPlusIcon';
 import ClipboardIcon from '../../../assets/icons/ClipboardIcon';
+
+import CollectRedemtionIcon from '../../../assets/icons/CollectRedemtionIcon';
 import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
 import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 import OUSDIcon from '../../../assets/icons/OUSDIcon';
@@ -14,15 +16,21 @@ import {
   HDiv,
   HDivider,
   IconWrapper,
+  CheckSpan,
   MintBlockWrapper,
+  BuyBtn,
   MintBtn,
   MintDataText,
   MintDataWrapper,
   MintInputWrapper,
   Option,
+  
   OptionsWrapper,
   Select,
   CustomSpan,
+  RedemtionWrapper,
+  RedeemDataText,
+  RedemtionBtn,
   Text,
 } from './styled';
 import {useBlockChainContext} from "../../../context/blockchain-context";
@@ -30,6 +38,8 @@ import {ethers} from "ethers";
 import {useWeb3React} from "@web3-react/core";
 import {formattedNum, formatToDecimal} from "../../../utils";
 import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
+import ORUIcon from '../../../assets/icons/ORUIcon';
+import ShoppingBagIcon from '../../../assets/icons/ShoppingBagIcon';
 
 const Mint = () => {
   const [value, setValue] = React.useState('ORU');
@@ -173,6 +183,13 @@ const Mint = () => {
     setAnchorEl(null);
   };
 
+  const proxyNavigation = ( link ) => {
+    window.open(
+      'https://app.arthswap.org/#/swap',
+      '_blank' // <- This is what makes it open in a new window.
+    );
+  }
+
   const MintButton = () => {
 
       if (account && userInfo) {
@@ -253,8 +270,9 @@ const Mint = () => {
         </MintInputWrapper>
         <MintButton/>
       </MintBlockWrapper>
+      <div style={{display: 'flex', flexDirection:'column', gap: '16px'}}>
       <MintDataWrapper>
-        <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
+        <div style={{ display: 'flex', alignItems: 'center' ,gap: '4px'}}>
           <ClipboardIcon ratio={ isMobileScreen() ? '5vw' : undefined} color='#000' />
           <CustomSpan>
             Data
@@ -319,6 +337,34 @@ const Mint = () => {
           </div>
         </HDiv>
       </MintDataWrapper>
+      <RedemtionWrapper>
+          <HDiv>
+            <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
+              {/* <CollectRedemtionIcon  ratio={ isMobileScreen() ? '5vw' : undefined}/> */}
+              <CheckSpan>
+                Check if you have enough <a target='_blank' href='https://app.arthswap.org/#/swap'>ORU</a> balance
+              </CheckSpan>
+            </div>
+            
+          </HDiv>
+
+          <HDivider margin='1.87vw 0 0.781vw 0' />
+          <HDiv>
+            <RedeemDataText>
+              <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
+              <ORUIcon></ORUIcon>ORU
+              </div>
+            </RedeemDataText>
+            <RedeemDataText>
+            <BuyBtn onClick={() => proxyNavigation()}>
+          {/* <ShoppingBagIcon fill='#fff' /> */}
+          <ShoppingBagIcon fill='#fff'/>
+          Buy
+        </BuyBtn>
+            </RedeemDataText>
+          </HDiv>
+        </RedemtionWrapper>
+        </div>
     </>
   );
 };

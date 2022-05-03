@@ -124,6 +124,14 @@ export const FarmsRow = styled.div`
   }
 `
 
+export const Locked = styled.div`
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  color: #333;
+`
 
 export const FarmsTableItem = styled.div`
   transition: 0.3s all;

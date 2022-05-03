@@ -21,6 +21,7 @@ import {
   FarmsTableItem,
   FarmsRow,
   FarmsColumn,
+  Locked,
   HDiv,
   IconWrapper,
   MainData,
@@ -401,7 +402,8 @@ const FarmsTableItm = ({index, item}) => {
               >
                 {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" : null}
               </OutlineBtn>
-              <HDiv mt='2.240vw' justifyContent='flex-end' alignItems='center'>
+              <Locked>3 days of lockup</Locked>
+              <HDiv mt='0.840vw' justifyContent='flex-end' alignItems='center'>
                 <Text mr='0.573vw'>
                   <b>Rewards: {userInfo ? formattedNum(userInfo.pendingReward) : 0} ORU</b>
                 </Text>

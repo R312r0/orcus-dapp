@@ -49,7 +49,12 @@ const ORUTable = () => {
             marketCap
         })
     }
-
+    const proxyNavigation = ( link ) => {
+      window.open(
+        'https://app.arthswap.org/#/swap',
+        '_blank' // <- This is what makes it open in a new window.
+      );
+    }
     const addToken = async () => {
         try {
             await window.ethereum.request({
@@ -106,7 +111,7 @@ const ORUTable = () => {
           <PlusIcon />
           Add
         </AddBtn>
-        <BuyBtn onClick={() => navigate("/swap")}>
+        <BuyBtn onClick={() => proxyNavigation()}>
           <ShoppingBagIcon fill='#fff' />
           Buy
         </BuyBtn>
