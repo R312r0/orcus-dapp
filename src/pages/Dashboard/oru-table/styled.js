@@ -76,7 +76,11 @@ export const Text = styled.span`
   b {
     line-height: 1.094vw;
     font-size: 0.729vw;
+    @media (max-device-width: 480px){
+      
     font-size: 18px;
+      line-height: 16px;
+    }
     font-weight: ${(props) => props.fontWeight ?? 500};
     color: #333;
   }
