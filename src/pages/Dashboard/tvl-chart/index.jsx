@@ -66,7 +66,10 @@ const TVLChart = ({protocolTVL}) => {
             console.log(e.message)
         }
     }
-
+    const isMobileScreen = ( ) => {
+        let query = window.matchMedia('(max-device-width: 480px)')
+        return query.matches
+      }
 
   return (
     <TVLChartWrapper>
@@ -77,7 +80,7 @@ const TVLChart = ({protocolTVL}) => {
         {chartsArr ?
             <AreaChartWrapper>
                 <ResponsiveContainer width='100%' height='100%'>
-                    <AreaChart data={chartsArr} margin={currentChartMargin}>
+                    <AreaChart data={chartsArr} margin={ currentChartMargin}>
                         <defs>
                             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="rgb(180, 180, 180)" stopOpacity={0.8}/>
@@ -91,7 +94,8 @@ const TVLChart = ({protocolTVL}) => {
                             tickLine={false}
                             dataKey='value'
                             stroke={'#9299B1'}
-                            fontSize={'0.429vw'}
+
+                            fontSize={isMobileScreen() ? '8px' : '0.429vw'}
                             tickFormatter={(value) => `$${formattedNum(value)}`}
                         />
                         <XAxis
@@ -100,7 +104,7 @@ const TVLChart = ({protocolTVL}) => {
                             axisLine={false}
                             tickLine={false}
                             stroke={'#9299B1'}
-                            fontSize={'0.429vw'}
+                            fontSize={isMobileScreen() ? '8px' : '0.429vw'}
                         />
                         <Area
                             type='monotone'

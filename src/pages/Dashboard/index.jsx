@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import LiquidityTable from './liquidity-table';
 import ORUTable from './oru-table';
 import OUSDTable from './ousd-table';
+import OUSDIcon from '../../assets/icons/OUSDIcon'
 import ProtocolTable from './protocol-table';
 import RatioTable from './ratio-table';
 import {
@@ -16,6 +17,7 @@ import {
   ToggleBtn,
 } from './styled';
 import TVLChart from './tvl-chart';
+import ORUIcon from '../../assets/icons/ORUIcon';
 
 const Dashboard = () => {
 
@@ -38,12 +40,14 @@ const Dashboard = () => {
           onClick={() => setActiveTab('ORU')}
           isActive={activeTab === 'ORU'}
         >
+          <ORUIcon ratio='5vw'></ORUIcon>
           ORU
         </ToggleBtn>
         <ToggleBtn
           onClick={() => setActiveTab('oUSD')}
           isActive={activeTab === 'oUSD'}
         >
+          <OUSDIcon ratio='5vw'></OUSDIcon>
           oUSD
         </ToggleBtn>
       </ToggleBtnWrapper></div>: <></>}

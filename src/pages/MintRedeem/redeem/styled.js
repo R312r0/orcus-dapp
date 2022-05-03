@@ -115,7 +115,6 @@ export const RedeemInputWrapper = styled.div`
     align-items: center;
     padding: 0 1.354vw;
     cursor: pointer;
-
     &:hover {
       transition: all 0.3s;
       background: #000;
