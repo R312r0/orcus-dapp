@@ -239,7 +239,7 @@ const Stake = () => {
           <StakeDataText mr='0.339vw'>My Stake</StakeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <StakeDataText>
-              <b>1&nbsp;</b>
+              <b>{userInfo ?  userInfo.balances.xoru : 0}&nbsp;</b>
             </StakeDataText>
             <StakeDataText>xORU</StakeDataText>
             

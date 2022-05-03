@@ -41,7 +41,7 @@ export const CONTRACT_ADDRESSES = {
     DUSTBIN: "0x91F62d51a0Eb14e7671473C5D5f1528aDF8EdE49", // Check
     TREASURY: "0x9F02Aa523342c45874986F8Cd48397778201FA09" // Check
 }
-export const ORU_PER_BLOCK = 9.85;
+export const ORU_PER_BLOCK = 6.38;
 
 export const MASTER_CHEF_POOLS = [
     {name: "ORU/USDC", address: "0x0D02dFE1E662FbB70255D61b85ABE267D0179ee8", mobileToken0Icon: <ORUIcon ratio={'5vw'}/>, token0Icon: <ORUIcon ratio={'1.192vw'}/>,mobileToken1Icon: <USDCIcon ratio={'5vw'}/>, token1Icon: <USDCIcon ratio={'1.192vw'}/>, token0: "ORU", token1: "USDC"},

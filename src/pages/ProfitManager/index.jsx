@@ -8,8 +8,8 @@ import { getTableRowUtilityClass } from '@mui/material';
 const  myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
-const  graphql = JSON.stringify({
-  query: "query MyQuery {\n  profitManagerItems(orderBy:timestamp_DESC) {\n    id\n    timestamp\n    oruArbitrager\n    oruFromFee\n    oruPenalty\n    timestamp\n    totalInOru\n    totalInUsd\n    usdcFromInvest\n  }\n}\n",
+const graphql = JSON.stringify({
+  query: "query MyQuery {\n  profitManagerItems(orderBy:timestamp_DESC) {\n    id\n    timestamp\n    oruArbitrager\n    oruFromFee\n    oruPenalty\n    timestamp\n    totalInOru\n    totalInUsd\n    usdcFromInvest\n  }\n    investements(orderBy: timestamp_DESC) {\n    id\n    timestamp\n    value\n  }\n}\n",
   variables: {}
 })
 const requestOptions = {
@@ -35,7 +35,11 @@ const ProfitManager = () => {
 
   const getProfitData = async () => {
 
-    const {data: {profitManagerItems}} = JSON.parse(await (await fetch("https://app.gc.subsquid.io/beta/orcus/main/graphql", requestOptions)).text())
+    const {data} = JSON.parse(await (await fetch("https://app.gc.subsquid.io/beta/orcus/main1/graphql", requestOptions)).text())
+
+    const {profitManagerItems} = data;
+
+    console.log(data);
 
     let profit = 0;
 

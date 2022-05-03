@@ -179,7 +179,7 @@ const Unstake = () => {
         </HDiv>
         <UnstakeInputWrapper withBtn>
           <input type='text' disabled={!stakingInfo} placeholder='0.0' value={xoruInput} onChange={(e) => handleOruOutput(e.target.value)}/>
-          <button>Max</button>
+          <button onClick={() => handleOruOutput(userInfo?.balances.xoru)}>Max</button>
           <Divider /><IconWrapper 
            w={ isMobileScreen() ? '5vw' : undefined}
            h={ isMobileScreen() ? '5vw' : undefined} fill='#000' margin='0 0.833vw 0 0'>
