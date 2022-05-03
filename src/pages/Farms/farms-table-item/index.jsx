@@ -10,6 +10,8 @@ import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
 import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 import OUSDIcon from '../../../assets/icons/OUSDIcon';
 import arbABI from '../../../abis/Arbitrager.json';
+import dustABI from '../../../abis/dust.json';
+
 import {
   ExpandBtn,
   ExpandedData,
