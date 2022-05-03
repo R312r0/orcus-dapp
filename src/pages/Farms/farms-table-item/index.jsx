@@ -285,7 +285,7 @@ const FarmsTableItm = ({index, item}) => {
               <HDiv>
                 <Text ml='0.833vw'>Balance:&nbsp;</Text>
                 <Text>
-                  <b>{userInfo ? formattedNum(userInfo.lpBalance / 1e18) : 0.00}&nbsp;</b>
+                  <b>{userInfo ? fromExponential(userInfo.lpBalance / 1e18) : 0.00}&nbsp;</b>
                 </Text>
                 <Text>{item.name} </Text>
               </HDiv>

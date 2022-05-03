@@ -30,6 +30,7 @@ const Stake = () => {
   const {contracts, connectWallet, signer, liquidity} = useBlockChainContext();
 
   const [oruInput, setOruInput] = useState(0);
+  const [xoruOutput, setXoruOutput] = useState(0);
 
   const [stakingInfo, setStakingInfo] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
@@ -114,6 +115,14 @@ const Stake = () => {
       }
   }
 
+  const handleInput = (value) => {
+
+    setOruInput(value)
+    setXoruOutput(value / stakingInfo.rate)
+
+  }
+
+
   const StakeButton = () => {
 
     if (account && userInfo) {
@@ -152,7 +161,7 @@ const Stake = () => {
           <Text>Balance: {userInfo ? formattedNum(userInfo.balances.oru)  : 0}</Text>
         </HDiv>
         <StakeInputWrapper withBtn>
-          <input type='text' placeholder='0.0' value={oruInput} onChange={(e) => setOruInput(e.target.value)} />
+          <input type='text' placeholder='0.0' value={oruInput} onChange={(e) => handleInput(e.target.value)} />
           <button onClick={() => setOruInput(userInfo?.balances.oru)} >Max</button>
           <Divider />
           <IconWrapper  
@@ -175,7 +184,7 @@ const Stake = () => {
           <Text>Balance: {userInfo ? formattedNum(userInfo.balances.xoru) : 0}</Text>
         </HDiv>
         <StakeInputWrapper>
-          <input type='text' placeholder={"0.0"} value={oruInput} disabled={true}/>
+          <input type='text' placeholder={"0.0"} value={xoruOutput} disabled={true}/>
           <IconWrapper 
            w={ isMobileScreen() ? '5vw' : undefined}
            h={ isMobileScreen() ? '5vw' : undefined} fill='#000' margin='0 0.833vw 0 0'>
