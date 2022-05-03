@@ -76,7 +76,7 @@ export const ProfitManagerHeader = styled.div`
   display: flex;
   @media (max-device-width: 480px){
     height: auto;
-
+    background-color: white;
   }
 `
 
@@ -169,7 +169,7 @@ export const THRLabel = styled.div`
   width: 100%;
   margin-top: 0.9vw;
   flex-direction: column;
-  height: 320px;
+  // height: 320px;
   border-radius: 1.042vw;
   overflow-x: hidden;
   overflow-y: auto;
@@ -182,6 +182,7 @@ export const THRLabel = styled.div`
   @media (max-device-width: 480px){
     height: auto;
     padding-bottom 32px;
+    margin-top: 0;
   }
   
 `;

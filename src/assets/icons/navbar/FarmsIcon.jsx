@@ -6,8 +6,8 @@ function FarmsIcon({ color, ratio }) {
       xmlns='http://www.w3.org/2000/svg'
       // width='1.979vw'
       // height='1.979vw'
-      height={ratio ?? '1.484vw'}
-      width={ratio ?? '1.484vw'}
+      height={ratio ?? '1.979vw'}
+      width={ratio ?? '1.979vw'}
       fill='none'
       viewBox='0 0 38 38'
     >

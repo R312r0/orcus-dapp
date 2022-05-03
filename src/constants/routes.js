@@ -14,6 +14,6 @@ export const ROUTES = [
   { label: 'Farms', path: '/farms', icon: <FarmsIcon />, mobileIcon:<FarmsIcon ratio='5vw' /> },
   { label: 'Profit Manager', path: '/profit-manager', icon: <ProfitManagerIcon />, mobileIcon:<ProfitManagerIcon ratio='5vw' /> },
   { label: 'Recollateralize', path: '/recollateralize', icon: <RecollateralizeIcon />, mobileIcon:<RecollateralizeIcon ratio='5vw' /> },
-  { label: 'Swap', path: '/swap', icon: <SwapIcon />, mobileIcon:<SwapIcon ratio='5vw' />},
+  // { label: 'Swap', path: '/swap', icon: <SwapIcon />, mobileIcon:<SwapIcon ratio='5vw' />},
 
 ];

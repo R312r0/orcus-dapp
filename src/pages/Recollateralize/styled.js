@@ -4,7 +4,9 @@ export const RecollateralizeWrapper = styled.div`
   flex-direction: row;
   display: flex;
   @media (max-device-width: 480px){
+    
     width: 100%;
+    background-color: #F6F6F6;
   }
 `;
 export const RecollateralizeContent = styled.div`
@@ -20,11 +22,12 @@ export const HeadingText = styled.span`
   @media (max-device-width: 480px){
     font-size: 16px;
     line-height: 32px;
-    margin-top: 24px !important;
-    margin-bottom: 24px !important;
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
     text-align: center;
     width: 100%;
     margin: 0;
+    background-color: white;
   }
 `;
 
@@ -34,6 +37,7 @@ export const StakingWrapper = styled.div`
   display: flex;
   @media (max-device-width: 480px){
     width: 100%;
+
   }
 `;
 
@@ -91,6 +95,9 @@ export const TabWrapper = styled.div`
     width: 100%;
     flex-direction: column;
     margin-left: 0;
+    margin-top: 0;
+    // padding-top: 24px;
+    // background-color: white;
 
   }
 `;
@@ -107,6 +114,11 @@ export const RecollateralizeBlockWrapper = styled.div`
   @media (max-device-width: 480px){
     width: 100%;
     height: auto;
+    padding-top: 48px;
+    padding-bottom: 24px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
   }
   
 `;
@@ -175,9 +187,10 @@ export const RecollateralizeInputWrapper = styled.div`
   display: flex;
   @media (max-device-width: 480px){
     width: 100%;
-    height: 32px;
+    height: 44px;
     font-size: 12px;
-  }
+    border-radius: 8px;
+  }}
 
   input {
     width: ${(props) => (props.withBtn ? '18.8vw' : '24.7vw')};
@@ -256,6 +269,10 @@ export const HDivider = styled.div`
   margin: ${(props) => props.margin};
   height: 0.052vw;
   width: 21.146vw;
+  @media (max-device-width: 480px){
+    width: 100%;
+    height: 1px;
+  }
 `;
 
 export const RecollateralizeBtn = styled.button`
@@ -277,6 +294,7 @@ export const RecollateralizeBtn = styled.button`
     font-size: 14px;
     line-height: 14px;
     height: 48px;
+    border-radius: 8px;
   }
   &:hover {
     transition: all 0.3s;
@@ -296,11 +314,12 @@ export const RecollateralizeDataWrapper = styled.div`
   @media (max-device-width: 480px){
     margin: 0;
     width: 100%;
-    padding-top: 16px;
-    padding-bottom: 16px;
+    padding-top: 32px;
+    padding-bottom: 32px;
     height: auto;
     margin-top: 16px;
     margin-bottom: 32px;
+    border-radius: 20px;
   }
 `;
 
@@ -315,6 +334,9 @@ export const RecollateralizeDataText = styled.span`
   @media (max-device-width: 480px){
     font-size: 14px; 
     line-height: 14px;
+    
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 
 
