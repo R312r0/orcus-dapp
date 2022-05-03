@@ -108,7 +108,7 @@ const ORUTable = () => {
         </Text>
       </HDiv>
       <Divider margin='0.781vw 0 1.719vw 0' />
-      <HDiv>
+      <HDiv mt={isMobileScreen() ? '24px': undefined}>
         <AddBtn onClick={() => addToken()}>
           <PlusIcon />
           Add

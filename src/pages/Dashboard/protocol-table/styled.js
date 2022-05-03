@@ -9,7 +9,7 @@ export const ProtocolTableWrapper = styled.div`
   @media (max-device-width: 480px){
     width: 100%;
     height: auto;
-    padding-top: 16px;
+    padding-top: 18px;
     padding-left: 8%;
     padding-right: 8%;
     padding-bottom: 16px;
@@ -25,7 +25,7 @@ export const HDiv = styled.div`
   display: flex;
   @media (max-device-width: 480px){
     margin-top:${(props) => props.mt ?? '8px'};
-    margin-bottom: 8px;
+    height: 40px;
   }
   
 `;

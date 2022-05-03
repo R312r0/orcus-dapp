@@ -58,6 +58,7 @@ export const HDiv = styled.div`
     white-space: nowrap;
     margin-top: 24px;
     margin-bottom: 24px;
+    height: 40px;
     gap: 16px;
   }
   
