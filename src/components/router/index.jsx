@@ -18,7 +18,7 @@ export default function Router() {
       <Route path='farms' element={<Farms />} />
       <Route path='profit-manager' element={<ProfitManager />} />
       <Route path='recollateralize' element={<Recollateralize />} />
-      <Route path='swap' element={<SwapPool/>} />
+      {/* <Route path='swap' element={<SwapPool/>} /> */}
     </Routes>
   );
 }

@@ -22,6 +22,15 @@ export const StakeBlockWrapper = styled.div`
     padding: 0;
     width: 100%;
     margin: 0;
+    padding-top: 24px;
+    padding-bottom 24px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding-left: 3%;
+    padding-right: 3%;
+    background-color: white;
     height: auto;
   }
 `;
@@ -95,8 +104,9 @@ export const StakeInputWrapper = styled.div`
   display: flex;
   @media (max-device-width: 480px){
     width: 100%;
-    height: 32px;
+    height: 44px;
     font-size: 12px;
+    border-radius: 8px;
   }
   
 
@@ -201,6 +211,7 @@ export const StakeBtn = styled.button`
     width: 100%;
     font-size: 14px;
     line-height: 14px;
+    border-radius: 8px;
     height: 48px;
   }
 `;
@@ -217,12 +228,12 @@ export const StakeDataWrapper = styled.div`
   @media (max-device-width: 480px){
     margin: 0;
     width: 100%;
-    padding-top: 16px;
-    padding-bottom: 16px;
+    padding-top: 32px;
+    padding-bottom: 32px;
     height: auto;
     margin-top: 16px;
     margin-bottom: 32px;
-
+    border-radius: 20px;
   }
 `;
 
@@ -237,6 +248,8 @@ export const StakeDataText = styled.span`
   @media (max-device-width: 480px){
     font-size: 14px; 
     line-height: 14px;
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 
   b {
