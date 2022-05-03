@@ -109,13 +109,17 @@ export const ClaimsHead = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 4fr 2fr 4fr;
+  @media (max-device-width: 480px){
+    grid-template-columns: 1fr 1fr 4fr;
+    font-size: 8px;
+  }
   color: #828282;
   font-size: 1vw;
   margin-top: 1.24vw;
   font-family: 'Poppins';
   padding-left: 1.12vw;
   @media (max-device-width: 480px){
-    font-size: 12px;
+    font-size: 8px;
     margin-top: 16px;
   }
 `
@@ -147,10 +151,14 @@ export const OverlayClaim = styled.button`
   }
   
   @media (max-device-width: 480px){
-    width: 100%;
+    width: 50%;
     border-radius: 8px;
-    height: 52px;
-    margin-top: 8px;
+    padding-left: 15%;
+    padding-right: 15%;
+    height: 24px;
+    font-size: 7px;
+    border-radius: 4px;
+
   }
 `
 export const OverlayOutline = styled.button`
@@ -172,9 +180,12 @@ cursor: pointer;
 @media (max-device-width: 480px){
   width: 100%;
   border-radius: 8px;
-  height: 52px;
   
-  margin-top: 8px;
+  border-radius: 4px;
+  height: 24px;
+  
+  font-size: 7px;
+
 }
 `
 export const ClaimsRow = styled.div`
@@ -182,6 +193,10 @@ export const ClaimsRow = styled.div`
   font-family: 'Poppins';
   margin-top: 0.44vw;
   grid-template-columns: 4fr 2fr 4fr;
+  @media (max-device-width: 480px){
+    grid-template-columns: 1fr 1fr 4fr;
+    font-size: 8px;
+  }
   color: #333;
   font-size: 1vw;
   align-items: center;

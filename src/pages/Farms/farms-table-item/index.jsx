@@ -400,8 +400,8 @@ const FarmsTableItm = ({index, item}) => {
               >
                 {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" : null}
               </OutlineBtn>
-              <Locked>3 days of lockup</Locked>
-              <HDiv mt='0.840vw' justifyContent='flex-end' alignItems='center'>
+              { index === 1 ? <Locked>3 days of lockup</Locked> : <></>}
+              <HDiv mt={index === 1 ? '0.840vw' : '2.240vw'}   justifyContent='flex-end' alignItems='center'>
                 <Text mr='0.573vw'>
                   <b>Rewards: {userInfo ? formattedNum(userInfo.pendingReward) : 0} ORU</b>
                 </Text>
