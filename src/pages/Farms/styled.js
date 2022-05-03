@@ -361,6 +361,14 @@ export const ManageButton = styled.button`
 export const RewardsBlock = styled.div`
   background-color: white;
   border-radius: 1.042vw;
+  @media (max-device-width: 480px){
+    margin-top: 16px;
+    border: 1px solid #F2F2F2;
+    border-radius: 20px;
+    padding: 16px;
+
+  }
+
 `
 export const RewardsBlockContent = styled.div`
   padding: 0.8vw;
@@ -386,13 +394,15 @@ color: #828282;
 `
 export const MobileRewardsContainer = styled.div`
   display: flex;
-  width: 100%;
+  width: 94%;
   font-size: 16px;
   flex-direction: column;
   gap: 8px;
-  border-radius: 1.042vw;
-  border: 1px solid #CECECE;
-  padding: 8px;
+  border-radius:26px;
+  border: 1px solid #F2F2F2;;
+  padding: 3%;
+  box-sizing: border-box;
+  margin: 3%;
 `
 export const RewardsContainer = styled.div`
   padding: 0.7vw;
@@ -440,8 +450,10 @@ export const FarmsWrapper = styled.div`
   margin-top: 0.365vw;
   display: flex;
   width: 100%;
-  
   @media (max-device-width: 480px){
+    background-color: white;
+    box-sizing: border-box;
+    padding-bottom: 64px;
 
   }
   

@@ -136,6 +136,7 @@ export const FarmsTableItem = styled.div`
   @media (max-device-width: 480px){
       width: 100%;
       height: auto;
+      border-top: 1px solid  #F2F2F2;
   }
   
 `;
@@ -148,6 +149,8 @@ export const MainData = styled.div`
       padding-left: 3%;
         padding-right: 3%;
         width: 100%;
+        padding-top: 12px;
+        padding-bottom: 12px;
   }
 `;
 
