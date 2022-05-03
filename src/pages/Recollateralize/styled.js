@@ -211,7 +211,6 @@ export const RecollateralizeInputWrapper = styled.div`
 
   button {
     @media (max-device-width: 480px){
-      
       height: auto;
       padding: 4px 8px;
       width: auto;
@@ -234,6 +233,9 @@ export const RecollateralizeInputWrapper = styled.div`
     &:hover {
       transition: all 0.3s;
       background: #000;
+      @media (max-device-width: 480px){
+        background: inherit;
+      }
     }
   }
 `;

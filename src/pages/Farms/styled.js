@@ -116,6 +116,7 @@ export const ClaimsHead = styled.div`
   padding-left: 1.12vw;
   @media (max-device-width: 480px){
     font-size: 12px;
+    margin-top: 16px;
   }
 `
 
@@ -144,6 +145,13 @@ export const OverlayClaim = styled.button`
   &:hover{
     background-color: black;
   }
+  
+  @media (max-device-width: 480px){
+    width: 100%;
+    border-radius: 8px;
+    height: 52px;
+    margin-top: 8px;
+  }
 `
 export const OverlayOutline = styled.button`
 color: #333;
@@ -160,6 +168,13 @@ cursor: pointer;
 &:hover {
   transition: all 0.1s;
   background: #F4BD50;
+}
+@media (max-device-width: 480px){
+  width: 100%;
+  border-radius: 8px;
+  height: 52px;
+  
+  margin-top: 8px;
 }
 `
 export const ClaimsRow = styled.div`
@@ -311,6 +326,9 @@ export const FarmsOverlayContent = styled.div`
     width: 100%;
     padding-top: 24px;
     padding-bottom :48px;
+    padding-left: 6%;
+    padding-right: 6%;
+    min-height: 80vh;
   }
   
 `
@@ -323,7 +341,7 @@ export const RewardsHead = styled.div`
   height: 5vw;
   @media (max-device-width: 480px){
     height: auto;
-
+    gap: 20px;
   }
 `
 
@@ -454,7 +472,6 @@ export const FarmsWrapper = styled.div`
     background-color: white;
     box-sizing: border-box;
     padding-bottom: 64px;
-
   }
   
 `;

@@ -3,6 +3,30 @@ import { styled as styledMUI } from '@mui/material/styles';
 import styled from 'styled-components';
 
 
+export const AdditionalExpanded = styled.div`
+  background-color: white;
+  width: 100%;
+  height: auto;
+  padding-left: 8%;
+  padding-right: 8%;
+  display: flex;
+  flex-direction: column;
+`
+
+export const AdditionalRow = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  font-size: 14px;
+  color: #BDBDBD;
+  & b{
+    font-weight: 400;
+    color: #333;
+  }
+`
+
 export const ColorfulBlock = styled.div`
   border-radius: 99px;
   width: ${props => props.width ?? '0px' };
@@ -20,7 +44,7 @@ export const ColorfulBlock = styled.div`
 export const ColorfulBtnContainer = styled.div`
   position: relative;
   height: 2.7vw;
-  width: 8vw;
+  width: 130px;
   margin-left: 2.2vw;
   // margin-right: 1.75vw;
   display: flex;
@@ -79,7 +103,9 @@ cursor: pointer;
     white-space: nowrap;
     font-size: 12px !important;
     height: auto;
-    min-height: 45px;
+    align-items: center;
+    height: 52px;
+    border-radius: 8px;
 }
 
 `
@@ -95,6 +121,12 @@ export const HelpText = styled.div`
   margin-left: -5vw;
   padding: 0.8vw;
   z-index: 10;
+
+@media (max-device-width: 480px){
+  font-size: 14px;
+  width: 200px;
+  margin-left: -10px;
+}
 `
 
 export const HelpCircleContainer = styled.div`
@@ -103,6 +135,7 @@ export const HelpCircleContainer = styled.div`
   }
   position: relative;
   cursor: pointer;
+  
 `
 export const FarmsColumn = styled.div`
   display: flex;
@@ -199,7 +232,7 @@ export const IconWrapper = styled.div`
 
 export const ExpandBtn = styled.div`
   border-radius: 0.521vw;
-  background: #f2f2f2;
+  // background: #f2f2f2;
   width: 2.083vw;
   height: 2.083vw;
   align-items: center;
@@ -223,6 +256,9 @@ export const ExpandBtn = styled.div`
   &:hover {
     transition: 0.3s all;
     background: #e0e0e0;
+    @media (max-device-width: 480px){
+      background: #fff;
+    }
   }
 `;
 
@@ -252,13 +288,16 @@ export const Text = styled.span`
   margin-left: ${(props) => props.ml};
   min-width: ${(props) => props.minW};
   font-family: 'Poppins';
-  font-weight: 300;
+  font-weight: ${props => props.fw ?? '300'};
   font-size: ${(props) => props.fontSize ?? '0.938vw'};
   line-height: ${(props) => props.lineHeight ?? '1.406vw'};
   color: #4f4f4f;
   @media (max-device-width: 480px){
     font-size: 12px;
     line-height: 12px;
+    margin-top: 2px;
+    color: ${props => props.color ?? '#828282'};
+    
 }
   b {
     @media (max-device-width: 480px){
@@ -281,6 +320,9 @@ export const ExpandedDataWrapper = styled.div`
       padding-top: 24px;
       padding-bottom: 12px;
       border-radius: 12vw;
+
+      padding-left: 3%;
+      padding-right: 3%;
   }
 `;
 
@@ -319,8 +361,10 @@ export const FarmsInputContainer = styled.div`
   justify-content: space-between;
   @media (max-device-width: 480px){
     width: 100%;
-    height: 32px;
-    font-size: 12px;
+    height: 44px;
+
+    border-radius: 8px;
+    font-size: 14px;
   }
 
   input {
@@ -334,9 +378,10 @@ export const FarmsInputContainer = styled.div`
     }
     @media (max-device-width: 480px){
         width: 90%;
-        height: 32px;
+        height: 44px;
         font-size: 14px;
-      }
+        border-radius: 8px;
+    }
   }
 `;
 
@@ -362,7 +407,9 @@ export const VestingBtn = styled.button`
       width: 100%;
       padding: 4px 8px;
       font-size: 14px;
-      height: 45px;
+      height: 52px;
+      border-radius: 8px;
+      margin-top: 32px;
   }
 `;
 
@@ -407,10 +454,11 @@ export const VestRewardsBtn = styled.button`
   }
 `;
 export const MobileFarmsSlider = styledMUI(Slider)(()=>({
-    width: '100%',
-  maxHeight: '0.260vw',
-  minHeight: '0.260vw',
-  height: '0.260vw',
+    width: '95%',
+    // boxSizing: 'border-box',
+  maxHeight: '0.860vw',
+  minHeight: '0.860vw',
+  height: '5px',
   color: '#333',
   marginTop: '2.552vw',
   padding: '0',
@@ -442,8 +490,8 @@ export const MobileFarmsSlider = styledMUI(Slider)(()=>({
   },
 
   '& .MuiSlider-mark': {
-    width: '1.094vw',
-    height: '1.094vw',
+    width: '18px',
+    height: '18px',
     borderRadius: '50%',
     backgroundColor: '#F6F6F6',
   },

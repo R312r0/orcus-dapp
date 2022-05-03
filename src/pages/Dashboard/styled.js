@@ -30,6 +30,7 @@ export const ToggleBtn = styled.div`
     line-height: 16px;
     margin: 0;
     padding: 0;
+    gap: 6px;
   }
   
 `;
