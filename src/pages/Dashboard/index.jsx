@@ -32,7 +32,8 @@ const Dashboard = () => {
       <InfoBlockWrapper>
         <HeadingText>Dashboard</HeadingText>
         <TVLChart protocolTVL={protocolTVL}/>
-        { isMobileScreen() ? <ToggleBtnWrapper>
+        { isMobileScreen() ? <div style={{paddingLeft: '8%', paddingRight: '8%', paddingTop: '12px', borderTopLeftRadius: '20px', borderTopRightRadius:'20px', backgroundColor: 'white'}}>
+          <ToggleBtnWrapper>
         <ToggleBtn
           onClick={() => setActiveTab('ORU')}
           isActive={activeTab === 'ORU'}
@@ -45,7 +46,7 @@ const Dashboard = () => {
         >
           oUSD
         </ToggleBtn>
-      </ToggleBtnWrapper>: <></>}
+      </ToggleBtnWrapper></div>: <></>}
         { isMobileScreen() ? <BuyBlockWrapper>
           { activeTab === 'ORU' ? <ORUTable /> :<OUSDTable /> }
         

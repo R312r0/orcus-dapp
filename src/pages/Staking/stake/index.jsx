@@ -188,7 +188,7 @@ const Stake = () => {
 
       <StakeDataWrapper>
         <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
-          <ClipboardIcon   ratio={ isMobileScreen() ? '5vw' : undefined} color='#000' color='#000' />
+          <ClipboardIcon   ratio={ isMobileScreen() ? '5vw' : undefined}  color='#000' />
           <CustomSpan>Data</CustomSpan>
         </div>
         <HDivider margin='1.875vw 0 0.77vw 0' />

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+// 
 export const ORUTableWrapper = styled.div`
   padding: 1.302vw 2.031vw 1.042vw 2.083vw;
   flex-direction: column;
@@ -10,7 +10,14 @@ export const ORUTableWrapper = styled.div`
   display: flex;
   @media (max-device-width: 480px){
     height: auto;
+    padding: 8%;
+    margin: 0;
     width: 100%;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding-bottom: 32px;
   }
 `;
 
@@ -50,7 +57,7 @@ export const TokenPrice = styled.span`
   font-size: 1.25vw;
   font-weight: 500;
   @media (max-device-width: 480px){
-    font-size: 16px;
+    font-size: 18px;
     line-height: 16px;
   }
 `;
@@ -77,8 +84,7 @@ export const Text = styled.span`
     line-height: 1.094vw;
     font-size: 0.729vw;
     @media (max-device-width: 480px){
-      
-    font-size: 18px;
+      font-size: 18px;
       line-height: 16px;
     }
     font-weight: ${(props) => props.fontWeight ?? 500};

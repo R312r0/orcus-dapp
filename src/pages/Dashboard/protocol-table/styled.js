@@ -9,9 +9,11 @@ export const ProtocolTableWrapper = styled.div`
   @media (max-device-width: 480px){
     width: 100%;
     height: auto;
-    margin-top: 16px;
     padding-top: 16px;
+    padding-left: 8%;
+    padding-right: 8%;
     padding-bottom: 16px;
+    border-radius: 20px;
   }
 `;
 
@@ -21,6 +23,10 @@ export const HDiv = styled.div`
   align-items: center;
   flex-direction: row;
   display: flex;
+  @media (max-device-width: 480px){
+    margin-top:${(props) => props.mt ?? '8px'};
+    margin-bottom: 8px;
+  }
   
 `;
 
