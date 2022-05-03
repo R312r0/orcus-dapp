@@ -237,7 +237,7 @@ const Redeem = () => {
       </RedeemBlockWrapper>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <RedeemDataWrapper>
-          <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
+          <div style={{ display: 'flex', alignItems: 'center' ,gap: '4px'}}>
           <ClipboardIcon ratio={ isMobileScreen() ? '5vw' : undefined} color='#000' />
             <CustomSpan
               
@@ -303,8 +303,8 @@ const Redeem = () => {
         </RedeemDataWrapper>
         <RedemtionWrapper>
           <HDiv>
-            <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
-              <CollectRedemtionIcon  ratio={ isMobileScreen() ? '5vw' : undefined}/>
+            <div style={{ display: 'flex', alignItems: 'center' , gap: '4px'}}>
+              <CollectRedemtionIcon ratio={ isMobileScreen() ? '5vw' : undefined}/>
               <CustomSpan>
                 Collect redemtion
               </CustomSpan>

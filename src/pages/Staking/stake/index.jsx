@@ -187,8 +187,8 @@ const Stake = () => {
       </StakeBlockWrapper>
 
       <StakeDataWrapper>
-        <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
-          <ClipboardIcon   ratio={ isMobileScreen() ? '5vw' : undefined}  color='#000' />
+        <div style={{ display: 'flex', alignItems: 'center' , gap: '4px'}}>
+          <ClipboardIcon  ratio={ isMobileScreen() ? '5vw' : undefined}  color='#000' />
           <CustomSpan>Data</CustomSpan>
         </div>
         <HDivider margin='1.875vw 0 0.77vw 0' />
@@ -223,6 +223,17 @@ const Stake = () => {
               <b>&nbsp;= {stakingInfo ? stakingInfo.rate : 0}&nbsp;</b>
             </StakeDataText>
             <StakeDataText>ORU</StakeDataText>
+          </div>
+        </HDiv>
+        <HDivider margin='0.781vw 0 0.938vw  0' />
+        <HDiv>
+          <StakeDataText mr='0.339vw'>My Stake</StakeDataText>
+          <div style={{ display: 'inherit', alignItems: 'inherit' }}>
+            <StakeDataText>
+              <b>1&nbsp;</b>
+            </StakeDataText>
+            <StakeDataText>xORU</StakeDataText>
+            
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />

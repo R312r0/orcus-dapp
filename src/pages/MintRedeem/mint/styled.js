@@ -6,6 +6,136 @@ import styled from 'styled-components';
 
 
 
+export const BuyBtn = styled.button`
+  padding-left: 1.667vw;
+  border-radius: 1.563vw;
+  align-items: center;
+  font-size: 0.833vw;
+  background: #000;
+  cursor: pointer;
+  height: 2.135vw;
+  width: 8.073vw;
+  display: flex;
+  border: none;
+  color: #fff;
+  @media (max-device-width: 480px){
+    width: 45%;
+    height: auto;
+    padding: 6px 10px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+
+  &:hover {
+    transition: 0.3s all;
+    background: #333;
+  }
+
+  svg {
+    @media (max-device-width: 480px){
+      height: 3vw;
+      width: 3vw;
+    }
+    margin-left: 1.042vw;
+    margin-right: 0.885vw;
+    height: 1.25vw;
+    width: 1.25vw;
+    fill: #fff;
+  }
+`;
+export const CheckSpan = styled.span`
+font-size: 0.729vw;
+font-weight: 400;
+color: #828282;
+& a {
+  color: #333;
+}
+`
+export const RedemtionWrapper = styled.div`
+  padding: 2.604vw 2.135vw 1.354vw 2.24vw;
+  margin-top: 1.042vw;
+  border-radius: 1.042vw;
+  flex-direction: column;
+  margin-left: 3.75vw;
+  background: #fff;
+  height: 9.896vw;
+  width: 25.573vw;
+  display: flex;
+  @media (max-device-width: 480px){
+    margin: 0;
+    width: 100%;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    height: auto;
+    margin-top: 16px;
+    margin-bottom: 32px;
+    border-radius: 20px;
+  }
+`;
+
+
+export const RedeemDataText = styled.span`
+  margin-right: ${(props) => props.mr};
+  margin-left: ${(props) => props.ml};
+  font-family: 'Poppins';
+  line-height: 1.094vw;
+  font-size: 0.729vw;
+  font-weight: 400;
+  color: #828282;
+  @media (max-device-width: 480px){
+    font-size: 14px; 
+    line-height: 14px;
+    
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+
+  b {
+    line-height: 1.094vw;
+    font-size: 0.729vw;
+    font-weight: 500;
+    color: #333;
+    @media (max-device-width: 480px){
+      font-size: 14px; 
+      line-height: 14px;
+    }
+  }
+`;
+
+export const RedemtionBtn = styled.button`
+  border: 0.052vw solid #333333;
+  border-radius: 1.042vw;
+  background: transparent;
+  height: 2.135vw;
+  cursor: pointer;
+  width: 6.406vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins';
+  line-height: 1.094vw;
+  font-size: 0.729vw;
+  font-weight: 400;
+  @media (max-device-width: 480px){
+
+    font-size: 14px;
+    line-height: 14px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    width: auto;
+    height: auto;
+  }
+  &:hover {
+    transition: 0.3s all;
+    background: #333;
+    color: #fff;
+  }
+`;
+
 export const CustomSpan = styled.span`
   fontFamily: 'Poppins',
   fontWeight: 500,

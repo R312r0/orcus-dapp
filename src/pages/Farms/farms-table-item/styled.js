@@ -2,7 +2,13 @@ import { Slider } from '@mui/material';
 import { styled as styledMUI } from '@mui/material/styles';
 import styled from 'styled-components';
 
-
+export const Locked = styled.div`
+  width: 100%;
+  font-size: 0.75vw;
+  text-align: center;
+  margin-top: 0.4vw;
+  color: #333;
+`
 export const ColorfulBlock = styled.div`
   border-radius: 99px;
   width: ${props => props.width ?? '0px' };
