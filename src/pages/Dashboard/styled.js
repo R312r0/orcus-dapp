@@ -73,6 +73,7 @@ export const BuyBlockWrapper = styled.div`
   display: flex;
   @media (max-device-width: 480px){
     width: 100%;
+    margin: 0;
   }
 `;
 
@@ -84,6 +85,7 @@ export const TableWrapper = styled.div`
     flex-direction: column;
     width: 100%;
     margin-bottom: 48px;
+    margin-top: 16px;
   }
 `;
 
@@ -97,8 +99,9 @@ export const HeadingText = styled.span`
   @media (max-device-width: 480px){
     font-size: 16px;
     line-height: 32px;
-    margin-top: 24px !important;
-    margin-bottom: 24px !important;
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+    background-color: white;
     text-align: center;
     width: 100%;
     margin: 0;

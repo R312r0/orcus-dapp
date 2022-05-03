@@ -11,7 +11,14 @@ export const OUSDTableWrapper = styled.div`
   display: flex;
   @media (max-device-width: 480px){
     height: auto;
+    padding: 8%;
+    margin: 0;
     width: 100%;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding-bottom: 32px;
   }
 `;
 export const HDiv = styled.div`
@@ -50,7 +57,7 @@ export const TokenPrice = styled.span`
   font-size: 1.25vw;
   font-weight: 500;
   @media (max-device-width: 480px){
-    font-size: 16px;
+    font-size: 18px;
     line-height: 16px;
   }
 `;
@@ -75,7 +82,7 @@ export const Text = styled.span`
   b {
     line-height: 1.094vw;
     @media (max-device-width: 480px){
-      font-size: 16px;
+      font-size: 18px;
       line-height: 16px;
     }
     font-size: 0.729vw;

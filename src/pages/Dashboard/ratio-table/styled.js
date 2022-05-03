@@ -9,12 +9,14 @@ export const RatioTableWrapper = styled.div`
   width: 16.094vw;
   @media (max-device-width: 480px){
     width: 100%;
-    height: auto;
-    margin-top: 16px;
     box-sizing: border-box;
-    padding-right: 0;
-    padding-top: 16px;
-    padding-bottom: 16px;
+    margin-top: 16px;
+    padding-left: 5%;
+    padding-right: 5%;
+    height: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 20px;
     margin-left: 0;
   }
 `;
@@ -29,8 +31,9 @@ export const IconWrapper = styled.div`
   width: 2.708vw;
   display: flex;
   @media (max-device-width: 480px){
-    height: 8.708vw;
-  width: 8.708vw;
+    height: 12.708vw;
+  width: 12.708vw;
+  border-radius: 16px;
   }
 
   svg {
@@ -50,6 +53,14 @@ export const HDiv = styled.div`
   align-items: center;
   flex-direction: row;
   display: flex;
+  @media (max-device-width: 480px){
+    width: min-content;
+    white-space: nowrap;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    gap: 16px;
+  }
+  
 `;
 
 export const VDiv = styled.div`

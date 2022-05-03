@@ -55,6 +55,12 @@ const ProtocolTable = ({setProtocolTVL}) => {
 
     }
 
+    const isMobileScreen = ( ) => {
+      let query = window.matchMedia('(max-device-width: 480px)')
+      return query.matches
+    }
+  
+
 
   return (
     <ProtocolTableWrapper>
@@ -66,7 +72,7 @@ const ProtocolTable = ({setProtocolTVL}) => {
           <b>${info ? formattedNum(info.protocolTVL) : 0}</b>
         </Text>
       </HDiv>
-      <HDiv mt='1.094vw'>
+      <HDiv mt={!isMobileScreen() ? '1.094vw' : '16px'}>
         <Text>Bank</Text>
         <Text>${info ? formattedNum(info.bankTVL) : 0}</Text>
       </HDiv>

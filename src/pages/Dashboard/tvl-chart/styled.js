@@ -12,7 +12,17 @@ export const TVLChartWrapper = styled.div`
   @media (max-device-width: 480px){
     width: 100%;
     height: auto;
-    background: #f6f6f6;
+    // background: #f6f6f6;
+    margin-top: 0;
+    border: none;
+    border-radius: 0;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow: hidden;
+    padding-left: 3%;
+    padding-right: 3%;
+    margin-bottom: 16px;
+    background-color: white;
   }
 `;
 
@@ -85,7 +95,8 @@ export const AreaChartWrapper = styled.div`
   @media (max-device-width: 480px){
     width: 100%;
     
-    background: #f6f6f6;
+    // background: #f6f6f6;
+    background-color: white;
     height: 300px;
   }
 `;
