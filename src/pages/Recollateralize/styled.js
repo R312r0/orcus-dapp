@@ -131,6 +131,9 @@ export const HDiv = styled.div`
   flex-direction: row;
   align-items: center;
   display: flex;
+  @media (max-device-width: 480px){
+    height: ${props => props.h ?? 'auto'};
+  }
 `;
 
 export const Text = styled.span`
@@ -140,7 +143,7 @@ export const Text = styled.span`
   font-weight: ${props => props.fontWeight ?? '300'};
   color: #4f4f4f;
   @media (max-device-width: 480px){
-    font-size: 12px;
+    font-size: ${props => props.fS ?? '12px'};
     line-height: 16px;
   }
   b {
@@ -301,6 +304,7 @@ export const RecollateralizeBtn = styled.button`
     line-height: 14px;
     height: 48px;
     border-radius: 8px;
+    margin-top: 47px;
   }
   &:hover {
     transition: all 0.3s;

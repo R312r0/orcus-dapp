@@ -240,7 +240,7 @@ const Mint = () => {
           </IconWrapper>
           USDC
         </MintInputWrapper>
-        <IconWrapper margin='1.667vw 0 0 0'>
+        <IconWrapper margin={ isMobileScreen() ? '16px 0 0 0' :'1.667vw 0 0 0'}>
           <BoldPlusIcon ratio='5vw'/>
         </IconWrapper>
         <HDiv>
@@ -254,7 +254,7 @@ const Mint = () => {
           </IconWrapper>
           ORU
         </MintInputWrapper>
-        <IconWrapper margin='1.667vw 0 0 0' stroke='none'>
+        <IconWrapper margin={ isMobileScreen() ? '16px 0 0 0' :'1.667vw 0 0 0'}>
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
@@ -279,7 +279,7 @@ const Mint = () => {
           </CustomSpan>
         </div>
         <HDivider margin='1.875vw 0 0.77vw 0' />
-        <HDiv>
+        <HDiv h='50px'>
           <MintDataText>Minting fee</MintDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <MintDataText>
@@ -289,7 +289,7 @@ const Mint = () => {
           </div>
         </HDiv>
         <HDivider margin='0.938vw 0 0.781vw 0' />
-        <HDiv>
+        <HDiv h='50px'>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <MintDataText mr='0.339vw'>Collateral balance</MintDataText>
             <HelpCircleIcon />
@@ -302,14 +302,14 @@ const Mint = () => {
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-        <HDiv>
+        <HDiv h='50px'>
           <MintDataText>Slippage</MintDataText>
           <MintDataText>
             <b>0.50%</b>
           </MintDataText>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-        <HDiv>
+        <HDiv h='50px'>
           <MintDataText>Rates</MintDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <MintDataText>
@@ -323,7 +323,7 @@ const Mint = () => {
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-        <HDiv>
+        <HDiv h='50px'>
           <div />
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <MintDataText>

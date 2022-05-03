@@ -43,6 +43,9 @@ export const HDiv = styled.div`
   flex-direction: row;
   align-items: center;
   display: flex;
+  @media (max-device-width: 480px){
+    height: ${props => props.h ?? 'auto'};
+  }
 `;
 
 export const Text = styled.span`
@@ -220,6 +223,7 @@ export const StakeBtn = styled.button`
     line-height: 14px;
     border-radius: 8px;
     height: 48px;
+    margin-top: 47px;
   }
 `;
 

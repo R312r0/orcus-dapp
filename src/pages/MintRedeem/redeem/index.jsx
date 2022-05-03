@@ -205,7 +205,7 @@ const Redeem = () => {
           </IconWrapper>
           oUSD
         </RedeemInputWrapper>
-        <IconWrapper margin='1.667vw 0 0 0'>
+        <IconWrapper margin={ isMobileScreen() ? '16px 0 0 0' :'1.667vw 0 0 0'}>
           <BoldPlusIcon />
         </IconWrapper>
         <HDiv>
@@ -219,7 +219,7 @@ const Redeem = () => {
           </IconWrapper>
           USDC
         </RedeemInputWrapper>
-        <IconWrapper margin='1.667vw 0 0 0' stroke='none'>
+        <IconWrapper margin={ isMobileScreen() ? '16px 0 0 0' :'1.667vw 0 0 0'} stroke='none'>
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
@@ -246,21 +246,21 @@ const Redeem = () => {
             </CustomSpan>
           </div>
           <HDivider margin='1.875vw 0 0.77vw 0' />
-          <HDiv>
+          <HDiv h='50px'>
             <RedeemDataText>Redemtion fee</RedeemDataText>
             <RedeemDataText>
               <b>0.4%</b>
             </RedeemDataText>
           </HDiv>
           <HDivider margin='0.938vw 0 0.781vw 0' />
-          <HDiv>
+          <HDiv h='50px'>
             <RedeemDataText>Slippage</RedeemDataText>
             <RedeemDataText>
               <b>0.50%</b>
             </RedeemDataText>
           </HDiv>
           <HDivider margin='0.781vw 0 0.938vw  0' />
-          <HDiv>
+          <HDiv h='50px'>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <RedeemDataText mr='0.339vw'>Collateral balance</RedeemDataText>
               <HelpCircleIcon />
@@ -273,7 +273,7 @@ const Redeem = () => {
             </div>
           </HDiv>
           <HDivider margin='0.781vw 0 0.938vw  0' />
-          <HDiv>
+          <HDiv h='50px'>
             <RedeemDataText>Rates</RedeemDataText>
             <div style={{ display: 'inherit', alignItems: 'inherit' }}>
               <RedeemDataText>
@@ -287,7 +287,7 @@ const Redeem = () => {
             </div>
           </HDiv>
           <HDivider margin='0.781vw 0 0.938vw  0' />
-          <HDiv>
+          <HDiv h='50px'>
             <div />
             <div style={{ display: 'inherit', alignItems: 'inherit' }}>
               <RedeemDataText>
@@ -302,7 +302,7 @@ const Redeem = () => {
           </HDiv>
         </RedeemDataWrapper>
         <RedemtionWrapper>
-          <HDiv>
+          <HDiv >
             <div style={{ display: 'flex', alignItems: 'center' , gap: '4px'}}>
               <CollectRedemtionIcon ratio={ isMobileScreen() ? '5vw' : undefined}/>
               <CustomSpan>
