@@ -12,9 +12,15 @@ import {
 
 const MintRedeeem = () => {
   const [activeTab, setActiveTab] = React.useState('Mint');
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
+  }
+
   return (
     <MintRedeemWrapper>
       <HeadingText>Mint</HeadingText>
+      <div style={{backgroundColor: isMobileScreen() ? 'white' : 'inherit', paddingLeft: '3%', paddingRight: '3%'}}>
       <ToggleBtnWrapper>
         <ToggleBtn
           onClick={() => setActiveTab('Mint')}
@@ -29,6 +35,7 @@ const MintRedeeem = () => {
           Redeem
         </ToggleBtn>
       </ToggleBtnWrapper>
+      </div>
       <TabWrapper>{activeTab === 'Mint' ? <Mint /> : <Redeem />}</TabWrapper>
     </MintRedeemWrapper>
   );
