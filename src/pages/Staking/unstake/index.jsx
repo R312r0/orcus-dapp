@@ -146,7 +146,10 @@ const Unstake = () => {
       return <UnstakeBtn onClick={() => connectWallet()}>Connect Wallet</UnstakeBtn>
     }
   }
-
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
+  }
 
   return (
     <>
@@ -168,14 +171,19 @@ const Unstake = () => {
         <UnstakeInputWrapper withBtn>
           <input type='text' placeholder='0.0' value={xoruInput} onChange={(e) => setXOruInput(e.target.value)}/>
           <button>Max</button>
-          <Divider />
-          <IconWrapper  w='5vw' h='5vw' fill='#000' margin='0 0.833vw 0 0'>
+          <Divider /><IconWrapper 
+           w={ isMobileScreen() ? '5vw' : undefined}
+           h={ isMobileScreen() ? '5vw' : undefined} fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>
           xORU
-        </UnstakeInputWrapper>
-        <IconWrapper  w='5vw' h='5vw' margin='1.719vw 0 0 0'>
+        </UnstakeInputWrapper><IconWrapper 
+        
+        w={ isMobileScreen() ? '5vw' : undefined}
+        h={ isMobileScreen() ? '5vw' : undefined}
+         margin='1.719vw 0 0 0'>
           <ArrowDownIcon />
+
         </IconWrapper>
         <HDiv>
           <Text>Receiving ORU</Text>
@@ -183,7 +191,9 @@ const Unstake = () => {
         </HDiv>
         <UnstakeInputWrapper>
           <input type='text' value={xoruInput} onChange={(e) => setXOruInput(e.target.value)}/>
-          <IconWrapper  w='5vw' h='5vw' fill='#000' margin='0 0.833vw 0 0'>
+          <IconWrapper 
+           w={ isMobileScreen() ? '5vw' : undefined}
+           h={ isMobileScreen() ? '5vw' : undefined} fill='#000' margin='0 0.833vw 0 0'>
             <LogoIconBlack />
           </IconWrapper>
           ORU
