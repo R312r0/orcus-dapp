@@ -81,6 +81,7 @@ const ORUTable = () => {
     return (
     <ORUTableWrapper>
       <HDiv>
+        { !isMobileScreen() ? 
         <VDiv style={{ justifyContent: isMobileScreen() ? 'center' : '', gap: isMobileScreen() ? '8px' : '', alignItems: isMobileScreen() ? 'center' : ''}}>
           <IconWrapper >
             <LogoIcon />
@@ -89,6 +90,7 @@ const ORUTable = () => {
             <b>ORU</b>
           </Text>
         </VDiv>
+         : <></>}
         <TokenPrice>${oruInfo ? formattedNum(oruInfo.oruPrice) : 0}</TokenPrice>
       </HDiv>
       <Divider margin='0.729vw 0' />

@@ -39,12 +39,14 @@ export const Text = styled.span`
   @media (max-device-width: 480px){
     font-size: 14px;
     line-height: 16px;
+
   }
 
   b {
     @media (max-device-width: 480px){
       font-size: 18px;
       line-height: 19px;
+      font-weight: 500;
     }
     line-height: 1.406vw;
     font-size: 0.938vw;

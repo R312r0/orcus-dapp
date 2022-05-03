@@ -38,7 +38,7 @@ const RatioTable = () => {
         </IconWrapper>
         <VDiv>
           <Text>Target Collateral Ratio</Text>
-          <Text mt='0.156vw'>
+          <Text mt={'0.156vw'}>
             <b>{rates ? rates.tcr : 0}%</b>
           </Text>
         </VDiv>

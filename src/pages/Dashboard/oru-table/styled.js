@@ -57,7 +57,7 @@ export const TokenPrice = styled.span`
   font-size: 1.25vw;
   font-weight: 500;
   @media (max-device-width: 480px){
-    font-size: 16px;
+    font-size: 18px;
     line-height: 16px;
   }
 `;
@@ -75,10 +75,12 @@ export const Text = styled.span`
   font-size: 0.729vw;
   font-weight: 400;
   color: #828282;
+  
 
   @media (max-device-width: 480px){
     font-size: 12px;
     line-height: 16px;
+    font-weight: 400;
   }
   b {
     line-height: 1.094vw;
@@ -86,6 +88,7 @@ export const Text = styled.span`
     @media (max-device-width: 480px){
       font-size: 18px;
       line-height: 16px;
+      font-weight: 500;
     }
     font-weight: ${(props) => props.fontWeight ?? 500};
     color: #333;
@@ -121,6 +124,7 @@ export const AddBtn = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 30px;
   }
 
   &:hover {
@@ -161,6 +165,7 @@ export const BuyBtn = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 30px;
     
   }
 

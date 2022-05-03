@@ -345,14 +345,13 @@ const Mint = () => {
                 Check if you have enough <a target='_blank' href='https://app.arthswap.org/#/swap'>ORU</a> balance
               </CheckSpan>
             </div>
-            
           </HDiv>
 
           <HDivider margin='1.87vw 0 0.781vw 0' />
           <HDiv>
             <RedeemDataText>
               <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
-              <ORUIcon></ORUIcon>ORU
+              <ORUIcon ratio={isMobileScreen() ? '5vw' : undefined}></ORUIcon>ORU
               </div>
             </RedeemDataText>
             <RedeemDataText>

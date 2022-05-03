@@ -183,6 +183,16 @@ export const SwapInputWrapper = styled.div`
     align-items: center;
     padding: 0 1.354vw;
     cursor: pointer;
+    @media (max-device-width: 480px){
+      
+      height: auto;
+      padding: 4px 8px;
+      width: auto;
+      background-color: none;
+      background: none;
+      color: #333;
+      font-size: 14px;
+    }
 
     &:hover {
       transition: all 0.3s;

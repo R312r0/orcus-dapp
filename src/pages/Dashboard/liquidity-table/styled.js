@@ -77,6 +77,7 @@ export const Text = styled.span`
   @media (max-device-width: 480px){
     font-size: 14px;
     line-height: 16px;
+    font-weight: 400;
   }
 
   b {
@@ -86,6 +87,7 @@ export const Text = styled.span`
     color: #333;
     @media (max-device-width: 480px){
       font-size: 18px;
+    font-weight: 500;
       line-height: 18px;
     }
   }

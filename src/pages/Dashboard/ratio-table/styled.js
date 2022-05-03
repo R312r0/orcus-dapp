@@ -66,6 +66,7 @@ export const HDiv = styled.div`
 export const VDiv = styled.div`
   flex-direction: column;
   display: flex;
+  
 `;
 
 export const Text = styled.span`
