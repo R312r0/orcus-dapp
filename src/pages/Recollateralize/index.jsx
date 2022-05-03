@@ -219,7 +219,7 @@ const Recollateralize = () => {
       </RecollateralizeBlockWrapper>
 
       <RecollateralizeDataWrapper>
-        <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
+      <div style={{ display: 'flex', alignItems: 'center' , gap: '4px'}}>
           <ClipboardIcon ratio={ isMobileScreen() ? '5vw' : undefined}  color='#000' />
           <CustomSpan
           >
