@@ -160,9 +160,9 @@ const Farms = () => {
 
 
     setMasterChefPools([
-        {name: "ORU/USDC", lpToken: ORU_USDC, liquidity:  liquidity.oruUsdcLiq, token0Icon: <LogoIconBlack/>, token1Icon: <USDCIcon/>},
-        {name: "oUSD/USDC", lpToken: OUSD_USDC, liquidity: liquidity.ousdUsdcLiq,token0Icon: <OUSDIcon/>, token1Icon: <USDCIcon/>},
-        {name: "oUSD/ORU", lpToken: OUSD_ORU, liquidity:  liquidity.oruOusdLiq,token0Icon: <OUSDIcon/>, token1Icon: <LogoIconBlack/>},
+        {name: "ORU/USDC", addURL: 'https://app.arthswap.org/#/add/0xCdB32eEd99AA19D39e5d6EC45ba74dC4afeC549F/0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98', removeURL:'https://app.arthswap.org/#/remove/0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98/0xCdB32eEd99AA19D39e5d6EC45ba74dC4afeC549F', lpToken: ORU_USDC, liquidity:  liquidity.oruUsdcLiq, token0Icon: <LogoIconBlack/>, token1Icon: <USDCIcon/>},
+        {name: "oUSD/USDC", addURL: 'https://app.arthswap.org/#/add/0x29F6e49c6E3397C3A84F715885F9F233A441165C/0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98', removeURL:'https://app.arthswap.org/#/remove/0x29F6e49c6E3397C3A84F715885F9F233A441165C/0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98', lpToken: OUSD_USDC, liquidity: liquidity.ousdUsdcLiq,token0Icon: <OUSDIcon/>, token1Icon: <USDCIcon/>},
+        {name: "oUSD/ORU", addURL: 'https://app.arthswap.org/#/add/0x29F6e49c6E3397C3A84F715885F9F233A441165C/0xCdB32eEd99AA19D39e5d6EC45ba74dC4afeC549F', removeURL:'https://app.arthswap.org/#/remove/0x29F6e49c6E3397C3A84F715885F9F233A441165C/0xCdB32eEd99AA19D39e5d6EC45ba74dC4afeC549F', lpToken: OUSD_ORU, liquidity:  liquidity.oruOusdLiq,token0Icon: <OUSDIcon/>, token1Icon: <LogoIconBlack/>},
     ])
   }
 

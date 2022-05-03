@@ -78,6 +78,12 @@ const FarmsTableItm = ({index, item}) => {
 
   }, [contracts])
 
+  const proxyNavigation = ( link ) => {
+    window.open(
+      link,
+      '_blank' // <- This is what makes it open in a new window.
+    );
+  }
 
   useEffect(() => {
 
@@ -328,13 +334,13 @@ const FarmsTableItm = ({index, item}) => {
                 {userInfo ? userInfo.allowance ? "Deposit" : "Approve" : null}
               </VestingBtn>
               <HDiv mt='1.708vw' style={{display: 'flex', justifyContent: 'space-between'}}>
-                <OutlineBtn gap='12px' onClick={() => navigate("/swap")} width='15.8vw'>
+                <OutlineBtn gap='12px' onClick={() => proxyNavigation(item.addURL)} width='15.8vw'>
                   <PlusIcon color='#333'></PlusIcon>
                   <Text>
                     <b>Add Liquidity</b>
                   </Text>
                 </OutlineBtn>
-                <OutlineBtn gap='12px' onClick={() => navigate("/swap")} width='15.8vw'>
+                <OutlineBtn gap='12px' onClick={() => proxyNavigation(item.removeURL)} width='15.8vw'>
                   <TrashIcon></TrashIcon>
                   <Text>
                   <b>Remove Liquidity</b>
