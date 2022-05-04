@@ -178,12 +178,12 @@ const Recollateralize = () => {
       <TabWrapper>
       <RecollateralizeBlockWrapper>
         <HDiv mt='1.094vw'>
-          <Text>Recollaterize available</Text>
+          <Text fS='14px' fontWeight='500'>Recollaterize available</Text>
           <Text>Balance:</Text>
         </HDiv>
-        <HDiv mt='1.094vw'>
-          <Text fontWeight='500'>{info ? formattedNum(info.recollatAvailable) : 0.000 } USDC</Text>
-          <Text fontWeight='500'>{userInfo ? formattedNum(userInfo.bal) : 0} USDC</Text>
+        <HDiv mt={isMobileScreen() ? '24px' : '1.094vw'}>
+          <Text >{info ? formattedNum(info.recollatAvailable) : 0.000 } USDC</Text>
+          <Text >{userInfo ? formattedNum(userInfo.bal) : 0} USDC</Text>
         </HDiv>
         <RecollateralizeInputWrapper withBtn>
           <input type='text' placeholder='0.0' value={collatInput} onChange={({target}) => handleCollatInput(target.value)}/>
@@ -200,7 +200,7 @@ const Recollateralize = () => {
         <IconWrapper 
          w={ isMobileScreen() ? '5vw' : undefined}
          h={ isMobileScreen() ? '5vw' : undefined}
-        margin='1.719vw 0 0 0'>
+         margin={ isMobileScreen() ? '16px 0 0 0' :'1.719vw 0 0 0'}>
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
@@ -219,22 +219,22 @@ const Recollateralize = () => {
       </RecollateralizeBlockWrapper>
 
       <RecollateralizeDataWrapper>
-        <div style={{ display: 'flex', alignItems: 'center' , gap: isMobileScreen() ? '4px' : ''}}>
+      <div style={{ display: 'flex', alignItems: 'center' , gap: '4px'}}>
           <ClipboardIcon ratio={ isMobileScreen() ? '5vw' : undefined}  color='#000' />
           <CustomSpan
           >
             Data
           </CustomSpan>
         </div>
-        <HDivider margin='1.875vw 0 0.77vw 0' />
-        <HDiv>
+        <HDivider margin={'1.875vw 0 0.77vw 0' }/>
+        <HDiv h='50px'>
           <RecollateralizeDataText>Bonus Rate</RecollateralizeDataText>
           <RecollateralizeDataText>
             <b>0.005%</b>
           </RecollateralizeDataText>
         </HDiv>
         <HDivider margin='0.938vw 0 0.781vw 0' />
-        <HDiv>
+        <HDiv  h='50px'>
           <div style={{display: 'flex', alignItems: 'center'}}>
           <RecollateralizeDataText mr='0.339vw'>Collateral balance</RecollateralizeDataText>
           <HelpCircleIcon></HelpCircleIcon>
@@ -247,7 +247,7 @@ const Recollateralize = () => {
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-        <HDiv>
+        <HDiv  h='50px'>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <RecollateralizeDataText mr='0.339vw'>Slippage</RecollateralizeDataText>
           </div>
@@ -256,7 +256,7 @@ const Recollateralize = () => {
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-        <HDiv>
+        <HDiv  h='50px'>
           <RecollateralizeDataText>Rates</RecollateralizeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <RecollateralizeDataText>
@@ -270,7 +270,7 @@ const Recollateralize = () => {
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-        <HDiv>
+        <HDiv  h='50px'>
           <RecollateralizeDataText></RecollateralizeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <RecollateralizeDataText>

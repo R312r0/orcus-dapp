@@ -27,6 +27,10 @@ export const HDiv = styled.div`
   align-items: center;
   flex-direction: row;
   display: flex;
+  @media (max-device-width: 480px){
+    gap: 8px;
+    height: 40px;
+  }
 `;
 
 export const IconWrapper = styled.div`
@@ -78,16 +82,14 @@ export const Text = styled.span`
   
 
   @media (max-device-width: 480px){
-    font-size: 12px;
-    line-height: 16px;
+    font-size: 14px;
     font-weight: 400;
   }
   b {
     line-height: 1.094vw;
     font-size: 0.729vw;
     @media (max-device-width: 480px){
-      font-size: 18px;
-      line-height: 16px;
+      font-size: 14px;
       font-weight: 500;
     }
     font-weight: ${(props) => props.fontWeight ?? 500};
@@ -117,14 +119,15 @@ export const AddBtn = styled.button`
   color: #4f4f4f;
   display: flex;
   @media (max-device-width: 480px){
-    width: 45%;
-    height: auto;
+    width: 100%;
+    height: 40px;
     padding: 6px 10px;
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 30px;
+    gap: 6px;
   }
 
   &:hover {
@@ -136,6 +139,7 @@ export const AddBtn = styled.button`
     @media (max-device-width: 480px){
       height: 3vw;
       width: 3vw;
+      margin: 0;
     }
     margin-left: 1.042vw;
     margin-right: 0.885vw;
@@ -150,7 +154,7 @@ export const BuyBtn = styled.button`
   border-radius: 1.563vw;
   align-items: center;
   font-size: 0.833vw;
-  background: #000;
+  background: #333;
   cursor: pointer;
   height: 2.135vw;
   width: 8.073vw;
@@ -158,15 +162,15 @@ export const BuyBtn = styled.button`
   border: none;
   color: #fff;
   @media (max-device-width: 480px){
-    width: 45%;
-    height: auto;
+    width: 100%;
+    height: 40px;
     padding: 6px 10px;
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 30px;
-    
+    gap: 6px;
   }
 
   &:hover {
@@ -178,6 +182,7 @@ export const BuyBtn = styled.button`
     @media (max-device-width: 480px){
       height: 3vw;
       width: 3vw;
+      margin: 0;
     }
     margin-left: 1.042vw;
     margin-right: 0.885vw;

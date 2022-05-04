@@ -431,7 +431,10 @@ const Farms = () => {
       </HDiv>
       <FarmsTableWrapper>
         {masterChefPools && masterChefPools.map((item, idx) => (
+          <>
           <FarmsTableItm key={idx} index={idx} item={item} />
+          <HDivider></HDivider>
+          </>
         ))}
       </FarmsTableWrapper></> : <>
       

@@ -190,7 +190,7 @@ const Unstake = () => {
         
         w={ isMobileScreen() ? '5vw' : undefined}
         h={ isMobileScreen() ? '5vw' : undefined}
-         margin='1.719vw 0 0 0'>
+         margin={ isMobileScreen() ? '16px 0 0 0' :'1.667vw 0 0 0'}>
           <ArrowDownIcon />
 
         </IconWrapper>
@@ -217,14 +217,14 @@ const Unstake = () => {
           <CustomSpan>Data</CustomSpan>
         </div>
         <HDivider margin='1.875vw 0 0.77vw 0' />
-        <HDiv>
+        <HDiv h='50px'>
           <UnstakeDataText>Stake TVL</UnstakeDataText>
           <UnstakeDataText>
             <b>${stakingInfo ?  formattedNum(stakingInfo.tvl) : 0}</b>
           </UnstakeDataText>
         </HDiv>
         <HDivider margin='0.938vw 0 0.781vw 0' />
-        <HDiv>
+        <HDiv h='50px'>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <UnstakeDataText mr='0.339vw'>Lock Duration</UnstakeDataText>
             <CalendarIcon />
@@ -237,7 +237,7 @@ const Unstake = () => {
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-        <HDiv>
+        <HDiv h='50px'>
           <StakeDataText mr='0.339vw'>Rate</StakeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <StakeDataText>

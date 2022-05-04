@@ -43,6 +43,9 @@ export const HDiv = styled.div`
   flex-direction: row;
   align-items: center;
   display: flex;
+  @media (max-device-width: 480px){
+    height: ${props => props.h ?? 'auto'};
+  }
 `;
 
 export const Text = styled.span`
@@ -152,6 +155,9 @@ export const StakeInputWrapper = styled.div`
     &:hover {
       transition: all 0.3s;
       background: #000;
+      @media (max-device-width: 480px){
+        background: inherit;
+      }
     }
   }
 `;
@@ -197,7 +203,7 @@ export const StakeBtn = styled.button`
   background: #333;
   margin-top: 7.344vw;
   border-radius: 0.625vw;
-  height: 3.542vw;
+  min-height: 3.6vw;
   width: 32.448vw;
   display: flex;
   align-items: center;
@@ -217,6 +223,7 @@ export const StakeBtn = styled.button`
     line-height: 14px;
     border-radius: 8px;
     height: 48px;
+    margin-top: 47px;
   }
 `;
 

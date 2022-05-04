@@ -161,7 +161,7 @@ const Stake = () => {
           <Text>Balance: {userInfo ? formattedNum(userInfo.balances.oru)  : 0}</Text>
         </HDiv>
         <StakeInputWrapper withBtn>
-          <input type='text' placeholder='0.0' value={oruInput} onChange={(e) => handleInput(e.target.value)} />
+          <input type='text' placeholder='0.0' value={oruInput} onChange={(e) => setOruInput(e.target.value)} />
           <button onClick={() => setOruInput(userInfo?.balances.oru)} >Max</button>
           <Divider />
           <IconWrapper  
@@ -176,7 +176,7 @@ const Stake = () => {
         
         w={ isMobileScreen() ? '5vw' : undefined}
         h={ isMobileScreen() ? '5vw' : undefined}
-         margin='1.719vw 0 0 0'>
+         margin={ isMobileScreen() ? '16px 0 0 0' :'1.667vw 0 0 0'}>
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
@@ -201,14 +201,14 @@ const Stake = () => {
           <CustomSpan>Data</CustomSpan>
         </div>
         <HDivider margin='1.875vw 0 0.77vw 0' />
-        <HDiv>
+        <HDiv h='50px'>
           <StakeDataText>Stake TVL</StakeDataText>
           <StakeDataText>
             <b>${stakingInfo ? formattedNum(stakingInfo.tvl) : 0}</b>
           </StakeDataText>
         </HDiv>
         <HDivider margin='0.938vw 0 0.781vw 0' />
-        <HDiv>
+        <HDiv h='50px'>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <StakeDataText mr='0.339vw'>Lock Duration</StakeDataText>
             <CalendarIcon />
@@ -221,7 +221,7 @@ const Stake = () => {
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-        <HDiv>
+        <HDiv h='50px'>
           <StakeDataText mr='0.339vw'>Rate</StakeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <StakeDataText>
@@ -235,7 +235,7 @@ const Stake = () => {
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
-        <HDiv>
+        <HDiv h='50px'>
           <StakeDataText mr='0.339vw'>My Stake</StakeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <StakeDataText>

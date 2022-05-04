@@ -34,7 +34,7 @@ const Dashboard = () => {
       <InfoBlockWrapper>
         <HeadingText>Dashboard</HeadingText>
         <TVLChart protocolTVL={protocolTVL}/>
-        { isMobileScreen() ? <div style={{paddingLeft: '8%', paddingRight: '8%', paddingTop: '12px', borderTopLeftRadius: '20px', borderTopRightRadius:'20px', backgroundColor: 'white'}}>
+        { isMobileScreen() ? <div style={{paddingLeft: '3%', paddingRight: '3%', paddingTop: '12px', borderTopLeftRadius: '20px', borderTopRightRadius:'20px', backgroundColor: 'white'}}>
           <ToggleBtnWrapper>
         <ToggleBtn
           onClick={() => setActiveTab('ORU')}

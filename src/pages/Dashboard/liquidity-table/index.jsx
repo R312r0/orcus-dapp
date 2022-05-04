@@ -38,6 +38,11 @@ const LiquidityTable = () => {
 
   }
 
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
+  }
+
   return (
     <LiquidityTableWrapper>
       <HDiv>
@@ -46,7 +51,7 @@ const LiquidityTable = () => {
         </IconWrapper>
         <VDiv>
           <Text>Protocol Owned Liquidity</Text>
-          <Text mt='0.156vw'>
+          <Text mt={isMobileScreen() ? '10px' : '0.156vw'}>
             <b>${protocolLiquidity ? formattedNum(protocolLiquidity.protocolOwned) : 0}</b>
           </Text>
         </VDiv>
@@ -57,7 +62,7 @@ const LiquidityTable = () => {
         </IconWrapper>
         <VDiv>
           <Text>Protocol Rented Liquidity</Text>
-          <Text mt='0.156vw'>
+          <Text mt={isMobileScreen() ? '10px' : '0.156vw'}>
             <b>${protocolLiquidity ? formattedNum(protocolLiquidity.protocolRented) : 0}</b>
           </Text>
         </VDiv>

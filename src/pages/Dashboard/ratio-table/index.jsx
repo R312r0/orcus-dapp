@@ -30,6 +30,12 @@ const RatioTable = () => {
     })
   }
 
+  
+  const isMobileScreen = ( ) => {
+    let query = window.matchMedia('(max-device-width: 480px)')
+    return query.matches
+  }
+
   return (
     <RatioTableWrapper>
       <HDiv>
@@ -38,7 +44,7 @@ const RatioTable = () => {
         </IconWrapper>
         <VDiv>
           <Text>Target Collateral Ratio</Text>
-          <Text mt={'0.156vw'}>
+          <Text  mt={isMobileScreen() ? '10px' : '0.156vw'}>
             <b>{rates ? rates.tcr : 0}%</b>
           </Text>
         </VDiv>
@@ -49,7 +55,7 @@ const RatioTable = () => {
         </IconWrapper>
         <VDiv>
           <Text>Effective Collateral Ratio</Text>
-          <Text mt='0.156vw'>
+          <Text  mt={isMobileScreen() ? '10px' : '0.156vw'}>
             <b>{rates ? rates.ecr : 0}%</b>
           </Text>
         </VDiv>

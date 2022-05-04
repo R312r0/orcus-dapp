@@ -54,7 +54,10 @@ export const HistoryTableRowMobile = styled.div`
   justify-content: space-between;
   width: 100%;
   font-size: 14px;
-  padding-bottom: 8px;
+  color: #4F4F4F;
+  border-bottom: 1px solid #F2F2F2;
+  height: 50px;
+  align-items: center;
 `
 export const HeadingText = styled.span`
   font-family: 'Poppins';
@@ -175,8 +178,6 @@ export const THRLabel = styled.div`
   flex-direction: column;
   // height: 320px;
   border-radius: 1.042vw;
-  overflow-x: hidden;
-  overflow-y: auto;
   display: flex;
   background-color: white;
   border-radius: 20px;
@@ -193,11 +194,15 @@ export const THRLabel = styled.div`
 export const HistoryContent = styled.div`
 
 padding-top: ${props => props.paddingTop};
+max-height: 25vw;
 padding-left: 72px;
 padding-right: 72px;
+overflow-x: hidden;
+overflow-y: auto;
 @media (max-device-width: 480px){
   padding-left: 3%;
   padding-right: 3%;
+  max-height: none;
   height: auto;
 }
 `
@@ -209,6 +214,8 @@ export const HistoryHeader = styled.div`
   @media (max-device-width: 480px){
     font-size: 18px;
     line-height: 18px;
+    margin-bottom: 16px;
+    font-weight: 400;
   }
 `
 export const HistoryTableHead = styled.div`

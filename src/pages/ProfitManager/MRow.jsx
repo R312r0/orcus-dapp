@@ -41,14 +41,15 @@ const MRow = ({ index, row }) => {
                 <div style={{width: '5vw'}}></div>
                 <GreyText>Fee Collector</GreyText>
             </div>
-            <div>{formattedNum(row.fee)} ORU</div>
+            
+            <div style={{marginRight: '8px'}}>{formattedNum(row.fee)} ORU</div>
             </HistoryTableRowMobile>
             <HistoryTableRowMobile mt='0px'>
             <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
                 <div style={{width: '5vw'}}></div>
                 <GreyText>FCollateral Invest</GreyText>
             </div>
-            <div>
+            <div style={{marginRight: '8px'}}>
                 {formattedNum(row.collateral)} USD
                 </div>
             </HistoryTableRowMobile>
@@ -58,7 +59,8 @@ const MRow = ({ index, row }) => {
                 <div style={{width: '5vw'}}></div>
                 <GreyText>Arbitrager</GreyText>
             </div>
-            <div>
+            
+            <div style={{marginRight: '8px'}}>
                 {formattedNum(row.arbitrager)} ORU
                 </div>
             </HistoryTableRowMobile>
@@ -67,7 +69,8 @@ const MRow = ({ index, row }) => {
                 <div style={{width: '5vw'}}></div>
                 <GreyText>Penalty</GreyText>
             </div>
-            <div>
+            
+            <div style={{marginRight: '8px'}}>
                 {formattedNum(row.penalty)} ORU
                 </div>
             </HistoryTableRowMobile>
@@ -77,7 +80,8 @@ const MRow = ({ index, row }) => {
                 <div style={{width: '5vw'}}></div>
                 <GreyText>TOTAL in ORU</GreyText>
             </div>
-            <div>
+            
+            <div style={{marginRight: '8px'}}>
                 {formattedNum(row.totalORU)} ORU
                 </div>
             </HistoryTableRowMobile>
@@ -87,7 +91,7 @@ const MRow = ({ index, row }) => {
                 <div style={{width: '5vw'}}></div>
                 <GreyText>Tx</GreyText>
             </div>
-            <div style={{maxWidth: '35%', overflow: 'hidden'}}><a href={`https://blockscout.com/astar/tx/${row.txHash}`} target={"_blank"}  style={{color: "black", textDecoration: "none"}}>{formatAddress(row.txHash)} </a></div>
+            <div style={{maxWidth: '35%', marginRight: '8px', overflow: 'hidden'}}><a href={`https://blockscout.com/astar/tx/${row.txHash}`} target={"_blank"}  style={{color: "black", textDecoration: "none"}}>{formatAddress(row.txHash)} </a></div>
             </HistoryTableRowMobile>
 
         </> : <></>}

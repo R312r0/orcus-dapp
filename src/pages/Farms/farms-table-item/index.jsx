@@ -3,7 +3,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React, {useEffect, useState} from 'react';
 import {ethers, FixedNumber} from "ethers";
 import UNISWAP_PAIR_ABI from '../../../abis/UniswapPair.json';
-
+import CircularProgress from '@mui/material/CircularProgress';
 import DepositingIcon from '../../../assets/icons/DepositingIcon';
 
 import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
@@ -332,7 +332,8 @@ const FarmsTableItm = ({index, item}) => {
               <VestingBtn
                   disabled={!signer}
                   onClick={() => userInfo ? userInfo.allowance ? handleDeposit() : handleApprove() : null}>
-                {userInfo ? userInfo.allowance ? "Deposit" : "Approve" : null}
+                {userInfo ? userInfo.allowance ? "Deposit" : "Approve" : <CircularProgress size='1.5rem' color='inherit'/>}
+                {/* put loader in '' */}
               </VestingBtn>
               <HDiv mt='1.708vw' style={{display: 'flex', justifyContent: 'space-between'}}>
                 <OutlineBtn gap='12px' onClick={() => proxyNavigation(item.addURL)} width='15.8vw'>
@@ -398,7 +399,7 @@ const FarmsTableItm = ({index, item}) => {
                   disabled={userInfo && userInfo.locked}
                   onClick={() => handleWithdraw()}
               >
-                {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" : null}
+                {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" :  <CircularProgress size='1.5rem' color='inherit'/>}
               </OutlineBtn>
               { index === 1 ? <Locked>3 days of lockup</Locked> : <></>}
               <HDiv mt={index === 1 ? '0.840vw' : '2.240vw'}   justifyContent='flex-end' alignItems='center'>

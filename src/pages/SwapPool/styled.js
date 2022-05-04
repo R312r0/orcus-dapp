@@ -55,6 +55,9 @@ export const ToggleBtn = styled.div`
   align-items: center;
   height: 2.135vw;
   display: flex;
+  &:hover{
+    background-color: ${props => props.isActive ? '#333' : '#c4c4c4'}
+  }
   @media (max-device-width: 480px){
     background-color: ${(props) => (props.isActive ? '#fff' : '#f2f2f2')};
     color: #333;
