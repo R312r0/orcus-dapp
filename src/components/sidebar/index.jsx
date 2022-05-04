@@ -52,34 +52,39 @@ const Sidebar = () => {
     <TopBarWrapper >
           <ConnectedPlugsIcon ratio={'5vw'} color='#fff'/> 
           <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}> 
-            <LogoIcon width='10vw' onClick={() => navigate(ROUTES[0].path)} height='10vw' color='#fff'/>
-            <LogoText fS='18px' mt='0.573vw'><b>ORCUS</b></LogoText>
-            <LogoText fS='9px' style={{ marginBottom: '-0.521vw' }}>FINANCE</LogoText>
+          <div style={{paddingLeft: '13%'}}>
+              <LogoIcon width='38px' onClick={() => navigate(ROUTES[0].path)} height='10vw' color='#fff'/>
+              </div>
+              <LogoText fS='16px' mt='0.873vw'><b>ORCUS</b></LogoText>
+              <LogoText fS='8px' style={{marginTop:'1px', marginBottom: '-0.521vw' }}>FINANCE</LogoText>
           </div>
           <div onClick={handleOpenMenu}>
             <HamburgerIcon ratio={'5vw'} />
           </div>
           {
-            isMenu ? <SidebarMenu><TopBarWrapper >
+            isMenu ? <SidebarMenu>
+              <TopBarWrapper >
             <ConnectedPlugsIcon ratio={'5vw'} color='#fff'/> 
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}> 
-              <LogoIcon width='10vw' onClick={() => navigate(ROUTES[0].path)} height='10vw' color='#fff'/>
-              <LogoText fS='18px' mt='0.573vw'><b>ORCUS</b></LogoText>
-              <LogoText fS='9px' style={{ marginBottom: '-0.521vw' }}>FINANCE</LogoText>
+              <div style={{paddingLeft: '13%'}}>
+              <LogoIcon width='38px' onClick={() => navigate(ROUTES[0].path)} height='10vw' color='#fff'/>
+              </div>
+              <LogoText fS='16px' mt='0.873vw'><b>ORCUS</b></LogoText>
+              <LogoText fS='8px' style={{marginTop:'1px', marginBottom: '-0.521vw' }}>FINANCE</LogoText>
             </div>
             <div onClick={handleOpenMenu}>
                 <CloseIcon ratio={'5vw'}></CloseIcon>
             </div>
       </TopBarWrapper>
-      <div style={{marginTop: '48px', marginLeft: '12px'}}>
+      <div style={{marginTop: '50px', marginLeft: '40px'}}>
       {ROUTES.map((route, idx) => (
-        <div onClick={() => proxyNavigation(route.path)} style={{display: 'grid', fontSize: '18px', marginTop: '24px', marginBottom: '24px', whiteSpace:'nowrap', color:'white', gridTemplateColumns: '2fr 8fr', alignItems: 'center', gap: '8px', }} key={idx}>
+        <div onClick={() => proxyNavigation(route.path)} style={{ fontSize: '18px', marginTop: '24px', marginBottom: '24px', whiteSpace:'nowrap', color:'white', display:'flex', alignItems: 'center', gap: '32px', }} key={idx}>
           <IconWrapper
             isActive={location.pathname === route.path}
           >
           <div>{route.mobileIcon} </div>
           </IconWrapper>
-          <div style={{ color: location.pathname === route.path ? 'white' : 'grey'}}>
+          <div style={{ fontSize:'20px', fontWeight:'500', color: location.pathname === route.path ? 'white' : 'grey'}}>
           {route.label}
           </div>
         </div>

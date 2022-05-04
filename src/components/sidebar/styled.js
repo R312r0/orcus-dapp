@@ -24,9 +24,9 @@ export const NavigationWrapper = styled.div`
 export const TopBarWrapper = styled.div`
 width: 100%;
 display: none;
-align-items: center;
+align-items: top;
 padding-left: 5%;
-margin-top: 5%;
+margin-top: 32px;
 padding-right: 5%;
 justify-content: space-between;
 @media (max-device-width: 480px){
