@@ -106,6 +106,7 @@ export const RedeemDataText = styled.span`
     @media (max-device-width: 480px){
       font-size: 14px; 
       line-height: 14px;
+      font-weight: ${props => props.bfw ?? '400'};
     }
   }
 `;
@@ -179,6 +180,9 @@ export const HDivider = styled.div`
   height: 0.052vw;
   width: 21.146vw;
   background: #f2f2f2;
+  @media (max-device-width: 480px){
+    width: 100%;
+  }
 `;
 
 export const HDiv = styled.div`
@@ -393,6 +397,7 @@ export const MintDataText = styled.span`
     @media (max-device-width: 480px){
       font-size: 14px; 
       line-height: 14px;
+      font-weight: ${props => props.bfw ?? '400'};
     }
   }
 `;

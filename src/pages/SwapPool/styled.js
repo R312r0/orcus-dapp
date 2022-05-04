@@ -59,7 +59,7 @@ export const ToggleBtn = styled.div`
     background-color: ${props => props.isActive ? '#333' : '#c4c4c4'}
   }
   @media (max-device-width: 480px){
-    background-color: ${(props) => (props.isActive ? '#fff' : '#f2f2f2')};
+    background-color: ${(props) => (props.isActive ? '#fff' : '#f2f2f2')} !important;
     color: #333;
     font-size: 14px;
     width: 50%;

@@ -229,7 +229,7 @@ const Recollateralize = () => {
         <HDivider margin={'1.875vw 0 0.77vw 0' }/>
         <HDiv h='50px'>
           <RecollateralizeDataText>Bonus Rate</RecollateralizeDataText>
-          <RecollateralizeDataText>
+          <RecollateralizeDataText bfw='500'>
             <b>0.005%</b>
           </RecollateralizeDataText>
         </HDiv>
@@ -252,18 +252,18 @@ const Recollateralize = () => {
             <RecollateralizeDataText mr='0.339vw'>Slippage</RecollateralizeDataText>
           </div>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <RecollateralizeDataText><b>0.50%</b></RecollateralizeDataText>
+            <RecollateralizeDataText bfw='500'><b>0.50%</b></RecollateralizeDataText>
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
         <HDiv  h='50px'>
           <RecollateralizeDataText>Rates</RecollateralizeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <RecollateralizeDataText>
+            <RecollateralizeDataText bfw='500'>
               <b>1&nbsp;</b>
             </RecollateralizeDataText>
             <RecollateralizeDataText>USDC</RecollateralizeDataText>
-            <RecollateralizeDataText>
+            <RecollateralizeDataText bfw='500'>
               <b>&nbsp;= {info ? info.prices.collatPrice : 0}&nbsp;</b>
             </RecollateralizeDataText>
             <RecollateralizeDataText>USD</RecollateralizeDataText>
@@ -273,11 +273,11 @@ const Recollateralize = () => {
         <HDiv  h='50px'>
           <RecollateralizeDataText></RecollateralizeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <RecollateralizeDataText>
+            <RecollateralizeDataText bfw='500'>
               <b>1&nbsp;</b>
             </RecollateralizeDataText>
             <RecollateralizeDataText>ORU</RecollateralizeDataText>
-            <RecollateralizeDataText>
+            <RecollateralizeDataText bfw='500'>
               <b>&nbsp;= {info ? info.prices.sharePrice : 0}&nbsp;</b>
             </RecollateralizeDataText>
             <RecollateralizeDataText>USD</RecollateralizeDataText>

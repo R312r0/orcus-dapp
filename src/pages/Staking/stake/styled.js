@@ -267,6 +267,7 @@ export const StakeDataText = styled.span`
     @media (max-device-width: 480px){
       font-size: 14px; 
       line-height: 14px;
+      font-weight: ${props => props.bfw ?? '400'};
     }
     line-height: 1.094vw;
     font-size: 0.729vw;

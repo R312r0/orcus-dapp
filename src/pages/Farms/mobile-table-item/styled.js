@@ -178,6 +178,7 @@ export const FarmsTableItem = styled.div`
       width: 100%;
       height: auto;
       border-top: 1px solid  #F2F2F2;
+      min-height: 50px;
   }
   
 `;
@@ -303,6 +304,7 @@ export const Text = styled.span`
     @media (max-device-width: 480px){
         font-size: 16px;
         line-height: 16px;
+        font-weight: ${props => props.fw ?? '400'};
     }
     font-weight: 500;
     font-size: 0.938vw;
