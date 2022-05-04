@@ -10,8 +10,6 @@ import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
 import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
 import OUSDIcon from '../../../assets/icons/OUSDIcon';
 import arbABI from '../../../abis/Arbitrager.json';
-import dustABI from '../../../abis/dust.json';
-
 import {
   ExpandBtn,
   ExpandedData,
@@ -105,8 +103,11 @@ const FarmsTableItm = ({index, item}) => {
     const lpBalance = +(await lpToken.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18;
     const poolInfo = await MASTER_CHEF.poolInfo(index);
 
-    const apr = (((((liquidity.oruPrice * (ORU_PER_BLOCK /  (index === 1 ? 2 : 4)) * 86400 * 30 * 12)) / 2) / ((lpPrice * lpBalance)) * 100)).toFixed(0);
+    console.log(poolInfo)
 
+    const apr = (((((liquidity.oruPrice * (ORU_PER_BLOCK / 3) * 86400 * 30 * 12)) / 2) / ((lpPrice * lpBalance)) * 100)).toFixed(0);
+
+    console.log(lpPrice);
 
     setPoolInfo({
       lockDuration: +poolInfo.lockDuration,
@@ -177,7 +178,7 @@ const FarmsTableItm = ({index, item}) => {
 
     const {MASTER_CHEF} = contracts;
 
-    // const arbitrager = new ethers.Contract("0x49F9F742D1130362087ca415c423c46dD6fab656", arbABI, signer);
+    // const arbitrager = new ethers.Contract("0xbA9244cd96439Ee9eb6b9689D060BF27005F1E01", arbABI, signer);
 
     try {
       const tx = await MASTER_CHEF.connect(signer).deposit(index, ethers.BigNumber.from(fromExponential(depositInput)), account);
@@ -289,7 +290,7 @@ const FarmsTableItm = ({index, item}) => {
               <HDiv>
                 <Text ml='0.833vw'>Balance:&nbsp;</Text>
                 <Text>
-                  <b>{userInfo ? fromExponential(userInfo.lpBalance / 1e18) : 0.00}&nbsp;</b>
+                  <b>{userInfo ? formattedNum(userInfo.lpBalance / 1e18) : 0.00}&nbsp;</b>
                 </Text>
                 <Text>{item.name} </Text>
               </HDiv>
@@ -399,8 +400,8 @@ const FarmsTableItm = ({index, item}) => {
               >
                 {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" : null}
               </OutlineBtn>
-              <Locked>{index === 1 ? "3 days of lockup" : null} </Locked>
-              <HDiv mt='0.840vw' justifyContent='flex-end' alignItems='center'>
+              { index === 1 ? <Locked>3 days of lockup</Locked> : <></>}
+              <HDiv mt={index === 1 ? '0.840vw' : '2.240vw'}   justifyContent='flex-end' alignItems='center'>
                 <Text mr='0.573vw'>
                   <b>Rewards: {userInfo ? formattedNum(userInfo.pendingReward) : 0} ORU</b>
                 </Text>

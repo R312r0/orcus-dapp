@@ -35,15 +35,10 @@ const ProfitManager = () => {
 
   const getProfitData = async () => {
 
-    const {data} = JSON.parse(await (await fetch("https://app.gc.subsquid.io/beta/orcus/main1/graphql", requestOptions)).text())
-
-    const {profitManagerItems} = data;
-
-    console.log(data);
-
+    const {data: {profitManagerItems, investements}} = JSON.parse(await (await fetch("https://app.gc.subsquid.io/beta/orcus/main1/graphql", requestOptions)).text())
     let profit = 0;
 
-    const formattedData = profitManagerItems.map(item => {
+    const formattedData = profitManagerItems.map((item, _ind) => {
       profit += +(item.totalInUsd)
 
       const date = formatDate(+item.timestamp);
@@ -51,7 +46,7 @@ const ProfitManager = () => {
       return {
         date,
         fee: +item.oruFromFee,
-        collateral: +item.usdcFromInvest,
+        collateral: investements[_ind].value,
         arbitrager: +item.oruArbitrager,
         penalty: +item.oruPenalty,
         totalORU: +item.totalInOru,

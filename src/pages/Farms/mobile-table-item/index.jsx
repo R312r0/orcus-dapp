@@ -427,7 +427,7 @@ const MobileTableItm = ({index, item}) => {
               >
                 {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" : null}
               </OutlineBtn>
-              <Locked>3 days of lockup</Locked>
+              { index === 1 ? <Locked>3 days of lockup</Locked> : <></>}
               <HDiv mt='2.240vw' justifyContent='space-between' alignItems='center'>
                 <div style={{display: 'flex', gap: '4px'}}>
                 <HelpCircleContainer>
