@@ -599,10 +599,10 @@ const Farms = () => {
                                     <ClaimsRow>
                                       <div> {currentTime.getTime() > endTime.getTime()  ? "Vesting complete!" : diff.day + " days " + diff.hour +  " hours " + diff.minute + " minutes"}  </div>
                                       <div>{formattedNum(+item.amount / 1e18)} ORU</div>
-                                      <div style={{display: 'flex', justifyContent: 'space-around', gap: '0.4vw'}}>
+                                      
                                         <OverlayClaim disabled={(currentTime.getTime() < endTime.getTime())}  onClick={() => claimReward(_ind)}><BriefcaseIcon ratio='3vw'></BriefcaseIcon>Claim</OverlayClaim>
                                         <OverlayOutline disabled={currentTime.getTime() > endTime.getTime()} onClick={() => claimWithPenalty(_ind)} ><CrosshairsIcon ratio='3vw'></CrosshairsIcon>Claim with Penalty</OverlayOutline>
-                                      </div>
+
                                     </ClaimsRow>
                                     :
                                     null
