@@ -1,5 +1,65 @@
 import styled from 'styled-components';
 
+
+export const ExpandedData = styled.div`
+  animation: 0.2s show ease-in-out;
+  animation-delay: 0.2s;
+  animation-fill-mode: backwards;
+  display: flex;
+
+  @keyframes show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  padding: 0.885vw 3.229vw 1.615vw 2.344vw;
+  @media (max-device-width: 480px){
+      padding: 4px;
+      width: 100%;
+      flex-direction: column;
+  }
+`;
+export const ExpandedDataWrapper = styled.div`
+  transition: 0.3s all;
+  height: 23.698vw;
+  width: 100%;
+  @media (max-device-width: 480px){
+      height: auto;
+      padding-top: 24px;
+      padding-bottom: 12px;
+      border-radius: 12vw;
+
+      padding-left: 3%;
+      padding-right: 3%;
+  }
+`;
+export const AdditionalExpanded = styled.div`
+  background-color: white;
+  width: 100%;
+  height: auto;
+  padding-left: 8%;
+  padding-right: 8%;
+  display: flex;
+  flex-direction: column;
+`
+
+export const AdditionalRow = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  font-size: 14px;
+  color: #BDBDBD;
+  & b{
+    font-weight: 400;
+    color: #333;
+  }
+`
+
 export const AddLiquidityBtn = styled.a`
   padding: 0.65vw 0.8vw;
   border: 1px solid #595959;
@@ -37,6 +97,13 @@ export const AddLiquidityBtn = styled.a`
     fill: #333 !important;
     color: #333 !important;
   }
+  @media (max-device-width: 480px){
+    font-size: 14px;
+    text-align: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
 `
 export const FarmsColumn = styled.div`
   display: flex;
@@ -61,6 +128,10 @@ export const IconWrapper = styled.div`
 
   svg {
     fill: #000;
+    
+  @media (max-device-width: 480px){
+      width: 5vw;
+      height: 5vw;
   }
 `;
 export const Text2 = styled.span`
@@ -85,15 +156,24 @@ export const FarmsRow = styled.div`
   display: grid;
   grid-template-columns: 5fr 4fr 3fr 2fr 4fr 2fr;
   overflow: hidden;
+  @media (max-device-width: 480px){
+    
+    grid-template-columns: 5fr 12fr 2fr  ;
+  }
 `
 export const FarmsTableItem = styled.div`
   transition: 0.3s all;
   flex-direction: column;
   height: ${(props) => (props.isExpanded ? '30.781vw' : '7.083vw')};
   width: 81.302vw;
-  // background: #e4ddef;
-  
   display: flex;
+  @media (max-device-width: 480px){
+    width: 100%;
+    height: auto;
+    border-top: 1px solid  #F2F2F2;
+    min-height: 50px;
+}
+
 `;
 export const MainData = styled.div`
   padding: 2.188vw 2.708vw 2.396vw 2.344vw;
@@ -227,6 +307,41 @@ export const ClaimsRow = styled.div`
     text-align: left;
   }
 `
+
+export const ExpandBtn = styled.div`
+  border-radius: 0.521vw;
+  background: transparent;
+  width: 2.083vw;
+  height: 2.083vw;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  cursor: pointer;
+  @media (max-device-width: 480px){
+    width: 5vw;
+    height: 5vw;
+}
+
+  svg {
+    transition: 0.3s all;
+    transform: ${(props) =>
+      props.isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};
+    color: #828282;
+    width: 1.25vw;
+    height: 1.25vw;
+  }
+
+  &:hover {
+    transition: 0.3s all;
+    background: #e0e0e0;
+    @media (max-device-width: 480px){
+      
+  background: transparent;
+    }
+  }
+`;
+
+
 export const ClaimsContainer = styled.div`
   width: 100%;
   height: min-content;
@@ -570,12 +685,13 @@ export const Text = styled.span`
   min-width: ${(props) => props.minW};
   font-family: 'Poppins';
   font-weight: 300;
-  font-size: 0.938vw;
+  font-size: ${props => props.fontSize ?? '0.938vw'};
   line-height: 1.406vw;
   color: #4f4f4f;
   @media (max-device-width: 480px){
     font-size: 14px;
-
+      line-height: 14px;
+  font-size: ${props => props.fontSize ?? '14px'};
   }
 `;
 

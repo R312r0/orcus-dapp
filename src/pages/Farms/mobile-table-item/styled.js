@@ -153,7 +153,7 @@ export const FarmsRow = styled.div`
       display: grid;
       align-items: center;
       gap: 8px;
-        grid-template-columns: 1fr 1fr 8fr 2fr 1fr;
+      grid-template-columns: 1fr 1fr 8fr 2fr 1fr;
   }
 `
 

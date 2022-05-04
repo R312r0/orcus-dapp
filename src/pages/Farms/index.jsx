@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FarmsTableItm from './farms-table-item';
 import MobileTableItm from './mobile-table-item';
 import {CONTRACT_ADDRESSES, MASTER_CHEF_POOLS} from '../../constants'
@@ -9,12 +10,17 @@ import {
   FarmsWrapper,
   HDiv,
   HeadingText,
+  ExpandedDataWrapper,
   RewardBtn,
+  AdditionalExpanded,
+  ExpandedData,
+  AdditionalRow,
   Text,
   BlackBtn,
   OverlayGreyText,
   OverlayText,
   OverlayValue,
+  ExpandBtn,
   HDivider,
   MobileRewardsContainer,
   RewardsHead,
@@ -88,6 +94,8 @@ const Farms = () => {
 
   const [poolId, setPoolId] = useState(0);
   const [vestedAmt, setVestedAmt] = useState(0);
+  // Sirius Metapool Expand
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
 
@@ -445,7 +453,7 @@ const Farms = () => {
       </FarmsTableWrapper>
       
       </>  }
-      { !isMobileScreen() ? <>
+
     <VDiv>
           <HeadingText style={{marginTop: '2.24vw'}}>Orcus Metapool</HeadingText>
     </VDiv>
@@ -455,28 +463,28 @@ const Farms = () => {
         <FarmsRow>
           <FarmsColumn>
             <div style={{display: 'flex', marginRight: '0.98vw'}}>
-              <div >
-            <BUSDIcon></BUSDIcon>
-            </div>
-            <div style={{marginLeft: '-1vw'}}>
-            <USDTIcon></USDTIcon>
-            </div>
-            <div style={{marginLeft: '-1vw'}}>
-            <USDCIcon></USDCIcon>
-            </div>
-            <div style={{marginLeft: '-1vw'}}>
-            <BCoinIcon></BCoinIcon>
-            </div>
-            <div style={{marginLeft: '-1vw'}}>
-            <OUSDIcon></OUSDIcon>
-            </div>
+              <div>
+                <BUSDIcon ratio={ isMobileScreen() ? '5vw' : undefined}></BUSDIcon>
+              </div>
+              <div style={{marginLeft: isMobileScreen() ? '-2.1vw' :  '-1vw'}}>
+                <USDTIcon ratio={ isMobileScreen() ? '5vw' : undefined}></USDTIcon>
+              </div>
+              <div style={{marginLeft: isMobileScreen() ? '-2.1vw' :  '-1vw'}}>
+                <USDCIcon ratio={ isMobileScreen() ? '5vw' : undefined}></USDCIcon>
+              </div>
+              <div style={{marginLeft: isMobileScreen() ? '-2.1vw' :  '-1vw'}}>
+                <BCoinIcon ratio={ isMobileScreen() ? '5vw' : undefined}></BCoinIcon>
+              </div>
+              <div style={{marginLeft: isMobileScreen() ? '-2.1vw' :  '-1vw'}}>
+                <OUSDIcon ratio={ isMobileScreen() ? '5vw' : undefined}></OUSDIcon>
+              </div>
             </div>
           <VDiv ml='2.481vw'>
-            <Text2>
-              <b>4SRS/oUSD</b>
-            </Text2>
+            <Text  fontSize={ isMobileScreen() ? '16px' : undefined}>
+              <b style={{fontWeight: isMobileScreen() ? '500' : undefined}}>4SRS/oUSD</b>
+            </Text>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-            <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width={isMobileScreen() ? '12' : "18"} height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="10" cy="8" r="8" fill="#140846"/>
               <path fill-rule="evenodd" clip-rule="evenodd" d="M12.1039 6.22754C13.1511 6.22754 14 7.07692 14 8.12467V10.1028C14 11.1506 13.1511 12 12.1039 12H7.66949C6.83986 12 6.16575 11.3338 6.15235 10.5069L6.15214 10.4818H11.423C12.1781 10.4818 12.7903 9.86932 12.7903 9.11377C12.7903 8.35822 12.1781 7.74572 11.423 7.74572H8.9394C8.5624 7.74572 8.2568 7.43995 8.2568 7.06275V6.22754H12.1039ZM12.3116 4C13.1412 4 13.8153 4.66619 13.8287 5.49309L13.8289 5.51819H8.577C7.82188 5.51819 7.20973 6.13068 7.20973 6.88622C7.20973 7.64178 7.82188 8.25427 8.577 8.25427H10.9279C11.3782 8.25427 11.7432 8.6195 11.7432 9.07005V9.77245H7.89609C6.84891 9.77245 6 8.92307 6 7.87532V5.89714C6 4.84938 6.84891 4 7.89609 4H12.3116Z" fill="url(#paint0_linear_802_2036)"/>
               <defs>
@@ -486,13 +494,13 @@ const Farms = () => {
               </linearGradient>
               </defs>
                 </svg>
-
-              <Text fontSize='0.729vw' lineHeight='1.094vw' ml='0.313vw'>
+              <Text style={{whiteSpace: 'nowrap'}} fontSize={ isMobileScreen() ? '12px' : '0.729vw'} lineHeight='1.094vw' ml='0.313vw'>
                Sirius Finance
               </Text>
             </div>
           </VDiv>
           </FarmsColumn>
+          { !isMobileScreen() ?
           <FarmsColumn center>
           <div style={{display: 'flex'}}>
             <div >
@@ -504,38 +512,77 @@ const Farms = () => {
           <Text2 ml='0.7vw'>
             <b>SRS & ORU</b>
           </Text2>
-          </FarmsColumn>
-          <FarmsColumn center>
-          <Text2
-           >
+          </FarmsColumn> : <></> }
+          {!isMobileScreen() ? <FarmsColumn center>
+          <Text2>
              <b>${depositedInMeta ? formattedNum(depositedInMeta) : 0}</b>
           </Text2>
-          </FarmsColumn>
-          <FarmsColumn center>
-          <Text2
-
-          >
-
+          </FarmsColumn> : <></>}
+          { !isMobileScreen() ? <FarmsColumn center>
+          <Text2 >
             <b>${metaPool ? formattedNum(metaPool.tvl) : 0}</b>
           </Text2>
+          </FarmsColumn> : 
+          <FarmsColumn  style={{flexDirection: 'column', textAlign: 'right',  alignItems: 'end'}}>
+              <div style={{fontSize: '10px', color: 'grey'}}>TVL</div>
+          <Text fontSize='16px'>
+            <b style={{fontWeight: '400'}}>${metaPool ? formattedNum(metaPool.tvl) : 0}</b>
+          </Text>
           </FarmsColumn>
-          <FarmsColumn center>
+          }
+          {!isMobileScreen() ? <FarmsColumn center>
           <Text> APR </Text>
           <Text ml='0.885vw'
-
           >
             <b> {metaPool ? formattedNum(metaPool.metaApr) : 0 }%</b>
           </Text>
-          </FarmsColumn>
-          <FarmsColumn center>
+          </FarmsColumn> : <></>}
+          {! isMobileScreen() ? <FarmsColumn center>
             <AddLiquidityBtn target={"_blank"} href={"https://app.sirius.finance/#/pools/ousd/deposit"}>Add Liquidity<ArrowTopRightIcon></ArrowTopRightIcon>
             </AddLiquidityBtn>
-          </FarmsColumn>
-
+          </FarmsColumn> : <FarmsColumn center><ExpandBtn 
+          onClick={() => setExpanded(!expanded)} isExpanded={expanded}
+          >
+            <KeyboardArrowDownIcon style={{width:'4vw', height: '4vw'}}/>
+          </ExpandBtn></FarmsColumn> }
         </FarmsRow>
       </MainData>
+      {expanded ? (
+        <>
+        <AdditionalExpanded>
+          <AdditionalRow>
+            <div>Rewards</div>
+            <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <div >
+              <SiriusIcon ratio='5vw'></SiriusIcon>
+              </div>
+              <div style={{marginLeft: '-2.1vw', paddingTop: '0.1vw'}}>
+                <LogoIconBlack ratio='4.7vw'/></div>
+              </div>
+            <b>SRS & ORU</b>
+            </div>
+          </AdditionalRow>
+          <HDivider></HDivider>
+          <AdditionalRow>
+            <div>Deposited</div>
+            <div>
+             <b>$ {depositedInMeta ? formattedNum(depositedInMeta) : 0}</b></div>
+          </AdditionalRow>    
+          <HDivider></HDivider>      
+          <AdditionalRow>
+            <div>Rates</div>
+            <div>APR <b> {metaPool ? formattedNum(metaPool.metaApr) : 0 }%</b></div>
+          </AdditionalRow>
+          <HDivider></HDivider>
+          <AddLiquidityBtn target={"_blank"} href={"https://app.sirius.finance/#/pools/ousd/deposit"}>Add Liquidity<ArrowTopRightIcon></ArrowTopRightIcon>
+            </AddLiquidityBtn>
+        </AdditionalExpanded>
+        
+        </>
+      ) : null}
       </FarmsTableItem>
-      </FarmsTableWrapper> </> : <></> }
+      </FarmsTableWrapper> 
       </Scroll>
       </>
       :<>
