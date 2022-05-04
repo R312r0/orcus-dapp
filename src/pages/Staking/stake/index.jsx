@@ -161,7 +161,7 @@ const Stake = () => {
           <Text>Balance: {userInfo ? formattedNum(userInfo.balances.oru)  : 0}</Text>
         </HDiv>
         <StakeInputWrapper withBtn>
-          <input type='text' placeholder='0.0' value={oruInput} onChange={(e) => setOruInput(e.target.value)} />
+          <input type='text' placeholder='0.0' value={oruInput} onChange={(e) => handleInput(e.target.value)} />
           <button onClick={() => setOruInput(userInfo?.balances.oru)} >Max</button>
           <Divider />
           <IconWrapper  
