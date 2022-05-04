@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {ethers, FixedNumber} from "ethers";
 import UNISWAP_PAIR_ABI from '../../../abis/UniswapPair.json';
 
+import CircularProgress from '@mui/material/CircularProgress';
 import DepositingIcon from '../../../assets/icons/DepositingIcon';
 
 import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
@@ -361,7 +362,7 @@ const MobileTableItm = ({index, item}) => {
               <VestingBtn
                   disabled={!signer}
                   onClick={() => userInfo ? userInfo.allowance ? handleDeposit() : handleApprove() : null}>
-                {userInfo ? userInfo.allowance ? "Deposit" : "Approve" : null}
+                {userInfo ? userInfo.allowance ? "Deposit" : "Approve" : <CircularProgress size='1.5rem' color='inherit'/>}
               </VestingBtn>
               <HDiv mt='1.708vw' style={{display: 'flex', justifyContent: 'space-between'}}>
                 <OutlineBtn gap='12px' onClick={() => proxyNavigation(item.addURL)} width={ isMobileScreen() ? '48%' : '15.8vw'}>
@@ -425,7 +426,7 @@ const MobileTableItm = ({index, item}) => {
                   disabled={userInfo && userInfo.locked}
                   onClick={() => handleWithdraw()}
               >
-                {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" : null}
+                {userInfo ? userInfo.locked ? "Withdraw is locked!" : "Withdraw" : <CircularProgress size='1.5rem' color='inherit'/>}
               </OutlineBtn>
               { index === 1 ? <Locked>3 days of lockup</Locked> : <></>}
               <HDiv mt='2.240vw' justifyContent='space-between' alignItems='center'>
