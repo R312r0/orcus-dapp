@@ -69,6 +69,9 @@ export const ToggleBtn = styled.div`
   align-items: center;
   height: 2.135vw;
   display: flex;
+  &:hover{
+    background-color: ${props => props.isActive ? '#333' : '#c4c4c4'}
+  }
   @media (max-device-width: 480px){
     background-color: ${(props) => (props.isActive ? '#fff' : '#f2f2f2')};
     color: #333;
@@ -288,7 +291,7 @@ export const RecollateralizeBtn = styled.button`
   background: #333;
   margin-top: 7.344vw;
   border-radius: 0.625vw;
-  height: 3.542vw;
+  min-height: 3.542vw;
   width: 32.448vw;
   display: flex;
   align-items: center;

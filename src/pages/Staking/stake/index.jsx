@@ -29,7 +29,7 @@ const Stake = () => {
   const {account} = useWeb3React();
   const {contracts, connectWallet, signer, liquidity} = useBlockChainContext();
 
-  const [oruInput, setOruInput] = useState(0);
+  const [oruInput, setOruInput] = useState('');
 
   const [stakingInfo, setStakingInfo] = useState(null);
   const [userInfo, setUserInfo] = useState(null);

@@ -48,7 +48,7 @@ const Mint = () => {
   const [mintInfo, setMintInfo] = React.useState(null);
   const [userInfo, setUserInfo] = React.useState(null);
 
-  const [collateralInput, setCollateralInput] = React.useState(0);
+  const [collateralInput, setCollateralInput] = React.useState('');
   const [shareInput, setShareInput] = React.useState(0);
   const [stableOutput, setStableOutput] = React.useState(0);
   const [stableFeeVal, setStableFeeVal] = React.useState(0);

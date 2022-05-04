@@ -154,7 +154,7 @@ export const BuyBtn = styled.button`
   border-radius: 1.563vw;
   align-items: center;
   font-size: 0.833vw;
-  background: #000;
+  background: #333;
   cursor: pointer;
   height: 2.135vw;
   width: 8.073vw;

@@ -29,7 +29,7 @@ const Unstake = () => {
   const {account} = useWeb3React();
   const {contracts, connectWallet, signer, liquidity} = useBlockChainContext();
 
-  const [xoruInput, setXOruInput] = useState(0);
+  const [xoruInput, setXOruInput] = useState('');
 
   const [stakingInfo, setStakingInfo] = useState(null);
   const [userInfo, setUserInfo] = useState(null);

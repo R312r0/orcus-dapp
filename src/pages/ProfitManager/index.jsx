@@ -116,7 +116,7 @@ const ProfitManager = () => {
       </HistoryContent>
         <Line color='#F2F2F2'></Line>
         { !isMobileScreen() ? 
-        <HistoryContent paddingTop='0px'>
+        <HistoryContent mb='16px' paddingTop='0px'>
           {historyArray && historyArray.map(row => {
             return (<HistoryTableRow key={Math.random()}>
 

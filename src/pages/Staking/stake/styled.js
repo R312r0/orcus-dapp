@@ -203,7 +203,7 @@ export const StakeBtn = styled.button`
   background: #333;
   margin-top: 7.344vw;
   border-radius: 0.625vw;
-  height: 3.542vw;
+  min-height: 3.6vw;
   width: 32.448vw;
   display: flex;
   align-items: center;

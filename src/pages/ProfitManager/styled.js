@@ -178,8 +178,6 @@ export const THRLabel = styled.div`
   flex-direction: column;
   // height: 320px;
   border-radius: 1.042vw;
-  overflow-x: hidden;
-  overflow-y: auto;
   display: flex;
   background-color: white;
   border-radius: 20px;
@@ -196,11 +194,15 @@ export const THRLabel = styled.div`
 export const HistoryContent = styled.div`
 
 padding-top: ${props => props.paddingTop};
+max-height: 25vw;
 padding-left: 72px;
 padding-right: 72px;
+overflow-x: hidden;
+overflow-y: auto;
 @media (max-device-width: 480px){
   padding-left: 3%;
   padding-right: 3%;
+  max-height: none;
   height: auto;
 }
 `

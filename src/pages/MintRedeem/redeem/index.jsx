@@ -42,7 +42,7 @@ const Redeem = () => {
   const [redeemInfo, setRedeemInfo] = React.useState(null);
   const [userInfo, setUserInfo] = React.useState(null);
 
-  const [stalbeInput, setStableInput] = React.useState(0);
+  const [stalbeInput, setStableInput] = React.useState('');
   const [collatOutput, setCollatOutput] = React.useState(0);
   const [shareOutput, setShareOutput] = React.useState(0);
 
