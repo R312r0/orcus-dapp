@@ -110,7 +110,7 @@ export const ClaimsHead = styled.div`
   display: grid;
   grid-template-columns: 4fr 2fr 4fr;
   @media (max-device-width: 480px){
-    grid-template-columns: 1fr 1fr 4fr;
+    grid-template-columns: 1fr 1fr;
     font-size: 8px;
   }
   color: #828282;
@@ -149,15 +149,29 @@ export const OverlayClaim = styled.button`
   &:hover{
     background-color: black;
   }
-  
+  & path {
+    fill: ${props => props.disabled ? "#666666" : ""};
+    color: ${props => props.disabled ? "#666666" : ""};
+  }
   @media (max-device-width: 480px){
-    width: 50%;
+    width: 49%;
     border-radius: 8px;
     padding-left: 15%;
     padding-right: 15%;
     height: 24px;
-    font-size: 7px;
+    font-size: 12px;
     border-radius: 4px;
+    & svg {
+      
+      fill: ${props => props.disabled ? "#666666" : ""};
+      color: ${props => props.disabled ? "#666666" : ""};
+    }
+    & path {
+      fill: ${props => props.disabled ? "#666666" : ""};
+      color: ${props => props.disabled ? "#666666" : ""};
+    }
+    margin-top: 16px;
+    
 
   }
 `
@@ -178,13 +192,12 @@ cursor: pointer;
   background: #F4BD50;
 }
 @media (max-device-width: 480px){
-  width: 100%;
+  width: 49%;
   border-radius: 8px;
-  
   border-radius: 4px;
   height: 24px;
-  
-  font-size: 7px;
+  margin-top: 16px;
+  font-size: 12px;
 
 }
 `
@@ -194,8 +207,13 @@ export const ClaimsRow = styled.div`
   margin-top: 0.44vw;
   grid-template-columns: 4fr 2fr 4fr;
   @media (max-device-width: 480px){
-    grid-template-columns: 1fr 1fr 4fr;
-    font-size: 8px;
+    display: flex;
+    & div {
+      width: 49%;
+    }
+    font-size: 10px;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
   color: #333;
   font-size: 1vw;
