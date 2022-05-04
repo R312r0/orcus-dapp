@@ -25,9 +25,9 @@ export const TopBarWrapper = styled.div`
 width: 100%;
 display: none;
 align-items: center;
-padding-left: 10%;
+padding-left: 5%;
 margin-top: 5%;
-padding-right: 10%;
+padding-right: 5%;
 justify-content: space-between;
 @media (max-device-width: 480px){
   display: flex;
