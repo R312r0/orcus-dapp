@@ -24,7 +24,7 @@ function App() {
 
   return (
 <>
-      {isMobile ?
+      {!isMobile ?
 
               <BlockchainContextProvider>
                   <BrowserRouter>

@@ -123,9 +123,10 @@ const Farms = () => {
     const rewardTokenPerSecondORU = await GAGUE_OUSD.rewardData(CONTRACT_ADDRESSES.ORU);
 
     const baseApr = (+srsRate / 1e18) * 86400 * 365 * 0.1 * (+relativeWeight / 1e18) * 100 / (farmTvl / 1e18);
-    const extraApr =  (+rewardTokenPerSecondORU.rate / 1e18 + (+rewardTokenPerSecondSRS.rate / 1e18) ) * 86400 * 365 * liquidity.oruPrice * 100 / (farmTvl / 1e18);
+    const extraSrs = rewardTokenPerSecondSRS.rate * 86400 * 365 * 0.1 * 100 / farmTvl;
+    const extraOru = rewardTokenPerSecondORU.rate * 86400 * 365 * liquidity.oruPrice * 100 / farmTvl
 
-    const metaApr = baseApr + extraApr;
+    const metaApr = baseApr + extraSrs + extraOru;
 
     try{
       const data = JSON.parse(await( await fetch("https://graph.sirius.finance/static/volume.json")).text());
