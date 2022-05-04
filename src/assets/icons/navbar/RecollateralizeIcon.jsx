@@ -4,8 +4,6 @@ function RecollateralizeIcon({ color, ratio }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      // width='1.979vw'
-      // height='1.979vw'
       height={ratio ?? '1.979vw'}
       width={ratio ?? '1.979vw'}
       fill='none'

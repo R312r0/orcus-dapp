@@ -73,7 +73,7 @@ const Sidebar = () => {
       </TopBarWrapper>
       <div style={{marginTop: '48px', marginLeft: '12px'}}>
       {ROUTES.map((route, idx) => (
-        <div onClick={() => proxyNavigation(route.path)} style={{display: 'grid', fontSize: '18px', marginTop: '16px', whiteSpace:'nowrap', color:'white', gridTemplateColumns: '2fr 8fr', alignItems: 'center', gap: '8px', }} key={idx}>
+        <div onClick={() => proxyNavigation(route.path)} style={{display: 'grid', fontSize: '18px', marginTop: '24px', marginBottom: '24px', whiteSpace:'nowrap', color:'white', gridTemplateColumns: '2fr 8fr', alignItems: 'center', gap: '8px', }} key={idx}>
           <IconWrapper
             isActive={location.pathname === route.path}
           >

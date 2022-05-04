@@ -131,8 +131,8 @@ export const IconWrapper = styled.div`
   
   svg {
     @media (max-device-width: 480px){
-      height: 5vw;
-      height: 5vw;
+      // height: 5vw;
+      // height: 5vw;
     }
     stroke: ${(props) => (props.isActive ? '#fff' : '#4F4F4F')};
     transition: 0.3s all;

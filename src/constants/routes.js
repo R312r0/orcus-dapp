@@ -8,12 +8,12 @@ import SwapIcon from '../assets/icons/navbar/SwapIcon';
 
 export const ROUTES = [
 
-  { label: 'Dashboard', path: '/', icon: <DashboardIcon />, mobileIcon: <DashboardIcon ratio='5vw'/> },
-  { label: 'Mint / Redeem', path: '/mint-redeem', icon: <MintIcon />, mobileIcon: <MintIcon ratio='5vw'/>},
-  { label: 'Staking', path: '/staking', icon: <StakingIcon />, mobileIcon: <StakingIcon ratio='5vw' /> },
-  { label: 'Farms', path: '/farms', icon: <FarmsIcon />, mobileIcon:<FarmsIcon ratio='5vw' /> },
-  { label: 'Profit Manager', path: '/profit-manager', icon: <ProfitManagerIcon />, mobileIcon:<ProfitManagerIcon ratio='5vw' /> },
-  { label: 'Recollateralize', path: '/recollateralize', icon: <RecollateralizeIcon />, mobileIcon:<RecollateralizeIcon ratio='5vw' /> },
+  { label: 'Dashboard', path: '/', icon: <DashboardIcon />, mobileIcon: <DashboardIcon ratio='7vw'/> },
+  { label: 'Mint / Redeem', path: '/mint-redeem', icon: <MintIcon />, mobileIcon: <MintIcon ratio='7vw'/>},
+  { label: 'Staking', path: '/staking', icon: <StakingIcon />, mobileIcon: <StakingIcon ratio='7vw' /> },
+  { label: 'Farms', path: '/farms', icon: <FarmsIcon />, mobileIcon:<FarmsIcon ratio='7vw' /> },
+  { label: 'Profit Manager', path: '/profit-manager', icon: <ProfitManagerIcon />, mobileIcon:<ProfitManagerIcon ratio='7vw' /> },
+  { label: 'Recollateralize', path: '/recollateralize', icon: <RecollateralizeIcon />, mobileIcon:<RecollateralizeIcon ratio='7vw' /> },
   // { label: 'Swap', path: '/swap', icon: <SwapIcon />, mobileIcon:<SwapIcon ratio='5vw' />},
 
 ];
