@@ -167,6 +167,9 @@ export const HDivider = styled.div`
   margin: ${(props) => props.margin};
   height: 0.052vw;
   width: 21.146vw;
+  @media (max-device-width: 480px){
+    width: 100%;
+  }
 `;
 
 export const RedeemBtn = styled.button`
@@ -256,6 +259,7 @@ export const RedeemDataText = styled.span`
     @media (max-device-width: 480px){
       font-size: 14px; 
       line-height: 14px;
+      font-weight: ${props => props.bfw ?? '400'};
     }
   }
 `;

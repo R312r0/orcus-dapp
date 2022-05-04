@@ -347,7 +347,6 @@ export const RecollateralizeDataText = styled.span`
   @media (max-device-width: 480px){
     font-size: 14px; 
     line-height: 14px;
-    
     margin-top: 8px;
     margin-bottom: 8px;
   }
@@ -356,11 +355,12 @@ export const RecollateralizeDataText = styled.span`
   b {
     line-height: 1.094vw;
     font-size: 0.729vw;
-    font-weight: 500;
+    font-weight: 400;
     color: #333;
     @media (max-device-width: 480px){
       font-size: 14px; 
       line-height: 14px;
+      font-weight: ${props => props.bfw ?? '400'};
     }
   }
 `;

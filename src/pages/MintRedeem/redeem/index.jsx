@@ -248,14 +248,14 @@ const Redeem = () => {
           <HDivider margin='1.875vw 0 0.77vw 0' />
           <HDiv h='50px'>
             <RedeemDataText>Redemtion fee</RedeemDataText>
-            <RedeemDataText>
+            <RedeemDataText bfw='500'>
               <b>0.4%</b>
             </RedeemDataText>
           </HDiv>
           <HDivider margin='0.938vw 0 0.781vw 0' />
           <HDiv h='50px'>
             <RedeemDataText>Slippage</RedeemDataText>
-            <RedeemDataText>
+            <RedeemDataText bfw='500'>
               <b>0.50%</b>
             </RedeemDataText>
           </HDiv>
@@ -266,7 +266,7 @@ const Redeem = () => {
               <HelpCircleIcon />
             </div>
             <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-              <RedeemDataText>
+              <RedeemDataText bfw='500'>
                 <b>{redeemInfo ? formattedNum(redeemInfo.poolBalance) : 0}</b>
               </RedeemDataText>
               <RedeemDataText ml='0.677vw'>USD</RedeemDataText>
@@ -276,28 +276,28 @@ const Redeem = () => {
           <HDiv h='50px'>
             <RedeemDataText>Rates</RedeemDataText>
             <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-              <RedeemDataText>
-                <b>1 </b>
+              <RedeemDataText bfw='500'>
+                <b>1&nbsp;</b>
               </RedeemDataText>
               <RedeemDataText>oUSD</RedeemDataText>
-              <RedeemDataText>
-                <b> = {redeemInfo ? redeemInfo.prices.stablePrice : 0} </b>
+              <RedeemDataText bfw='500'>
+                <b>&nbsp; = {redeemInfo ? redeemInfo.prices.stablePrice : 0} </b>
               </RedeemDataText>
-              <RedeemDataText>USDC</RedeemDataText>
+              <RedeemDataText>&nbsp;USDC</RedeemDataText>
             </div>
           </HDiv>
           <HDivider margin='0.781vw 0 0.938vw  0' />
           <HDiv h='50px'>
             <div />
             <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-              <RedeemDataText>
-                <b>1 </b>
+              <RedeemDataText bfw='500'>
+                <b>1&nbsp;</b>
               </RedeemDataText>
               <RedeemDataText>USDC</RedeemDataText>
-              <RedeemDataText>
-                <b> = {redeemInfo ? (redeemInfo.prices.collatPrice / redeemInfo.prices.stablePrice).toFixed(6) : 0} </b>
+              <RedeemDataText bfw='500'>
+                <b>&nbsp; = {redeemInfo ? (redeemInfo.prices.collatPrice / redeemInfo.prices.stablePrice).toFixed(6) : 0} </b>
               </RedeemDataText>
-              <RedeemDataText>oUSD</RedeemDataText>
+              <RedeemDataText>&nbsp;oUSD</RedeemDataText>
             </div>
           </HDiv>
         </RedeemDataWrapper>

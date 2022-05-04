@@ -194,7 +194,7 @@ const Stake = () => {
         <HDivider margin='1.875vw 0 0.77vw 0' />
         <HDiv h='50px'>
           <StakeDataText>Stake TVL</StakeDataText>
-          <StakeDataText>
+          <StakeDataText bfw='500'>
             <b>${stakingInfo ? formattedNum(stakingInfo.tvl) : 0}</b>
           </StakeDataText>
         </HDiv>
@@ -205,7 +205,7 @@ const Stake = () => {
             <CalendarIcon />
           </div>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <StakeDataText>
+            <StakeDataText bfw='500'>
               <b>7&nbsp;</b>
             </StakeDataText>
             <StakeDataText>Days</StakeDataText>
@@ -215,11 +215,11 @@ const Stake = () => {
         <HDiv h='50px'>
           <StakeDataText mr='0.339vw'>Rate</StakeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <StakeDataText>
+            <StakeDataText bfw='500'>
               <b>1&nbsp;</b>
             </StakeDataText>
             <StakeDataText>xORU</StakeDataText>
-            <StakeDataText>
+            <StakeDataText bfw='500'>
               <b>&nbsp;= {stakingInfo ? stakingInfo.rate : 0}&nbsp;</b>
             </StakeDataText>
             <StakeDataText>ORU</StakeDataText>
@@ -229,7 +229,7 @@ const Stake = () => {
         <HDiv h='50px'>
           <StakeDataText mr='0.339vw'>My Stake</StakeDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <StakeDataText>
+            <StakeDataText bfw='500'>
               <b>1&nbsp;</b>
             </StakeDataText>
             <StakeDataText>xORU</StakeDataText>

@@ -239,7 +239,7 @@ const MobileTableItm = ({index, item}) => {
             {item.token1Icon}
           </IconWrapper>
           <VDiv ml='0.781vw'>
-            <Text>
+            <Text fw='500'>
               <b>{item.name}</b>
             </Text>
             <div style={{ display: 'flex', alignItems: 'center' }}>

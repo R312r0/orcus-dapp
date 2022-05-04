@@ -461,6 +461,7 @@ export const PurpleRewards = styled.div`
   @media (max-device-width: 480px){
     width: 50px;
     height: 50px;
+    border-radius: 12px;
   }
   & svg {
     @media (max-device-width: 480px){

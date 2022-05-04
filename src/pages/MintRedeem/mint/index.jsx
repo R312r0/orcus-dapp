@@ -282,7 +282,7 @@ const Mint = () => {
         <HDiv h='50px'>
           <MintDataText>Minting fee</MintDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <MintDataText>
+            <MintDataText bfw='500'>
               <b>0.3% = {stableFeeVal.toFixed(3)}</b>
             </MintDataText>
             <MintDataText ml='0.677vw'>oUSD</MintDataText>
@@ -295,7 +295,7 @@ const Mint = () => {
             <HelpCircleIcon />
           </div>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <MintDataText>
+            <MintDataText bfw='500'>
               <b>{mintInfo ? formattedNum(mintInfo.poolBalance) : 0}</b>
             </MintDataText>
             <MintDataText ml='0.677vw'>USD</MintDataText>
@@ -304,7 +304,7 @@ const Mint = () => {
         <HDivider margin='0.781vw 0 0.938vw  0' />
         <HDiv h='50px'>
           <MintDataText>Slippage</MintDataText>
-          <MintDataText>
+          <MintDataText bfw='500'>
             <b>0.50%</b>
           </MintDataText>
         </HDiv>
@@ -312,28 +312,28 @@ const Mint = () => {
         <HDiv h='50px'>
           <MintDataText>Rates</MintDataText>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <MintDataText>
-              <b>1 </b>
+            <MintDataText bfw='500'>
+              <b>1&nbsp;</b>
             </MintDataText>
             <MintDataText>oUSD</MintDataText>
-            <MintDataText>
+            <MintDataText bfw='500'>
               <b> = {mintInfo ? mintInfo.prices.stablePrice : 0} </b>
             </MintDataText>
-            <MintDataText>USD</MintDataText>
+            <MintDataText>&nbsp;USD</MintDataText>
           </div>
         </HDiv>
         <HDivider margin='0.781vw 0 0.938vw  0' />
         <HDiv h='50px'>
           <div />
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-            <MintDataText>
-              <b>1 </b>
+            <MintDataText bfw='500'>
+              <b>1&nbsp;</b>
             </MintDataText>
             <MintDataText>USDC</MintDataText>
-            <MintDataText>
+            <MintDataText bfw='500'>
               <b> = {mintInfo ? (mintInfo.prices.collatPrice / mintInfo.prices.stablePrice).toFixed(6) : 0} </b>
             </MintDataText>
-            <MintDataText>oUSD</MintDataText>
+            <MintDataText>&nbsp;oUSD</MintDataText>
           </div>
         </HDiv>
       </MintDataWrapper>
