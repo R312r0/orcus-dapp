@@ -333,15 +333,15 @@ const MobileTableItm = ({index, item}) => {
                 </Text>
               </FarmsInputContainer>
               <MobileFarmsSlider
-                className='range-slider-filter'
-                defaultValue={depositSliderPosition}
-                marks
-                step={1}
-                min={1}
-                max={5}
-                onChange={({target}) => handleSlider(true,target.value)}
-                disabled={!userInfo || userInfo.lpBalance === 0}
-              />
+              className='range-slider-filter'
+              defaultValue={depositSliderPosition}
+              marks
+              step={1}
+              min={1}
+              max={5}
+              onChange={({target}) => handleSlider(true,target.value)}
+              disabled={!userInfo || userInfo.lpBalance === 0}
+            />
               <HDiv mt='0.677vw'>
                 <Text>
                   <b>0%</b>
@@ -401,8 +401,8 @@ const MobileTableItm = ({index, item}) => {
                 step={1}
                 min={1}
                 max={5}
-                onChange={({target}) => handleSlider(true,target.value)}
-                disabled={!userInfo || userInfo.depositedAmt === 0}
+                onChange={({target}) => handleSlider(false, target.value)}
+                disabled={!userInfo || userInfo.depositedAmt === 0} // TODO: change this for withdraw info.
               />
               <HDiv mt='0.677vw'>
                 <Text>
