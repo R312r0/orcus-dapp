@@ -29,7 +29,7 @@ export const HeadingText = styled.span`
 `;
 
 export const ToggleBtnWrapper = styled.div`
-  margin-left: 24.792vw;
+  margin-left: 22.292vw;
   margin-top: 2.135vw;
   align-items: center;
   display: flex;
