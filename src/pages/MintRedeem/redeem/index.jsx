@@ -197,7 +197,7 @@ const Redeem = () => {
           <Text>Balance: {userInfo ? formattedNum(userInfo.balances.ousdBalance) : 0}</Text>
         </HDiv>
         <RedeemInputWrapper withSelect>
-          <input type='text' value={stalbeInput} onChange={(e) => handleStableInput(e.target.value)} disabled={!userInfo?.ousdAllowance} />
+          <input type='text' placeholder='0.0' value={stalbeInput} onChange={(e) => handleStableInput(e.target.value)} disabled={!userInfo?.ousdAllowance} />
           <button onClick={() => handleStableInput(userInfo?.balances.ousdBalance)} >Max</button>
           <Divider />
           <IconWrapper margin='0 0.833vw' fill='#000'>
