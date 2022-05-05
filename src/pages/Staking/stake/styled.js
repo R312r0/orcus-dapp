@@ -197,6 +197,9 @@ export const HDivider = styled.div`
   margin: ${(props) => props.margin};
   height: 0.052vw;
   width: 21.146vw;
+  @media (max-device-width: 480px){
+    width: 100%;
+  }
 `;
 
 export const StakeBtn = styled.button`
