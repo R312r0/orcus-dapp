@@ -58,7 +58,7 @@ export const ToggleBtn = styled.div`
   display: flex;
   &:hover{
     // background-color: ${props => props.isActive ? '#333' : '#c4c4c4'}
-    color: ${props => props.isActive ? 'white' : '#000'};
+    color: ${props => props.isActive ? '' : '#000'};
   }
   
   @media (max-device-width: 480px){
