@@ -104,8 +104,8 @@ export const TabArrow = styled.div`
 `
 
 export const PageTab = styled.div`
-  margin-top: 3.125vw;
-  // margin-top: 2.400vw;
+  // margin-top: 3.125vw;
+  margin-top: 2.400vw;
   justify-content: space-between;
   position: relative;
   align-items: center;

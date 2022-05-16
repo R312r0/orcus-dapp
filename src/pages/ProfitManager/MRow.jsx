@@ -47,7 +47,7 @@ const MRow = ({ index, row }) => {
             <HistoryTableRowMobile mt='0px'>
             <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
                 <div style={{width: '5vw'}}></div>
-                <GreyText>FCollateral Invest</GreyText>
+                <GreyText>Collateral Invest</GreyText>
             </div>
             <div style={{marginRight: '8px'}}>
                 {formattedNum(row.collateral)} USD
