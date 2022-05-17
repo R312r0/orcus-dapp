@@ -1,13 +1,20 @@
-import { HeadingText,TopIconWrapper,GreyText, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
+import { HeadingText,TopIconWrapper,LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
 import FilterIcon from '../../assets/icons/FilterIcon';
 import React from 'react';
-import ArrowDownIcon from "../../assets/icons/ArrowDownIcon";
+
 import { KeyboardArrowDown } from "@mui/icons-material";
 import SearchIcon from "../../assets/icons/SearchIcon";
 import SliderIcon from "../../assets/icons/SliderIcon";
 import CardIcon from "./assets/CardIcon";
 import CalendarIcon from "./assets/CalendarIcon";
 import CalendarVertical from "./assets/CalendarVertical";
+import LogoIconBlack from '../../assets/icons/LogoIconBlack';
+import BUSDIcon from '../../assets/icons/BUSDIcon'
+import USDTIcon from '../../assets/icons/USDTIcon'
+import USDCIcon from '../../assets/icons/USDCIcon'
+import BCoinIcon from '../../assets/icons/BCoinIcon'
+
+import OUSDIcon from '../../assets/icons/OUSDIcon';
 const Vaults = () => { 
     const [selectedTopbarCategory, setTopbarCategory] = React.useState('Stake');
     const [vaultsValue, setVaultsValue] = React.useState('All Vaults')
@@ -100,8 +107,103 @@ const Vaults = () => {
                         <VaultItem onClick={handleVaultsClick} data-value='My Vaults' active={vaultsValue === 'My Vaults'}>My Vaults</VaultItem>
                     </VaultsContainer>
                 </SearchRow>
-                <HDivider/>
-                
+                <HDivider marginBottom='0'/>
+                <VaultTableHeader>
+                    <VaultTableContent>
+                        <div>Asset</div>
+                        <div>Wallet</div>
+                        <div>Deposited</div>
+                        <div>APY</div>
+                        <div>Daily</div>
+                        <div>TVL</div>
+                        <div></div>
+                    </VaultTableContent>
+                </VaultTableHeader>
+                <HDivider marginTop='0' marginBottom='0'/>
+                <VaultTableItem>
+                    <VaultItemContent>
+                    <div style={{display: 'flex', gap: '1.2vw'}}>
+                        <div style={{display: 'flex', gap: '0.87vw'}}>
+                            <LogoIconBlack/>
+                            <OUSDIcon/>
+                        </div>
+                        <div>
+                            <div>ORU/oUSD</div>
+                            <FontSize fs='0.72vw'><LightText>Platform:</LightText> SPOOKYSWAP</FontSize>
+                        </div>
+                        
+                    </div>
+                    <div>0</div>
+                    <div>0</div>
+                    <div>264.78%</div>
+                    <div>3,531%</div>
+                    <div><GreyText fs='0.93vw'>$</GreyText>1.84b</div>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <GetBtn>Get</GetBtn>
+                    </div>
+                    </VaultItemContent>
+                </VaultTableItem>
+                <HDivider marginBottom='0' marginTop='0'/>
+                <VaultTableItem>
+                    <VaultItemContent>
+                    <div style={{display: 'flex', gap: '1.2vw'}}>
+                        <div style={{display: 'flex', gap: '-0.57vw'}}>
+                        <div>
+                <BUSDIcon></BUSDIcon>
+              </div>
+              <div style={{marginLeft: '-1vw'}}>
+                <USDTIcon></USDTIcon>
+              </div>
+              <div style={{marginLeft: '-1vw'}}>
+                <USDCIcon></USDCIcon>
+              </div>
+              <div style={{marginLeft:'-1vw'}}>
+                <BCoinIcon></BCoinIcon>
+              </div>
+              <div style={{marginLeft: '-1vw'}}>
+                <OUSDIcon ></OUSDIcon>
+              </div>
+                        </div>
+                        <div>
+                            <div>4SRS/oUSD</div>
+                            <FontSize fs='0.72vw'><LightText>Platform:</LightText> CURVE</FontSize>
+                        </div>
+                    </div>
+                    <div>0</div>
+                    <div>0</div>
+                    <div>264.78%</div>
+                    <div>3,531%</div>
+                    <div><GreyText fs='0.93vw'>$</GreyText>1.84b</div>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <GetBtn>Get</GetBtn>
+                    </div>
+                    </VaultItemContent>
+                </VaultTableItem>
+                <HDivider marginBottom='0' marginTop='0'/>
+                <VaultTableItem>
+                    <VaultItemContent>
+                    <div style={{display: 'flex', gap: '1.2vw'}}>
+                        <div style={{display: 'flex', gap: '0.87vw'}}>
+                            <LogoIconBlack/>
+                            <OUSDIcon/>
+                        </div>
+                        <div>
+                            <div>ORU/oUSD</div>
+                            <FontSize fs='0.72vw'><LightText>Platform:</LightText> SPOOKYSWAP</FontSize>
+                        </div>
+                        
+                    </div>
+                    <div>0</div>
+                    <div>0</div>
+                    <div>264.78%</div>
+                    <div>3,531%</div>
+                    <div><GreyText fs='0.93vw'>$</GreyText>1.84b</div>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <GetBtn>Get</GetBtn>
+                    </div>
+                    </VaultItemContent>
+                </VaultTableItem>
+
             </VaultsTable>
         </VaultsWrapper>
     )

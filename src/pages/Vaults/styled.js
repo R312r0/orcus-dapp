@@ -213,8 +213,8 @@ export const VaultItem = styled.button`
 export const HDivider = styled.div`
   width: 100%;
   height: 1px;
-  margin-top: 1.14vw;
-  margin-bottom: 1.14vw;
+  margin-top: ${props => props.marginTop ?? '1.14vw'};
+  margin-bottom: ${props => props.marginBottom ?? '1.14vw'};
   background-color: #F2F2F2;
 `
 
@@ -222,4 +222,66 @@ export const VDivider = styled.div`
   width: 1px;
   height: ${props => props.height ?? '55%'};
   background-color: #F2F2F2;
+`
+
+export const VaultTableHeader = styled.div`
+  display: flex;
+  height: 2.709vw;
+  align-items: center;
+  width: 100%;
+  padding-left: 2.18vw;
+`
+
+export const VaultTableContent = styled.div`
+  display: grid;
+  grid-template-columns: 6fr 3fr 3fr 2fr 2fr 2fr 3fr;
+  align-items: center;
+  width: 100%;
+  font-size: 0.72vw;
+  color: #4F4F4F;
+`
+export const VaultItemContent = styled.div`
+display: grid;
+  grid-template-columns: 6fr 3fr 3fr 2fr 2fr 2fr 3fr;
+  align-items: center;
+  width: 100%;
+  font-size: 0.93vw;
+  font-weight: 500;
+  color: #333;
+`
+export const VaultTableItem = styled.div`
+  
+
+  display: flex;
+height: 5.36vw;
+align-items: center;
+width: 100%;
+padding-left: 2.18vw;
+border-bottom: 
+`
+
+export const FontSize = styled.span`
+  font-size: ${props => props.fs};
+  
+`
+
+export const LightText =styled.span`
+font-weight: 300;
+`
+
+
+export const GetBtn = styled.button`
+  width: 4.53vw;
+  height: 2.13vw;
+  border-radius: 1.56vw;
+  background: none;
+  background-color: transparent;
+  border: 1px solid #F2F2F2;
+  color: #4F4F4F;
+  transition: all 0.1s;
+  cursor: pointer;
+  &:hover{
+    background-color: #333;
+    color: white;
+  }
 `
