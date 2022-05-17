@@ -112,7 +112,12 @@ const Sidebar = () => {
             {route.icon}
           </IconWrapper>
           <ActivePageIndicator isActive={location.pathname === route.path} />
-          <TabLabel ><TabArrow></TabArrow>{route.label}</TabLabel>
+          <TabLabel><TabArrow>
+          <svg  viewBox="0 0 142 142" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.289551" y="71" width="100" height="100" transform="rotate(-45 0.289551 71)" fill="#333333"/>
+</svg>
+
+            </TabArrow>{route.label}</TabLabel>
         </PageTab>
       ))}
       <WalletBtn onClick={() => account ? null : connectWallet()}>
