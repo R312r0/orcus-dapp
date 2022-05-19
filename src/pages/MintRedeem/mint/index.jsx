@@ -232,7 +232,7 @@ const Mint = () => {
           <Text>Balance: {userInfo ? formattedNum(userInfo.usdcBal) : 0}</Text>
         </HDiv>
         <MintInputWrapper withSelect>
-          <input type='text' onChange={(e) => handleCollateralInput(e.target.value)}  value={collateralInput} />
+          <input type='text' placeholder='0.0' onChange={(e) => handleCollateralInput(e.target.value)}  value={collateralInput} />
           <button onClick={() => handleCollateralInput(userInfo?.usdcBal)} disabled={!account}>Max</button>
           <Divider />
           <IconWrapper margin='0 0.833vw' fill='#000'>
@@ -248,7 +248,7 @@ const Mint = () => {
           <Text>Balance: {userInfo ? formattedNum(userInfo.oruBal) : 0}</Text>
         </HDiv>
         <MintInputWrapper>
-          <input disabled={true} type='text' placeholder='0' value={shareInput} />
+          <input disabled={true} type='text'  value={shareInput} />
           <IconWrapper margin='0 0.833vw' fill='#000'>
             <LogoIconBlack ratio='5vw'/>
           </IconWrapper>

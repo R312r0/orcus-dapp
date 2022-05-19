@@ -175,7 +175,7 @@ export const BuyBtn = styled.button`
 
   &:hover {
     transition: 0.3s all;
-    background: #333;
+    background: black;
   }
 
   svg {

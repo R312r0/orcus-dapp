@@ -90,7 +90,7 @@ export const RedeemInputWrapper = styled.div`
     color: #272a30;
     height: inherit;
     ::placeholder {
-      color: #272a30;
+      color: #bdbdbd;
     }
     @media (max-device-width: 480px){
       width: 90%;

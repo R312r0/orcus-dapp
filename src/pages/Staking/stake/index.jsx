@@ -158,7 +158,7 @@ const Stake = () => {
         </HDiv>
         <HDiv mt='1.094vw'>
           <Text>Depositing ORU</Text>
-          <Text>Balance: {userInfo ? formattedNum(userInfo.balances.oru)  : 0}</Text>
+          <Text>Balance: {userInfo ? formattedNum(userInfo.balances.oru)  : ''}</Text>
         </HDiv>
         <StakeInputWrapper withBtn>
           <input type='text' placeholder='0.0' value={oruInput} onChange={(e) => handleInput(e.target.value)} />

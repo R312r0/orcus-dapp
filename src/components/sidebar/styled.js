@@ -83,7 +83,7 @@ export const TabLabel = styled.div`
   color: white;
   margin-left: 7.24vw;
   white-space: nowrap;
-  padding: 6px 10px;
+  padding: 0.31vw 0.52vw;
   z-index: 22;
   font-size: 0.8vw;
   border-radius: 0.3vw;
@@ -97,15 +97,16 @@ export const TabArrow = styled.div`
 
   z-index: -1;
   width: 0.8vw;
-  transform: rotate(45deg);
-  margin-left: -1.05vw;
-  background-color: #333;
   height: 0.8vw;
+  transform: rotate(45deg);
+  margin-left: -0.64vw;
+  background-color: #333;
+  
 `
 
 export const PageTab = styled.div`
-  margin-top: 3.125vw;
-  // margin-top: 2.400vw;
+  // margin-top: 3.125vw;
+  margin-top: 2.400vw;
   justify-content: space-between;
   position: relative;
   align-items: center;

@@ -4,7 +4,6 @@ export const RecollateralizeWrapper = styled.div`
   flex-direction: row;
   display: flex;
   @media (max-device-width: 480px){
-    
     width: 100%;
     background-color: #F6F6F6;
   }

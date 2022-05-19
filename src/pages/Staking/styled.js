@@ -28,7 +28,7 @@ export const HeadingText = styled.span`
 `;
 
 export const ToggleBtnWrapper = styled.div`
-  margin-left: 24.792vw;
+margin-left: 22.292vw;
   margin-top: 2.135vw;
   align-items: center;
   display: flex;
@@ -46,6 +46,7 @@ export const ToggleBtn = styled.div`
   font-weight: ${(props) => (props.isActive ? 500 : 400)};
   color: ${(props) => (props.isActive ? '#fff' : '#333')};
   transition: 0.3s background-color;
+  transition: ${props => props.isActive ? '0s' : '0.3s'} color;
   font-family: 'Poppins';
   cursor: pointer;
   padding: 0 1.25vw;
@@ -56,7 +57,8 @@ export const ToggleBtn = styled.div`
   height: 2.135vw;
   display: flex;
   &:hover{
-    background-color: ${props => props.isActive ? '#333' : '#c4c4c4'}
+    // background-color: ${props => props.isActive ? '#333' : '#c4c4c4'}
+    color: ${props => props.isActive ? '' : '#000'};
   }
   @media (max-device-width: 480px){
     background-color: ${(props) => (props.isActive ? '#fff' : '#f2f2f2')} !important;
