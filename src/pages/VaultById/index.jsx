@@ -2,19 +2,28 @@ import { ArrowBack } from "@mui/icons-material";
 import LogoIconBlack from "../../assets/icons/LogoIconBlack";
 import OUSDIcon from "../../assets/icons/OUSDIcon";
 import OutLinkIcon from "../../assets/icons/OutLinkIcon";
-import { VidTopBar, GraphMenuContainer, GraphMenuItem, LinksRow, VidBlockText, VidBlockHeader, VidBlock, HDivider, VIDLayout, VIDLeftColumn, VidRightColumn, VidWrapper, WhiteBorderItemLarge, Font, WhiteBorderItem, WhiteBorderBar, VDivider } from "./styled";
+import { VidTopBar, GraphMenuContainer,Field,FieldInput,DoubleContainer,ConnectWallet, MaxButton, InputContainer, Input, AddButton, BuyButton, AddBuyContainer, Fieldset,DWContainer,DWButton, GraphMenuItem, LinksRow, VidBlockText, VidBlockHeader, VidBlock, HDivider, VIDLayout, VIDLeftColumn, VidRightColumn, VidWrapper, WhiteBorderItemLarge, Font, WhiteBorderItem, WhiteBorderBar, VDivider } from "./styled";
 import React, { useState } from 'react';
 
 
 const VaultById = () => {
 
     const [ graphActiveItem, setActiveItem ] = useState('TVL')
+    const [activeDW, setActiveDW] = useState('Deposit');
+    const existingPairs = [
+        {pair: 'ORU/oUSD', },
+        {pair: '4SRS/oUSD', },
+
+    ]
 
     const updateActiveItem = ( event ) => {
         let value = event.currentTarget.dataset.value
         setActiveItem(value);
     }
-
+    const updateActiveDW = ( event ) => {
+        let value = event.currentTarget.dataset.value;
+        setActiveDW(value);
+    }
 
     return(<VidWrapper>
         <VidTopBar>
@@ -114,7 +123,76 @@ const VaultById = () => {
                 </VidBlock>
             </VIDLeftColumn>
             <VidRightColumn>
-                <VidBlock height={'47.31vw'}></VidBlock>
+                <VidBlock height={'47.31vw'}>
+                    <VidBlockHeader>
+                        <DWContainer>
+                            <DWButton data-value='Deposit' onClick={updateActiveDW} active={activeDW === 'Deposit'}>
+                                Deposit
+                            </DWButton>
+                            <DWButton data-value='Withdraw' onClick={updateActiveDW} active={activeDW === 'Withdraw'}>
+                                Withdraw
+                            </DWButton>
+                        </DWContainer>
+                    </VidBlockHeader>
+                    <HDivider/>
+                    <VidBlockText mt='0.83vw'> 
+                    Deposit your LP or️ ZAP⚡ in TOR or FTM
+                    </VidBlockText>
+                    <VidBlockText mt='0.83vw'> 
+                    WALLET:
+                    </VidBlockText>
+                    <Fieldset>
+                        <Field>
+                            <FieldInput type='radio' name='TOR-FTM'></FieldInput>
+                            <label>TOR-FTM</label>
+                        </Field>
+                        <Field>
+                            <FieldInput type='radio' name='TOR-FTM'></FieldInput>
+                            <label>TOR-FTM</label>
+                        </Field><Field>
+                            <FieldInput type='radio' name='TOR-FTM'></FieldInput>
+                            <label>TOR-FTM</label>
+                        </Field><Field>
+                            <FieldInput type='radio' name='TOR-FTM'></FieldInput>
+                            <label>TOR-FTM</label>
+                        </Field>
+                    </Fieldset>
+                    <AddBuyContainer>
+                        <AddButton>Add Liquidity</AddButton>
+
+                        <BuyButton>Buy Token</BuyButton>
+                    </AddBuyContainer>
+                    <InputContainer>
+                        <div></div>
+                        <Input placeholder="0.0"></Input>
+                        <MaxButton>Max</MaxButton>
+                    </InputContainer>
+                    <VidBlockText mt='2.03vw'>
+                        <Font fs='0.83vw' fw='500' color='#333'>Orcus Fees</Font>
+                        <DoubleContainer>
+                            <div>
+                                <Font fw='300' color='#4F4F4F' fs='0.72vw'>Deposit Fee</Font>
+                                <Font fw='500' color='#333' fs='0.83vw'>0%</Font>
+                            </div>
+                            <div>
+                            <Font fw='300' color='#4F4F4F' fs='0.72vw'> Withdrawal Fee</Font>
+                            <Font fw='500' color='#333' fs='0.83vw'>0%</Font>
+                            </div>
+                        </DoubleContainer>
+                        <HDivider mt='0.72vw' mb='0.72vw'/>
+                        <DoubleContainer>
+                            <div>
+                                <Font fw='300' color='#4F4F4F' fs='0.72vw'>Perfomance Fee</Font>
+                                <Font fw='500' color='#333' fs='0.83vw'>4.5%</Font>
+                            </div>
+                            <div>
+                            </div>
+                        </DoubleContainer>
+
+                            <Font fs='0.62vw' color='#828282' fw='400'>Performance fees are already subtracted from the displayed APY.</Font>
+                            <ConnectWallet>Connect Wallet</ConnectWallet>
+                    </VidBlockText>
+                </VidBlock>
             </VidRightColumn>
         </VIDLayout>
     

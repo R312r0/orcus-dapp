@@ -1,6 +1,149 @@
 import styled from 'styled-components'
 
 
+
+
+
+export const DoubleContainer = styled.div`
+    gap: 8.02vw;
+    display: flex;
+    align-items: space-between;
+    margin-top: 0.65vw;
+    & div{
+        display: flex;
+        // align-items: flex-start;
+        flex-direction: column;
+        gap: 0.5vw;
+    }
+`
+
+export const MaxButton = styled.button`
+    width: 4.22vw;
+    height: 2vw;
+    background-color: #333;
+    border-radius: 0.52vw;
+    color: #fff;
+`
+export const Input = styled.input`
+    font-weight: 500;
+    font-size: 0.83vw;
+    font-family: 'Poppins';
+    &:placeholder{
+        color: #BDBDBD;
+    }
+`
+
+export const InputContainer = styled.div`
+    margin-top: 1.82vw;
+    height: 3.38vw;
+    border-radius: 0.62vw;
+    background: #FCFCFD;
+    box-shadow: inset 0px 4px 16px rgba(197, 197, 197, 0.25);
+    display: grid;
+    grid-template-columns: 2fr 8fr 4fr;
+    align-items: center; 
+    box-sizing: border-box;
+    margin-left: 2.34vw;
+    margin-right: 2.34vw;
+`
+
+export const ConnectWallet = styled.button`
+margin-top: 1.14vw;
+border-radius: 0.64vw;
+font-weight: 500;
+font-family: 'Poppins';
+cursor: pointer;
+width: 100%;
+height: 3.54vw;
+background-color: #333;
+color: #fff;
+`
+
+export const AddBuyContainer = styled.div`
+    display: flex;
+    align-items: space-between;
+    height: 2.13vw;
+    font-family: 'Poppins';
+    width: 100%;
+    padding-left: 2.34vw;
+    padding-right: 2.34vw;
+    gap: 0.27vw;
+    margin-top: 2.07vw;
+
+`
+
+export const AddButton = styled.button`
+    width :11.0vw;
+    height: 2.13vw;
+    padding-left: 2.08vw;
+    padding-right: 2.08vw;
+    display: flex;
+    gap: 0.47vw;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #E0E0E0;
+    border-radius: 1.56vw;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+`
+export const BuyButton = styled.button`
+    width :11.1vw;
+    height: 2.13vw;
+    padding-left: 2.08vw;
+    padding-right: 2.08vw;
+    gap: 0.47vw;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1.56vw;
+    color: #fff;
+    background-color: #333;
+    cursor: pointer;
+`
+
+export const Field = styled.div`
+    width: 100%;
+    font-size: 0.84vw;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 1.4vw;
+`
+export const FieldInput = styled.input`
+
+`
+export const Fieldset = styled.fieldset`
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    padding-left: 1.84vw;
+    padding-right: 1.84vw;
+    gap: 0.76vw;
+`
+export const DWButton = styled.button`
+    width: 49%;
+    height: 2.39vw;
+    color: ${props => props.active ? '#333' : '#828282'};
+    background-color: ${props => props.active ? '#fff' : '#FCFCFD'};
+    cursor: pointer;
+    border-radius: 0.83vw;
+    box-shadow: ${props => props.active ? '0px 4px 20px rgba(0, 0, 0, 0.04)' : ''};
+
+`
+
+export const DWContainer = styled.div`
+    width: 100%;
+    background: #FCFCFD;
+    border-radius: 0.94vw;
+    border: 1px solid #F2F2F2;
+    height: 2.709vw;
+    display: flex;
+    gap: 0;
+    align-items: center;
+    justify-content: space-around;
+`
+
 export const VidWrapper = styled.div`
 flex-direction: column;
 display: flex;
@@ -80,6 +223,8 @@ export const HDivider = styled.div`
     width :100%;
     height: 1px;
     background-color: #F2F2F2;
+    margin-top: ${props => props.mt ?? '0'};
+    margin-bottom: ${props => props.mb ?? '0'};
 `
 
 // VIDLayout, VIDLeftColumn, VidRightColumn
