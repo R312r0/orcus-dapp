@@ -97,7 +97,7 @@ export const VAULTS = [
         platform: {
           name: "PANDORA",
           fullName: "PandoraSwap",
-          description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
+          description: "Pandora Swap is a One-Stop DeFi Hub with the most complete ecosystem within Astar Network focused on offering an accessible, transparent and secure experience for everyone.",
           website: "https://pandoraswapxyz.org/",
           telegram: "http://t.me/pandoraswap",
           twitter: "https://twitter.com/pandora_swap"
@@ -136,7 +136,7 @@ export const VAULTS = [
         platform: {
             name: "PANDORA",
             fullName: "PandoraSwap",
-            description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
+            description: "Pandora Swap is a One-Stop DeFi Hub with the most complete ecosystem within Astar Network focused on offering an accessible, transparent and secure experience for everyone.",
             website: "https://pandoraswapxyz.org/",
             telegram: "http://t.me/pandoraswap",
             twitter: "https://twitter.com/pandora_swap"
@@ -176,7 +176,7 @@ export const VAULTS = [
         platform: {
             name: "PANDORA",
             fullName: "PandoraSwap",
-            description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
+            description: "Pandora Swap is a One-Stop DeFi Hub with the most complete ecosystem within Astar Network focused on offering an accessible, transparent and secure experience for everyone.",
             website: "https://pandoraswapxyz.org/",
             telegram: "http://t.me/pandoraswap",
             twitter: "https://twitter.com/pandora_swap"
@@ -216,7 +216,7 @@ export const VAULTS = [
         platform: {
             name: "PANDORA",
             fullName: "PandoraSwap",
-            description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
+            description: "Pandora Swap is a One-Stop DeFi Hub with the most complete ecosystem within Astar Network focused on offering an accessible, transparent and secure experience for everyone.",
             website: "https://pandoraswapxyz.org/",
             telegram: "http://t.me/pandoraswap",
             twitter: "https://twitter.com/pandora_swap"
@@ -257,7 +257,7 @@ export const VAULTS = [
         platform: {
             name: "PANDORA",
             fullName: "PandoraSwap",
-            description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
+            description: "Pandora Swap is a One-Stop DeFi Hub with the most complete ecosystem within Astar Network focused on offering an accessible, transparent and secure experience for everyone.",
             website: "https://pandoraswapxyz.org/",
             telegram: "http://t.me/pandoraswap",
             twitter: "https://twitter.com/pandora_swap"
