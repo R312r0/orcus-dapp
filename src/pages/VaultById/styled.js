@@ -118,6 +118,7 @@ export const AddButton = styled.a`
     background-color: #fff;
     color: #333;
     cursor: pointer;
+    white-space: nowrap;
     @media (max-device-width: 480px){
         width: 100%;
 
@@ -136,6 +137,8 @@ export const BuyButton = styled.a`
     align-items: center;
     justify-content: center;
     border-radius: 1.56vw;
+
+    white-space: nowrap;
     color: #fff;
     background-color: #333;
     cursor: pointer;
@@ -155,6 +158,8 @@ export const Field = styled.div`
     gap: 1.4vw;
     @media (max-device-width: 480px){
         font-size: 16px;
+        margin-top: 8px
+        margin-bottom: 8px;
     }
     
 `
@@ -169,6 +174,9 @@ export const Fieldset = styled.fieldset`
     padding-left: 1.84vw;
     padding-right: 1.84vw;
     gap: 0.76vw;
+    @media (max-device-width: 480px){
+        gap: 16px;
+    }
 `
 export const DWButton = styled.button`
     width: 49%;
@@ -391,6 +399,7 @@ export const VidBlockHeader = styled.div`
         padding-left: 20px;
         margin-top: 12px;
         height: auto;
+        margin-bottom: 12px;
     }
 `
 
@@ -419,6 +428,8 @@ export const LinksRow = styled.div`
     @media (max-device-width: 480px){
         font-size: 14px;
         padding-left: 20px;
+        margin-top: 12px;
+        margin-bottom: 12px;
     }
 `
 
@@ -434,7 +445,7 @@ export const VidBlockText = styled.div`
     @media (max-device-width: 480px){
         font-size: 14px;
         line-height: 17px;
-        margin-top: 6px;
+        margin-top: 12px;
         margin-left: 12px;
     }
 `

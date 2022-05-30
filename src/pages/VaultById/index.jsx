@@ -515,12 +515,12 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                 <BuyButton href={pool.buyLink} target={"_blank"}>Buy Token</BuyButton>
                 </AddBuyContainer>
                 <InputContainer>
-                <div></div>
+                <div style={{display: 'flex', alignItem: 'center', justifyContent: 'center'}}><LogoIconBlack ratio={isMobileScreen() ? '5vw' : '0.94vw'}/></div>
                 <Input placeholder="0.0" value={tokenInput} onChange={(e) => setTokenInput(e.target.value)} />
                 <MaxButton onClick={() => handleMaxButton()} >Max</MaxButton>
                 </InputContainer>
-                <VidBlockText mt='2.03vw'>
-                <Font  fs={isMobileScreen () ? '14px' : '0.83vw'} fw='500' color='#333'>Orcus Fees</Font>
+                <VidBlockText mt={isMobileScreen() ? '24px' : '2.03vw'}>
+                <Font  fs={isMobileScreen() ? '14px' : '0.83vw'} fw='500' color='#333'>Orcus Fees</Font>
                 <DoubleContainer>
                 <div>
                 <Font fw='300' color='#4F4F4F'  fs={ isMobileScreen() ? '12px' : '0.72vw'}>Deposit Fee</Font>
