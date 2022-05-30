@@ -74,7 +74,6 @@ const Vaults = () => {
 
             let newArr;
 
-            console.log(selectedTopbarCategory);
 
             switch (selectedTopbarCategory) {
                 case "Stablecoins":
@@ -97,7 +96,6 @@ const Vaults = () => {
 
     useEffect(() => {
 
-        console.log(vaultsValue);
 
         if (vaultsValue && vaultsWithFiltersList) {
 
@@ -118,7 +116,6 @@ const Vaults = () => {
                     break;
             }
 
-            console.log(newArr);
 
             setVaultsWithFilters(newArr);
         }
@@ -347,7 +344,7 @@ const Vaults = () => {
                     </TopbarOptions>
                     { isMobileScreen() ? <></> :
                     <div style={{display: "flex", gap: '0.94vw'}}>
-                        <SortByContainer active={isSortByOverlay} onClick={() => setSortByOverlay(!isSortByOverlay)}>
+                        <SortByContainer style={{visibility: "hidden"}} active={isSortByOverlay} onClick={() => setSortByOverlay(!isSortByOverlay)}>
                             <div style={{display: 'flex', alignItems: 'center', gap: '0.5vw'}}>
                             <FilterIcon color='#333' ratio='0.79vw'/>
                                 Sort by:
@@ -363,7 +360,7 @@ const Vaults = () => {
                                 <SortByOverlayOption>TVL</SortByOverlayOption>
                             </SortByOverlay> : <></> }
                         </SortByContainer>
-                        <FilterContainer active={isFilterOverlay} onClick={()=> setFilterOverlay(!isFilterOverlay)}>
+                        <FilterContainer style={{visibility: "hidden"}} active={isFilterOverlay} onClick={()=> setFilterOverlay(!isFilterOverlay)}>
                             <div style={{display: 'flex', alignItems: 'center', gap: '0.5vw'}}>
 
                                 <SliderIcon ratio='0.79vw'/>
@@ -472,9 +469,9 @@ const Vaults = () => {
                                     </div>
                                     <div>0</div>
                                     <div style={{display: 'flex', flexDirection: 'column'}}><div>{formattedNum(item.deposited.lp)}</div><FontSize fs='0.64vw'><LightText>{formattedNum(item.deposited.usd)}</LightText></FontSize></div>
-                                    <div>{formattedNum(item.apr)}%</div>
-                                    <div>{formattedNum(item.apr / 365)}%</div>
-                                    <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(item.tvlLocal)}</div>
+                                    <div>{formattedNum(item.apr.toFixed(2))}%</div>
+                                    <div>{formattedNum((item.apr / 365).toFixed(2))}%</div>
+                                    <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(item.tvlLocal.toFixed(2))}</div>
                                     <div style={{display: 'flex', justifyContent: 'center'}}>
                                         <GetBtn onClick={() => navigate(`/vaults/${item.id}`)} > Get </GetBtn>
                                     </div>

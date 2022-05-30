@@ -99,7 +99,7 @@ export const VAULTS = [
           fullName: "PandoraSwap",
           description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
           website: "https://pandoraswapxyz.org/",
-          telegram: null,
+          telegram: "http://t.me/pandoraswap",
           twitter: "https://twitter.com/pandora_swap"
         },
         token0: {
@@ -138,7 +138,7 @@ export const VAULTS = [
             fullName: "PandoraSwap",
             description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
             website: "https://pandoraswapxyz.org/",
-            telegram: null,
+            telegram: "http://t.me/pandoraswap",
             twitter: "https://twitter.com/pandora_swap"
         },
         token0: {
@@ -178,7 +178,7 @@ export const VAULTS = [
             fullName: "PandoraSwap",
             description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
             website: "https://pandoraswapxyz.org/",
-            telegram: null,
+            telegram: "http://t.me/pandoraswap",
             twitter: "https://twitter.com/pandora_swap"
         },
         token0: {
@@ -218,7 +218,7 @@ export const VAULTS = [
             fullName: "PandoraSwap",
             description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
             website: "https://pandoraswapxyz.org/",
-            telegram: null,
+            telegram: "http://t.me/pandoraswap",
             twitter: "https://twitter.com/pandora_swap"
         },
         token0: {
@@ -259,7 +259,7 @@ export const VAULTS = [
             fullName: "PandoraSwap",
             description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
             website: "https://pandoraswapxyz.org/",
-            telegram: null,
+            telegram: "http://t.me/pandoraswap",
             twitter: "https://twitter.com/pandora_swap"
         },
         token0: {

@@ -438,6 +438,7 @@ export const LinksRow = styled.div`
 
 export const VidBlockText = styled.div`
     margin-top: ${props => props.mt};
+    color: #333333;
     padding-left: 2.34vw;
     padding-right: 3.34vw;
     font-size: 0.83vw;

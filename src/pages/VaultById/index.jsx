@@ -397,14 +397,14 @@ const VaultById = () => {
                 <WhiteBorderItem bg='#E4DDEF'>
                     <div>
                         <Font color='#272A30' fs={ isMobileScreen() ? '12px' : '0.72vw'} >APY</Font>
-                        <div><Font fw='500'  fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(pool.apr)}%</Font></div>
+                        <div><Font fw='500'  fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(pool.apr.toFixed(2))}%</Font></div>
                     </div>
                 </WhiteBorderItem>
 
                 <WhiteBorderItem bg='#D5ECD8'>
                     <div>
                         <Font color='#272A30' fs={ isMobileScreen() ? '12px' : '0.72vw'} >Daily</Font>
-                        <div><Font fw='500' fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(pool.apr / 365)}%</Font></div>
+                        <div><Font fw='500' fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum((pool.apr / 365).toFixed(2))}%</Font></div>
                     </div>
                 </WhiteBorderItem>
 
@@ -515,7 +515,7 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                 <BuyButton href={pool.buyLink} target={"_blank"}>Buy Token</BuyButton>
                 </AddBuyContainer>
                 <InputContainer>
-                <div style={{display: 'flex', alignItem: 'center', justifyContent: 'center'}}><LogoIconBlack ratio={isMobileScreen() ? '5vw' : '0.94vw'}/></div>
+                <div style={{display: 'flex', alignItem: 'center', justifyContent: 'center', visibility: 'hidden'}}><LogoIconBlack ratio={isMobileScreen() ? '5vw' : '0.94vw'}/></div>
                 <Input placeholder="0.0" value={tokenInput} onChange={(e) => setTokenInput(e.target.value)} />
                 <MaxButton onClick={() => handleMaxButton()} >Max</MaxButton>
                 </InputContainer>
