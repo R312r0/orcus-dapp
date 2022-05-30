@@ -400,6 +400,7 @@ export const VidBlockHeader = styled.div`
         margin-top: 12px;
         height: auto;
         margin-bottom: 12px;
+        font-weight: 300;
     }
 `
 
@@ -440,12 +441,14 @@ export const VidBlockText = styled.div`
     padding-left: 2.34vw;
     padding-right: 3.34vw;
     font-size: 0.83vw;
+    font-weight: 300;
     line-height: 1.5vw;
     font-family: 'Poppins';
     @media (max-device-width: 480px){
         font-size: 14px;
         line-height: 17px;
         margin-top: 12px;
+        font-weight: 300;
         margin-left: 12px;
     }
 `
