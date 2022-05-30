@@ -3,7 +3,7 @@ import { HeadingText,TopIconWrapper, FilterOverlaySelect, SortByOverlay, SortByO
 import FilterIcon from '../../assets/icons/FilterIcon';
 import React, {useEffect, useState} from 'react';
 
-import { KeyboardArrowDown } from "@mui/icons-material";
+import { KeyboardArrowDown, Light } from "@mui/icons-material";
 import SearchIcon from "../../assets/icons/SearchIcon";
 import SliderIcon from "../../assets/icons/SliderIcon";
 import CardIcon from "./assets/CardIcon";
@@ -19,6 +19,9 @@ import VAULT_ABI from '../../abis/Vault.json';
 import UNISWAP_PAIR from '../../abis/UniswapPair.json';
 import PANDORA_CHEF_ABI from '../../abis/PandoraChef.json';
 import {formattedNum} from "../../utils";
+
+import Pandora from '../../assets/icons/Pandora.png';
+
 import axios from "axios";
 
 
@@ -30,6 +33,10 @@ const Vaults = () => {
 
     const [selectedTopbarCategory, setTopbarCategory] = React.useState('Stake');
     const [vaultsValue, setVaultsValue] = React.useState('All Vaults')
+
+
+    const [isFilterOverlay, setFilterOverlay ] = React.useState(false)
+    const [isSortByOverlay, setSortByOverlay] = React.useState(false);
 
     const [vaultsFormatted, setVaultsFormatted] = useState(null);
     const [overallTVL, setOverallTVL] = useState(0);
@@ -43,6 +50,11 @@ const Vaults = () => {
     }, [account, signer])
 
 
+    const isMobileScreen = ( ) => {
+        let query = window.matchMedia('(max-device-width: 480px)')
+        return query.matches
+      }
+    
     const handleTopbarClick = (event) => {
         let value = event.currentTarget.dataset.value
         setTopbarCategory(value);
@@ -262,11 +274,11 @@ const Vaults = () => {
                                         </div>
                                         <div>
                                             <div>{item.name}</div>
-                                            <FontSize fs='0.72vw'><LightText>Platform:</LightText> {item.platform.name}</FontSize>
+                                            <FontSize fs='0.72vw'><LightText>Platform:</LightText><img src={Pandora} width='12' /> {item.platform.name}</FontSize>
                                         </div>
                                     </div>
                                     <div>0</div>
-                                    <div>{formattedNum(item.deposited.lp)}(${formattedNum(item.deposited.usd)})</div>
+                                    <div style={{display: 'flex', flexDirection: 'column'}}><div>{formattedNum(item.deposited.lp)}</div><FontSize fs='0.64vw'><LightText>(${formattedNum(item.deposited.usd)})</LightText></FontSize></div>
                                     <div>{item.apr}%</div>
                                     <div>{formattedNum(item.apr / 365)}%</div>
                                     <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(item.tvl)}</div>
