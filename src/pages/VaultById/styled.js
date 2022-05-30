@@ -14,6 +14,9 @@ export const DoubleContainer = styled.div`
         // align-items: flex-start;
         flex-direction: column;
         gap: 0.5vw;
+        margin-top: 18px;
+        width: 50%;
+        margin-bottom: 18px;
     }
 `
 
@@ -23,6 +26,11 @@ export const MaxButton = styled.button`
     background-color: #333;
     border-radius: 0.52vw;
     color: #fff;
+    @media (max-device-width: 480px){
+        height: 36px;
+        width: 81px;
+        border-radius: 10px;
+    }
 `
 export const Input = styled.input`
     font-weight: 500;
@@ -30,6 +38,9 @@ export const Input = styled.input`
     font-family: 'Poppins';
     &:placeholder{
         color: #BDBDBD;
+    }
+    @media (max-device-width: 480px){
+       font-size: 14px;
     }
 `
 
@@ -45,6 +56,15 @@ export const InputContainer = styled.div`
     box-sizing: border-box;
     margin-left: 2.34vw;
     margin-right: 2.34vw;
+
+    @media (max-device-width: 480px){
+        height: 52px;
+        margin-left: 20px;
+        marign-right: 20px;
+        border-radius: 12px;
+        margin-top: 24px;
+    }
+    
 `
 
 export const ConnectWallet = styled.button`
@@ -57,6 +77,11 @@ width: 100%;
 height: 3.54vw;
 background-color: #333;
 color: #fff;
+@media (max-device-width: 480px){
+    height:52px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
 `
 
 export const AddBuyContainer = styled.div`
@@ -69,6 +94,12 @@ export const AddBuyContainer = styled.div`
     padding-right: 2.34vw;
     gap: 0.27vw;
     margin-top: 2.07vw;
+    @media (max-device-width: 480px){
+        width: 100%;
+        gap: 8px;
+        height: auto;
+
+    }
 
 `
 
@@ -87,6 +118,12 @@ export const AddButton = styled.a`
     background-color: #fff;
     color: #333;
     cursor: pointer;
+    @media (max-device-width: 480px){
+        width: 100%;
+
+        border-radius: 30px;
+        height: 41px;
+    }
 `
 export const BuyButton = styled.a`
     width :11.1vw;
@@ -102,6 +139,11 @@ export const BuyButton = styled.a`
     color: #fff;
     background-color: #333;
     cursor: pointer;
+    @media (max-device-width: 480px){
+        width: 100%;
+        border-radius: 30px;
+        height: 41px;
+    }
 `
 
 export const Field = styled.div`
@@ -111,6 +153,10 @@ export const Field = styled.div`
     display: flex;
     align-items: center;
     gap: 1.4vw;
+    @media (max-device-width: 480px){
+        font-size: 16px;
+    }
+    
 `
 export const FieldInput = styled.input`
 
@@ -132,6 +178,10 @@ export const DWButton = styled.button`
     cursor: pointer;
     border-radius: 0.83vw;
     box-shadow: ${props => props.active ? '0px 4px 20px rgba(0, 0, 0, 0.04)' : ''};
+    @media (max-device-width: 480px){
+        height: 46px;
+        border-radius: 16px;
+    }
 
 `
 
@@ -145,6 +195,12 @@ export const DWContainer = styled.div`
     gap: 0;
     align-items: center;
     justify-content: space-around;
+    @media (max-device-width: 480px){
+        height: 52px;
+        border-radius: 18px;
+        margin-top: 24px;
+        margin-bottom :12px;
+    }
 `
 
 export const VidWrapper = styled.div`
@@ -152,6 +208,9 @@ flex-direction: column;
 display: flex;
 width: 100%;
 overflow: scroll;
+@media (max-device-width: 480px){
+    background-color: #fff;
+}
 `;
 
 export const VidTopBar = styled.div`
@@ -159,6 +218,16 @@ export const VidTopBar = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
+
+  @media (max-device-width: 480px){
+      font-size: 14px;
+      margin-left: 10px;
+      margin-top: 28px;
+      flex-direction: column;
+      align-items: flex-start
+
+  }
+    
 `
 
 export const WhiteBorderBar = styled.div`
@@ -172,6 +241,18 @@ export const WhiteBorderBar = styled.div`
     border-radius: 1.35vw;
     border: 1px solid white;
     gap: 1.19vw;
+    @media (max-device-width: 480px){
+        height: auto;
+        margin-left: 10px;
+        flex-direction: column;
+        margin-right: 10px;
+        border: 1px solid #F2F2F2;
+        border-radius: 26px;
+        padding: 12px;
+        width: calc(100% - 20px);
+
+    }
+    
 `
 
 export const Font = styled.span`
@@ -197,6 +278,13 @@ export const WhiteBorderItem = styled.div`
     display: flex;
     flex-direction: column;
     line-height: 1.04vw;
+    @media (max-device-width: 480px){
+        width: calc(100%);
+        height: 78px;
+        border-radius: 20px;
+        font-size: 12px;
+        padding-left: 24px;
+    }
     justify-content: center;
 `
 
@@ -213,11 +301,19 @@ export const WhiteBorderItemLarge = styled.div`
     line-height: 1.04vw;
     justify-content: space-between;
     align-items: center;
+    @media (max-device-width: 480px){
+        width: 100%;
+        border: 1px solid #F2F2F2;
+        border-radius: 20px;
+        height: 66px;
+        
+    }
 `
 
 export const VDivider = styled.div`
     width :1px;
     height:80%;
+    padding: 0 !important;
     background-color: #F2F2F2;
 `
 
@@ -237,6 +333,9 @@ export const VIDLayout = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 1.25vw;
+    @media (max-device-width: 480px){
+        flex-direction: column;
+    }
 `
 
 export const VIDLeftColumn = styled.div`
@@ -244,12 +343,20 @@ export const VIDLeftColumn = styled.div`
     width: 57.1615vw;
     flex-direction: column;
     gap: 1.45vw;
+    @media (max-device-width: 480px){
+        width: 100%;
+    }
 
 `
 export const VidRightColumn = styled.div`
     width: 26.0115vw;
     display: flex;
     flex-direction: column;
+    @media (max-device-width: 480px){
+        width: 100%;
+        height: auto;
+    }
+    
 `
 
 export const VidBlock = styled.div`
@@ -259,6 +366,9 @@ export const VidBlock = styled.div`
     height: ${props => props.height};
     display: flex;
     flex-direction: column;
+    @media (max-device-width: 480px){
+        height: auto !important;
+    }
 `
 export const VidBlockContent = styled.div`
 `
@@ -269,6 +379,11 @@ export const VidBlockHeader = styled.div`
     padding-left: 2.34vw;
     padding-right: 2.34vw;
     flex-direction: column;
+    @media (max-device-width: 480px){
+        padding-left: 20px;
+        margin-top: 24px;
+        height: auto;
+    }
 `
 
 // LinksRow, VidRowText,
@@ -293,6 +408,10 @@ export const LinksRow = styled.div`
     & a:hover{
         text-decoration: underline;
     }
+    @media (max-device-width: 480px){
+        font-size: 14px;
+        padding-left: 20px;
+    }
 `
 
 
@@ -304,6 +423,12 @@ export const VidBlockText = styled.div`
     font-size: 0.83vw;
     line-height: 1.5vw;
     font-family: 'Poppins';
+    @media (max-device-width: 480px){
+        font-size: 14px;
+        line-height: 17px;
+        margin-top: 6px;
+        margin-left: 12px;
+    }
 `
 
 
@@ -319,6 +444,11 @@ export const GraphMenuContainer = styled.div`
     padding-left: 0.09vw;
 
     padding-right: 0.09vw;
+    @media (max-device-width: 480px){
+        width: auto;
+        border-radius: 12px;
+        height: 35px;
+    }
 
 `
 
@@ -336,4 +466,9 @@ export const GraphMenuItem = styled.button`
     font-size: 0.72vw;
     cursor: pointer;
     box-shadow: ${props => props.active ? '0px 4px 20px rgba(0, 0, 0, 0.04)' : 'none'};
+    @media (max-device-width: 480px){
+        height: 30px;
+        font-size: 12px;
+        border-radius: 10px;
+    }
 `

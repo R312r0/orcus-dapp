@@ -364,6 +364,12 @@ const VaultById = () => {
     }
 
 
+    const isMobileScreen = ( ) => {
+        let query = window.matchMedia('(max-device-width: 480px)')
+        return query.matches
+      }
+
+
     return(<VidWrapper>
 
         {pool ?
@@ -373,63 +379,63 @@ const VaultById = () => {
                 <ArrowBack onClick={() => navigate("/vaults")}/>
                 {pool.token0.logo}
                 {pool.token1.logo}
-                <Font fw='500' fs='0.93vw' color='#333'>{pool.name}</Font>
-                <Font fw='500' fs='0.93vw' color='#828282'>vault</Font>
+                <Font fw='500' fs={ isMobileScreen() ? '16px' : '0.93vw'} color='#333'>{pool.name}</Font>
+                <Font fw='500' fs={ isMobileScreen() ? '16px' : '0.93vw'} color='#828282'>vault</Font>
 
             </div>
-            <div><Font fs='0.72vw' fw='300'>Platform:</Font><Font fs='0.72vw' fw='500' color='#4F4F4F'> {pool.platform.name}</Font></div>
+            <div><Font fs={ isMobileScreen() ? '12px' : '0.72vw'} fw='300'>Platform:</Font><Font fs={ isMobileScreen() ? '12px' : '0.72vw'} fw='500' color='#4F4F4F'> {pool.platform.name}</Font></div>
             </VidTopBar>
             <WhiteBorderBar>
                 <WhiteBorderItem bg='#F5EFD7'>
                     <div>
-                        <Font color='#272A30' fs='0.72vw'>TVL</Font>
-                        <div><Font fw='500' color='#828282' fs='0.83vw'>$</Font><Font fs='0.83vw'>{formattedNum(pool.tvl)}</Font></div>
+                        <Font color='#272A30' fs={ isMobileScreen() ? '12px' : '0.72vw'} >TVL</Font>
+                        <div><Font fw='500' color='#828282'   fs={isMobileScreen () ? '14px' : '0.83vw'}>$</Font><Font  fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(pool.tvl)}</Font></div>
                     </div>
                 </WhiteBorderItem>
 
                 <WhiteBorderItem bg='#E4DDEF'>
                     <div>
-                        <Font color='#272A30' fs='0.72vw'>APY</Font>
-                        <div><Font fw='500' fs='0.83vw'>{formattedNum(pool.apr)}%</Font></div>
+                        <Font color='#272A30' fs={ isMobileScreen() ? '12px' : '0.72vw'} >APY</Font>
+                        <div><Font fw='500'  fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(pool.apr)}%</Font></div>
                     </div>
                 </WhiteBorderItem>
 
                 <WhiteBorderItem bg='#D5ECD8'>
                     <div>
-                        <Font color='#272A30' fs='0.72vw'>Daily</Font>
-                        <div><Font fw='500' fs='0.83vw'>{formattedNum(pool.apr / 365)}%</Font></div>
+                        <Font color='#272A30' fs={ isMobileScreen() ? '12px' : '0.72vw'} >Daily</Font>
+                        <div><Font fw='500' fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(pool.apr / 365)}%</Font></div>
                     </div>
                 </WhiteBorderItem>
 
                 <WhiteBorderItemLarge>
-                    <div style={{width: '100%'}}>
-                        <Font fs='0.72vw'>Your deposit</Font>
-                        <div><Font fw='500' fs='0.83vw'>{balances ?  fromExponential(+balances.deposited) : null }</Font></div>
+                    <div style={{width: '100%', paddingLeft: isMobileScreen() ? '20px' : ''}}>
+                        <Font fs={ isMobileScreen() ? '12px' : '0.72vw'}>Your deposit</Font>
+                        <div><Font fw='500' fs={isMobileScreen () ? '14px' : '0.83vw'}>{balances ?  fromExponential(+balances.vault) : null }</Font></div>
                     </div>
                     <VDivider/>
-                    <div style={{width: '100%', paddingLeft: '1.71vw'}}>
-                        <Font fs='0.72vw'>Harvest</Font>
-                        <div><Font fw='500' fs='0.83vw'>Every hour</Font></div>
+                    <div style={{width: '100%', paddingLeft: isMobileScreen() ? '20px' : '1.71vw'}}>
+                        <Font fs={ isMobileScreen() ? '12px' : '0.72vw'}>Harvest</Font>
+                        <div><Font fw='500' fs={isMobileScreen () ? '14px' : '0.83vw'}>Every hour</Font></div>
                     </div>
                 </WhiteBorderItemLarge>
             </WhiteBorderBar>
             <VIDLayout>
             <VIDLeftColumn>
             <VidBlock height={'21.26vw'}>
-            <VidBlockHeader><Font fw='500' fs='0.93vw'>{pool.platform.name} <Font fs='0.93vw'  color='#828282'></Font></Font></VidBlockHeader>
+            <VidBlockHeader><Font fw='500'  fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.platform.name} <Font  fs={isMobileScreen () ? '17px' : '0.93vw'}  color='#828282'></Font></Font></VidBlockHeader>
             <HDivider/>
             <LinksRow>
-            <a href={pool.platform.website}>Website<OutLinkIcon ratio='0.93vw'/></a>
-            <a href={pool.platform.telegram}>Telegram<OutLinkIcon ratio='0.93vw'/></a>
-            <a href={pool.platform.twitter}>Twitter<OutLinkIcon ratio='0.93vw'/></a>
+            <a href={pool.platform.website}>Website<OutLinkIcon ratio={isMobileScreen() ? '4vw' : '0.93vw'}/></a>
+            <a href={pool.platform.telegram}>Telegram<OutLinkIcon ratio={isMobileScreen() ? '4vw' : '0.93vw'}/></a>
+            <a href={pool.platform.twitter}>Twitter<OutLinkIcon ratio={isMobileScreen() ? '4vw' : '0.93vw'}/></a>
             </LinksRow>
             <VidBlockText>{pool.platform.description}</VidBlockText>
             </VidBlock>
             <VidBlock height={'24.23vw'}>
 
             <VidBlockHeader>
-            <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-            <div><Font fw='500' fs='0.93vw'>Historical <Font fs='0.93vw'  color='#828282'>Rate</Font></Font></div>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
+            <div><Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>Historical <Font fs={isMobileScreen () ? '17px' : '0.93vw'}  color='#828282'>Rate</Font></Font></div>
             <GraphMenuContainer>
             <GraphMenuItem onClick={updateActiveItem} active={graphActiveItem === 'TVL'} data-value={'TVL'}>TVL</GraphMenuItem>
             <GraphMenuItem onClick={updateActiveItem} active={graphActiveItem === 'Price'} data-value={'Price'}>Price</GraphMenuItem>
@@ -442,22 +448,22 @@ const VaultById = () => {
             </VidBlock>
             <VidBlock height={'13.86vw'}>
                 <VidBlockHeader>
-                <div> <Font fs='0.72vw'  color='#828282'>ASSET DETAILS</Font></div>
+                <div> <Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
                 <div>
-                <Font fw='500' fs='0.93vw'>{pool.token0.name}</Font>
+                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token0.name}</Font>
                 </div>
                 </VidBlockHeader>
                 <HDivider/>
                 <LinksRow>
-                <a href={pool.token0.website}>Website<OutLinkIcon ratio='0.93vw'/></a>
-                <a href={pool.token0.website}>Token Contract<OutLinkIcon ratio='0.93vw'/></a></LinksRow>
+                <a href={pool.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
+                <a href={pool.token0.website}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
                 <VidBlockText>{pool.token0.description}</VidBlockText>
             </VidBlock>
             <VidBlock height={'8.96vw'}>
                 <VidBlockHeader>
-                <div><Font fs='0.72vw'  color='#828282'>ASSET DETAILS</Font></div>
+                <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
                 <div>
-                <Font fw='500' fs='0.93vw'>{pool.token1.name}</Font>
+                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token1.name}</Font>
                 </div>
                 </VidBlockHeader>
                 <HDivider/>
@@ -528,28 +534,28 @@ const VaultById = () => {
                 <MaxButton onClick={() => handleMaxButton()} >Max</MaxButton>
                 </InputContainer>
                 <VidBlockText mt='2.03vw'>
-                <Font fs='0.83vw' fw='500' color='#333'>Orcus Fees</Font>
+                <Font  fs={isMobileScreen () ? '14px' : '0.83vw'} fw='500' color='#333'>Orcus Fees</Font>
                 <DoubleContainer>
                 <div>
-                <Font fw='300' color='#4F4F4F' fs='0.72vw'>Deposit Fee</Font>
-                <Font fw='500' color='#333' fs='0.83vw'>0%</Font>
+                <Font fw='300' color='#4F4F4F'  fs={ isMobileScreen() ? '12px' : '0.72vw'}>Deposit Fee</Font>
+                <Font fw='500' color='#333'  fs={isMobileScreen () ? '14px' : '0.83vw'}>0%</Font>
                 </div>
                 <div>
-                <Font fw='300' color='#4F4F4F' fs='0.72vw'> Withdrawal Fee</Font>
-                <Font fw='500' color='#333' fs='0.83vw'>0%</Font>
+                <Font fw='300' color='#4F4F4F'  fs={ isMobileScreen() ? '12px' : '0.72vw'}> Withdrawal Fee</Font>
+                <Font fw='500' color='#333'  fs={isMobileScreen () ? '14px' : '0.83vw'}>0%</Font>
                 </div>
                 </DoubleContainer>
                 <HDivider mt='0.72vw' mb='0.72vw'/>
                 <DoubleContainer>
                 <div>
-                <Font fw='300' color='#4F4F4F' fs='0.72vw'>Perfomance Fee</Font>
-                <Font fw='500' color='#333' fs='0.83vw'>4.5%</Font>
+                <Font fw='300' color='#4F4F4F'  fs={ isMobileScreen() ? '12px' : '0.72vw'}>Perfomance Fee</Font>
+                <Font fw='500' color='#333'  fs={isMobileScreen () ? '14px' : '0.83vw'}>4.5%</Font>
                 </div>
                 <div>
                 </div>
                 </DoubleContainer>
 
-                <Font fs='0.62vw' color='#828282' fw='400'>Performance fees are already subtracted from the displayed APY.</Font>
+                <Font  fs={ isMobileScreen() ? '10px' :'0.62vw'} color='#828282' fw='400'>Performance fees are already subtracted from the displayed APY.</Font>
                     {contracts && allowances && balances ?
                         <MainButton/>
                         :
