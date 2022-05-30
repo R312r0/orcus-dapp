@@ -376,7 +376,7 @@ const VaultById = () => {
             <>
             <VidTopBar>
             <div style={{display: 'flex', gap: '0.8vw', alignItems: 'center'}}>
-                <ArrowBack onClick={() => navigate("/vaults")}/>
+                <ArrowBack style={{cursor: 'pointer'}} onClick={() => navigate("/vaults")}/>
                 {pool.token0.logo}
                 {pool.token1.logo}
                 <Font fw='500' fs={ isMobileScreen() ? '16px' : '0.93vw'} color='#333'>{pool.name}</Font>
