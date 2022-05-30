@@ -1,16 +1,83 @@
 import styled from 'styled-components'
 
+
+export const SortByOverlay = styled.div`
+  position: absolute;
+  z-index: 5;
+  width: 13.28vw;
+  margin-top: 2.67vw;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.62vw;
+  box-shadow: 0px 8px 50px rgba(10, 17, 105, 0.08);
+  overflow: hidden;
+`
+
+export const SortByOverlayOption = styled.div`
+  height: 1.98vw;
+  background-color: white;
+  width: 13.28vw;
+  padding: 0.78vw 1.09vw 0.78vw 1.09vw;
+  display: flex;
+  font-family: 'Poppins';
+  align-items: center;
+  line-height: 1;
+  &:hover{
+    background-color: #E4DDEF;
+  }
+`
+
+
+export const FilterOverlaySelect = styled.select`
+  width: 100%;
+  box-sizing: border-box;
+  background: #FCFCFD;
+box-shadow: inset 0px 4px 16px rgba(197, 197, 197, 0.25);
+border-radius: 0.41vw;
+border: none;
+padding-top: 0.41vw;
+padding-bottom: 0.41vw;
+padding-left: 0.82vw;
+margin-top: ${props => props.mt ?? '1.04vw'};
+`
+export const FilterOverlay = styled.div`
+  position: absolute;
+  z-index: 5;
+  // height: 8.85vw;
+  top: 0;
+  right: 0;
+  margin-top: 2.67vw;
+  width: 17.56vw;
+  background-color: white;
+  box-shadow: 0px 8px 50px rgba(10, 17, 105, 0.08);
+  border-radius: 0.62vw;
+  padding-left: 1.09vw;
+  padding-right: 1.09vw;
+  padding-top: 1.04vw;
+  padding-bottom: 1.04vw;
+
+
+  
+`
+
 export const VaultsWrapper = styled.div`
 flex-direction: column;
 display: flex;
 width: 100%;
+box-sizing: border-box;
+position: relative;
+@media (max-device-width: 480px){
+  background-color: #fff;
+}
 `;
 
 export const GreyText = styled.span`
   font-family: 'Poppins';
   font-size: ${props => props.fs ?? '0.73vw'};
   color: #828282;
-  margin-top: 0.38vw;
+  margin-top: ${props => props.fs ?? '0.38vw'};
 
 `
 
@@ -22,6 +89,11 @@ export const TopIconWrapper = styled.div`
   justify-content: center;
   background-color: ${props => props.bg ?? 'white'};
   border-radius: 0.41vw;
+  @media (max-device-width: 480px){
+    height: 40px;
+    width: 40px;
+    border-radius: 8px;
+  }
 `
 
 export const HeadingText = styled.span`
@@ -54,8 +126,23 @@ export const TopWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 5.44vw;
+  
   padding: 0.68vw;
   gap: 0.83vw;
+  
+  @media (max-device-width: 480px){
+
+    height: auto;
+    width: auto;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: #fff;
+    border: 1px solid #F2F2F2;
+    position: relative;
+    border-radius: 26px;
+    font-size: 16px;
+  }
 `
 export const LargeTopCard = styled.div`
   width: 47vw;
@@ -85,6 +172,18 @@ export const SmallTopCard = styled.div`
   font-size: 0.86vw;
   line-height: 0.86vw;
   gap: 0.68vw;
+  @media (max-device-width: 480px){
+    width: calc(100% - 16px);
+    position: relative;
+    height: auto;
+    margin: 12px;
+    box-sizing: border-box !important;
+    font-size: 16px;
+    padding: 20px;
+    border: 1px solid #F2F2F2;
+    border-radius: 20px;
+    gap: 8px;
+  }
 
 `
 export const VaultsTable = styled.div`
@@ -140,11 +239,13 @@ export const FilterContainer = styled.div`
   align-items: center;
   font-size: 0.75vw;
   padding-left: 1.45vw;
-  border: 1px solid #F2F2F2;
+  border: 1px solid ${props => props.active ? '#333' : '#F2F2F2'};
   padding-right: 1.05vw;
   border-radius: 0.94vw;
   box-sizing: border-box;
   justify-content: space-between;
+  cursor: pointer;
+  position: relative;
 `
 export const SortByContainer = styled.div`
   height: 2.809vw;
@@ -154,13 +255,16 @@ export const SortByContainer = styled.div`
   justify-content: space-between;
   font-family: 'Poppins';
   color: #333;
-  border: 1px solid #F2F2F2;
+  border: 1px solid ${props => props.active ? '#333' : '#F2F2F2'};
   box-sizing: border-box;
   padding-right: 1.45vw;
   display: flex;
   align-items: center;
   font-size: 0.75vw;
   border-radius: 0.94vw;
+  cursor:pointer;
+  position: relative;
+  
 `
 
 export const SearchRow = styled.div`
