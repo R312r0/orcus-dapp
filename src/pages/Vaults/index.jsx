@@ -307,8 +307,8 @@ const Vaults = () => {
                 </TopCardMobile>
                 </> :
                 <LargeTopCard>
-                    <div style={{width: '12.05vw'}}>
-                    TVL: <GreyText fs='0.94vw'>$</GreyText>{formattedNum(overallTVL)}
+                    <div style={{width: '12.05vw', display: 'flex', gap: '0.6vw', alignItems: 'center', justifyContent:'center'}}>
+                    TVL: <div><GreyText mt='0vw' fs='0.94vw'>$</GreyText>{formattedNum(overallTVL)}</div>
                     </div>
                     <VDivider/>
                     <div style={{width: '14.65vw'}}>
