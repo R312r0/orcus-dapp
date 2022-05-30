@@ -199,7 +199,7 @@ export const DWContainer = styled.div`
         height: 52px;
         border-radius: 18px;
         margin-top: 24px;
-        margin-bottom :12px;
+        // margin-bottom :12px;
     }
 `
 
@@ -209,7 +209,7 @@ display: flex;
 width: 100%;
 overflow: scroll;
 @media (max-device-width: 480px){
-    background-color: #fff;
+    background-color: #F6F6F6;
 }
 `;
 
@@ -221,10 +221,11 @@ export const VidTopBar = styled.div`
 
   @media (max-device-width: 480px){
       font-size: 14px;
-      margin-left: 10px;
-      margin-top: 28px;
+      padding-left: 10px;
+      padding-top: 28px;
       flex-direction: column;
-      align-items: flex-start
+      align-items: flex-start;
+      background-color: #fff;
 
   }
     
@@ -248,6 +249,7 @@ export const WhiteBorderBar = styled.div`
         margin-right: 10px;
         border: 1px solid #F2F2F2;
         border-radius: 26px;
+        background: #fff;
         padding: 12px;
         width: calc(100% - 20px);
 
@@ -335,6 +337,7 @@ export const VIDLayout = styled.div`
     margin-top: 1.25vw;
     @media (max-device-width: 480px){
         flex-direction: column;
+        margin-top: 0;
     }
 `
 
@@ -345,6 +348,7 @@ export const VIDLeftColumn = styled.div`
     gap: 1.45vw;
     @media (max-device-width: 480px){
         width: 100%;
+        gap: 0;
     }
 
 `
@@ -355,6 +359,8 @@ export const VidRightColumn = styled.div`
     @media (max-device-width: 480px){
         width: 100%;
         height: auto;
+        padding-bottom: 48px;
+        margin-top: 24px;
     }
     
 `
@@ -368,6 +374,8 @@ export const VidBlock = styled.div`
     flex-direction: column;
     @media (max-device-width: 480px){
         height: auto !important;
+        padding-bottom: 24px;
+
     }
 `
 export const VidBlockContent = styled.div`
@@ -381,7 +389,7 @@ export const VidBlockHeader = styled.div`
     flex-direction: column;
     @media (max-device-width: 480px){
         padding-left: 20px;
-        margin-top: 24px;
+        margin-top: 12px;
         height: auto;
     }
 `
