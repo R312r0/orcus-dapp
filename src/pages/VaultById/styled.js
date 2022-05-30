@@ -14,6 +14,9 @@ export const DoubleContainer = styled.div`
         // align-items: flex-start;
         flex-direction: column;
         gap: 0.5vw;
+        margin-top: 18px;
+        width: 50%;
+        margin-bottom: 18px;
     }
 `
 
@@ -59,6 +62,7 @@ export const InputContainer = styled.div`
         margin-left: 20px;
         marign-right: 20px;
         border-radius: 12px;
+        margin-top: 24px;
     }
     
 `
@@ -194,6 +198,8 @@ export const DWContainer = styled.div`
     @media (max-device-width: 480px){
         height: 52px;
         border-radius: 18px;
+        margin-top: 24px;
+        margin-bottom :12px;
     }
 `
 
