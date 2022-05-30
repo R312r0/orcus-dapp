@@ -105,7 +105,7 @@ export const VAULTS = [
         token0: {
             name: "PANDORA",
             address: TOKEN_VAULT_ADDRESSES.PANDORA,
-            description: "PandoraSwap token description",
+            description: "PANDORA is the native token with an outstanding utility to empowers the whole Pandora Swap ecosystem.",
             website: "https://pandoraswapxyz.org/",
             logo: <img src={pandora} style={{width: "2.344vw", height: "2.344vw"}}/>,
             mobileLogo:  <img src={pandora} style={{width: "5.344vw", height: "5.344vw"}}/>,
@@ -114,7 +114,7 @@ export const VAULTS = [
             name: "WASTR",
             address: TOKEN_VAULT_ADDRESSES.WASTR,
             description: "ASTAR network main token",
-            website: "#",
+            website: "https://astar.network/",
             logo: <img src={wastr} style={{width: "2.344vw", height: "2.344vw"}}/>,
             mobileLogo:  <img src={wastr} style={{width: "5.344vw", height: "5.344vw"}}/>,
         }
@@ -152,7 +152,7 @@ export const VAULTS = [
         token1: {
             name: "PANDORA",
             address: TOKEN_VAULT_ADDRESSES.PANDORA,
-            description: "PandoraSwap token description",
+            description: "PANDORA is the native token with an outstanding utility to empowers the whole Pandora Swap ecosystem.",
             website: "https://pandoraswapxyz.org/",
             logo: <img src={pandora} style={{width: "2.344vw", height: "2.344vw"}}/>,
             mobileLogo:  <img src={pandora} style={{width: "5.344vw", height: "5.344vw"}}/>
@@ -185,7 +185,7 @@ export const VAULTS = [
             name: "WASTR",
             address: TOKEN_VAULT_ADDRESSES.WASTR,
             description: "ASTAR network main token",
-            website: "#",
+            website: "https://astar.network/",
             logo: <img src={wastr} style={{width: "2.344vw", height: "2.344vw"}}/>,
             mobileLogo:  <img src={wastr} style={{width: "5.344vw", height: "5.344vw"}}/>,
         },
@@ -275,7 +275,7 @@ export const VAULTS = [
             name: "DAI",
             address: TOKEN_VAULT_ADDRESSES.DAI,
             description: "DAI",
-            website: "#",
+            website: null,
             logo: <img src={dai} style={{width: "2.344vw", height: "2.344vw"}}/>,
             mobileLogo:  <img src={dai} style={{width: "5.344vw", height: "5.344vw"}}/>,
         }

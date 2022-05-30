@@ -465,8 +465,8 @@ const VaultById = () => {
                 </VidBlockHeader>
                 <HDivider/>
                 <LinksRow>
-                <a href={pool.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
-                <a href={pool.token0.website}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
+                    {pool.token0.website ? <a href={pool.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
+                    <a href={`https://blockscout.com/astar/address/${pool.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
                 <VidBlockText>{pool.token0.description}</VidBlockText>
             </VidBlock>
 
@@ -478,6 +478,9 @@ const VaultById = () => {
                 </div>
                 </VidBlockHeader>
                 <HDivider/>
+                <LinksRow>
+                    {pool.token1.website ? <a href={pool.token1.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
+                    <a href={`https://blockscout.com/astar/address/${pool.token1.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
                 <VidBlockText mt='1.25vw'>{pool.token1.description}</VidBlockText>
             </VidBlock> </>}
             </VIDLeftColumn>
@@ -499,7 +502,7 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                     </VidBlockHeader>
                 { isMobileScreen() ? <></> : <HDivider/>}
                 <VidBlockText mt='0.83vw'>
-                    Deposit your LP orr️ ZAP⚡ in {pool.token0.name} or {pool.token1.name}
+                    Deposit your LP or ZAP⚡ in {pool.token0.name} or {pool.token1.name}
                 </VidBlockText>
                 <VidBlockText mt='0.83vw'>
                 WALLET:
@@ -592,8 +595,9 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                 </VidBlockHeader>
                 <HDivider/>
                 <LinksRow>
-                <a href={pool.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
-                <a href={pool.token0.website}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
+                    {pool.token0.website ? <a href={pool.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
+                    <a href={`https://blockscout.com/astar/address/${pool.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
+                </LinksRow>
                 <VidBlockText>{pool.token0.description}</VidBlockText>
             </VidBlock>
 
@@ -602,6 +606,10 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                 <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
                 <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
                 <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token1.name}</Font>
+                <LinksRow>
+                    {pool.token1.website ? <a href={pool.token1.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
+                    <a href={`https://blockscout.com/astar/address/${pool.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
+                </LinksRow>
                 </div>
                 </VidBlockHeader>
                 <HDivider/>

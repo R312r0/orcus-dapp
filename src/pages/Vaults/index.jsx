@@ -232,8 +232,6 @@ const Vaults = () => {
 
             overallYield += (lpPrice * (userDepo * vaultPerShare)) + ((lpPrice * (userDepo * vaultPerShare)) * (apr / 100));
 
-
-
             return {
                 ...item,
                 deposited: {
