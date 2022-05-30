@@ -1,6 +1,23 @@
 import styled from 'styled-components'
 
 
+export const TopCardMobile = styled.div`
+  padding-left: 23px;
+  padding-right: 23px;
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-bottom: 12px;
+  padding-top: 11px;
+  padding-bottom: 11px;
+  font-size: 14px;
+  border: 1px solid #F2F2F2;
+border-radius: 20px;
+  & div{
+    padding: 4px;
+  }
+`
+
+
 export const SortByOverlay = styled.div`
   position: absolute;
   z-index: 5;
@@ -13,6 +30,9 @@ export const SortByOverlay = styled.div`
   border-radius: 0.62vw;
   box-shadow: 0px 8px 50px rgba(10, 17, 105, 0.08);
   overflow: hidden;
+  @media (max-device-width: 480px){
+    width: 100vw;
+  }
 `
 
 export const SortByOverlayOption = styled.div`
@@ -58,6 +78,10 @@ export const FilterOverlay = styled.div`
   padding-top: 1.04vw;
   padding-bottom: 1.04vw;
 
+  @media (max-device-width: 480px){
+    width: 100vw;
+    z-index: 99;
+  }
 
   
 `
@@ -193,6 +217,9 @@ export const VaultsTable = styled.div`
   height: 29.48vw;
   margin-top: 1.02vw;
   padding: 1.02vw;
+  @media (max-device-width: 480px){
+    height: auto;
+  }
 `
 
 export const VaultsTableTopbar = styled.div`
@@ -201,6 +228,11 @@ export const VaultsTableTopbar = styled.div`
   height: 2.809vw;
   justify-content: space-between;
   padding: 0;
+  @media (max-device-width: 480px){
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 8px;
+  }
 `
 
 export const TopbarOptions = styled.div`
@@ -213,6 +245,15 @@ export const TopbarOptions = styled.div`
   border: 1px solid #F2F2F2;
   padding-left: 0.07vw;
   padding-right: 0.07vw;
+  @media (max-device-width: 480px){
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% - 20px);
+    height: auto;
+    border-radius: 18px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 `
 
 export const TopbarOption = styled.button`
@@ -228,6 +269,13 @@ export const TopbarOption = styled.button`
   white-space: nowrap;
   transition: all 0.15s;
   box-shadow: ${props => props.active ? '0px 4px 20px rgba(0, 0, 0, 0.04)' : 'none'};
+  @media (max-device-width: 480px){
+    font-size: 14px;
+    width: 50%;
+    border-radius: 16px;
+    height: 46px;
+
+  }
   
 `
 
@@ -246,6 +294,15 @@ export const FilterContainer = styled.div`
   justify-content: space-between;
   cursor: pointer;
   position: relative;
+  @media (max-device-width: 480px){
+    height: 52px;
+    margin-left: 6px;
+    width: 20%;
+    border-radius: 18px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
 `
 export const SortByContainer = styled.div`
   height: 2.809vw;
@@ -263,8 +320,18 @@ export const SortByContainer = styled.div`
   font-size: 0.75vw;
   border-radius: 0.94vw;
   cursor:pointer;
-  position: relative;
   
+  position: relative;
+  @media (max-device-width: 480px){
+    height: 52px;
+    margin-left: 6px;
+    border-radius: 18px;
+    width: 20%;
+
+    padding-left: 10px;
+    padding-right: 10px;
+    
+  }
 `
 
 export const SearchRow = styled.div`
@@ -272,6 +339,14 @@ export const SearchRow = styled.div`
   margin-top: 1.02vw;
   height: 2.809vw;
   display: flex;
+  @media (max-device-width: 480px){
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+  }
 `
 
 export const SearchContainer = styled.div`
@@ -289,6 +364,11 @@ export const SearchContainer = styled.div`
   & input::placeholder{
     color :#BDBDBD;
   }
+  @media (max-device-width: 480px){
+    width: 50%;
+    height: 52px;
+    border-radius: 18px; 
+  }
 `
 
 export const VaultsContainer = styled.div`
@@ -301,6 +381,14 @@ export const VaultsContainer = styled.div`
   padding: 0.26vw;
   display: flex;
   align-items: center;
+  @media (max-device-width: 480px){
+    width: calc(100% - 20px);
+    margin-left: 0;
+    height: auto;
+    padding: 5px;
+    margin-top: 8px;
+    border-radius: 24px;
+  }
 `
 
 export const VaultItem = styled.button`
@@ -313,6 +401,12 @@ export const VaultItem = styled.button`
   cursor: pointer;
   transition: all 0.1s;
   border-radius: 1.04vw;
+  @media (max-device-width: 480px){
+    width: 33%;
+    height: 41px;
+    border-radius: 20px;
+    font-size: 14px;
+  }
 `
 export const HDivider = styled.div`
   width: 100%;
@@ -370,6 +464,7 @@ export const FontSize = styled.span`
 `
 
 export const LightText =styled.span`
+
 font-weight: 300;
 `
 

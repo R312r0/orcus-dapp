@@ -1,5 +1,5 @@
 
-import { HeadingText,TopIconWrapper, FilterOverlaySelect, SortByOverlay, SortByOverlayOption, FilterOverlay, LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
+import { HeadingText,TopIconWrapper, FilterOverlaySelect,TopCardMobile, SortByOverlay, SortByOverlayOption, FilterOverlay, LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
 import FilterIcon from '../../assets/icons/FilterIcon';
 import React, {useEffect, useState} from 'react';
 
@@ -23,6 +23,7 @@ import {formattedNum} from "../../utils";
 import Pandora from '../../assets/icons/Pandora.png';
 
 import axios from "axios";
+import FarmsTableItem from './mobile-item/index'
 
 
 const Vaults = () => {
@@ -162,7 +163,6 @@ const Vaults = () => {
                 <TopIconWrapper bg='#E4DDEF'>
                 <CalendarVertical ratio={isMobileScreen() ? '20px' : '1.25vw'}/>
                 </TopIconWrapper>
-
                 <div style={{display: 'flex', flexDirection:'column'}}>Monthly Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>0</GreyText></div>
                 </SmallTopCard>
                 <SmallTopCard>
@@ -171,6 +171,18 @@ const Vaults = () => {
                     </TopIconWrapper>
                     <div style={{display: 'flex', flexDirection:'column'}}>Daily Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>0</GreyText></div>
                 </SmallTopCard>
+                { isMobileScreen() ? <>
+                
+                <TopCardMobile>
+                    <div style={{width: '100%', borderBottom: '1px solid #F2F2F2'}}>
+                        TVL: <GreyText fs='0.94vw'>$</GreyText>{formattedNum(overallTVL)}
+                    </div>
+                    <div style={{width: '100%', display: 'flex'}}>
+                        <div style={{width: '50%', borderRight: '1px solid #F2F2F2'}}>Vaults: {VAULTS.length}</div>
+                        <div style={{width: '50%'}}> Daily Buyback: <GreyText fs='0.94vw'>$</GreyText> Not calculated yet!</div>
+                    </div>
+                </TopCardMobile>
+                </> : 
                 <LargeTopCard>
                     <div style={{width: '12.05vw'}}>
                     TVL: <GreyText fs='0.94vw'>$</GreyText>{formattedNum(overallTVL)}
@@ -183,7 +195,7 @@ const Vaults = () => {
                     <div style={{width: '20vw'}}>
                     Daily Buyback: <GreyText fs='0.94vw'>$</GreyText> Not calculated yet!
                     </div>
-                </LargeTopCard>
+                </LargeTopCard>}
             </TopWrapper>
             <VaultsTable>
                 <VaultsTableTopbar>
@@ -192,8 +204,8 @@ const Vaults = () => {
                             <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'Stablecoins'} data-value={'Stablecoins'}>Stablecoins</TopbarOption>
                             <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'Blue Chips'} data-value={'Blue Chips'}>Blue Chips</TopbarOption>
                             <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'Orcus Vaults'} data-value={'Orcus Vaults'}>Orcus Vaults</TopbarOption>
-
                     </TopbarOptions>
+                    { isMobileScreen() ? <></> : 
                     <div style={{display: "flex", gap: '0.94vw'}}>
                         <SortByContainer active={isSortByOverlay} onClick={() => setSortByOverlay(!isSortByOverlay)}>
                             <div style={{display: 'flex', alignItems: 'center', gap: '0.5vw'}}>
@@ -232,7 +244,7 @@ const Vaults = () => {
                             </FilterOverlay> : <></> }
 
                         </FilterContainer>
-                    </div>
+                    </div> }
                 </VaultsTableTopbar>
                 <SearchRow>
                     <SearchContainer>
@@ -241,6 +253,42 @@ const Vaults = () => {
                             <SearchIcon ratio='0.85vw'/>
                         </div>
                     </SearchContainer>
+                    { isMobileScreen() ? <>
+                        <SortByContainer active={isSortByOverlay} onClick={() => setSortByOverlay(!isSortByOverlay)}>
+                            <div style={{display: 'flex', alignItems: 'center', gap: '0.5vw'}}>
+                            <FilterIcon color='#333' ratio='5vw'/>
+                            </div>
+                            <div style={{transition: '0.1s', transform: isSortByOverlay ? 'rotate(180deg)' : ''}}>
+                                <KeyboardArrowDown color={'#828282'}/>
+                            </div>
+                            { isSortByOverlay ?
+                            <SortByOverlay>
+                                <SortByOverlayOption>Date</SortByOverlayOption>
+                                <SortByOverlayOption>APY</SortByOverlayOption>
+                                <SortByOverlayOption>Deposit</SortByOverlayOption>
+                                <SortByOverlayOption>TVL</SortByOverlayOption>
+                            </SortByOverlay> : <></> }
+                        </SortByContainer>
+                        <FilterContainer active={isFilterOverlay} onClick={()=> setFilterOverlay(!isFilterOverlay)}>
+                            <div style={{display: 'flex', alignItems: 'center', gap: '0.5vw'}}>
+                                <SliderIcon ratio='5vw'/>
+                            </div>
+                            <div style={{transition: '0.1s', transform: isFilterOverlay ? 'rotate(180deg)' : ''}}>
+                                <KeyboardArrowDown color={'#828282'}/>
+                            </div>
+                            { isFilterOverlay ?
+                            <FilterOverlay>
+                                Showing 753/1691
+                                <FilterOverlaySelect >
+                                    <option>Platform: All</option>
+                                </FilterOverlaySelect>
+                                <FilterOverlaySelect mt={'0.52vw'}>
+                                    <option>Vault Type: All</option>
+                                </FilterOverlaySelect>
+                            </FilterOverlay> : <></> }
+
+                        </FilterContainer>
+                    </> : <></>}
                     <VaultsContainer>
                         <VaultItem onClick={handleVaultsClick} data-value='All Vaults' active={vaultsValue === 'All Vaults'}>All Vaults</VaultItem>
                         <VaultItem onClick={handleVaultsClick} data-value='Eligible Vaults' active={vaultsValue === 'Eligible Vaults'}>Eligible Vaults</VaultItem>
@@ -248,7 +296,7 @@ const Vaults = () => {
                     </VaultsContainer>
                 </SearchRow>
                 <HDivider marginBottom='0'/>
-                <VaultTableHeader>
+                { isMobileScreen() ? <></> : <VaultTableHeader>
                     <VaultTableContent>
                         <div>Asset</div>
                         <div>Wallet</div>
@@ -258,10 +306,14 @@ const Vaults = () => {
                         <div>TVL</div>
                         <div></div>
                     </VaultTableContent>
-                </VaultTableHeader>
+                </VaultTableHeader> }
                 {vaultsFormatted && vaultsFormatted.map(item => {
 
+                    if(isMobileScreen()){
+                        return <FarmsTableItem item={item}></FarmsTableItem>
+                    }else{
 
+                    
                     return(
                         <>
                             <HDivider marginTop='0' marginBottom='0'/>
@@ -288,7 +340,7 @@ const Vaults = () => {
                                 </VaultItemContent>
                             </VaultTableItem>
                         </>
-                    )
+                    )}
                 })}
             </VaultsTable>
         </VaultsWrapper>
