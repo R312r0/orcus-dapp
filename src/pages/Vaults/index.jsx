@@ -1,6 +1,7 @@
-import { HeadingText,TopIconWrapper,LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
+
+import { HeadingText,TopIconWrapper, FilterOverlaySelect, SortByOverlay, SortByOverlayOption, FilterOverlay, LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
 import FilterIcon from '../../assets/icons/FilterIcon';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { KeyboardArrowDown } from "@mui/icons-material";
 import SearchIcon from "../../assets/icons/SearchIcon";
@@ -16,8 +17,14 @@ import BCoinIcon from '../../assets/icons/BCoinIcon'
 
 import OUSDIcon from '../../assets/icons/OUSDIcon';
 const Vaults = () => { 
+
+
     const [selectedTopbarCategory, setTopbarCategory] = React.useState('Stake');
     const [vaultsValue, setVaultsValue] = React.useState('All Vaults')
+
+    const [ isSortByOverlay, setSortByOverlay ] = useState(false);
+    const [ isFilterOverlay, setFilterOverlay] = useState(false);
+
     const handleTopbarClick = (event) => {
         let value = event.currentTarget.dataset.value
         setTopbarCategory(value);
@@ -26,28 +33,34 @@ const Vaults = () => {
         let value = event.currentTarget.dataset.value
         setVaultsValue(value);
     }
+
+    const isMobileScreen = ( ) => {
+        let query = window.matchMedia('(max-device-width: 480px)')
+        return query.matches
+      }
+    
     return (
         <VaultsWrapper>
             <HeadingText>Vaults</HeadingText>
             <TopWrapper>
                 <SmallTopCard>
                     <TopIconWrapper bg='#F5EFD7'>
-                        <CardIcon ratio='1.25vw'/>
+                        <CardIcon ratio={isMobileScreen() ? '20px' : '1.25vw'}/>
                     </TopIconWrapper>
-                    <div style={{display: 'flex', flexDirection:'column'}}>Deposited<GreyText>0</GreyText></div>
+                    <div style={{display: 'flex', flexDirection:'column'}}>Deposited<GreyText fs={isMobileScreen() ? '14px' : ''}>0</GreyText></div>
                 </SmallTopCard>
                 <SmallTopCard>
                 <TopIconWrapper bg='#E4DDEF'>
-                <CalendarVertical ratio='1.25vw'/>
+                <CalendarVertical ratio={isMobileScreen() ? '20px' : '1.25vw'}/>
                 </TopIconWrapper>
 
-                <div style={{display: 'flex', flexDirection:'column'}}>Monthly Yield<GreyText>0</GreyText></div>
+                <div style={{display: 'flex', flexDirection:'column'}}>Monthly Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>0</GreyText></div>
                 </SmallTopCard>
                 <SmallTopCard>
                     <TopIconWrapper bg='#D5ECD8'>
-                        <CalendarIcon ratio='1.25vw'/>
+                        <CalendarIcon ratio={isMobileScreen() ? '20px' : '1.25vw'}/>
                     </TopIconWrapper>
-                    <div style={{display: 'flex', flexDirection:'column'}}>Daily Yield<GreyText>0</GreyText></div>
+                    <div style={{display: 'flex', flexDirection:'column'}}>Daily Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>0</GreyText></div>
                 </SmallTopCard>
                 <LargeTopCard>
                     <div style={{width: '12.05vw'}}>
@@ -73,24 +86,42 @@ const Vaults = () => {
 
                     </TopbarOptions>
                     <div style={{display: "flex", gap: '0.94vw'}}>
-                        <SortByContainer>
+                        <SortByContainer active={isSortByOverlay} onClick={() => setSortByOverlay(!isSortByOverlay)}>
                             <div style={{display: 'flex', alignItems: 'center', gap: '0.5vw'}}>
                             <FilterIcon color='#333' ratio='0.79vw'/>
                                 Sort by:
                             </div>
-                            <div style={{paddingTop: '0.4vw'}}>
+                            <div style={{transition: '0.1s', transform: isSortByOverlay ? 'rotate(180deg)' : ''}}>
                                 <KeyboardArrowDown color={'#828282'}/>
                             </div>
+                            { isSortByOverlay ? 
+                            <SortByOverlay>
+                                <SortByOverlayOption>Date</SortByOverlayOption>
+                                <SortByOverlayOption>APY</SortByOverlayOption>
+                                <SortByOverlayOption>Deposit</SortByOverlayOption>
+                                <SortByOverlayOption>TVL</SortByOverlayOption>
+                            </SortByOverlay> : <></> }
                         </SortByContainer>
-                        <FilterContainer>
+                        <FilterContainer active={isFilterOverlay} onClick={()=> setFilterOverlay(!isFilterOverlay)}>
                             <div style={{display: 'flex', alignItems: 'center', gap: '0.5vw'}}>
 
                                 <SliderIcon ratio='0.79vw'/>
                                 Filter
                             </div>
-                            <div style={{paddingTop: '0.4vw'}}>
+                            <div style={{transition: '0.1s', transform: isFilterOverlay ? 'rotate(180deg)' : ''}}>
                                 <KeyboardArrowDown color={'#828282'}/>
                             </div>
+                            { isFilterOverlay ? 
+                            <FilterOverlay>
+                                Showing 753/1691
+                                <FilterOverlaySelect >
+                                    <option>Platform: All</option>
+                                </FilterOverlaySelect>
+                                <FilterOverlaySelect mt={'0.52vw'}>
+                                    <option>Vault Type: All</option>
+                                </FilterOverlaySelect>
+                            </FilterOverlay> : <></> }
+                            
                         </FilterContainer>
                     </div>
                 </VaultsTableTopbar>
