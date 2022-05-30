@@ -131,27 +131,15 @@ const Farms = () => {
     const rewardTokenPerSecondORU = await GAGUE_OUSD.rewardData(CONTRACT_ADDRESSES.ORU);
 
     const baseApr = (+srsRate / 1e18) * 86400 * 365 * 0.1 * (+relativeWeight / 1e18) * 100 / (farmTvl / 1e18);
-    const extraApr =  (+rewardTokenPerSecondORU.rate / 1e18 + (+rewardTokenPerSecondSRS.rate / 1e18) ) * 86400 * 365 * liquidity.oruPrice * 100 / (farmTvl / 1e18);
+    const extraSrs = rewardTokenPerSecondSRS.rate * 86400 * 365 * 0.1 * 100 / farmTvl;
+    const extraOru = rewardTokenPerSecondORU.rate * 86400 * 365 * liquidity.oruPrice * 100 / farmTvl
 
-    const metaApr = baseApr + extraApr;
+    const metaApr = baseApr + extraSrs + extraOru;
 
-    try{
-      const data = JSON.parse(await( await fetch("https://graph.sirius.finance/static/volume.json")).text());
       setMetaPool({
-        tvl: data["0xd18abe9bcedeb5a9a65439e604b0be8db0bdb176"].TVL,
+        tvl: +farmTvl / 1e18,
         metaApr
       })
-    }
-    catch (e) {
-      console.log(e.message);
-      setMetaPool({
-        tvl: 0,
-        metaApr
-      })
-    }
-
-
-
     const oruUSDCTVL =
         (+(await ORU_USDC.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18) *
         (liquidity.oruUsdcLiq / (+(await ORU_USDC.totalSupply()) / 1e18 ));
@@ -165,8 +153,6 @@ const Farms = () => {
         (liquidity.oruOusdLiq / (+(await OUSD_ORU.totalSupply()) / 1e18 ));
 
     setFarmsTVL(oruUSDCTVL + ousdUSDCTVL + ousdOruTVL);
-
-
 
     setMasterChefPools([
         {name: "ORU/USDC", addURL: 'https://app.arthswap.org/#/add/0xCdB32eEd99AA19D39e5d6EC45ba74dC4afeC549F/0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98', removeURL:'https://app.arthswap.org/#/remove/0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98/0xCdB32eEd99AA19D39e5d6EC45ba74dC4afeC549F', lpToken: ORU_USDC, liquidity:  liquidity.oruUsdcLiq, token0Icon: <LogoIconBlack/>, token1Icon: <USDCIcon/>},
@@ -455,10 +441,10 @@ const Farms = () => {
       </>  }
 
     <VDiv>
-          <HeadingText style={{marginTop: '2.24vw'}}>Orcus Metapool</HeadingText>
+          <HeadingText style={{marginTop: '2.24vw', display: "none"}}>Orcus Metapool</HeadingText>
     </VDiv>
      <FarmsTableWrapper >
-    <FarmsTableItem>
+    <FarmsTableItem style={{display:"none"}}>
       <MainData>
         <FarmsRow>
           <FarmsColumn>
@@ -522,7 +508,7 @@ const Farms = () => {
           <Text2 >
             <b>${metaPool ? formattedNum(metaPool.tvl) : 0}</b>
           </Text2>
-          </FarmsColumn> : 
+          </FarmsColumn> :
           <FarmsColumn  style={{flexDirection: 'column', textAlign: 'right',  alignItems: 'end'}}>
               <div style={{fontSize: '10px', color: 'grey'}}>TVL</div>
           <Text fontSize='16px'>
@@ -540,7 +526,7 @@ const Farms = () => {
           {! isMobileScreen() ? <FarmsColumn center>
             <AddLiquidityBtn target={"_blank"} href={"https://app.sirius.finance/#/pools/ousd/deposit"}>Add Liquidity<ArrowTopRightIcon></ArrowTopRightIcon>
             </AddLiquidityBtn>
-          </FarmsColumn> : <FarmsColumn center><ExpandBtn 
+          </FarmsColumn> : <FarmsColumn center><ExpandBtn
           onClick={() => setExpanded(!expanded)} isExpanded={expanded}
           >
             <KeyboardArrowDownIcon style={{width:'4vw', height: '4vw'}}/>
@@ -568,8 +554,8 @@ const Farms = () => {
             <div>Deposited</div>
             <div>
              <b>$ {depositedInMeta ? formattedNum(depositedInMeta) : 0}</b></div>
-          </AdditionalRow>    
-          <HDivider></HDivider>      
+          </AdditionalRow>
+          <HDivider></HDivider>
           <AdditionalRow>
             <div>Rates</div>
             <div>APR <b> {metaPool ? formattedNum(metaPool.metaApr) : 0 }%</b></div>
@@ -578,11 +564,11 @@ const Farms = () => {
           <AddLiquidityBtn target={"_blank"} href={"https://app.sirius.finance/#/pools/ousd/deposit"}>Add Liquidity<ArrowTopRightIcon></ArrowTopRightIcon>
             </AddLiquidityBtn>
         </AdditionalExpanded>
-        
+
         </>
       ) : null}
       </FarmsTableItem>
-      </FarmsTableWrapper> 
+      </FarmsTableWrapper>
       </Scroll>
       </>
       :<>

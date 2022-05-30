@@ -8,8 +8,8 @@ import { getTableRowUtilityClass } from '@mui/material';
 const  myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
-const  graphql = JSON.stringify({
-  query: "query MyQuery {\n  profitManagerItems(orderBy:timestamp_DESC) {\n    id\n    timestamp\n    oruArbitrager\n    oruFromFee\n    oruPenalty\n    timestamp\n    totalInOru\n    totalInUsd\n    usdcFromInvest\n  }\n}\n",
+const graphql = JSON.stringify({
+  query: "query MyQuery {\n  profitManagerItems(orderBy:timestamp_DESC) {\n    id\n    timestamp\n    oruArbitrager\n    oruFromFee\n    oruPenalty\n    timestamp\n    totalInOru\n    totalInUsd\n    usdcFromInvest\n  }\n    investements(orderBy: timestamp_DESC) {\n    id\n    timestamp\n    value\n  }\n}\n",
   variables: {}
 })
 const requestOptions = {
@@ -35,11 +35,10 @@ const ProfitManager = () => {
 
   const getProfitData = async () => {
 
-    const {data: {profitManagerItems}} = JSON.parse(await (await fetch("https://app.gc.subsquid.io/beta/orcus/main/graphql", requestOptions)).text())
-
+    const {data: {profitManagerItems, investements}} = JSON.parse(await (await fetch("https://app.gc.subsquid.io/beta/orcus/main1/graphql", requestOptions)).text())
     let profit = 0;
 
-    const formattedData = profitManagerItems.map(item => {
+    const formattedData = profitManagerItems.map((item, _ind) => {
       profit += +(item.totalInUsd)
 
       const date = formatDate(+item.timestamp);
@@ -47,7 +46,7 @@ const ProfitManager = () => {
       return {
         date,
         fee: +item.oruFromFee,
-        collateral: +item.usdcFromInvest,
+        collateral: investements[_ind].value,
         arbitrager: +item.oruArbitrager,
         penalty: +item.oruPenalty,
         totalORU: +item.totalInOru,

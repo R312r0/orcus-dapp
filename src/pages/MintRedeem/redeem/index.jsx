@@ -112,7 +112,7 @@ const Redeem = () => {
 
       const ousdToRedeem = +value - (+value * 0.004);
       let collatOut = ousdToRedeem / redeemInfo.prices.collatPrice;
-      const shareOut = (ousdToRedeem - (ousdToRedeem * (redeemInfo.ecr / 100))) / redeemInfo.prices.sharePrice
+      const shareOut = (ousdToRedeem - (ousdToRedeem * (redeemInfo.ecr))) / redeemInfo.prices.sharePrice
       collatOut *= redeemInfo.ecr
 
       setStableInput(+value);
