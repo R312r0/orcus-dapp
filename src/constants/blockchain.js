@@ -6,6 +6,7 @@ import ORUIcon from "../assets/icons/ORUIcon";
 import pandora from '../assets/icons/Pandora.svg';
 import wastr from '../assets/icons/WASTR.svg';
 import usdt from '../assets/icons/Tether.svg';
+import dai from '../assets/icons/DAI.svg';
 
 export const MetaMask = new InjectedConnector({
     supportedChainIds: [31337, 592]
@@ -66,6 +67,7 @@ export const VAULTS = [
         masterChefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
         poolIndex: 1,
         isBeefInETH: true,
+        category: "none",
         platform: {
           name: "PANDORA",
           fullName: "PandoraSwap",
@@ -104,6 +106,7 @@ export const VAULTS = [
         masterChefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
         poolIndex: 4,
         isBeefInETH: false,
+        category: "none",
         platform: {
             name: "PANDORA",
             fullName: "PandoraSwap",
@@ -131,6 +134,46 @@ export const VAULTS = [
         }
     },
     {
+        id: "wastr-usdc",
+        name: "WASTR/USDC",
+        lpName: "WASTR-USDC",
+        lpAddress: "0x3683d79a8Af26A56822C48a4eD1af80d51eB8399",
+        addLpLink: "https://pandoraswapxyz.org/add/0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98/ASTR",
+        buyLink: "https://pandoraswapxyz.org/swap",
+        mainTokenPair: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
+        routerAddress: "0x27Ab331A756C57FDD654697eD5A8C671f8AFfF13",
+        vaultAddress: "0xa03847f8a464a72f6E21b8664cD7aD3AAC18A1e5",
+        masterChefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
+        poolIndex: 3,
+        isBeefInETH: false,
+        category: "none",
+        platform: {
+            name: "PANDORA",
+            fullName: "PandoraSwap",
+            description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
+            website: "https://pandoraswapxyz.org/",
+            telegram: null,
+            twitter: "https://twitter.com/pandora_swap"
+        },
+        token0: {
+            name: "WASTR",
+            address: "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
+            description: "ASTAR network main token",
+            website: "#",
+            logo: <img src={wastr} style={{width: "2.344vw", height: "2.344vw"}}/>,
+            mobileLogo:  <img src={wastr} style={{width: "5.344vw", height: "5.344vw"}}/>,
+        },
+        token1: {
+            name: "USDC",
+            address: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
+            description: "none",
+            website: null,
+            logo: <USDCIcon/>,
+            mobileLogo: <USDCIcon ratio='5vw'/>
+
+        }
+    },
+    {
         id: "usdt-usdc",
         name: "USDT/USDC",
         lpName: "USDT-USDC",
@@ -143,6 +186,7 @@ export const VAULTS = [
         masterChefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
         poolIndex: 2,
         isBeefInETH: false,
+        category: "stable",
         platform: {
             name: "PANDORA",
             fullName: "PandoraSwap",
@@ -169,6 +213,46 @@ export const VAULTS = [
             mobileLogo: <USDCIcon ratio='5vw'/>
 
         }
-    }
+    },
+    {
+        id: "dai-usdc",
+        name: "DAI/USDC",
+        lpName: "DAI-USDC",
+        lpAddress: "0x148dF5088b74f511C8458b9d7c0f45c3F6971FAd",
+        addLpLink: "https://pandoraswapxyz.org/add/0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98/0x6De33698e9e9b787e09d3Bd7771ef63557E148bb",
+        buyLink: "https://pandoraswapxyz.org/swap",
+        mainTokenPair: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
+        routerAddress: "0x27Ab331A756C57FDD654697eD5A8C671f8AFfF13",
+        vaultAddress: "0xa03847f8a464a72f6E21b8664cD7aD3AAC18A1e5",
+        masterChefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
+        poolIndex: 5,
+        isBeefInETH: false,
+        category: "stable",
+        platform: {
+            name: "PANDORA",
+            fullName: "PandoraSwap",
+            description: "PandoraSwap has the most complete and holistic ecosystem on Astar Chain with its AMM/DEX, Yield Optimizer & NFT.",
+            website: "https://pandoraswapxyz.org/",
+            telegram: null,
+            twitter: "https://twitter.com/pandora_swap"
+        },
+        token0: {
+            name: "DAI",
+            address: "0x6De33698e9e9b787e09d3Bd7771ef63557E148bb",
+            description: "DAI",
+            website: "#",
+            logo: <img src={dai} style={{width: "2.344vw", height: "2.344vw"}}/>,
+            mobileLogo:  <img src={dai} style={{width: "5.344vw", height: "5.344vw"}}/>,
+        },
+        token1: {
+            name: "USDC",
+            address: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
+            description: "none",
+            website: null,
+            logo: <USDCIcon/>,
+            mobileLogo: <USDCIcon ratio='5vw'/>
+
+        }
+    },
 
 ]

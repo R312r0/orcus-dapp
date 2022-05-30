@@ -32,7 +32,7 @@ const Vaults = () => {
     const {account} = useWeb3React();
     const navigate = useNavigate();
 
-    const [selectedTopbarCategory, setTopbarCategory] = React.useState('Stake');
+    const [selectedTopbarCategory, setTopbarCategory] = React.useState("All");
     const [vaultsValue, setVaultsValue] = React.useState('All Vaults')
 
 
@@ -45,6 +45,9 @@ const Vaults = () => {
     const [overallDeposited, setOverallDeposited] = useState(0);
     const [overallYearlyYield, setOverallYearlyYield] = useState(0);
 
+    const [searchVaultInput, setSearchVaultInput] = useState("");
+    const [vaultsWithFiltersList, setVaultsWithFilters] = useState(null);
+
     useEffect(() => {
 
         if (account && signer) {
@@ -53,6 +56,75 @@ const Vaults = () => {
 
     }, [account, signer])
 
+    useEffect(() => {
+
+        if (searchVaultInput.length > 0 && vaultsWithFiltersList) {
+            const newArr = vaultsWithFiltersList.filter(item => item.name.startsWith(searchVaultInput));
+            setVaultsWithFilters(newArr);
+        }
+        else {
+            setTopbarCategory("All");
+            setVaultsWithFilters(vaultsFormatted);
+        }
+    }, [searchVaultInput]);
+
+    useEffect(() => {
+
+        if (selectedTopbarCategory && vaultsWithFiltersList) {
+
+            let newArr;
+
+            console.log(selectedTopbarCategory);
+
+            switch (selectedTopbarCategory) {
+                case "Stablecoins":
+                    newArr = vaultsWithFiltersList.filter(item => item.category === "stable")
+                    break;
+                case "Blue Chips":
+                    newArr = vaultsWithFiltersList.filter(item => item.category === "blue_chips")
+                    break;
+                case "Orcus Vaults":
+                    newArr = vaultsWithFiltersList.filter(item => item.category === "orcus_vaults")
+                    break;
+                default:
+                    newArr = vaultsFormatted;
+                    break;
+            }
+            setVaultsWithFilters(newArr);
+        }
+
+    }, [selectedTopbarCategory])
+
+    useEffect(() => {
+
+        console.log(vaultsValue);
+
+        if (vaultsValue && vaultsWithFiltersList) {
+
+            let newArr;
+
+            switch (vaultsValue) {
+                case "All Vaults":
+                    console.log("We are here")
+                    newArr = vaultsFormatted;
+                    break;
+                case "Eligible Vaults":
+                    console.log("Eliisisisis")
+                    break;
+                case "My Vaults":
+                    newArr = vaultsWithFiltersList.filter(item => item.deposited.lp > 0);
+                    break;
+                default:
+                    newArr = vaultsFormatted;
+                    break;
+            }
+
+            console.log(newArr);
+
+            setVaultsWithFilters(newArr);
+        }
+
+    }, [vaultsValue])
 
     const isMobileScreen = ( ) => {
         let query = window.matchMedia('(max-device-width: 480px)')
@@ -164,6 +236,7 @@ const Vaults = () => {
         const val = await Promise.all(newVaults);
         setVaultsFormatted(val);
         setGlobalVaults(val);
+        setVaultsWithFilters(val);
         setOverallTVL(overallTVL);
         setOverallDeposited(userOverallDeposited);
         setOverallYearlyYield(overallYield);
@@ -250,7 +323,7 @@ const Vaults = () => {
             <VaultsTable>
                 <VaultsTableTopbar>
                     <TopbarOptions>
-                            <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'Stake'} data-value={'Stake'}>Stake</TopbarOption>
+                            <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'All'} data-value={'All'}>All</TopbarOption>
                             <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'Stablecoins'} data-value={'Stablecoins'}>Stablecoins</TopbarOption>
                             <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'Blue Chips'} data-value={'Blue Chips'}>Blue Chips</TopbarOption>
                             <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'Orcus Vaults'} data-value={'Orcus Vaults'}>Orcus Vaults</TopbarOption>
@@ -298,7 +371,7 @@ const Vaults = () => {
                 </VaultsTableTopbar>
                 <SearchRow>
                     <SearchContainer>
-                        <input type='text' placeholder='Seach'/>
+                        <input type='text' placeholder='Seach' onChange={(e) => setSearchVaultInput(e.target.value)}/>
                         <div>
                             <SearchIcon ratio='0.85vw'/>
                         </div>
@@ -357,7 +430,7 @@ const Vaults = () => {
                         <div></div>
                     </VaultTableContent>
                 </VaultTableHeader> }
-                {vaultsFormatted && vaultsFormatted.map(item => {
+                {vaultsWithFiltersList && vaultsWithFiltersList.map(item => {
 
                     if(isMobileScreen()){
                         return <FarmsTableItem item={item}></FarmsTableItem>
