@@ -1,5 +1,5 @@
 
-import { HeadingText,TopIconWrapper, FilterOverlaySelect,TopCardMobile, SortByOverlay, SortByOverlayOption, FilterOverlay, LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
+import { HeadingText,TopIconWrapper, Overflow, FilterOverlaySelect,TopCardMobile, SortByOverlay, SortByOverlayOption, FilterOverlay, LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
 import FilterIcon from '../../assets/icons/FilterIcon';
 import React, {useEffect, useState} from 'react';
 
@@ -297,19 +297,19 @@ const Vaults = () => {
                     <TopIconWrapper bg='#F5EFD7'>
                         <CardIcon ratio={isMobileScreen() ? '20px' : '1.25vw'}/>
                     </TopIconWrapper>
-                    <div style={{display: 'flex', flexDirection:'column'}}>Deposited<GreyText fs={isMobileScreen() ? '14px' : ''}>${formattedNum(overallDeposited)}</GreyText></div>
+                    <div style={{display: 'flex', flexDirection:'column', gap: '0.21vw'}}>Deposited<GreyText fs={isMobileScreen() ? '14px' : ''}>${formattedNum(overallDeposited)}</GreyText></div>
                 </SmallTopCard>
                 <SmallTopCard>
                 <TopIconWrapper bg='#E4DDEF'>
                 <CalendarVertical ratio={isMobileScreen() ? '20px' : '1.25vw'}/>
                 </TopIconWrapper>
-                <div style={{display: 'flex', flexDirection:'column'}}>Monthly Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>${formattedNum(overallYearlyYield / 12)}</GreyText></div>
+                <div style={{display: 'flex', flexDirection:'column', gap: '0.21vw'}}>Monthly Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>${formattedNum(overallYearlyYield / 12)}</GreyText></div>
                 </SmallTopCard>
                 <SmallTopCard>
                     <TopIconWrapper bg='#D5ECD8'>
                         <CalendarIcon ratio={isMobileScreen() ? '20px' : '1.25vw'}/>
                     </TopIconWrapper>
-                    <div style={{display: 'flex', flexDirection:'column'}}>Daily Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>${formattedNum(overallYearlyYield / 365)}</GreyText></div>
+                    <div style={{display: 'flex', flexDirection:'column', gap: '0.21vw'}}>Daily Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>${formattedNum(overallYearlyYield / 365)}</GreyText></div>
                 </SmallTopCard>
                 { isMobileScreen() ? <>
 
@@ -447,6 +447,7 @@ const Vaults = () => {
                         <div></div>
                     </VaultTableContent>
                 </VaultTableHeader> }
+                <Overflow>
                 {vaultsWithFiltersList && vaultsWithFiltersList.map(item => {
 
                     if(isMobileScreen()){
@@ -470,7 +471,7 @@ const Vaults = () => {
                                         </div>
                                     </div>
                                     <div>0</div>
-                                    <div style={{display: 'flex', flexDirection: 'column'}}><div>{formattedNum(item.deposited.lp)}</div><FontSize fs='0.64vw'><LightText>(${formattedNum(item.deposited.usd)})</LightText></FontSize></div>
+                                    <div style={{display: 'flex', flexDirection: 'column'}}><div>{formattedNum(item.deposited.lp)}</div><FontSize fs='0.64vw'><LightText>{formattedNum(item.deposited.usd)}</LightText></FontSize></div>
                                     <div>{formattedNum(item.apr)}%</div>
                                     <div>{formattedNum(item.apr / 365)}%</div>
                                     <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(item.tvlLocal)}</div>
@@ -482,6 +483,7 @@ const Vaults = () => {
                         </>
                     )}
                 })}
+                </Overflow>
             </VaultsTable>
         </VaultsWrapper>
     )
