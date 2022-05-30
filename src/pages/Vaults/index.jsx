@@ -9,7 +9,7 @@ import SliderIcon from "../../assets/icons/SliderIcon";
 import CardIcon from "./assets/CardIcon";
 import CalendarIcon from "./assets/CalendarIcon";
 import CalendarVertical from "./assets/CalendarVertical";
-import {JSON_RPC_URL, VAULTS} from "../../constants";
+import {CONTRACT_ADDRESSES, JSON_RPC_URL, VAULTS} from "../../constants";
 import {useNavigate} from "react-router";
 import {useBlockChainContext} from "../../context/blockchain-context";
 import {useWeb3React} from "@web3-react/core";
@@ -65,20 +65,19 @@ const Vaults = () => {
         const newVaults = VAULTS.map(async (item,_ind) => {
 
             const pair = new ethers.Contract(item.lpAddress, UNISWAP_PAIR, readProvider);
-            const rewardTokenPair = new ethers.Contract(item.mainTokenPair, UNISWAP_PAIR, readProvider);
             const vault = new ethers.Contract(item.vaultAddress, VAULT_ABI, readProvider);
             const masterChef = new ethers.Contract(item.masterChefAddress, PANDORA_CHEF_ABI, readProvider);
+
+
             const priceFullShare = await vault.getPricePerFullShare();
             const userDepo = await vault.balanceOf(account);
 
-            const masterBal = await pair.balanceOf(item.masterChefAddress);
-            const totalAllocationPoints = await masterChef.totalAllocPoint();
-            const rewardPerBlock = await masterChef.pandoraPerBlock();
-            const poolInfo = await masterChef.poolInfo(item.poolIndex);
+            // MasterChefData
+            const masterBal = +(await pair.balanceOf(item.masterChefAddress)) / 1e18;
 
-            const poolReward = (+rewardPerBlock / 1e18) / (+totalAllocationPoints / (+poolInfo.allocPoint));
+            const poolReward = await getPoolReward(masterChef);
 
-            let apr;
+            const mainTokenPrice = await getMainTokenPrice(new ethers.Contract(item.mainTokenPair, UNISWAP_PAIR, readProvider));
 
             const lpSupply = +(await pair.totalSupply()) / 1e18
             const reserves = await pair.getReserves();
@@ -88,33 +87,29 @@ const Vaults = () => {
 
             if (item.id === "pandora-wastr") {
                 const astrTvl = (+reserves[1] / 1e18) * astrPrice;
-                const pandoraPrice = (((+reserves[1] / 1e18) / ((+reserves[0] / 1e18))) * astrPrice);
-                const ercTvl = pandoraPrice * (+reserves[0] / 1e18);
+                const ercTvl = mainTokenPrice * (+reserves[0] / 1e18);
 
                 lpPrice = (astrTvl + ercTvl)  / lpSupply;
                 tvl = lpPrice * (+masterBal / 1e18);
                 overallTVL += tvl;
-                apr = (((((pandoraPrice * poolReward * 86400 * 30 * 12)) / 2) / ((lpPrice * (+masterBal / 1e18))) * 100)).toFixed(0);
             }
 
             else if (item.id === "usdc-pandora") {
                 const usdcTvl = (+reserves[0] / 1e6);
-                const pandoraPrice = ((+reserves[0] / 1e6) / (+reserves[1] / 1e18));
-                const pandoraTvl = pandoraPrice * (reserves[1] / 1e18);
+                const pandoraTvl = mainTokenPrice * (reserves[1] / 1e18);
 
                 lpPrice = (usdcTvl + pandoraTvl) / lpSupply;
                 tvl = lpPrice * (+masterBal / 1e18);
                 overallTVL += tvl;
-                apr = (((((pandoraPrice * poolReward * 86400 * 30 * 12)) / 2) / ((lpPrice * (+masterBal / 1e18))) * 100)).toFixed(0);
             }
 
             else if (item.id === "usdt-usdc") {
                 lpPrice = ((+reserves[0] / 1e6) + (+reserves[1]/ 1e6)) / lpSupply;
                 tvl = lpPrice * (+masterBal / 1e18);
                 overallTVL += tvl;
-                apr = (((((0.0053 * poolReward * 86400 * 30 * 12)) / 2) / ((lpPrice * (+masterBal / 1e18))) * 100)).toFixed(0);
-
             }
+
+            const apr = (((((mainTokenPrice * poolReward * 86400 * 30 * 12)) / 2) / ((lpPrice * (+masterBal / 1e18))) * 100)).toFixed(0);
 
             return {
                 ...item,
@@ -133,6 +128,36 @@ const Vaults = () => {
         setGlobalVaults(val);
         setOverallTVL(overallTVL);
 
+    }
+
+    const getPoolReward = async (masterChef, poolIndex) => {
+
+        const totalAllocationPoints = await masterChef.totalAllocPoint();
+        const rewardPerBlock = await masterChef.pandoraPerBlock();
+        const poolInfo = await masterChef.poolInfo(poolIndex);
+        const poolReward = (+rewardPerBlock / 1e18) / (+totalAllocationPoints / (+poolInfo.allocPoint));
+
+        return poolReward;
+
+    }
+
+    const getMainTokenPrice = async (contract) => {
+
+        const reserves = await contract.getReserves();
+        const token0 = await contract.token0();
+        const token1 = await contract.token1();
+
+        let price;
+
+        if (token0 === CONTRACT_ADDRESSES.USDC) {
+            price = (+reserves[0] / 1e6) / (+reserves[1] / 1e18);
+        }
+
+        else if (token1 === CONTRACT_ADDRESSES.USDC) {
+            price = (+reserves[1] / 1e6) / (+reserves[0] / 1e18);
+        }
+
+        return price;
 
     }
 
