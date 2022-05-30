@@ -51,6 +51,8 @@ const VaultById = () => {
     const [allowances, setAllowances] = useState(null);
     const [balances, setBalances] = useState(null)
 
+    const [vaultLpMultiplier, setVaultLpMultiplier] = useState(null);
+
     useEffect(() => {
         if (id && globalVaults) {
             const findPool = globalVaults.find(item => item.id === id);
@@ -148,14 +150,14 @@ const VaultById = () => {
 
         const astrBalance = await readProvider.getBalance(account);
 
-        const vaultBalance = await vault.balanceOf(account);
+        const vaultBalance = (+(await vault.balanceOf(account)) / 1e18) * (+(await vault.getPricePerFullShare()) / 1e18);
 
         setBalances({
             token0: formatFromDecimal(+token0Balance, +token0Decimals),
             token1: formatFromDecimal(+token1Balance, +token1Decimals),
             lpToken: formatFromDecimal(+lpTokenBalance, +lpTokenDecimals),
             astr: formatFromDecimal(+astrBalance, 18),
-            vault: formatFromDecimal(+vaultBalance, 18)
+            deposited: vaultBalance
         })
     }
 
@@ -228,8 +230,6 @@ const VaultById = () => {
             else {
                 return  <ConnectWallet onClick={() => handleWithdraw()} >Withdraw</ConnectWallet>
             }
-
-
         }
     }
 
@@ -309,25 +309,21 @@ const VaultById = () => {
     }
 
     const handleWithdraw = async () => {
-        // FIXME: blank
         let tx;
         const {token0, token1, vault, router} = contracts;
 
+        const vaultLpMultiplier = formatFromDecimal((await vault.getPricePerFullShare()).toString(), 18)
+
         switch (radioChoice) {
             case RADIO_CHOICE.LP_TOKEN:
-                tx = await router.connect(signer).beefOut(vault.address, formatToDecimal(tokenInput, 18));
+                tx = await router.connect(signer).beefOut(vault.address,  formatToDecimal(tokenInput / +vaultLpMultiplier, 18));
                 break;
             case RADIO_CHOICE.TOKEN0:
-                const token0Decimals = await token0.decimals();
-                tx = await router.connect(signer).beefOutAndSwap(pool.vaultAddress, formatToDecimal(tokenInput, 18), token0.address, 0);
+                tx = await router.connect(signer).beefOutAndSwap(pool.vaultAddress, formatToDecimal(tokenInput / +vaultLpMultiplier, 18), token0.address, 0);
                 break;
             case RADIO_CHOICE.TOKEN1:
-                const token1Decimals = await token1.decimals();
-                tx = await router.connect(signer).beefOutAndSwap(pool.vaultAddress, formatToDecimal(tokenInput, 18), token1.address, 0)
+                tx = await router.connect(signer).beefOutAndSwap(pool.vaultAddress, formatToDecimal(tokenInput / +vaultLpMultiplier, 18), token1.address, 0)
                 break;
-            // case RADIO_CHOICE.ASTR:
-            //     tx = await router.connect(signer).beefInETH(pool.vaultAddress, 0, {value: formatToDecimal(tokenInput, 18)});
-            //     break;
             default:
                 return
         }
@@ -343,8 +339,6 @@ const VaultById = () => {
     }
 
     const handleMaxButton = async () => {
-
-        const {router, token0} = contracts;
 
         if (activeDW === ACTIVE_DVS.DEPOSIT) {
             switch (radioChoice) {
@@ -365,34 +359,10 @@ const VaultById = () => {
             }
         }
         else if (activeDW === ACTIVE_DVS.WITHDRAW) {
-            // switch (radioChoice) {
-            //     case RADIO_CHOICE.LP_TOKEN:
-            //         setTokenInput(balances.lpToken);
-            //         break;
-            //     case RADIO_CHOICE.TOKEN0:
-            //
-            //         const token0Estimate = await router.estimateSwap(pool.vaultAddress, token0.address, formatToDecimal(balances.vault, 18));
-            //
-            //         console.log(token0Estimate);
-            //         console.log(+token0Estimate.swapAmountIn);
-            //         console.log(+token0Estimate.swapAmountOut);
-            //
-            //         setTokenInput(balances.token0);
-            //         break;
-            //     case RADIO_CHOICE.TOKEN1:
-            //         setTokenInput(balances.token1);
-            //         break;
-            //     case RADIO_CHOICE.ASTR:
-            //         setTokenInput(balances.astr);
-            //         break;
-            //     default:
-            //         return
-            // }
+            setTokenInput(balances.deposited);
         }
-        // estimateSwap
     }
 
-    console.log(balances);
 
     return(<VidWrapper>
 
@@ -434,7 +404,7 @@ const VaultById = () => {
                 <WhiteBorderItemLarge>
                     <div style={{width: '100%'}}>
                         <Font fs='0.72vw'>Your deposit</Font>
-                        <div><Font fw='500' fs='0.83vw'>{balances ?  fromExponential(+balances.vault) : null }</Font></div>
+                        <div><Font fw='500' fs='0.83vw'>{balances ?  fromExponential(+balances.deposited) : null }</Font></div>
                     </div>
                     <VDivider/>
                     <div style={{width: '100%', paddingLeft: '1.71vw'}}>
@@ -524,13 +494,26 @@ const VaultById = () => {
                     </Field>
                     <Field>
                         <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.TOKEN1} name={pool.token1.name} onClick={() => setRadioChoice(RADIO_CHOICE.TOKEN1)} />
-                        <label>{pool.token1.name}</label>
+                        {activeDW === ACTIVE_DVS.WITHDRAW ?
+                            <>
+                                {pool.token1.name === "WASTR" ? <label> ASTR </label> : <label> {pool.token1.name} </label>}
+                            </>
+                            :
+                            <label>{pool.token1.name}</label>
+                        }
+
                     </Field>
                     {pool.isBeefInETH ?
-                        <Field>
-                            <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.ASTR} name={"ASTR"} onClick={() => setRadioChoice(RADIO_CHOICE.ASTR)}/>
-                            <label>ASTR</label>
-                        </Field>
+                        <>
+                            {activeDW !== ACTIVE_DVS.WITHDRAW ?
+                                <Field>
+                                    <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.ASTR} name={"ASTR"} onClick={() => setRadioChoice(RADIO_CHOICE.ASTR)}/>
+                                    <label>ASTR</label>
+                                </Field>
+                                :
+                                null
+                            }
+                        </>
                         :
                         null
                     }

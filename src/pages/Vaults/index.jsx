@@ -60,6 +60,9 @@ const Vaults = () => {
         const astrPrice = current_price.usd;
         // TODO: make main project token price calculations.
 
+        const astarBlockPerYear = 2502857.1428571427;
+        const pandoraPerBlock = 4
+
         let overallTVL = 0;
 
         const newVaults = VAULTS.map(async (item,_ind) => {
@@ -68,15 +71,14 @@ const Vaults = () => {
             const vault = new ethers.Contract(item.vaultAddress, VAULT_ABI, readProvider);
             const masterChef = new ethers.Contract(item.masterChefAddress, PANDORA_CHEF_ABI, readProvider);
 
-
             const priceFullShare = await vault.getPricePerFullShare();
             const userDepo = await vault.balanceOf(account);
+            const vaultTotalSupply = +(await vault.totalSupply()) / 1e18;
+
+            const vaultPerShare = +(await vault.getPricePerFullShare()) / 1e18;
 
             // MasterChefData
             const masterBal = +(await pair.balanceOf(item.masterChefAddress)) / 1e18;
-
-            const poolReward = await getPoolReward(masterChef);
-
             const mainTokenPrice = await getMainTokenPrice(new ethers.Contract(item.mainTokenPair, UNISWAP_PAIR, readProvider));
 
             const lpSupply = +(await pair.totalSupply()) / 1e18
@@ -84,14 +86,20 @@ const Vaults = () => {
 
             let lpPrice;
             let tvl;
+            let tvlLocal;
+
+            // APR
+            const pandoraPerYear = astarBlockPerYear * pandoraPerBlock;
+            const poolWeight = await getPoolWeight(masterChef, item.poolIndex);
 
             if (item.id === "pandora-wastr") {
                 const astrTvl = (+reserves[1] / 1e18) * astrPrice;
                 const ercTvl = mainTokenPrice * (+reserves[0] / 1e18);
 
                 lpPrice = (astrTvl + ercTvl)  / lpSupply;
-                tvl = lpPrice * (+masterBal / 1e18);
-                overallTVL += tvl;
+                tvlLocal = (vaultTotalSupply * vaultPerShare) * lpPrice;
+                tvl = lpPrice * masterBal;
+                overallTVL += tvlLocal;
             }
 
             else if (item.id === "usdc-pandora") {
@@ -99,17 +107,21 @@ const Vaults = () => {
                 const pandoraTvl = mainTokenPrice * (reserves[1] / 1e18);
 
                 lpPrice = (usdcTvl + pandoraTvl) / lpSupply;
-                tvl = lpPrice * (+masterBal / 1e18);
-                overallTVL += tvl;
+                tvlLocal = (vaultTotalSupply * vaultPerShare) * lpPrice;
+                tvl = lpPrice * masterBal;
+                overallTVL += tvlLocal;
             }
 
             else if (item.id === "usdt-usdc") {
                 lpPrice = ((+reserves[0] / 1e6) + (+reserves[1]/ 1e6)) / lpSupply;
-                tvl = lpPrice * (+masterBal / 1e18);
-                overallTVL += tvl;
+                tvlLocal = (vaultTotalSupply * vaultPerShare) * lpPrice;
+                tvl = lpPrice * masterBal;
+                overallTVL += tvlLocal;
             }
 
-            const apr = (((((mainTokenPrice * poolReward * 86400 * 30 * 12)) / 2) / ((lpPrice * (+masterBal / 1e18))) * 100)).toFixed(0);
+            const a = poolWeight * pandoraPerYear;
+            const aprBase = ((a * mainTokenPrice) / tvl) * 100;
+            const apr = ((1 + (aprBase / 100) / 8760)**8760-1) * 100;
 
             return {
                 ...item,
@@ -118,6 +130,7 @@ const Vaults = () => {
                     usd: lpPrice * ((+userDepo / 1e18) * (+priceFullShare / 1e18))
                 },
                 tvl,
+                tvlLocal,
                 apr
             }
         })
@@ -130,14 +143,13 @@ const Vaults = () => {
 
     }
 
-    const getPoolReward = async (masterChef, poolIndex) => {
+    const getPoolWeight = async (masterChef, poolIndex) => {
 
         const totalAllocationPoints = await masterChef.totalAllocPoint();
-        const rewardPerBlock = await masterChef.pandoraPerBlock();
         const poolInfo = await masterChef.poolInfo(poolIndex);
-        const poolReward = (+rewardPerBlock / 1e18) / (+totalAllocationPoints / (+poolInfo.allocPoint));
+        const poolWeight = +poolInfo.allocPoint / +totalAllocationPoints;
 
-        return poolReward;
+        return poolWeight
 
     }
 
@@ -292,9 +304,9 @@ const Vaults = () => {
                                     </div>
                                     <div>0</div>
                                     <div>{formattedNum(item.deposited.lp)}(${formattedNum(item.deposited.usd)})</div>
-                                    <div>{item.apr}%</div>
+                                    <div>{formattedNum(item.apr)}%</div>
                                     <div>{formattedNum(item.apr / 365)}%</div>
-                                    <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(item.tvl)}</div>
+                                    <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(item.tvlLocal)}</div>
                                     <div style={{display: 'flex', justifyContent: 'center'}}>
                                         <GetBtn onClick={() => navigate(`/vaults/${item.id}`)} > Get </GetBtn>
                                     </div>
