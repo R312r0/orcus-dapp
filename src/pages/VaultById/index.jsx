@@ -498,7 +498,7 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                     </DWButton>
                     </DWContainer>
                     </VidBlockHeader>
-                <HDivider/>
+                { isMobileScreen() ? <></> : <HDivider/>}
                 <VidBlockText mt='0.83vw'>
                     Deposit your LP orr️ ZAP⚡ in {pool.token0.name} or {pool.token1.name}
                 </VidBlockText>
