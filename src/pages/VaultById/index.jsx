@@ -450,7 +450,35 @@ const VaultById = () => {
             <div style={{display: "grid", placeItems: "center"}} ><h3> No data yet! </h3></div>
             <HDivider/>
             </VidBlock>
-            
+            { isMobileScreen() ? <></> : <>
+            <VidBlock style={
+                {marginTop: isMobileScreen() ? '24px' : '', 
+        borderTopLeftRadius:  isMobileScreen() ?  '20px' : '',
+        borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}
+        } height={'13.86vw'}>
+                <VidBlockHeader>
+                <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
+                <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
+                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token0.name}</Font>
+                </div>
+                </VidBlockHeader>
+                <HDivider/>
+                <LinksRow>
+                <a href={pool.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
+                <a href={pool.token0.website}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
+                <VidBlockText>{pool.token0.description}</VidBlockText>
+            </VidBlock>
+
+            <VidBlock height={'8.96vw'}>
+                <VidBlockHeader>
+                <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
+                <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
+                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token1.name}</Font>
+                </div>
+                </VidBlockHeader>
+                <HDivider/>
+                <VidBlockText mt='1.25vw'>{pool.token1.description}</VidBlockText>
+            </VidBlock> </>}
             </VIDLeftColumn>
             <VidRightColumn>
                 <VidBlock style={{marginTop: isMobileScreen() ? '24px' : '', 
