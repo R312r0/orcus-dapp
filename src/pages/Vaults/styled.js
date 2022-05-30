@@ -31,7 +31,18 @@ export const SortByOverlay = styled.div`
   box-shadow: 0px 8px 50px rgba(10, 17, 105, 0.08);
   overflow: hidden;
   @media (max-device-width: 480px){
-    width: 100vw;
+    left: 0;
+    width: 87vw;
+    font-size: 14px;
+    z-index: 9999;
+    margin-top: 52px;
+    border-radius: 12px;
+    background-color: #fff;
+    gap: 0;
+    border-radius: 12px;
+    margin-left: -48vw;
+    padding: 8px;
+
   }
 `
 
@@ -47,6 +58,11 @@ export const SortByOverlayOption = styled.div`
   &:hover{
     background-color: #E4DDEF;
   }
+  @media (max-device-width: 480px){
+    width: 80vw;
+    height: auto;
+    padding: 8px 13px;
+  }
 `
 
 
@@ -61,6 +77,13 @@ padding-top: 0.41vw;
 padding-bottom: 0.41vw;
 padding-left: 0.82vw;
 margin-top: ${props => props.mt ?? '1.04vw'};
+@media (max-device-width: 480px){
+  margin-top: 8px;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
 `
 export const FilterOverlay = styled.div`
   position: absolute;
@@ -79,8 +102,12 @@ export const FilterOverlay = styled.div`
   padding-bottom: 1.04vw;
 
   @media (max-device-width: 480px){
-    width: 100vw;
+    width: 86vw;
+    font-size: 14px;
     z-index: 99;
+    margin-top: 52px;
+    border-radius: 12px;
+    padding: 20px;
   }
 
   
@@ -325,7 +352,9 @@ export const SortByContainer = styled.div`
   @media (max-device-width: 480px){
     height: 52px;
     margin-left: 6px;
+    position: relative;
     border-radius: 18px;
+
     width: 20%;
 
     padding-left: 10px;
