@@ -9,15 +9,7 @@ import SliderIcon from "../../assets/icons/SliderIcon";
 import CardIcon from "./assets/CardIcon";
 import CalendarIcon from "./assets/CalendarIcon";
 import CalendarVertical from "./assets/CalendarVertical";
-import LogoIconBlack from '../../assets/icons/LogoIconBlack';
-import BUSDIcon from '../../assets/icons/BUSDIcon'
-import USDTIcon from '../../assets/icons/USDTIcon'
-import USDCIcon from '../../assets/icons/USDCIcon'
-import BCoinIcon from '../../assets/icons/BCoinIcon'
-
-import OUSDIcon from '../../assets/icons/OUSDIcon';
-import {JSON_RPC_URL, ORU_PER_BLOCK, VAULTS} from "../../constants";
-import {Link} from "react-router-dom";
+import {JSON_RPC_URL, VAULTS} from "../../constants";
 import {useNavigate} from "react-router";
 import {useBlockChainContext} from "../../context/blockchain-context";
 import {useWeb3React} from "@web3-react/core";
@@ -26,7 +18,6 @@ import {ethers} from "ethers";
 import VAULT_ABI from '../../abis/Vault.json';
 import UNISWAP_PAIR from '../../abis/UniswapPair.json';
 import PANDORA_CHEF_ABI from '../../abis/PandoraChef.json';
-import fromExponential from "from-exponential";
 import {formattedNum} from "../../utils";
 import axios from "axios";
 
