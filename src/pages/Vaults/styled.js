@@ -1,6 +1,13 @@
 import styled from 'styled-components'
 
+export const Overflow = styled.div`
+  height: 17.5vw;
+  overflow: scroll;
+  @media (max-device-width: 480px){
+    height: auto;
+  }
 
+`
 export const TopCardMobile = styled.div`
   padding-left: 23px;
   padding-right: 23px;

@@ -1,5 +1,5 @@
 
-import { HeadingText,TopIconWrapper, FilterOverlaySelect,TopCardMobile, SortByOverlay, SortByOverlayOption, FilterOverlay, LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
+import { HeadingText,TopIconWrapper, Overflow, FilterOverlaySelect,TopCardMobile, SortByOverlay, SortByOverlayOption, FilterOverlay, LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
 import FilterIcon from '../../assets/icons/FilterIcon';
 import React, {useEffect, useState} from 'react';
 
@@ -430,6 +430,7 @@ const Vaults = () => {
                         <div></div>
                     </VaultTableContent>
                 </VaultTableHeader> }
+                <Overflow>
                 {vaultsWithFiltersList && vaultsWithFiltersList.map(item => {
 
                     if(isMobileScreen()){
@@ -465,6 +466,7 @@ const Vaults = () => {
                         </>
                     )}
                 })}
+                </Overflow>
             </VaultsTable>
         </VaultsWrapper>
     )
