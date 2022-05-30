@@ -231,7 +231,9 @@ const Vaults = () => {
             const aprBase = ((a * mainTokenPrice) / tvl) * 100;
             const apr = ((1 + (aprBase / 100) / 8760)**8760-1) * 100;
 
-            overallYield += (lpPrice * (vaultTotalSupply * vaultPerShare)) + ((lpPrice * (vaultTotalSupply * vaultPerShare)) * (apr / 100));
+            overallYield += (lpPrice * (userDepo * vaultPerShare)) + ((lpPrice * (userDepo * vaultPerShare)) * (apr / 100));
+
+
 
             return {
                 ...item,
@@ -244,8 +246,6 @@ const Vaults = () => {
                 apr
             }
         })
-
-
 
         const val = await Promise.all(newVaults);
         setVaultsFormatted(val);
