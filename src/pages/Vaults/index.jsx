@@ -1,9 +1,9 @@
 
-import { HeadingText,TopIconWrapper, FilterOverlaySelect, SortByOverlay, SortByOverlayOption, FilterOverlay, LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
+import { HeadingText,TopIconWrapper, FilterOverlaySelect,TopCardMobile, SortByOverlay, SortByOverlayOption, FilterOverlay, LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
 import FilterIcon from '../../assets/icons/FilterIcon';
 import React, {useEffect, useState} from 'react';
 
-import { KeyboardArrowDown } from "@mui/icons-material";
+import { KeyboardArrowDown, Light } from "@mui/icons-material";
 import SearchIcon from "../../assets/icons/SearchIcon";
 import SliderIcon from "../../assets/icons/SliderIcon";
 import CardIcon from "./assets/CardIcon";
@@ -19,7 +19,11 @@ import VAULT_ABI from '../../abis/Vault.json';
 import UNISWAP_PAIR from '../../abis/UniswapPair.json';
 import PANDORA_CHEF_ABI from '../../abis/PandoraChef.json';
 import {formattedNum} from "../../utils";
+
+import Pandora from '../../assets/icons/Pandora.png';
+
 import axios from "axios";
+import FarmsTableItem from './mobile-item/index'
 
 
 const Vaults = () => {
@@ -31,8 +35,15 @@ const Vaults = () => {
     const [selectedTopbarCategory, setTopbarCategory] = React.useState('Stake');
     const [vaultsValue, setVaultsValue] = React.useState('All Vaults')
 
+
+    const [isFilterOverlay, setFilterOverlay ] = React.useState(false)
+    const [isSortByOverlay, setSortByOverlay] = React.useState(false);
+
     const [vaultsFormatted, setVaultsFormatted] = useState(null);
     const [overallTVL, setOverallTVL] = useState(0);
+
+    const [overallDeposited, setOverallDeposited] = useState(0);
+    const [overallYearlyYield, setOverallYearlyYield] = useState(0);
 
     useEffect(() => {
 
@@ -42,6 +53,11 @@ const Vaults = () => {
 
     }, [account, signer])
 
+
+    const isMobileScreen = ( ) => {
+        let query = window.matchMedia('(max-device-width: 480px)')
+        return query.matches
+      }
 
     const handleTopbarClick = (event) => {
         let value = event.currentTarget.dataset.value
@@ -64,6 +80,8 @@ const Vaults = () => {
         const pandoraPerBlock = 4
 
         let overallTVL = 0;
+        let userOverallDeposited = 0;
+        let overallYield = 0;
 
         const newVaults = VAULTS.map(async (item,_ind) => {
 
@@ -71,8 +89,7 @@ const Vaults = () => {
             const vault = new ethers.Contract(item.vaultAddress, VAULT_ABI, readProvider);
             const masterChef = new ethers.Contract(item.masterChefAddress, PANDORA_CHEF_ABI, readProvider);
 
-            const priceFullShare = await vault.getPricePerFullShare();
-            const userDepo = await vault.balanceOf(account);
+            const userDepo = +(await vault.balanceOf(account)) / 1e18;
             const vaultTotalSupply = +(await vault.totalSupply()) / 1e18;
 
             const vaultPerShare = +(await vault.getPricePerFullShare()) / 1e18;
@@ -100,6 +117,7 @@ const Vaults = () => {
                 tvlLocal = (vaultTotalSupply * vaultPerShare) * lpPrice;
                 tvl = lpPrice * masterBal;
                 overallTVL += tvlLocal;
+                userOverallDeposited += lpPrice * (userDepo * vaultPerShare)
             }
 
             else if (item.id === "usdc-pandora") {
@@ -110,6 +128,8 @@ const Vaults = () => {
                 tvlLocal = (vaultTotalSupply * vaultPerShare) * lpPrice;
                 tvl = lpPrice * masterBal;
                 overallTVL += tvlLocal;
+                userOverallDeposited += lpPrice * (userDepo * vaultPerShare);
+
             }
 
             else if (item.id === "usdt-usdc") {
@@ -117,17 +137,21 @@ const Vaults = () => {
                 tvlLocal = (vaultTotalSupply * vaultPerShare) * lpPrice;
                 tvl = lpPrice * masterBal;
                 overallTVL += tvlLocal;
+                userOverallDeposited += lpPrice * (userDepo * vaultPerShare);
             }
 
             const a = poolWeight * pandoraPerYear;
             const aprBase = ((a * mainTokenPrice) / tvl) * 100;
             const apr = ((1 + (aprBase / 100) / 8760)**8760-1) * 100;
 
+
+            overallYield += (lpPrice * (vaultTotalSupply * vaultPerShare)) + ((lpPrice * (vaultTotalSupply * vaultPerShare)) * (apr / 100));
+
             return {
                 ...item,
                 deposited: {
-                    lp: (+userDepo / 1e18) * (+priceFullShare / 1e18),
-                    usd: lpPrice * ((+userDepo / 1e18) * (+priceFullShare / 1e18))
+                    lp: userDepo * vaultPerShare,
+                    usd: lpPrice * (userDepo * vaultPerShare)
                 },
                 tvl,
                 tvlLocal,
@@ -136,11 +160,13 @@ const Vaults = () => {
         })
 
 
+
         const val = await Promise.all(newVaults);
         setVaultsFormatted(val);
         setGlobalVaults(val);
         setOverallTVL(overallTVL);
-
+        setOverallDeposited(userOverallDeposited);
+        setOverallYearlyYield(overallYield);
     }
 
     const getPoolWeight = async (masterChef, poolIndex) => {
@@ -181,21 +207,32 @@ const Vaults = () => {
                     <TopIconWrapper bg='#F5EFD7'>
                         <CardIcon ratio={isMobileScreen() ? '20px' : '1.25vw'}/>
                     </TopIconWrapper>
-                    <div style={{display: 'flex', flexDirection:'column'}}>Deposited<GreyText fs={isMobileScreen() ? '14px' : ''}>0</GreyText></div>
+                    <div style={{display: 'flex', flexDirection:'column'}}>Deposited<GreyText fs={isMobileScreen() ? '14px' : ''}>${formattedNum(overallDeposited)}</GreyText></div>
                 </SmallTopCard>
                 <SmallTopCard>
                 <TopIconWrapper bg='#E4DDEF'>
                 <CalendarVertical ratio={isMobileScreen() ? '20px' : '1.25vw'}/>
                 </TopIconWrapper>
-
-                <div style={{display: 'flex', flexDirection:'column'}}>Monthly Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>0</GreyText></div>
+                <div style={{display: 'flex', flexDirection:'column'}}>Monthly Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>${formattedNum(overallYearlyYield / 12)}</GreyText></div>
                 </SmallTopCard>
                 <SmallTopCard>
                     <TopIconWrapper bg='#D5ECD8'>
                         <CalendarIcon ratio={isMobileScreen() ? '20px' : '1.25vw'}/>
                     </TopIconWrapper>
-                    <div style={{display: 'flex', flexDirection:'column'}}>Daily Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>0</GreyText></div>
+                    <div style={{display: 'flex', flexDirection:'column'}}>Daily Yield<GreyText fs={isMobileScreen() ? '14px' : ''}>${formattedNum(overallYearlyYield / 365)}</GreyText></div>
                 </SmallTopCard>
+                { isMobileScreen() ? <>
+
+                <TopCardMobile>
+                    <div style={{width: '100%', borderBottom: '1px solid #F2F2F2'}}>
+                        TVL: <GreyText fs='0.94vw'>$</GreyText>{formattedNum(overallTVL)}
+                    </div>
+                    <div style={{width: '100%', display: 'flex'}}>
+                        <div style={{width: '50%', borderRight: '1px solid #F2F2F2'}}>Vaults: {VAULTS.length}</div>
+                        <div style={{width: '50%'}}> Daily Buyback: <GreyText fs='0.94vw'>$</GreyText> Not calculated yet!</div>
+                    </div>
+                </TopCardMobile>
+                </> :
                 <LargeTopCard>
                     <div style={{width: '12.05vw'}}>
                     TVL: <GreyText fs='0.94vw'>$</GreyText>{formattedNum(overallTVL)}
@@ -208,7 +245,7 @@ const Vaults = () => {
                     <div style={{width: '20vw'}}>
                     Daily Buyback: <GreyText fs='0.94vw'>$</GreyText> Not calculated yet!
                     </div>
-                </LargeTopCard>
+                </LargeTopCard>}
             </TopWrapper>
             <VaultsTable>
                 <VaultsTableTopbar>
@@ -217,8 +254,8 @@ const Vaults = () => {
                             <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'Stablecoins'} data-value={'Stablecoins'}>Stablecoins</TopbarOption>
                             <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'Blue Chips'} data-value={'Blue Chips'}>Blue Chips</TopbarOption>
                             <TopbarOption onClick={handleTopbarClick} active={selectedTopbarCategory === 'Orcus Vaults'} data-value={'Orcus Vaults'}>Orcus Vaults</TopbarOption>
-
                     </TopbarOptions>
+                    { isMobileScreen() ? <></> :
                     <div style={{display: "flex", gap: '0.94vw'}}>
                         <SortByContainer active={isSortByOverlay} onClick={() => setSortByOverlay(!isSortByOverlay)}>
                             <div style={{display: 'flex', alignItems: 'center', gap: '0.5vw'}}>
@@ -257,7 +294,7 @@ const Vaults = () => {
                             </FilterOverlay> : <></> }
 
                         </FilterContainer>
-                    </div>
+                    </div> }
                 </VaultsTableTopbar>
                 <SearchRow>
                     <SearchContainer>
@@ -266,6 +303,42 @@ const Vaults = () => {
                             <SearchIcon ratio='0.85vw'/>
                         </div>
                     </SearchContainer>
+                    { isMobileScreen() ? <>
+                        <SortByContainer active={isSortByOverlay} onClick={() => setSortByOverlay(!isSortByOverlay)}>
+                            <div style={{display: 'flex', alignItems: 'center', gap: '0.5vw'}}>
+                            <FilterIcon color='#333' ratio='5vw'/>
+                            </div>
+                            <div style={{transition: '0.1s', transform: isSortByOverlay ? 'rotate(180deg)' : ''}}>
+                                <KeyboardArrowDown color={'#828282'}/>
+                            </div>
+                            { isSortByOverlay ?
+                            <SortByOverlay>
+                                <SortByOverlayOption>Date</SortByOverlayOption>
+                                <SortByOverlayOption>APY</SortByOverlayOption>
+                                <SortByOverlayOption>Deposit</SortByOverlayOption>
+                                <SortByOverlayOption>TVL</SortByOverlayOption>
+                            </SortByOverlay> : <></> }
+                        </SortByContainer>
+                        <FilterContainer active={isFilterOverlay} onClick={()=> setFilterOverlay(!isFilterOverlay)}>
+                            <div style={{display: 'flex', alignItems: 'center', gap: '0.5vw'}}>
+                                <SliderIcon ratio='5vw'/>
+                            </div>
+                            <div style={{transition: '0.1s', transform: isFilterOverlay ? 'rotate(180deg)' : ''}}>
+                                <KeyboardArrowDown color={'#828282'}/>
+                            </div>
+                            { isFilterOverlay ?
+                            <FilterOverlay>
+                                Showing 753/1691
+                                <FilterOverlaySelect >
+                                    <option>Platform: All</option>
+                                </FilterOverlaySelect>
+                                <FilterOverlaySelect mt={'0.52vw'}>
+                                    <option>Vault Type: All</option>
+                                </FilterOverlaySelect>
+                            </FilterOverlay> : <></> }
+
+                        </FilterContainer>
+                    </> : <></>}
                     <VaultsContainer>
                         <VaultItem onClick={handleVaultsClick} data-value='All Vaults' active={vaultsValue === 'All Vaults'}>All Vaults</VaultItem>
                         <VaultItem onClick={handleVaultsClick} data-value='Eligible Vaults' active={vaultsValue === 'Eligible Vaults'}>Eligible Vaults</VaultItem>
@@ -273,7 +346,7 @@ const Vaults = () => {
                     </VaultsContainer>
                 </SearchRow>
                 <HDivider marginBottom='0'/>
-                <VaultTableHeader>
+                { isMobileScreen() ? <></> : <VaultTableHeader>
                     <VaultTableContent>
                         <div>Asset</div>
                         <div>Wallet</div>
@@ -283,8 +356,12 @@ const Vaults = () => {
                         <div>TVL</div>
                         <div></div>
                     </VaultTableContent>
-                </VaultTableHeader>
+                </VaultTableHeader> }
                 {vaultsFormatted && vaultsFormatted.map(item => {
+
+                    if(isMobileScreen()){
+                        return <FarmsTableItem item={item}></FarmsTableItem>
+                    }else{
 
 
                     return(
@@ -299,11 +376,11 @@ const Vaults = () => {
                                         </div>
                                         <div>
                                             <div>{item.name}</div>
-                                            <FontSize fs='0.72vw'><LightText>Platform:</LightText> {item.platform.name}</FontSize>
+                                            <FontSize fs='0.72vw'><LightText>Platform:</LightText><img src={Pandora} width='12' /> {item.platform.name}</FontSize>
                                         </div>
                                     </div>
                                     <div>0</div>
-                                    <div>{formattedNum(item.deposited.lp)}(${formattedNum(item.deposited.usd)})</div>
+                                    <div style={{display: 'flex', flexDirection: 'column'}}><div>{formattedNum(item.deposited.lp)}</div><FontSize fs='0.64vw'><LightText>(${formattedNum(item.deposited.usd)})</LightText></FontSize></div>
                                     <div>{formattedNum(item.apr)}%</div>
                                     <div>{formattedNum(item.apr / 365)}%</div>
                                     <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(item.tvlLocal)}</div>
@@ -313,7 +390,7 @@ const Vaults = () => {
                                 </VaultItemContent>
                             </VaultTableItem>
                         </>
-                    )
+                    )}
                 })}
             </VaultsTable>
         </VaultsWrapper>

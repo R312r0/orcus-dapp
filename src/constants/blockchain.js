@@ -79,14 +79,16 @@ export const VAULTS = [
             address: "0x8ea356004327E598729b4CE590eDC90428Dc6A89",
             description: "PandoraSwap token description",
             website: "https://pandoraswapxyz.org/",
-            logo: <img src={pandora} style={{width: "2.344vw", height: "2.344vw"}}/>
+            logo: <img src={pandora} style={{width: "2.344vw", height: "2.344vw"}}/>,
+            mobileLogo:  <img src={pandora} style={{width: "5.344vw", height: "5.344vw"}}/>,
         },
         token1: {
             name: "WASTR",
             address: "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
             description: "ASTAR network main token",
             website: "#",
-            logo: <img src={wastr} style={{width: "2.344vw", height: "2.344vw"}}/>
+            logo: <img src={wastr} style={{width: "2.344vw", height: "2.344vw"}}/>,
+            mobileLogo:  <img src={wastr} style={{width: "5.344vw", height: "5.344vw"}}/>,
         }
     },
     {
@@ -115,14 +117,16 @@ export const VAULTS = [
             address: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
             description: "None",
             website: null,
-            logo: <USDCIcon/>
+            logo: <USDCIcon/>,
+            mobileLogo: <USDCIcon ratio='5vw'/>
         },
         token1: {
             name: "PANDORA",
             address: "0x8ea356004327E598729b4CE590eDC90428Dc6A89",
             description: "PandoraSwap token description",
             website: "https://pandoraswapxyz.org/",
-            logo: <img src={pandora} style={{width: "2.344vw", height: "2.344vw"}}/>
+            logo: <img src={pandora} style={{width: "2.344vw", height: "2.344vw"}}/>,
+            mobileLogo:  <img src={pandora} style={{width: "5.344vw", height: "5.344vw"}}/>
 
         }
     },
@@ -152,14 +156,17 @@ export const VAULTS = [
             address: "0x3795C36e7D12A8c252A20C5a7B455f7c57b60283",
             description: "None",
             website: null,
-            logo: <img src={usdt} style={{width: "2.344vw", height: "2.344vw"}}/>
+            logo: <img src={usdt} style={{width: "2.344vw", height: "2.344vw"}}/>,
+
+            mobileLogo: <img src={usdt} style={{width: "5.344vw", height: "5.344vw"}}/>
         },
         token1: {
             name: "USDC",
             address: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
             description: "none",
             website: null,
-            logo: <USDCIcon/>
+            logo: <USDCIcon/>,
+            mobileLogo: <USDCIcon ratio='5vw'/>
 
         }
     }
