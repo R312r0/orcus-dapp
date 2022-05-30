@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Overflow = styled.div`
-  height: 17.5vw;
+
   overflow: scroll;
   @media (max-device-width: 480px){
     height: auto;
@@ -248,9 +248,10 @@ export const VaultsTable = styled.div`
   width: 100%;
   background-color: white;
   border-radius: 1.06vw;
-  height: 29.48vw;
+  min-height: 29.48vw;
   margin-top: 1.02vw;
   padding: 1.02vw;
+  overflow: scroll;
   @media (max-device-width: 480px){
     height: auto;
   }
