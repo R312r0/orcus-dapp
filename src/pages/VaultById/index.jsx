@@ -412,6 +412,7 @@ const VaultById = () => {
                     <div style={{width: '100%', paddingLeft: isMobileScreen() ? '20px' : ''}}>
                         <Font fs={ isMobileScreen() ? '12px' : '0.72vw'}>Your deposit</Font>
                         <div><Font fw='500' fs={isMobileScreen () ? '14px' : '0.83vw'}>{balances ?  fromExponential(+balances.deposited) : null }</Font></div>
+                        <div style={{marginTop: '-0.36vw'}}><Font fw='300' color="#4F4F4F" fs={isMobileScreen () ? '14px' : '0.62vw'}>0</Font></div>
                     </div>
                     <VDivider/>
                     <div style={{width: '100%', paddingLeft: isMobileScreen() ? '20px' : '1.71vw'}}>
