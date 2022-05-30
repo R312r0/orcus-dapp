@@ -53,18 +53,44 @@ export const MASTER_CHEF_POOLS = [
 
 //0xf9784e15229E08cb417f4609B02d18081D7d2a7F
 
+const TOKEN_VAULT_ADDRESSES = {
+    PANDORA: "0x8ea356004327E598729b4CE590eDC90428Dc6A89",
+    WASTR: "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
+    USDC: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
+    USDT: "0x3795C36e7D12A8c252A20C5a7B455f7c57b60283",
+    DAI: "0x6De33698e9e9b787e09d3Bd7771ef63557E148bb"
+}
+
+const TOKEN_VAULT_LP_ADDRESSES = {
+    WASTR_PANDORA: "0x5e8a60839dC6F9C7595E0d9519d4bdB947cEb7A6",
+    PANDORA_USDC: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
+    WASTR_USDC: "0x3683d79a8Af26A56822C48a4eD1af80d51eB8399",
+    USDT_USDC: "0xcECbf254c22a5d5e5d75a215A4403A5B4dC1dA5A",
+    DAI_USDC: "0x148dF5088b74f511C8458b9d7c0f45c3F6971FAd"
+}
+
+const VAULT_ADDRESSES = {
+    ROUTER: "0x22E1f7Ed1A9118805a40d90aA61DB1312D96BE58",
+    PANDORA_WASTR_VAULT: "0x8317099f69ca210C18835fefB6dED806491B1768",
+    USDC_PANDORA_VAULT: "0x7b5F472e466f94642c4260e5E205d34DB15718A9",
+    USDC_WASTR_VAULT: "0xf1b4384808eb559Cbfc5855EdD96B79c54186B01",
+    USDT_USDC_VAULT: "0xEb1648a7FA68e566EFc4f96532Be1b92991abcaE",
+    DAI_USDC: "0xD00FEeF0FCA5DA1a4E62d0C3D4CC14D899233Ac6",
+    PANDORA_MASTER_CHEF: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC"
+}
+
 export const VAULTS = [
     {
         id: "pandora-wastr",
         name: "PANDORA/WASTR",
         lpName: "PANDORA-WASTR",
-        lpAddress: "0x5e8a60839dC6F9C7595E0d9519d4bdB947cEb7A6",
+        lpAddress: TOKEN_VAULT_LP_ADDRESSES.WASTR_PANDORA,
         addLpLink: "https://pandoraswapxyz.org/add/0x8ea356004327E598729b4CE590eDC90428Dc6A89/0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
         buyLink: "https://pandoraswapxyz.org/swap",
-        mainTokenPair: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
-        routerAddress: "0x27Ab331A756C57FDD654697eD5A8C671f8AFfF13",
-        vaultAddress: "0xf0a31E6960290Cbb51712E28e614789e3B34b54B",
-        masterChefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
+        mainTokenPair: TOKEN_VAULT_LP_ADDRESSES.PANDORA_USDC,
+        routerAddress: VAULT_ADDRESSES.ROUTER,
+        vaultAddress: VAULT_ADDRESSES.PANDORA_WASTR_VAULT,
+        masterChefAddress: VAULT_ADDRESSES.PANDORA_MASTER_CHEF,
         poolIndex: 1,
         isBeefInETH: true,
         category: "none",
@@ -78,7 +104,7 @@ export const VAULTS = [
         },
         token0: {
             name: "PANDORA",
-            address: "0x8ea356004327E598729b4CE590eDC90428Dc6A89",
+            address: TOKEN_VAULT_ADDRESSES.PANDORA,
             description: "PandoraSwap token description",
             website: "https://pandoraswapxyz.org/",
             logo: <img src={pandora} style={{width: "2.344vw", height: "2.344vw"}}/>,
@@ -86,7 +112,7 @@ export const VAULTS = [
         },
         token1: {
             name: "WASTR",
-            address: "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
+            address: TOKEN_VAULT_ADDRESSES.WASTR,
             description: "ASTAR network main token",
             website: "#",
             logo: <img src={wastr} style={{width: "2.344vw", height: "2.344vw"}}/>,
@@ -97,13 +123,13 @@ export const VAULTS = [
         id: "usdc-pandora",
         name: "USDC/PANDORA",
         lpName: "USDC-PANDORA",
-        lpAddress: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
+        lpAddress: TOKEN_VAULT_LP_ADDRESSES.PANDORA_USDC,
         addLpLink: "https://pandoraswapxyz.org/add/0x8ea356004327E598729b4CE590eDC90428Dc6A89/0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
         buyLink: "https://pandoraswapxyz.org/swap",
-        mainTokenPair: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
-        routerAddress: "0x27Ab331A756C57FDD654697eD5A8C671f8AFfF13",
-        vaultAddress: "0xf9784e15229E08cb417f4609B02d18081D7d2a7F",
-        masterChefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
+        mainTokenPair: TOKEN_VAULT_LP_ADDRESSES.PANDORA_USDC,
+        routerAddress: VAULT_ADDRESSES.ROUTER,
+        vaultAddress: VAULT_ADDRESSES.USDC_PANDORA_VAULT,
+        masterChefAddress: VAULT_ADDRESSES.PANDORA_MASTER_CHEF,
         poolIndex: 4,
         isBeefInETH: false,
         category: "none",
@@ -117,7 +143,7 @@ export const VAULTS = [
         },
         token0: {
             name: "USDC",
-            address: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
+            address: TOKEN_VAULT_ADDRESSES.USDC,
             description: "None",
             website: null,
             logo: <USDCIcon/>,
@@ -125,7 +151,7 @@ export const VAULTS = [
         },
         token1: {
             name: "PANDORA",
-            address: "0x8ea356004327E598729b4CE590eDC90428Dc6A89",
+            address: TOKEN_VAULT_ADDRESSES.PANDORA,
             description: "PandoraSwap token description",
             website: "https://pandoraswapxyz.org/",
             logo: <img src={pandora} style={{width: "2.344vw", height: "2.344vw"}}/>,
@@ -137,13 +163,13 @@ export const VAULTS = [
         id: "wastr-usdc",
         name: "WASTR/USDC",
         lpName: "WASTR-USDC",
-        lpAddress: "0x3683d79a8Af26A56822C48a4eD1af80d51eB8399",
+        lpAddress: TOKEN_VAULT_LP_ADDRESSES.WASTR_USDC,
         addLpLink: "https://pandoraswapxyz.org/add/0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98/ASTR",
         buyLink: "https://pandoraswapxyz.org/swap",
-        mainTokenPair: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
-        routerAddress: "0x27Ab331A756C57FDD654697eD5A8C671f8AFfF13",
-        vaultAddress: "0xa03847f8a464a72f6E21b8664cD7aD3AAC18A1e5",
-        masterChefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
+        mainTokenPair: TOKEN_VAULT_LP_ADDRESSES.PANDORA_USDC,
+        routerAddress: VAULT_ADDRESSES.ROUTER,
+        vaultAddress: VAULT_ADDRESSES.USDC_WASTR_VAULT,
+        masterChefAddress: VAULT_ADDRESSES.PANDORA_MASTER_CHEF,
         poolIndex: 3,
         isBeefInETH: false,
         category: "none",
@@ -157,7 +183,7 @@ export const VAULTS = [
         },
         token0: {
             name: "WASTR",
-            address: "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
+            address: TOKEN_VAULT_ADDRESSES.WASTR,
             description: "ASTAR network main token",
             website: "#",
             logo: <img src={wastr} style={{width: "2.344vw", height: "2.344vw"}}/>,
@@ -165,7 +191,7 @@ export const VAULTS = [
         },
         token1: {
             name: "USDC",
-            address: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
+            address: TOKEN_VAULT_ADDRESSES.USDC,
             description: "none",
             website: null,
             logo: <USDCIcon/>,
@@ -177,13 +203,13 @@ export const VAULTS = [
         id: "usdt-usdc",
         name: "USDT/USDC",
         lpName: "USDT-USDC",
-        lpAddress: "0xcECbf254c22a5d5e5d75a215A4403A5B4dC1dA5A",
+        lpAddress: TOKEN_VAULT_LP_ADDRESSES.USDT_USDC,
         addLpLink: "https://pandoraswapxyz.org/add/0x8ea356004327E598729b4CE590eDC90428Dc6A89/0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
         buyLink: "https://pandoraswapxyz.org/swap",
-        mainTokenPair: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
-        routerAddress: "0x27Ab331A756C57FDD654697eD5A8C671f8AFfF13",
-        vaultAddress: "0xa03847f8a464a72f6E21b8664cD7aD3AAC18A1e5",
-        masterChefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
+        mainTokenPair: TOKEN_VAULT_LP_ADDRESSES.PANDORA_USDC,
+        routerAddress: VAULT_ADDRESSES.ROUTER,
+        vaultAddress: VAULT_ADDRESSES.USDT_USDC_VAULT,
+        masterChefAddress: VAULT_ADDRESSES.PANDORA_MASTER_CHEF,
         poolIndex: 2,
         isBeefInETH: false,
         category: "stable",
@@ -197,7 +223,7 @@ export const VAULTS = [
         },
         token0: {
             name: "USDT",
-            address: "0x3795C36e7D12A8c252A20C5a7B455f7c57b60283",
+            address: TOKEN_VAULT_ADDRESSES.USDT,
             description: "None",
             website: null,
             logo: <img src={usdt} style={{width: "2.344vw", height: "2.344vw"}}/>,
@@ -206,7 +232,7 @@ export const VAULTS = [
         },
         token1: {
             name: "USDC",
-            address: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
+            address: TOKEN_VAULT_ADDRESSES.USDC,
             description: "none",
             website: null,
             logo: <USDCIcon/>,
@@ -215,16 +241,16 @@ export const VAULTS = [
         }
     },
     {
-        id: "dai-usdc",
-        name: "DAI/USDC",
-        lpName: "DAI-USDC",
-        lpAddress: "0x148dF5088b74f511C8458b9d7c0f45c3F6971FAd",
+        id: "usdc-dai",
+        name: "USDC/DAI",
+        lpName: "USDC-DAI",
+        lpAddress: TOKEN_VAULT_LP_ADDRESSES.DAI_USDC,
         addLpLink: "https://pandoraswapxyz.org/add/0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98/0x6De33698e9e9b787e09d3Bd7771ef63557E148bb",
         buyLink: "https://pandoraswapxyz.org/swap",
-        mainTokenPair: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
-        routerAddress: "0x27Ab331A756C57FDD654697eD5A8C671f8AFfF13",
-        vaultAddress: "0xa03847f8a464a72f6E21b8664cD7aD3AAC18A1e5",
-        masterChefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
+        mainTokenPair: TOKEN_VAULT_LP_ADDRESSES.PANDORA_USDC,
+        routerAddress: VAULT_ADDRESSES.ROUTER,
+        vaultAddress: VAULT_ADDRESSES.DAI_USDC,
+        masterChefAddress: VAULT_ADDRESSES.PANDORA_MASTER_CHEF,
         poolIndex: 5,
         isBeefInETH: false,
         category: "stable",
@@ -237,22 +263,23 @@ export const VAULTS = [
             twitter: "https://twitter.com/pandora_swap"
         },
         token0: {
-            name: "DAI",
-            address: "0x6De33698e9e9b787e09d3Bd7771ef63557E148bb",
-            description: "DAI",
-            website: "#",
-            logo: <img src={dai} style={{width: "2.344vw", height: "2.344vw"}}/>,
-            mobileLogo:  <img src={dai} style={{width: "5.344vw", height: "5.344vw"}}/>,
-        },
-        token1: {
             name: "USDC",
-            address: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
+            address: TOKEN_VAULT_ADDRESSES.USDC,
             description: "none",
             website: null,
             logo: <USDCIcon/>,
             mobileLogo: <USDCIcon ratio='5vw'/>
 
+        },
+        token1: {
+            name: "DAI",
+            address: TOKEN_VAULT_ADDRESSES.DAI,
+            description: "DAI",
+            website: "#",
+            logo: <img src={dai} style={{width: "2.344vw", height: "2.344vw"}}/>,
+            mobileLogo:  <img src={dai} style={{width: "5.344vw", height: "5.344vw"}}/>,
         }
+
     },
 
 ]

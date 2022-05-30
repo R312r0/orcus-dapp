@@ -77,13 +77,13 @@ const Vaults = () => {
 
             switch (selectedTopbarCategory) {
                 case "Stablecoins":
-                    newArr = vaultsWithFiltersList.filter(item => item.category === "stable")
+                    newArr = vaultsFormatted.filter(item => item.category === "stable")
                     break;
                 case "Blue Chips":
-                    newArr = vaultsWithFiltersList.filter(item => item.category === "blue_chips")
+                    newArr = vaultsFormatted.filter(item => item.category === "blue_chips")
                     break;
                 case "Orcus Vaults":
-                    newArr = vaultsWithFiltersList.filter(item => item.category === "orcus_vaults")
+                    newArr = vaultsFormatted.filter(item => item.category === "orcus_vaults")
                     break;
                 default:
                     newArr = vaultsFormatted;
@@ -104,11 +104,10 @@ const Vaults = () => {
 
             switch (vaultsValue) {
                 case "All Vaults":
-                    console.log("We are here")
                     newArr = vaultsFormatted;
                     break;
                 case "Eligible Vaults":
-                    console.log("Eliisisisis")
+                    newArr = vaultsFormatted;
                     break;
                 case "My Vaults":
                     newArr = vaultsWithFiltersList.filter(item => item.deposited.lp > 0);
@@ -203,8 +202,27 @@ const Vaults = () => {
 
             }
 
+            else if (item.id === "wastr-usdc") {
+                const usdcTvl = (+reserves[0] / 1e6);
+                const wastrTvl = (+reserves[1] / 1e18);
+
+                lpPrice = (usdcTvl + wastrTvl) / lpSupply;
+                tvlLocal = (vaultTotalSupply * vaultPerShare) * lpPrice;
+                tvl = lpPrice * masterBal;
+                overallTVL += tvlLocal;
+                userOverallDeposited += lpPrice * (userDepo * vaultPerShare);
+            }
+
             else if (item.id === "usdt-usdc") {
                 lpPrice = ((+reserves[0] / 1e6) + (+reserves[1]/ 1e6)) / lpSupply;
+                tvlLocal = (vaultTotalSupply * vaultPerShare) * lpPrice;
+                tvl = lpPrice * masterBal;
+                overallTVL += tvlLocal;
+                userOverallDeposited += lpPrice * (userDepo * vaultPerShare);
+            }
+
+            else if (item.id === "usdc-dai") {
+                lpPrice = ((+reserves[0] / 1e6) + (+reserves[1]/ 1e18)) / lpSupply;
                 tvlLocal = (vaultTotalSupply * vaultPerShare) * lpPrice;
                 tvl = lpPrice * masterBal;
                 overallTVL += tvlLocal;
@@ -214,7 +232,6 @@ const Vaults = () => {
             const a = poolWeight * pandoraPerYear;
             const aprBase = ((a * mainTokenPrice) / tvl) * 100;
             const apr = ((1 + (aprBase / 100) / 8760)**8760-1) * 100;
-
 
             overallYield += (lpPrice * (vaultTotalSupply * vaultPerShare)) + ((lpPrice * (vaultTotalSupply * vaultPerShare)) * (apr / 100));
 
