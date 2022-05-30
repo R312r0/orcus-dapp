@@ -389,7 +389,7 @@ const VaultById = () => {
                 <WhiteBorderItem bg='#F5EFD7'>
                     <div>
                         <Font color='#272A30' fs={ isMobileScreen() ? '12px' : '0.72vw'} >TVL</Font>
-                        <div><Font fw='500' color='#828282'   fs={isMobileScreen () ? '14px' : '0.83vw'}>$</Font><Font  fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(pool.tvl)}</Font></div>
+                        <div><Font fw='500' color='#828282'   fs={isMobileScreen () ? '14px' : '0.83vw'}>$</Font><Font  fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(pool.tvlLocal)}</Font></div>
                     </div>
                 </WhiteBorderItem>
 
