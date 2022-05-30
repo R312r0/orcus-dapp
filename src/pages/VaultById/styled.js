@@ -72,12 +72,13 @@ export const AddBuyContainer = styled.div`
 
 `
 
-export const AddButton = styled.button`
+export const AddButton = styled.a`
     width :11.0vw;
     height: 2.13vw;
     padding-left: 2.08vw;
     padding-right: 2.08vw;
-    display: flex;
+  text-decoration: none;
+  display: flex;
     gap: 0.47vw;
     align-items: center;
     justify-content: center;
@@ -87,12 +88,14 @@ export const AddButton = styled.button`
     color: #333;
     cursor: pointer;
 `
-export const BuyButton = styled.button`
+export const BuyButton = styled.a`
     width :11.1vw;
     height: 2.13vw;
+  text-decoration: none;
     padding-left: 2.08vw;
     padding-right: 2.08vw;
-    gap: 0.47vw;
+      display: flex;
+      gap: 0.47vw;
     align-items: center;
     justify-content: center;
     border-radius: 1.56vw;
