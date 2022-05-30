@@ -376,7 +376,7 @@ const VaultById = () => {
             <>
             <VidTopBar>
             <div style={{display: 'flex', gap: '0.8vw', alignItems: 'center'}}>
-                <ArrowBack onClick={() => navigate("/vaults")}/>
+                <ArrowBack style={{cursor: 'pointer'}} onClick={() => navigate("/vaults")}/>
                 {pool.token0.logo}
                 {pool.token1.logo}
                 <Font fw='500' fs={ isMobileScreen() ? '16px' : '0.93vw'} color='#333'>{pool.name}</Font>
@@ -412,6 +412,7 @@ const VaultById = () => {
                     <div style={{width: '100%', paddingLeft: isMobileScreen() ? '20px' : ''}}>
                         <Font fs={ isMobileScreen() ? '12px' : '0.72vw'}>Your deposit</Font>
                         <div><Font fw='500' fs={isMobileScreen () ? '14px' : '0.83vw'}>{balances ?  fromExponential(+balances.deposited) : null }</Font></div>
+                        <div style={{marginTop: '-0.36vw'}}><Font fw='300' color="#4F4F4F" fs={isMobileScreen () ? '14px' : '0.62vw'}>0</Font></div>
                     </div>
                     <VDivider/>
                     <div style={{width: '100%', paddingLeft: isMobileScreen() ? '20px' : '1.71vw'}}>
@@ -450,7 +451,35 @@ const VaultById = () => {
             <div style={{display: "grid", placeItems: "center"}} ><h3> No data yet! </h3></div>
             <HDivider/>
             </VidBlock>
-            
+            { isMobileScreen() ? <></> : <>
+            <VidBlock style={
+                {marginTop: isMobileScreen() ? '24px' : '', 
+        borderTopLeftRadius:  isMobileScreen() ?  '20px' : '',
+        borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}
+        } height={'13.86vw'}>
+                <VidBlockHeader>
+                <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
+                <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
+                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token0.name}</Font>
+                </div>
+                </VidBlockHeader>
+                <HDivider/>
+                <LinksRow>
+                <a href={pool.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
+                <a href={pool.token0.website}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
+                <VidBlockText>{pool.token0.description}</VidBlockText>
+            </VidBlock>
+
+            <VidBlock height={'8.96vw'}>
+                <VidBlockHeader>
+                <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
+                <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
+                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token1.name}</Font>
+                </div>
+                </VidBlockHeader>
+                <HDivider/>
+                <VidBlockText mt='1.25vw'>{pool.token1.description}</VidBlockText>
+            </VidBlock> </>}
             </VIDLeftColumn>
             <VidRightColumn>
                 <VidBlock style={{marginTop: isMobileScreen() ? '24px' : '', 

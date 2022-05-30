@@ -2,7 +2,6 @@
 import { HeadingText,TopIconWrapper, Overflow, FilterOverlaySelect,TopCardMobile, SortByOverlay, SortByOverlayOption, FilterOverlay, LightText,GetBtn, VaultItemContent,FontSize, VaultTableItem,GreyText,VaultTableContent, VaultTableHeader, SearchContainer, HDivider, VaultsContainer, VaultsWrapper, SearchRow, SortByContainer, FilterContainer, TopbarOptions, VaultsTable, VaultsTableTopbar, TopWrapper, SmallTopCard, LargeTopCard, TopbarOption, VaultItem, VDivider } from "./styled";
 import FilterIcon from '../../assets/icons/FilterIcon';
 import React, {useEffect, useState} from 'react';
-
 import { KeyboardArrowDown, Light } from "@mui/icons-material";
 import SearchIcon from "../../assets/icons/SearchIcon";
 import SliderIcon from "../../assets/icons/SliderIcon";
@@ -321,8 +320,8 @@ const Vaults = () => {
                 </TopCardMobile>
                 </> :
                 <LargeTopCard>
-                    <div style={{width: '12.05vw'}}>
-                    TVL: <GreyText fs='0.94vw'>$</GreyText>{formattedNum(overallTVL)}
+                    <div style={{width: '12.05vw', display: 'flex', gap: '0.6vw', alignItems: 'center', justifyContent:'center'}}>
+                    TVL: <div><GreyText mt='0vw' fs='0.94vw'>$</GreyText>{formattedNum(overallTVL)}</div>
                     </div>
                     <VDivider/>
                     <div style={{width: '14.65vw'}}>

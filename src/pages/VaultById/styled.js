@@ -31,6 +31,10 @@ export const MaxButton = styled.button`
         width: 81px;
         border-radius: 10px;
     }
+    transition: 0.1s;
+    &:hover{
+        background-color: black;
+    }
 `
 export const Input = styled.input`
     font-weight: 500;
@@ -82,6 +86,10 @@ color: #fff;
     border-radius: 8px;
     margin-bottom: 24px;
 }
+transition: 0.1s;
+&:hover{
+    background-color: black;
+}
 `
 
 export const AddBuyContainer = styled.div`
@@ -118,6 +126,10 @@ export const AddButton = styled.a`
     background-color: #fff;
     color: #333;
     cursor: pointer;
+    transition: 0.1s;
+    &:hover{
+        border: 1px solid #4F4F4F;
+    }
     white-space: nowrap;
     @media (max-device-width: 480px){
         width: 100%;
@@ -137,7 +149,10 @@ export const BuyButton = styled.a`
     align-items: center;
     justify-content: center;
     border-radius: 1.56vw;
-
+    transition: 0.1s;
+    &:hover{
+        background-color: black;
+    }
     white-space: nowrap;
     color: #fff;
     background-color: #333;

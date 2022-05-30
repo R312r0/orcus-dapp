@@ -135,7 +135,7 @@ export const GreyText = styled.span`
   font-family: 'Poppins';
   font-size: ${props => props.fs ?? '0.73vw'};
   color: #828282;
-  margin-top: ${props => props.fs ?? '0.38vw'};
+  margin-top: ${props => props.mt ?? '0.38vw'};
 
 `
 
