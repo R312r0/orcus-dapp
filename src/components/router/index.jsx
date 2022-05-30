@@ -22,7 +22,7 @@ export default function Router() {
       <Route path='recollateralize' element={<Recollateralize />} />
       <Route path='vaults' element={<Vaults/>}/>
       {/* <Route path='swap' element={<SwapPool/>} /> */}
-      <Route path='vaults/id' element={<VaultById/>}/>
+      <Route path='vaults/:id' element={<VaultById/>}/>
     </Routes>
   );
 }

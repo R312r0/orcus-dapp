@@ -33,6 +33,8 @@ export const BlockchainContextProvider = ({children}) => {
     const [signer, setSigner] = useState(null);
     const [liquidity, setLiquidity] = useState(null);
 
+    const [globalVaults, setGlobalVaults] = useState(null);
+
     useEffect(() => {
 
         init();
@@ -170,7 +172,9 @@ export const BlockchainContextProvider = ({children}) => {
         connectWallet,
         contracts,
         signer,
-        liquidity
+        liquidity,
+        globalVaults,
+        setGlobalVaults
     }
 
     return (
