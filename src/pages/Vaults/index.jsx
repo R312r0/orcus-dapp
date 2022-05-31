@@ -203,9 +203,10 @@ const Vaults = () => {
                 const usdcTvl = (+reserves[0] / 1e6);
                 const wastrTvl = (+reserves[1] / 1e18);
 
-                lpPrice = (usdcTvl + wastrTvl) / lpSupply;
+                lpPrice = (usdcTvl + (wastrTvl * astrPrice)) / lpSupply;
                 tvlLocal = (vaultTotalSupply * vaultPerShare) * lpPrice;
                 tvl = lpPrice * masterBal;
+
                 overallTVL += tvlLocal;
                 userOverallDeposited += lpPrice * (userDepo * vaultPerShare);
             }
