@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-
+import styled from "styled-components";
 
 export const SidebarWrapper = styled.div`
   flex-direction: column;
@@ -10,8 +9,8 @@ export const SidebarWrapper = styled.div`
 `;
 
 export const LogoWrapper = styled.div`
-  height:${props => props.height ??  '2.344vw'};
-  width:${props => props.width ??  '3.125vw'}; 
+  height: ${(props) => props.height ?? "2.344vw"};
+  width: ${(props) => props.width ?? "3.125vw"};
 
   display: flex;
   margin-top: 2.552vw;
@@ -35,7 +34,6 @@ export const LogoText = styled.div`
     font-size: 1.042vw;
     font-weight: 600;
   }
-  
 `;
 
 export const TabLabel = styled.div`
@@ -52,31 +50,29 @@ export const TabLabel = styled.div`
   align-items: center;
   display: none;
   opacity: 0;
-`
+`;
 export const TabArrow = styled.div`
-
   z-index: -1;
   width: 0.8vw;
   transform: rotate(45deg);
   margin-left: -1.05vw;
   background-color: #333;
   height: 0.8vw;
-`
+`;
 
 export const PageTab = styled.div`
   // margin-top: 3.125vw;
-  margin-top: 2.400vw;
+  margin-top: 2.4vw;
   justify-content: space-between;
   position: relative;
   align-items: center;
   flex-direction: row;
   display: flex;
   width: 100%;
-  &:hover ${TabLabel}{
+  &:hover ${TabLabel} {
     display: flex;
     opacity: 1;
   }
-  
 `;
 
 export const IconWrapper = styled.div`
@@ -90,16 +86,16 @@ export const IconWrapper = styled.div`
   justify-content: center;
 
   svg {
-    stroke: ${(props) => (props.isActive ? '#fff' : '#4F4F4F')};
+    stroke: ${(props) => (props.isActive ? "#fff" : "#4F4F4F")};
     transition: 0.3s all;
     &:hover {
-      stroke: ${(props) => (props.isActive ? '#fff' : '#828282')};
+      stroke: ${(props) => (props.isActive ? "#fff" : "#828282")};
     }
   }
 `;
 
 export const ActivePageIndicator = styled.div`
-  opacity: ${(props) => (props.isActive ? '1' : '0')};
+  opacity: ${(props) => (props.isActive ? "1" : "0")};
   border-radius: 0.156vw 0 0 0.156vw;
   transition: 0.3s all;
   background: #fff;
@@ -110,7 +106,7 @@ export const ActivePageIndicator = styled.div`
 export const WalletBtn = styled.button`
   border: 0.052vw solid #4f4f4f;
   border-radius: 1.042vw;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   padding: 0 1.042vw;
   align-items: center;
   margin-top: 3.125vw;

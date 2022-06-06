@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const LayoutWrapper = styled.div`
   flex-direction: row;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
@@ -19,7 +19,7 @@ export const Content = styled.main`
   height: 44.271vw;
   width: 84.323vw;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: auto;
     box-sizing: border-box;
     overflow: hidden;
@@ -28,7 +28,7 @@ export const Content = styled.main`
     margin-right: 3%;
     // background-color: #fff;
     padding: 0;
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
     margin-top: 5%;
     border-radius: 12vw;
   }

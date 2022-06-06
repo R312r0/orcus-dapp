@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-// 
+import styled from "styled-components";
+//
 export const ORUTableWrapper = styled.div`
   padding: 1.302vw 2.031vw 1.042vw 2.083vw;
   flex-direction: column;
@@ -8,7 +8,7 @@ export const ORUTableWrapper = styled.div`
   height: 18.854vw;
   width: 20.521vw;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     height: auto;
     padding: 8%;
     margin: 0;
@@ -27,7 +27,7 @@ export const HDiv = styled.div`
   align-items: center;
   flex-direction: row;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     gap: 8px;
     height: 40px;
   }
@@ -44,23 +44,23 @@ export const IconWrapper = styled.div`
     width: 2.344vw;
     stroke: #000;
     fill: #000;
-    @media (max-device-width: 480px){
+    @media (max-device-width: 480px) {
       height: 6.344vw;
       width: 6.344vw;
     }
   }
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 6vw;
     height: 4vw;
   }
 `;
 
 export const TokenPrice = styled.span`
-  font-family: 'Poppins';
+  font-family: "Poppins";
   line-height: 1.875vw;
   font-size: 1.25vw;
   font-weight: 500;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     font-size: 18px;
     line-height: 16px;
   }
@@ -72,23 +72,22 @@ export const VDiv = styled.div`
 `;
 
 export const Text = styled.span`
-  font-family: ${(props) => props.fontFamily ?? 'Poppins'};
+  font-family: ${(props) => props.fontFamily ?? "Poppins"};
   margin-left: ${(props) => props.ml};
   margin-top: ${(props) => props.mt};
   line-height: 1.094vw;
   font-size: 0.729vw;
   font-weight: 400;
   color: #828282;
-  
 
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     font-size: 14px;
     font-weight: 400;
   }
   b {
     line-height: 1.094vw;
     font-size: 0.729vw;
-    @media (max-device-width: 480px){
+    @media (max-device-width: 480px) {
       font-size: 14px;
       font-weight: 500;
     }
@@ -102,7 +101,6 @@ export const Divider = styled.div`
   background: #f2f2f2;
   width: 16.406vw;
   height: 0.052vw;
-  
 `;
 
 export const AddBtn = styled.button`
@@ -118,7 +116,7 @@ export const AddBtn = styled.button`
   width: 8.073vw;
   color: #4f4f4f;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
     height: 40px;
     padding: 6px 10px;
@@ -136,7 +134,7 @@ export const AddBtn = styled.button`
   }
 
   svg {
-    @media (max-device-width: 480px){
+    @media (max-device-width: 480px) {
       height: 3vw;
       width: 3vw;
       margin: 0;
@@ -161,7 +159,7 @@ export const BuyBtn = styled.button`
   display: flex;
   border: none;
   color: #fff;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
     height: 40px;
     padding: 6px 10px;
@@ -179,7 +177,7 @@ export const BuyBtn = styled.button`
   }
 
   svg {
-    @media (max-device-width: 480px){
+    @media (max-device-width: 480px) {
       height: 3vw;
       width: 3vw;
       margin: 0;

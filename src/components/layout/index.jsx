@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import Sidebar from '../sidebar';
-import { Content, LayoutWrapper } from './styled';
+import Sidebar from "../sidebar";
+import { Content, LayoutWrapper } from "./styled";
 
 const Layout = ({ children }) => {
   return (

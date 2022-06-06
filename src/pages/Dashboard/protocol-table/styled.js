@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ProtocolTableWrapper = styled.div`
   padding: 1.354vw 2.865vw;
@@ -6,7 +6,7 @@ export const ProtocolTableWrapper = styled.div`
   background: #f5efd7;
   height: 11.042vw;
   width: 27.813vw;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
     height: auto;
     padding-top: 18px;
@@ -23,27 +23,25 @@ export const HDiv = styled.div`
   align-items: center;
   flex-direction: row;
   display: flex;
-  @media (max-device-width: 480px){
-    margin-top:${(props) => props.mt ?? '8px'};
+  @media (max-device-width: 480px) {
+    margin-top: ${(props) => props.mt ?? "8px"};
     height: 40px;
   }
-  
 `;
 
 export const Text = styled.span`
-  font-family: 'Poppins';
+  font-family: "Poppins";
   line-height: 1.25vw;
   font-size: 0.833vw;
   font-weight: 400;
   color: #828282;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     font-size: 14px;
     line-height: 16px;
-
   }
 
   b {
-    @media (max-device-width: 480px){
+    @media (max-device-width: 480px) {
       font-size: 18px;
       line-height: 19px;
       font-weight: 500;
@@ -60,7 +58,7 @@ export const Divider = styled.div`
   margin: 0.521vw 0;
   width: 21.823vw;
   height: 0.052vw;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
     height: 1px;
   }

@@ -1,7 +1,4 @@
-import styled from 'styled-components';
-
-
-
+import styled from "styled-components";
 
 export const SidebarMenu = styled.div`
   position: fixed;
@@ -12,28 +9,22 @@ export const SidebarMenu = styled.div`
   z-index: 10;
   width: 100%;
   left: 0;
+`;
 
-
-`
-
-export const NavigationWrapper = styled.div`
-  
-
-`
+export const NavigationWrapper = styled.div``;
 
 export const TopBarWrapper = styled.div`
-width: 100%;
-display: none;
-align-items: top;
-padding-left: 5%;
-margin-top: 32px;
-padding-right: 5%;
-justify-content: space-between;
-@media (max-device-width: 480px){
-  display: flex;
-}
-`
-
+  width: 100%;
+  display: none;
+  align-items: top;
+  padding-left: 5%;
+  margin-top: 32px;
+  padding-right: 5%;
+  justify-content: space-between;
+  @media (max-device-width: 480px) {
+    display: flex;
+  }
+`;
 
 export const SidebarWrapper = styled.div`
   flex-direction: column;
@@ -41,7 +32,7 @@ export const SidebarWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     display: none;
   }
 `;
@@ -61,18 +52,18 @@ export const LogoWrapper = styled.div`
 export const LogoText = styled.div`
   margin-top: ${(props) => props.mt};
 
-  line-height: ${ props => props.fS ?? '0.573vw'};
-  font-size: ${props => props.fS ?? '0.469vw'};
+  line-height: ${(props) => props.fS ?? "0.573vw"};
+  font-size: ${(props) => props.fS ?? "0.469vw"};
   font-weight: 400;
   color: #fff;
   display: flex;
 
   b {
-    line-height: ${ props => props.fS ?? ' 1.25vw'};
-    font-size: ${props => props.fS ?? '1.042vw'};
+    line-height: ${(props) => props.fS ?? " 1.25vw"};
+    font-size: ${(props) => props.fS ?? "1.042vw"};
     font-weight: 600;
   }
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     text-align: center;
     justify-content: center;
   }
@@ -92,32 +83,29 @@ export const TabLabel = styled.div`
   align-items: center;
   display: none;
   opacity: 0;
-`
+`;
 export const TabArrow = styled.div`
-
   z-index: -1;
   width: 0.8vw;
   height: 0.8vw;
   transform: rotate(45deg);
   margin-left: -0.64vw;
   background-color: #333;
-  
-`
+`;
 
 export const PageTab = styled.div`
   // margin-top: 3.125vw;
-  margin-top: 2.400vw;
+  margin-top: 2.4vw;
   justify-content: space-between;
   position: relative;
   align-items: center;
   flex-direction: row;
   display: flex;
   width: 100%;
-  &:hover ${TabLabel}{
+  &:hover ${TabLabel} {
     display: flex;
     opacity: 1;
   }
-  
 `;
 
 export const IconWrapper = styled.div`
@@ -129,22 +117,22 @@ export const IconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   svg {
-    @media (max-device-width: 480px){
+    @media (max-device-width: 480px) {
       // height: 5vw;
       // height: 5vw;
     }
-    stroke: ${(props) => (props.isActive ? '#fff' : '#4F4F4F')};
+    stroke: ${(props) => (props.isActive ? "#fff" : "#4F4F4F")};
     transition: 0.3s all;
     &:hover {
-      stroke: ${(props) => (props.isActive ? '#fff' : '#828282')};
+      stroke: ${(props) => (props.isActive ? "#fff" : "#828282")};
     }
   }
 `;
 
 export const ActivePageIndicator = styled.div`
-  opacity: ${(props) => (props.isActive ? '1' : '0')};
+  opacity: ${(props) => (props.isActive ? "1" : "0")};
   border-radius: 0.156vw 0 0 0.156vw;
   transition: 0.3s all;
   background: #fff;
@@ -155,7 +143,7 @@ export const ActivePageIndicator = styled.div`
 export const WalletBtn = styled.button`
   border: 0.052vw solid #4f4f4f;
   border-radius: 1.042vw;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   padding: 0 1.042vw;
   align-items: center;
   margin-top: 3.125vw;
