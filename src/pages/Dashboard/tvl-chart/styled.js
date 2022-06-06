@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const TVLChartWrapper = styled.div`
   padding: 1.563vw 3.542vw 1.302vw 3.542vw;
@@ -9,7 +9,7 @@ export const TVLChartWrapper = styled.div`
   height: 26.667vw;
   width: 62.135vw;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
     height: auto;
     // background: #f6f6f6;
@@ -44,7 +44,7 @@ export const IconWrapper = styled.div`
 `;
 
 export const TokenPrice = styled.span`
-  font-family: 'Poppins';
+  font-family: "Poppins";
   line-height: 1.875vw;
   font-size: 1.25vw;
   font-weight: 500;
@@ -56,20 +56,20 @@ export const VDiv = styled.div`
 `;
 
 export const Text = styled.span`
-  font-family: ${(props) => props.fontFamily ?? 'Poppins'};
+  font-family: ${(props) => props.fontFamily ?? "Poppins"};
   margin-left: ${(props) => props.ml};
   margin-top: ${(props) => props.mt};
   line-height: 1.875vw;
   font-size: 1.25vw;
   font-weight: 600;
   color: #333;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     font-size: 14px;
     line-height: 17px;
   }
 
   b {
-    @media (max-device-width: 480px){
+    @media (max-device-width: 480px) {
       font-size: 18px;
       line-height: 21px;
     }
@@ -92,9 +92,9 @@ export const AreaChartWrapper = styled.div`
   /* background: teal; */
   height: 17.448vw;
   width: 55.052vw;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
-    
+
     // background: #f6f6f6;
     background-color: white;
     height: 300px;

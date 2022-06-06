@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function getWindowScale() {
   const { devicePixelRatio: windowScaleValue } = window;
@@ -16,7 +16,7 @@ export const useWindowScale = () => {
     bottom: 0,
   });
   const [windowDimensions, setWindowDimensions] = React.useState(
-    getWindowScale(),
+    getWindowScale()
   );
 
   React.useEffect(() => {
@@ -24,8 +24,8 @@ export const useWindowScale = () => {
       setWindowDimensions(getWindowScale());
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   React.useEffect(() => {

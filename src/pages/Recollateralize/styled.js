@@ -1,24 +1,24 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const RecollateralizeWrapper = styled.div`
   flex-direction: row;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
   }
 `;
 export const RecollateralizeContent = styled.div`
   display: flex;
-`
+`;
 export const HeadingText = styled.span`
-  font-family: 'Poppins';
+  font-family: "Poppins";
   line-height: 1.875vw;
   margin-left: 1.25vw;
   font-size: 1.25vw;
   font-weight: 500;
   color: #333;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     font-size: 16px;
     line-height: 32px;
     padding-top: 24px !important;
@@ -30,24 +30,21 @@ export const HeadingText = styled.span`
   }
 `;
 
-
 export const StakingWrapper = styled.div`
   flex-direction: column;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
-
   }
 `;
-
 
 export const ToggleBtnWrapper = styled.div`
   margin-left: 24.792vw;
   margin-top: 2.135vw;
   align-items: center;
   display: flex;
-  @media (max-device-width: 480px){
-    background-color: #F2F2F2;
+  @media (max-device-width: 480px) {
+    background-color: #f2f2f2;
     margin: 0;
     border-radius: 12vw;
     padding: 4px;
@@ -55,11 +52,11 @@ export const ToggleBtnWrapper = styled.div`
 `;
 
 export const ToggleBtn = styled.div`
-  background-color: ${(props) => (props.isActive ? '#333' : 'transparent')};
+  background-color: ${(props) => (props.isActive ? "#333" : "transparent")};
   font-weight: ${(props) => (props.isActive ? 500 : 400)};
-  color: ${(props) => (props.isActive ? '#fff' : '#333')};
+  color: ${(props) => (props.isActive ? "#fff" : "#333")};
   transition: 0.3s background-color;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   cursor: pointer;
   padding: 0 1.25vw;
   font-size: 0.938vw;
@@ -68,11 +65,12 @@ export const ToggleBtn = styled.div`
   align-items: center;
   height: 2.135vw;
   display: flex;
-  &:hover{
-    background-color: ${props => props.isActive ? '#333' : '#c4c4c4'}
+  &:hover {
+    background-color: ${(props) => (props.isActive ? "#333" : "#c4c4c4")};
   }
-  @media (max-device-width: 480px){
-    background-color: ${(props) => (props.isActive ? '#fff' : '#f2f2f2')} !important;
+  @media (max-device-width: 480px) {
+    background-color: ${(props) =>
+      props.isActive ? "#fff" : "#f2f2f2"} !important;
     color: #333;
     font-size: 14px;
     width: 50%;
@@ -92,18 +90,16 @@ export const TabWrapper = styled.div`
   flex-direction: row;
   margin-left: 10.573vw;
   display: flex;
-  margin-top: 5.537vw ;
-  @media (max-device-width: 480px){
+  margin-top: 5.537vw;
+  @media (max-device-width: 480px) {
     width: 100%;
     flex-direction: column;
     margin-left: 0;
     margin-top: 0;
     // padding-top: 24px;
     // background-color: white;
-
   }
 `;
-
 
 export const RecollateralizeBlockWrapper = styled.div`
   padding: 1.615vw 2.969vw 3.333vw 2.969vw;
@@ -113,16 +109,14 @@ export const RecollateralizeBlockWrapper = styled.div`
   display: flex;
   background: #fff;
   border-radius: 1.042vw;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
     height: auto;
     padding-top: 48px;
     padding-bottom: 24px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-
   }
-  
 `;
 
 export const HDiv = styled.div`
@@ -133,23 +127,23 @@ export const HDiv = styled.div`
   flex-direction: row;
   align-items: center;
   display: flex;
-  @media (max-device-width: 480px){
-    height: ${props => props.h ?? 'auto'};
+  @media (max-device-width: 480px) {
+    height: ${(props) => props.h ?? "auto"};
   }
 `;
 
 export const Text = styled.span`
-  font-family: 'Poppins';
+  font-family: "Poppins";
   line-height: 1.406vw;
   font-size: 0.938vw;
-  font-weight: ${props => props.fontWeight ?? '300'};
+  font-weight: ${(props) => props.fontWeight ?? "300"};
   color: #4f4f4f;
-  @media (max-device-width: 480px){
-    font-size: ${props => props.fS ?? '12px'};
+  @media (max-device-width: 480px) {
+    font-size: ${(props) => props.fS ?? "12px"};
     line-height: 16px;
   }
   b {
-    @media (max-device-width: 480px){
+    @media (max-device-width: 480px) {
       font-size: 16px;
       line-height: 16px;
     }
@@ -172,11 +166,11 @@ export const PercentageContainer = styled.div`
 
 export const RecollateralizeInputWrapper = styled.div`
   /* margin-top: ${(props) => props.mt}; */
-  background: ${(props) => (props.withBtn ? '#FCFCFD' : '#F5EFD7')};
+  background: ${(props) => (props.withBtn ? "#FCFCFD" : "#F5EFD7")};
   box-shadow: ${(props) =>
     props.withBtn
-      ? 'inset 0 0.208vw 0.833vw rgba(197, 197, 197, 0.25)'
-      : 'none'};
+      ? "inset 0 0.208vw 0.833vw rgba(197, 197, 197, 0.25)"
+      : "none"};
   padding: 0 0.833vw 0 1.406vw;
   flex-direction: row;
   /* justify-content: space-between; */
@@ -198,7 +192,7 @@ export const RecollateralizeInputWrapper = styled.div`
   }}
 
   input {
-    width: ${(props) => (props.withBtn ? '18.8vw' : '24.7vw')};
+    width: ${(props) => (props.withBtn ? "18.8vw" : "24.7vw")};
     font-family: 'Poppins';
     font-size: 0.833vw;
     font-weight: 500;
@@ -247,16 +241,16 @@ export const RecollateralizeInputWrapper = styled.div`
 
 export const IconWrapper = styled.div`
   margin: ${(props) => props.margin};
-  height: ${(props) => props.h ?? '1.250vw'};
-  width: ${(props) => props.w ?? '1.250vw'};
+  height: ${(props) => props.h ?? "1.250vw"};
+  width: ${(props) => props.w ?? "1.250vw"};
   justify-content: center;
   align-items: center;
   align-self: center;
   display: flex;
 
   svg {
-    fill: ${(props) => props.fill ?? '#BDBDBD'};
-    /* stroke: ${(props) => props.stroke ?? '#BDBDBD'}; */
+    fill: ${(props) => props.fill ?? "#BDBDBD"};
+    /* stroke: ${(props) => props.stroke ?? "#BDBDBD"}; */
     height: inherit;
     width: inherit;
   }
@@ -280,7 +274,7 @@ export const HDivider = styled.div`
   margin: ${(props) => props.margin};
   height: 0.052vw;
   width: 21.146vw;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
     height: 1px;
   }
@@ -300,7 +294,7 @@ export const RecollateralizeBtn = styled.button`
   color: #fff;
   align-self: center;
   cursor: pointer;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
     font-size: 14px;
     line-height: 14px;
@@ -323,7 +317,7 @@ export const RecollateralizeDataWrapper = styled.div`
   height: 22.188vw;
   width: 25.573vw;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     margin: 0;
     width: 100%;
     padding-top: 32px;
@@ -338,28 +332,27 @@ export const RecollateralizeDataWrapper = styled.div`
 export const RecollateralizeDataText = styled.span`
   margin-right: ${(props) => props.mr};
   margin-left: ${(props) => props.ml};
-  font-family: 'Poppins';
+  font-family: "Poppins";
   line-height: 1.094vw;
   font-size: 0.729vw;
   font-weight: 400;
   color: #828282;
-  @media (max-device-width: 480px){
-    font-size: 14px; 
+  @media (max-device-width: 480px) {
+    font-size: 14px;
     line-height: 14px;
     margin-top: 8px;
     margin-bottom: 8px;
   }
-
 
   b {
     line-height: 1.094vw;
     font-size: 0.729vw;
     font-weight: 400;
     color: #333;
-    @media (max-device-width: 480px){
-      font-size: 14px; 
+    @media (max-device-width: 480px) {
+      font-size: 14px;
       line-height: 14px;
-      font-weight: ${props => props.bfw ?? '400'};
+      font-weight: ${(props) => props.bfw ?? "400"};
     }
   }
 `;

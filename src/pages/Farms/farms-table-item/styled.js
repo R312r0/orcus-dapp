@@ -1,6 +1,6 @@
-import { Slider } from '@mui/material';
-import { styled as styledMUI } from '@mui/material/styles';
-import styled from 'styled-components';
+import { Slider } from "@mui/material";
+import { styled as styledMUI } from "@mui/material/styles";
+import styled from "styled-components";
 
 export const Locked = styled.div`
   width: 100%;
@@ -8,18 +8,18 @@ export const Locked = styled.div`
   text-align: center;
   margin-top: 0.4vw;
   color: #333;
-`
+`;
 export const ColorfulBlock = styled.div`
   border-radius: 99px;
-  width: ${props => props.width ?? '0px' };
+  width: ${(props) => props.width ?? "0px"};
   height: 3.2vw;
-  
+
   transition: 0.3s all;
-  margin-left: ${props => props.ml ?? '0px'};
-  background-color: ${props => props.bgColor ?? 'white'};
-  
+  margin-left: ${(props) => props.ml ?? "0px"};
+  background-color: ${(props) => props.bgColor ?? "white"};
+
   cursor: pointer;
-`
+`;
 export const ColorfulBtnContainer = styled.div`
   position: relative;
   height: 2.7vw;
@@ -29,11 +29,10 @@ export const ColorfulBtnContainer = styled.div`
   display: flex;
   cursor: pointer;
   transition: 0.3s all;
-  &:hover ${ColorfulBlock}{
+  &:hover ${ColorfulBlock} {
     background-color: #333;
   }
-`
-
+`;
 
 export const ColorfulBtn = styled.div`
   padding: 0.8vw 1.2vw;
@@ -45,37 +44,36 @@ export const ColorfulBtn = styled.div`
   margin-top: 0.3vw;
   margin-left: 0.25vw;
   white-space: nowrap;
-  
+
   cursor: pointer;
-`
+`;
 
 export const OutlineBtn = styled.div`
-font-family: 'Poppins';
-background: transparent;
-margin-top: ${props => props.mt ?? '0px'};
-border: 1px solid #333;
-border-radius: 0.625vw;
-height: 3.542vw;
-gap: ${props => props.gap ?? '0px'};
-width: ${props => props.width ?? '100%'};
-display: flex;
-align-items: center;
-justify-content: center;
-font-weight: 500;
-font-size: 0.833vw;
-// color: #fff;
-cursor: pointer;
-&:hover {
-  transition: all 0.3s;
-  background: #F4BD50;
-}
-
-`
+  font-family: "Poppins";
+  background: transparent;
+  margin-top: ${(props) => props.mt ?? "0px"};
+  border: 1px solid #333;
+  border-radius: 0.625vw;
+  height: 3.542vw;
+  gap: ${(props) => props.gap ?? "0px"};
+  width: ${(props) => props.width ?? "100%"};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 0.833vw;
+  // color: #fff;
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s;
+    background: #f4bd50;
+  }
+`;
 export const HelpText = styled.div`
   position: absolute;
   display: none;
   background-color: white;
-  border: 1px solid #EAEAEA;
+  border: 1px solid #eaeaea;
   border-radius: 0.25vw;
   font-size: 0.8vw;
   width: 12vw;
@@ -83,32 +81,31 @@ export const HelpText = styled.div`
   margin-left: -5vw;
   padding: 0.8vw;
   z-index: 10;
-`
+`;
 
 export const HelpCircleContainer = styled.div`
-  &:hover ${HelpText}{
+  &:hover ${HelpText} {
     display: block;
   }
   position: relative;
   cursor: pointer;
-`
+`;
 export const FarmsColumn = styled.div`
   display: flex;
   align-items: center;
   // justify-content: center;
-  ${props => props.center ? ' justify-content: center;' : ''}
-`
+  ${(props) => (props.center ? " justify-content: center;" : "")}
+`;
 
 export const FarmsRow = styled.div`
   display: grid;
   grid-template-columns: 4fr 4fr 3fr 2fr 4fr 2fr;
-`
-
+`;
 
 export const FarmsTableItem = styled.div`
   transition: 0.3s all;
   flex-direction: column;
-  height: ${(props) => (props.isExpanded ? '30.781vw' : '7.083vw')};
+  height: ${(props) => (props.isExpanded ? "30.781vw" : "7.083vw")};
   width: 81.302vw;
   background: #e4ddef;
   display: flex;
@@ -120,12 +117,12 @@ export const MainData = styled.div`
 `;
 
 export const HeadingText = styled.span`
-  font-family: 'Poppins';
+  font-family: "Poppins";
   line-height: 1.875vw;
   font-size: 1.25vw;
   font-weight: 500;
   color: #333;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     font-size: 16px;
     line-height: 32px;
     margin-top: 24px !important;
@@ -141,8 +138,8 @@ export const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   display: flex;
-  height: ${(props) => props.h ?? '2.292vw'};
-  width: ${(props) => props.w ?? '3.021vw'};
+  height: ${(props) => props.h ?? "2.292vw"};
+  width: ${(props) => props.w ?? "3.021vw"};
 
   svg {
     fill: #000;
@@ -162,7 +159,7 @@ export const ExpandBtn = styled.div`
   svg {
     transition: 0.3s all;
     transform: ${(props) =>
-      props.isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};
+      props.isExpanded ? "rotate(180deg)" : "rotate(0deg)"};
     color: #828282;
     width: 1.25vw;
     height: 1.25vw;
@@ -194,10 +191,10 @@ export const Text = styled.span`
   margin-right: ${(props) => props.mr};
   margin-left: ${(props) => props.ml};
   min-width: ${(props) => props.minW};
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-weight: 300;
-  font-size: ${(props) => props.fontSize ?? '0.938vw'};
-  line-height: ${(props) => props.lineHeight ?? '1.406vw'};
+  font-size: ${(props) => props.fontSize ?? "0.938vw"};
+  line-height: ${(props) => props.lineHeight ?? "1.406vw"};
   color: #4f4f4f;
 
   b {
@@ -244,7 +241,7 @@ export const FarmsInputContainer = styled.div`
   justify-content: space-between;
 
   input {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-size: 0.833vw;
     font-weight: 500;
@@ -256,7 +253,7 @@ export const FarmsInputContainer = styled.div`
 `;
 
 export const VestingBtn = styled.button`
-  font-family: 'Poppins';
+  font-family: "Poppins";
   background: #333;
   margin-top: 2.083vw;
   border-radius: 0.625vw;
@@ -276,7 +273,7 @@ export const VestingBtn = styled.button`
 `;
 
 export const WithdrawBtn = styled.button`
-  font-family: 'Poppins';
+  font-family: "Poppins";
   border: 0.052vw solid #333333;
   background: transparent;
   margin-top: 2.083vw;
@@ -299,7 +296,7 @@ export const WithdrawBtn = styled.button`
 export const VestRewardsBtn = styled.button`
   margin-left: 1.302vw;
   border-radius: 1.042vw;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   background: #333;
   height: 2.396vw;
   width: 15.469vw;
@@ -317,54 +314,54 @@ export const VestRewardsBtn = styled.button`
 `;
 
 export const FarmsSlider = styledMUI(Slider)(() => ({
-  width: '31.5vw',
-  maxHeight: '0.260vw',
-  minHeight: '0.260vw',
-  height: '0.260vw',
-  color: '#333',
-  marginTop: '2.552vw',
-  padding: '0',
+  width: "31.5vw",
+  maxHeight: "0.260vw",
+  minHeight: "0.260vw",
+  height: "0.260vw",
+  color: "#333",
+  marginTop: "2.552vw",
+  padding: "0",
 
-  '.Mui-disabled': {
-    color: '#F6F6F6',
-    backgroundcolor: '#F6F6F6',
+  ".Mui-disabled": {
+    color: "#F6F6F6",
+    backgroundcolor: "#F6F6F6",
 
-    '& .MuiSlider-valueLabel': {
-      color: '#F6F6F6',
+    "& .MuiSlider-valueLabel": {
+      color: "#F6F6F6",
     },
   },
 
-  '&.MuiSlider-root.Mui-disabled': {
-    color: '#F6F6F6',
-    backgroundcolor: '#F6F6F6',
+  "&.MuiSlider-root.Mui-disabled": {
+    color: "#F6F6F6",
+    backgroundcolor: "#F6F6F6",
 
-    '& .MuiSlider-track': {
-      backgroundColor: '#F6F6F6',
+    "& .MuiSlider-track": {
+      backgroundColor: "#F6F6F6",
     },
 
-    '& .MuiSlider-markActive': {
-      backgroundColor: '#F6F6F6',
+    "& .MuiSlider-markActive": {
+      backgroundColor: "#F6F6F6",
     },
   },
 
-  '& .MuiSlider-thumb': {
-    display: 'none',
+  "& .MuiSlider-thumb": {
+    display: "none",
   },
 
-  '& .MuiSlider-mark': {
-    width: '1.094vw',
-    height: '1.094vw',
-    borderRadius: '50%',
-    backgroundColor: '#F6F6F6',
+  "& .MuiSlider-mark": {
+    width: "1.094vw",
+    height: "1.094vw",
+    borderRadius: "50%",
+    backgroundColor: "#F6F6F6",
   },
 
-  '& .MuiSlider-markActive': {
-    backgroundColor: '#333',
+  "& .MuiSlider-markActive": {
+    backgroundColor: "#333",
     opacity: 1,
   },
 
-  '& .MuiSlider-rail ': {
-    backgroundColor: '#F6F6F6 !important',
-    opacity: '1',
+  "& .MuiSlider-rail ": {
+    backgroundColor: "#F6F6F6 !important",
+    opacity: "1",
   },
 }));

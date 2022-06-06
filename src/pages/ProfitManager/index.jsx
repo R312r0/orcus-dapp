@@ -1,26 +1,40 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 
-import { ProfitManagerWrapper, HeadingText, HistoryHeader, HistoryTableRow,HistoryTableHead,HistoryContainer, HorizontalSpaceBetween, Text,Line, TPPLabel, ProfitManagerHeader, VerticalSpaceBetween,  HistoryContent  } from './styled';
-import {formatAddress, formatDate, formattedNum} from "../../utils";
-import MRow from './MRow';
-import { getTableRowUtilityClass } from '@mui/material';
+import {
+  ProfitManagerWrapper,
+  HeadingText,
+  HistoryHeader,
+  HistoryTableRow,
+  HistoryTableHead,
+  HistoryContainer,
+  HorizontalSpaceBetween,
+  Text,
+  Line,
+  TPPLabel,
+  ProfitManagerHeader,
+  VerticalSpaceBetween,
+  HistoryContent,
+} from "./styled";
+import { formatAddress, formatDate, formattedNum } from "../../utils";
+import MRow from "./MRow";
+import { getTableRowUtilityClass } from "@mui/material";
 
-const  myHeaders = new Headers();
+const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
 const graphql = JSON.stringify({
-  query: "query MyQuery {\n  profitManagerItems(orderBy:timestamp_DESC) {\n    id\n    timestamp\n    oruArbitrager\n    oruFromFee\n    oruPenalty\n    timestamp\n    totalInOru\n    totalInUsd\n    usdcFromInvest\n  }\n    investements(orderBy: timestamp_DESC) {\n    id\n    timestamp\n    value\n  }\n}\n",
-  variables: {}
-})
+  query:
+    "query MyQuery {\n  profitManagerItems(orderBy:timestamp_DESC) {\n    id\n    timestamp\n    oruArbitrager\n    oruFromFee\n    oruPenalty\n    timestamp\n    totalInOru\n    totalInUsd\n    usdcFromInvest\n  }\n    investements(orderBy: timestamp_DESC) {\n    id\n    timestamp\n    value\n  }\n}\n",
+  variables: {},
+});
 const requestOptions = {
-  method: 'POST',
+  method: "POST",
   headers: myHeaders,
   body: graphql,
-  redirect: 'follow'
+  redirect: "follow",
 };
 
 const ProfitManager = () => {
-
   // const [ historyArray ,  ] = useState(
   //     [{date: '2/19/2022', fee: '4,468 ORU', collateral: '0 ORU', arbitrager: '1,121 ORU', penalty: '33,057 ORU', totalORU: '38,645 ORU', totalUSD: '$ 4,048', txHash: '0x7025...edc0'},
   //       {date: '2/19/2022', fee: '4,468 ORU', collateral: '0 ORU', arbitrager: '1,121 ORU', penalty: '33,057 ORU', totalORU: '38,645 ORU', totalUSD: '$ 4,048', txHash: '0x7025...edc0'},]
@@ -31,15 +45,23 @@ const ProfitManager = () => {
 
   useEffect(() => {
     getProfitData();
-  }, [])
+  }, []);
 
   const getProfitData = async () => {
-
-    const {data: {profitManagerItems, investements}} = JSON.parse(await (await fetch("https://app.gc.subsquid.io/beta/orcus/main1/graphql", requestOptions)).text())
+    const {
+      data: { profitManagerItems, investements },
+    } = JSON.parse(
+      await (
+        await fetch(
+          "https://app.gc.subsquid.io/beta/orcus/main1/graphql",
+          requestOptions
+        )
+      ).text()
+    );
     let profit = 0;
 
     const formattedData = profitManagerItems.map((item, _ind) => {
-      profit += +(item.totalInUsd)
+      profit += +item.totalInUsd;
 
       const date = formatDate(+item.timestamp);
 
@@ -51,110 +73,95 @@ const ProfitManager = () => {
         penalty: +item.oruPenalty,
         totalORU: +item.totalInOru,
         totalUSD: +item.totalInUsd,
-        txHash: item.id
-      }
-
-    })
+        txHash: item.id,
+      };
+    });
 
     setTotalProfit(profit);
-    setHistoryArray(formattedData)
+    setHistoryArray(formattedData);
+  };
 
-  }
+  const isMobileScreen = () => {
+    let query = window.matchMedia("(max-device-width: 480px)");
+    return query.matches;
+  };
 
-  const isMobileScreen = ( ) => {
-    let query = window.matchMedia('(max-device-width: 480px)')
-    return query.matches
-  }
-
-  return <ProfitManagerWrapper>
-    <ProfitManagerHeader>
-    <HorizontalSpaceBetween>
-      <div>
-        <VerticalSpaceBetween>
+  return (
+    <ProfitManagerWrapper>
+      <ProfitManagerHeader>
+        <HorizontalSpaceBetween>
           <div>
-          <HeadingText>Orcus Profit Manager</HeadingText>
-          </div>
-          <div>
-          <Text>Total Protocol Profit</Text>
-          <TPPLabel> $ {totalProfit ? formattedNum(totalProfit) : 0}  </TPPLabel>
-          </div>
-        </VerticalSpaceBetween>
-      </div>
-    </HorizontalSpaceBetween>
-    </ProfitManagerHeader>
-    <HistoryContainer>
-      <HistoryContent  paddingTop='32px'>
-        <HistoryHeader>History</HistoryHeader>
-        { !isMobileScreen() ? 
-        <HistoryTableHead>
-          <div>
-            Date
-          </div>
-          <div>
-            Fee Collector
-          </div>
-          <div>
-          Collateral Invest
-          </div>
-          <div>
-          Arbitrager
-          </div>
-          <div>
-          Penalty
-          </div>
-          <div>
-          TOTAL in ORU
-          </div>
-          <div>
-          TOTAL in $
-          </div>
-          <div>
-          Tx
-          </div>
-        </HistoryTableHead>  : <></>}
-      </HistoryContent>
-        <Line color='#F2F2F2'></Line>
-        { !isMobileScreen() ? 
-        <HistoryContent mb='16px' paddingTop='0px'>
-          {historyArray && historyArray.map(row => {
-            return (<HistoryTableRow key={Math.random()}>
-
+            <VerticalSpaceBetween>
               <div>
-                  {row.date}
-                </div>
-                <div>
-                  {formattedNum(row.fee)} ORU
-                </div>
-                <div>
-                {formattedNum(row.collateral)} USD
-                </div>
-                <div>
-                {formattedNum(row.arbitrager)} ORU
-                </div>
-                <div>
-                {formattedNum(row.penalty)} ORU
-                </div>
-                <div>
-                {formattedNum(row.totalORU)} ORU
-                </div>
-                <div>
-                {formattedNum(row.totalUSD)} USD
-                </div>
-                <div>
-                  <a href={`https://blockscout.com/astar/tx/${row.txHash}`} target={"_blank"}  style={{color: "black", textDecoration: "none"}}>{formatAddress(row.txHash)} </a>
-                </div>
-                </HistoryTableRow>);
-          })}
-
+                <HeadingText>Orcus Profit Manager</HeadingText>
+              </div>
+              <div>
+                <Text>Total Protocol Profit</Text>
+                <TPPLabel>
+                  {" "}
+                  $ {totalProfit ? formattedNum(totalProfit) : 0}{" "}
+                </TPPLabel>
+              </div>
+            </VerticalSpaceBetween>
+          </div>
+        </HorizontalSpaceBetween>
+      </ProfitManagerHeader>
+      <HistoryContainer>
+        <HistoryContent paddingTop="32px">
+          <HistoryHeader>History</HistoryHeader>
+          {!isMobileScreen() ? (
+            <HistoryTableHead>
+              <div>Date</div>
+              <div>Fee Collector</div>
+              <div>Collateral Invest</div>
+              <div>Arbitrager</div>
+              <div>Penalty</div>
+              <div>TOTAL in ORU</div>
+              <div>TOTAL in $</div>
+              <div>Tx</div>
+            </HistoryTableHead>
+          ) : (
+            <></>
+          )}
         </HistoryContent>
-        : <HistoryContent paddingTop='0px'>
-        {historyArray && historyArray.map((row, idx) => {
-          return (<MRow index={idx} row={row}/>);
-        })}
-
-      </HistoryContent> }
-    </HistoryContainer>
-  </ProfitManagerWrapper>;
+        <Line color="#F2F2F2"></Line>
+        {!isMobileScreen() ? (
+          <HistoryContent mb="16px" paddingTop="0px">
+            {historyArray &&
+              historyArray.map((row) => {
+                return (
+                  <HistoryTableRow key={Math.random()}>
+                    <div>{row.date}</div>
+                    <div>{formattedNum(row.fee)} ORU</div>
+                    <div>{formattedNum(row.collateral)} USD</div>
+                    <div>{formattedNum(row.arbitrager)} ORU</div>
+                    <div>{formattedNum(row.penalty)} ORU</div>
+                    <div>{formattedNum(row.totalORU)} ORU</div>
+                    <div>{formattedNum(row.totalUSD)} USD</div>
+                    <div>
+                      <a
+                        href={`https://blockscout.com/astar/tx/${row.txHash}`}
+                        target={"_blank"}
+                        style={{ color: "black", textDecoration: "none" }}
+                      >
+                        {formatAddress(row.txHash)}{" "}
+                      </a>
+                    </div>
+                  </HistoryTableRow>
+                );
+              })}
+          </HistoryContent>
+        ) : (
+          <HistoryContent paddingTop="0px">
+            {historyArray &&
+              historyArray.map((row, idx) => {
+                return <MRow index={idx} row={row} />;
+              })}
+          </HistoryContent>
+        )}
+      </HistoryContainer>
+    </ProfitManagerWrapper>
+  );
 };
 
 export default ProfitManager;

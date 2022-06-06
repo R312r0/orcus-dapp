@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CustomSpan = styled.span`
   fontFamily: 'Poppins',
@@ -9,7 +9,7 @@ export const CustomSpan = styled.span`
   @media (max-device-width: 480px){
     font-size: 16px;
   }
-`
+`;
 export const StakeBlockWrapper = styled.div`
   padding: 1.615vw 2.969vw 3.333vw 2.969vw;
   height: 32.865vw;
@@ -43,23 +43,23 @@ export const HDiv = styled.div`
   flex-direction: row;
   align-items: center;
   display: flex;
-  @media (max-device-width: 480px){
-    height: ${props => props.h ?? 'auto'};
+  @media (max-device-width: 480px) {
+    height: ${(props) => props.h ?? "auto"};
   }
 `;
 
 export const Text = styled.span`
-  font-family: 'Poppins';
+  font-family: "Poppins";
   line-height: 1.406vw;
   font-size: 0.938vw;
   font-weight: 300;
   color: #4f4f4f;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     font-size: 12px;
     line-height: 16px;
   }
   b {
-    @media (max-device-width: 480px){
+    @media (max-device-width: 480px) {
       font-size: 18px;
       line-height: 18px;
     }
@@ -78,7 +78,7 @@ export const PercentageContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   text-align: center;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     height: auto;
     align-items: center;
     padding: 4px 8px;
@@ -87,11 +87,11 @@ export const PercentageContainer = styled.div`
 
 export const StakeInputWrapper = styled.div`
   /* margin-top: ${(props) => props.mt}; */
-  background: ${(props) => (props.withBtn ? '#FCFCFD' : '#e4ddef;')};
+  background: ${(props) => (props.withBtn ? "#FCFCFD" : "#e4ddef;")};
   box-shadow: ${(props) =>
     props.withBtn
-      ? 'inset 0 0.208vw 0.833vw rgba(197, 197, 197, 0.25)'
-      : 'none'};
+      ? "inset 0 0.208vw 0.833vw rgba(197, 197, 197, 0.25)"
+      : "none"};
   padding: 0 0.833vw 0 1.406vw;
   flex-direction: row;
   /* justify-content: space-between; */
@@ -100,22 +100,21 @@ export const StakeInputWrapper = styled.div`
   height: 3.542vw;
   width: 32.448vw;
   align-items: center;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-size: 0.833vw;
   font-weight: 500;
   color: #272a30;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
     height: 44px;
     font-size: 12px;
     border-radius: 8px;
   }
-  
 
   input {
-    width: ${(props) => (props.withBtn ? '18.8vw' : '24.7vw')};
-    font-family: 'Poppins';
+    width: ${(props) => (props.withBtn ? "18.8vw" : "24.7vw")};
+    font-family: "Poppins";
     font-size: 0.833vw;
     font-weight: 500;
     color: #272a30;
@@ -123,7 +122,7 @@ export const StakeInputWrapper = styled.div`
     ::placeholder {
       color: #bdbdbd;
     }
-    @media (max-device-width: 480px){
+    @media (max-device-width: 480px) {
       width: 90%;
       height: 32px;
       font-size: 14px;
@@ -131,8 +130,7 @@ export const StakeInputWrapper = styled.div`
   }
 
   button {
-    @media (max-device-width: 480px){
-      
+    @media (max-device-width: 480px) {
       height: auto;
       padding: 4px 8px;
       width: auto;
@@ -155,7 +153,7 @@ export const StakeInputWrapper = styled.div`
     &:hover {
       transition: all 0.3s;
       background: #000;
-      @media (max-device-width: 480px){
+      @media (max-device-width: 480px) {
         background: inherit;
       }
     }
@@ -164,16 +162,16 @@ export const StakeInputWrapper = styled.div`
 
 export const IconWrapper = styled.div`
   margin: ${(props) => props.margin};
-  height: ${(props) => props.h ?? '1.250vw'};
-  width: ${(props) => props.w ?? '1.250vw'};
+  height: ${(props) => props.h ?? "1.250vw"};
+  width: ${(props) => props.w ?? "1.250vw"};
   justify-content: center;
   align-items: center;
   align-self: center;
   display: flex;
 
   svg {
-    fill: ${(props) => props.fill ?? '#BDBDBD'};
-    /* stroke: ${(props) => props.stroke ?? '#BDBDBD'}; */
+    fill: ${(props) => props.fill ?? "#BDBDBD"};
+    /* stroke: ${(props) => props.stroke ?? "#BDBDBD"}; */
     height: inherit;
     width: inherit;
   }
@@ -197,7 +195,7 @@ export const HDivider = styled.div`
   margin: ${(props) => props.margin};
   height: 0.052vw;
   width: 21.146vw;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
   }
 `;
@@ -220,7 +218,7 @@ export const StakeBtn = styled.button`
     transition: all 0.3s;
     background: #000;
   }
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     width: 100%;
     font-size: 14px;
     line-height: 14px;
@@ -239,7 +237,7 @@ export const StakeDataWrapper = styled.div`
   height: 22.188vw;
   width: 25.573vw;
   display: flex;
-  @media (max-device-width: 480px){
+  @media (max-device-width: 480px) {
     margin: 0;
     width: 100%;
     padding-top: 32px;
@@ -254,23 +252,23 @@ export const StakeDataWrapper = styled.div`
 export const StakeDataText = styled.span`
   margin-right: ${(props) => props.mr};
   margin-left: ${(props) => props.ml};
-  font-family: 'Poppins';
+  font-family: "Poppins";
   line-height: 1.094vw;
   font-size: 0.729vw;
   font-weight: 400;
   color: #828282;
-  @media (max-device-width: 480px){
-    font-size: 14px; 
+  @media (max-device-width: 480px) {
+    font-size: 14px;
     line-height: 14px;
     margin-top: 8px;
     margin-bottom: 8px;
   }
 
   b {
-    @media (max-device-width: 480px){
-      font-size: 14px; 
+    @media (max-device-width: 480px) {
+      font-size: 14px;
       line-height: 14px;
-      font-weight: ${props => props.bfw ?? '400'};
+      font-weight: ${(props) => props.bfw ?? "400"};
     }
     line-height: 1.094vw;
     font-size: 0.729vw;

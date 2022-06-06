@@ -1,1 +1,1 @@
-export * from './useWindowScale';
+export * from "./useWindowScale";
