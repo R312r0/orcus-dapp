@@ -32,6 +32,7 @@ import axios from "axios";
 import FarmsTableItem from './mobile-item/index'
 import VaultById from "../VaultById";
 import fromExponential from "from-exponential";
+import {CircularProgress} from "@mui/material";
 
 const TOP_BAR_CATEGORIES = {
     ALL: "All",
@@ -49,16 +50,23 @@ const SECOND_BAR_CATEGORIES = {
 const Vaults = () => {
 
     const {account} = useWeb3React();
+    const {signer, connectWallet} = useBlockChainContext();
+    const navigate = useNavigate();
+
 
     const [selectedTopbarCategory, setTopbarCategory] = useState(TOP_BAR_CATEGORIES.ALL);
     const [vaultsValue, setVaultsValue] = useState('All Vaults')
+
+    const [provider, setProvider] = useState(null);
+
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const [isFilterOverlay, setFilterOverlay] = useState(false)
     const [isSortByOverlay, setSortByOverlay] = useState(false);
 
     const [searchVaultInput, setSearchVaultInput] = useState("");
 
-    // FIXME: when will be tested take it off.
     const [clearVaults, setClearVaults] = useState(null);
     const [filteredVaults, setFilteredVaults] = useState(null);
     const [selectedVault, setSelectedVault] = useState(null);
@@ -67,11 +75,37 @@ const Vaults = () => {
     const [overallTVL, setOverallTVL] = useState(0);
     const [topInfo, setTopInfo] = useState({deposited: 0, monthYield: 0, dailyYield: 0})
 
+    const [timeoutGone, setTimeoutGone] = useState(false);
+
+    useEffect(
+        () => {
+            let timer1 = setTimeout(() => setTimeoutGone(true), 3 * 1000);
+
+            return () => {
+                clearTimeout(timer1);
+            };
+        },
+        []
+    );
+
     useEffect(() => {
 
-        convertVaultsData();
+        if (timeoutGone) {
+            if (signer) {
+                setProvider(signer);
+            }
+            else {
+                setProvider(new ethers.providers.JsonRpcProvider(JSON_RPC_URL));
+            }
+        }
+    }, [signer, timeoutGone])
 
-    }, [])
+    useEffect(() => {
+        if (provider) {
+            convertVaultsData();
+        }
+    }, [provider])
+
 
     useEffect(() => {
 
@@ -83,94 +117,112 @@ const Vaults = () => {
 
     const convertVaultsData = async () => {
 
-        const readProvider = new ethers.providers.JsonRpcProvider(JSON_RPC_URL);
+        setLoading(true);
 
+        const readProvider = account ? signer : new ethers.providers.JsonRpcProvider(JSON_RPC_URL);
         let overallTvl = 0;
 
-        let vaultsArr = await Promise.all(
-            TEST_VAULT.map(async project => {
+        try {
+            let vaultsArr = await Promise.all(
+                TEST_VAULT.map(async project => {
 
-                const tokenData = await axios.get(`https://api.dexscreener.io/latest/dex/tokens/${project.rewardTokenAddress}`); // Pass
-                const rewardTokenPrice = parseFloat(tokenData.data.pairs[0].priceUsd); // Pass
+                    const tokenData = await axios.get(`https://api.dexscreener.io/latest/dex/tokens/${project.rewardTokenAddress}`); // Pass
+                    const rewardTokenPrice = parseFloat(tokenData.data.pairs[0].priceUsd); // Pass
 
-                const router = !project.lending ? new ethers.Contract(project.routerAddress, ROUTER_ABI, readProvider) : null; // Check if single pool we don't need router-zapper.
+                    const router = !project.lending ? new ethers.Contract(project.routerAddress, ROUTER_ABI, readProvider) : null; // Check if single pool we don't need router-zapper.
 
-                return await Promise.all(project.vaults.map(async vault => {
+                    return await Promise.all(project.vaults.map(async vault => {
 
-                    const lpContract = new ethers.Contract(vault.lpAddress, ERC20_ABI, readProvider); // Lp - ERC20 contract in case of single pool lp is just token, like USDC or DAI
-                    const masterChief = !project.lending ? new ethers.Contract(project.masterChiefAddress, MASTER_CHEF_ABIS[project.name], readProvider) : null; // Check if lending we don't have master-chief.
-                    const vaultContract = new ethers.Contract(vault.vaultAddress, !project.lending ? VAULT_ABI : VAULT_NATIVE_ABI, readProvider); // Pass
-                    const token0Contract = new ethers.Contract(vault.token0.address,ERC20_ABI,readProvider);
-                    const token1Contract = !project.lending ? new ethers.Contract(vault.token1.address,ERC20_ABI,readProvider) : null; // If lending we don't have second token
+                        const lpContract = new ethers.Contract(vault.lpAddress, ERC20_ABI, readProvider); // Lp - ERC20 contract in case of single pool lp is just token, like USDC or DAI
+                        const masterChief = !project.lending ? new ethers.Contract(project.masterChiefAddress, MASTER_CHEF_ABIS[project.name], readProvider) : null; // Check if lending we don't have master-chief.
+                        const vaultContract = new ethers.Contract(vault.vaultAddress, !project.lending ? VAULT_ABI : VAULT_NATIVE_ABI, readProvider); // Pass
+                        const token0Contract = new ethers.Contract(vault.token0.address,ERC20_ABI,readProvider);
+                        const token1Contract = !project.lending ? new ethers.Contract(vault.token1.address,ERC20_ABI,readProvider) : null; // If lending we don't have second token
 
-                    const {poolTvl, vaultTvl, lpPrice} = !project.lending ? await getPoolTVL(lpContract, masterChief, vaultContract) : await getLendingPoolTVL(lpContract, token0Contract, vaultContract); // If lending use new function instead default.
-                    const {apy} = !project.lending ? await getPoolApy(poolTvl, masterChief, project.name, vault.poolIndex, rewardTokenPrice) : await getLendingApy(poolTvl); // TODO: calculate lending pool APY
+                        const {poolTvl, vaultTvl, lpPrice} = !project.lending ? await getPoolTVL(lpContract, masterChief, vaultContract) : await getLendingPoolTVL(lpContract, token0Contract, vaultContract); // If lending use new function instead default.
+                        const {apy} = !project.lending ? await getPoolApy(poolTvl, masterChief, project.name, vault.poolIndex, rewardTokenPrice) : await getLendingApy(poolTvl); // TODO: calculate lending pool APY
 
-                    const isBeefInEth = vault.lpAddress === "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720" || vault.token0.name === "WASTR" || vault?.token1?.name === "WASTR";
+                        const isBeefInEth = vault.lpAddress === "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720" || vault.token0.name === "WASTR" || vault?.token1?.name === "WASTR";
 
-                    overallTvl += vaultTvl;
+                        overallTvl += vaultTvl;
 
-                    return {
-                        projectData: {
-                            name: project.name,
-                            logo: project.logo,
-                            description: project.description,
-                            twitter: project.twitter,
-                            website: project.website,
-                            telegram: project.telegram,
-                        },
-                        data: {
-                          rewardTokenPrice,
-                          poolTvl,
-                          vaultTvl,
-                          lpPrice,
-                          apy,
-                        },
-                        contracts: {
-                            lpContract,
-                            masterChief,
-                            vaultContract,
-                            router
-                        },
-                        info: {
-                            addLpLink: vault.addLpLink,
-                            buyLink: project.buyLink,
-                            isBeefInEth,
-                            isLending: project.lending
-                        },
-                        ...vault,
-                        token0: {
-                            contract: token0Contract,
-                            ...vault.token0
-                        },
-                        token1: !project.lending ? {
-                            contract: token1Contract,
-                            ...vault.token1
-                        } : null, // If project is lending than we don't need token1 tho.
-                    }
-                }))
+                        return {
+                            projectData: {
+                                name: project.name,
+                                logo: project.logo,
+                                description: project.description,
+                                twitter: project.twitter,
+                                website: project.website,
+                                telegram: project.telegram,
+                            },
+                            data: {
+                                rewardTokenPrice,
+                                poolTvl,
+                                vaultTvl,
+                                lpPrice,
+                                apy,
+                            },
+                            contracts: {
+                                lpContract,
+                                masterChief,
+                                vaultContract,
+                                router
+                            },
+                            info: {
+                                addLpLink: vault.addLpLink,
+                                buyLink: project.buyLink,
+                                isBeefInEth,
+                                isLending: project.lending
+                            },
+                            ...vault,
+                            token0: {
+                                contract: token0Contract,
+                                ...vault.token0
+                            },
+                            token1: !project.lending ? {
+                                contract: token1Contract,
+                                ...vault.token1
+                            } : null, // If project is lending than we don't need token1 tho.
+                        }
+                    }))
+                })
+            )
+            let arr = []
+
+            vaultsArr.forEach(proj => {
+                proj.forEach(vault => {
+                    arr.push(vault)
+                })
             })
-        )
 
-        let arr = []
-
-        vaultsArr.forEach(proj => {
-            proj.forEach(vault => {
-                arr.push(vault)
+            //** Adding extra index for secondTopBar filtering.
+            arr = arr.map((item, _ind) => {
+                return {
+                    baseIndex: _ind,
+                    ...item
+                }
             })
-        })
 
-        //** Adding extra index for secondTopBar filtering.
-        arr = arr.map((item, _ind) => {
-            return {
-                baseIndex: _ind,
-                ...item
+            setClearVaults(arr);
+            setFilteredVaults(arr);
+            setOverallTVL(overallTvl);
+            setLoading(false);
+        }
+        catch (e) {
+            console.log("Read provider error");
+            if (provider !== signer) {
+                setError({message: "Public RPC error please connect wallet to better loading speed!", type: 0})
+                setLoading(false)
             }
-        })
+            else {
+                setError({message: "Somethings went wrong please reload page!", type: 1});
+                setLoading(false);
+            }
 
-        setClearVaults(arr);
-        setFilteredVaults(arr);
-        setOverallTVL(overallTvl);
+        }
+
+
+
     }
 
     const getPoolTVL = async (lpContract, masterChief, vaultContract) => {
@@ -235,7 +287,7 @@ const Vaults = () => {
 
         const secondYear = 3153600;
         const RAY = 10**27;
-        const depositApr = (liquidity/RAY) * 100;
+        const depositApr = (90/RAY) * 100;
         // const apy = ((1 + (depositApr / 100) / 8760)**8760-1) * 100;
         const depositAPY = ((1 + (depositApr / secondYear)) ^ secondYear) - 1;
         const apy = depositAPY;
@@ -557,6 +609,28 @@ const Vaults = () => {
                                         </>
                                     )}
                             })}
+                            {!filteredVaults && error ?
+                                <div className={"hyi"} style={{height: "20vh", display: "grid"}}>
+                                    <h1 style={{display: "grid", placeSelf: "center", fontWeight: 500}} > {error.message} </h1>
+                                    <button
+                                        onClick={() => error.type === 0 ? connectWallet() : navigate("/vaults")}
+                                        style={{
+                                            display: "grid",
+                                            background: "black",
+                                            color: "white",
+                                            placeSelf: "center",
+                                            width: "30%",
+                                            height: "70%",
+                                            placeItems: "center",
+                                            borderRadius: "20px"
+                                    }}> {error.type === 0 ? "Connect wallet" : "Reload page"} </button>
+                                </div>
+                                :
+                                null
+                            }
+                            {
+                                loading ? <div style={{display: "grid", placeSelf: "center", placeItems: "center"}}><CircularProgress style={{color: "black"}}/></div> : null
+                            }
                         </Overflow>
                     </VaultsTable>
                 </VaultsWrapper>
