@@ -53,9 +53,11 @@ const Stake = () => {
 
   const getStakingInfo = async () => {
 
-    const {ORU, PRICE_ORACLE, ORU_STAKE} = contracts;
+    const {ORU, ORU_STAKE} = contracts;
 
-    const tvl = ((+(await PRICE_ORACLE.oruPrice())) / 1e6) * (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18);
+    const {oruPrice} = liquidity;
+
+    const tvl = oruPrice * (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18);
     const rate = +(await ORU_STAKE.oruPerShare()) / 1e18;
     const lpBalance = (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18) - 45000;
     const apr = (((((liquidity.oruPrice * 45000 * 30 * 12)) / 2) / ((liquidity.oruPrice * lpBalance)) * 100)).toFixed(0);

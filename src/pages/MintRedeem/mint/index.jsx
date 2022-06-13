@@ -54,7 +54,7 @@ const Mint = () => {
   const [stableFeeVal, setStableFeeVal] = React.useState(0);
 
   const {account} = useWeb3React();
-  const {contracts, connectWallet, signer} = useBlockChainContext();
+  const {contracts, connectWallet, signer, liquidity} = useBlockChainContext();
 
   useEffect(() => {
 
@@ -75,13 +75,15 @@ const Mint = () => {
 
     const {BANK, BANK_SAFE, PRICE_ORACLE, OUSD_USDC_ORACLE, USDC} = contracts;
 
+    const oruPrice = {liquidity};
+
     const tcr = +(await BANK.tcr()) / 1e6;
     const collateralBalance = +(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE)) / 1e6;
     const aTokenBalance = (+(await BANK_SAFE.balanceOfAToken())) / 1e6;
 
     const prices = {
       collatPrice: +(await PRICE_ORACLE.collatPrice()) / 1e6,
-      sharePrice: +(await PRICE_ORACLE.oruPrice()) / 1e6,
+      sharePrice: oruPrice,
       stablePrice: +(await PRICE_ORACLE.ousdPrice()) / 1e6
     }
 

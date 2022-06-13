@@ -35,7 +35,7 @@ import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
 const Redeem = () => {
 
   const {account} = useWeb3React();
-  const {contracts, connectWallet, signer} = useBlockChainContext();
+  const {contracts, connectWallet, signer, liquidity} = useBlockChainContext();
 
   const [value, setValue] = React.useState('ORU');
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -66,12 +66,14 @@ const Redeem = () => {
     const {BANK, BANK_SAFE, PRICE_ORACLE, USDC} = contracts;
     const ecr = (+(await BANK.ecr()) / 1e6);
 
+    const {oruPrice} = liquidity;
+
     const collateralBalance = (+(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE))) / 1e6;
     const aTokenBalance = (+(await BANK_SAFE.balanceOfAToken())) / 1e6;
 
     const prices = {
       collatPrice: +(await PRICE_ORACLE.collatPrice()) / 1e6,
-      sharePrice: +(await PRICE_ORACLE.oruPrice()) / 1e6,
+      sharePrice: oruPrice,
       stablePrice: +(await PRICE_ORACLE.ousdPrice()) / 1e6
     }
 

@@ -30,21 +30,15 @@ const RADIO_CHOICE = {
 }
 
 
-const VaultById = () => {
+const VaultById = ({vault, userData, handleVaultPage}) => {
 
-    const {id} = useParams();
-    const navigate = useNavigate();
     const {account} = useWeb3React();
-    const {signer, globalVaults} = useBlockChainContext()
-
-    // Global data
-    const [pool, setPool] = useState(null);
-    const [contracts, setContracts] = useState(null);
+    const {signer} = useBlockChainContext()
 
     // UX section
     const [ graphActiveItem, setActiveItem ] = useState('TVL')
     const [activeDW, setActiveDW] = useState(ACTIVE_DVS.DEPOSIT);
-    const [radioChoice, setRadioChoice] = useState(RADIO_CHOICE.LP_TOKEN)
+    const [radioChoice, setRadioChoice] = useState(vault.info.isLending ? RADIO_CHOICE.TOKEN0 : RADIO_CHOICE.LP_TOKEN)
     const [tokenInput, setTokenInput] = useState(null);
 
     // User section
@@ -54,76 +48,34 @@ const VaultById = () => {
     const [vaultLpMultiplier, setVaultLpMultiplier] = useState(null);
 
     useEffect(() => {
-        if (id && globalVaults) {
-            const findPool = globalVaults.find(item => item.id === id);
-            setPool(findPool);
-        }
-    }, [id, globalVaults]);
 
-    useEffect(() => {
-        if (pool) {
-            init()
-        }
-    }, [pool]);
-
-    useEffect(() => {
-
-        if (contracts) {
-            getPoolInfo();
+        if (vault && account) {
+            getUserInfo(vault);
         }
 
-    }, [contracts])
-
-
-    useEffect(() => {
-
-        if (contracts && account) {
-            getUserInfo();
-        }
-
-    }, [contracts, account])
+    }, [vault, account])
 
 
     useEffect(() => {
         setTokenInput(0)
     }, [radioChoice])
 
-    const init = async () => {
-
-        const readProvider = new ethers.providers.JsonRpcProvider(JSON_RPC_URL);
-
-        const router = new ethers.Contract(pool.routerAddress, ROUTER_ABI ,readProvider)
-        const vault = new ethers.Contract(pool.vaultAddress, VAULT_ABI ,readProvider)
-
-        const token0 = new ethers.Contract(pool.token0.address, ERC20_ABI, readProvider);
-        const token1 = new ethers.Contract(pool.token1.address, ERC20_ABI, readProvider);
-        const lpToken = new ethers.Contract(pool.lpAddress, ERC20_ABI, readProvider);
-
-        setContracts({router, vault, token0, token1, lpToken});
-
+    const getUserInfo = async (vaultLoc) => {
+        await getAllowances(vaultLoc);
+        await getBalances(vaultLoc);
     }
 
-    const getPoolInfo = async () => {
-        // FIXME: blank
-    }
+    const getAllowances = async (vaultLoc) => {
 
-    const getUserInfo = async () => {
+        const {lpContract, router, vaultContract} = vaultLoc.contracts;
 
-        // TODO: add some other info stuff like deposited and etc.
+        const token0 = vaultLoc.token0.contract
+        const token1 = vaultLoc?.token1?.contract;
 
-        await getAllowances();
-        await getBalances()
-    }
-
-    const getAllowances = async () => {
-
-        const {token0, token1, lpToken, router, vault} = contracts;
-
-        const token0Allowance = await token0.allowance(account, router.address);
-        const token1Allowance = await token1.allowance(account, router.address);
-        const lpTokenAllowance = await lpToken.allowance(account, vault.address);
-        const vaultAllowance = await vault.allowance(account, router.address);
-
+        const token0Allowance = !vaultLoc.info.isLending ? await token0.allowance(account, router.address) : await token0.allowance(account, vaultContract.address);
+        const token1Allowance = token1 ? await token1.allowance(account, router.address) : 0;
+        const lpTokenAllowance = !vaultLoc.info.isLending ? await lpContract.allowance(account, vaultLoc.vaultAddress) : 0;
+        const vaultAllowance = !vaultLoc.info.isLending ? await vaultContract.allowance(account, router.address) : 1;
 
         setAllowances({
             token0: token0Allowance > 0,
@@ -134,23 +86,25 @@ const VaultById = () => {
     }
 
 
-    const getBalances = async () => {
+    const getBalances = async (vaultLoc) => {
 
-        const {token0, token1, lpToken, router, vault} = contracts;
+        const {lpContract, vaultContract} = vaultLoc.contracts;
+        const token0 = vaultLoc.token0.contract
+        const token1 = vaultLoc?.token1?.contract
         const readProvider = new ethers.providers.JsonRpcProvider(JSON_RPC_URL);
 
         const token0Balance = await token0.balanceOf(account);
         const token0Decimals = await token0.decimals();
 
-        const token1Balance = await token1.balanceOf(account);
-        const token1Decimals = await token1.decimals();
+        const token1Balance = token1 ? await token1.balanceOf(account) : 0;
+        const token1Decimals = token1 ? await token1.decimals() : 0;
 
-        const lpTokenBalance = await lpToken.balanceOf(account);
-        const lpTokenDecimals = await lpToken.decimals();
+        const lpTokenBalance = !vaultLoc.info.isLending ? await lpContract.balanceOf(account) : 0;
+        const lpTokenDecimals = !vaultLoc.info.isLending ?  await lpContract.decimals() : 0;
 
         const astrBalance = await readProvider.getBalance(account);
 
-        const vaultBalance = (+(await vault.balanceOf(account)) / 1e18) * (+(await vault.getPricePerFullShare()) / 1e18);
+        const vaultBalance = (+(await vaultContract.balanceOf(account)) / (!vault.info.isLending ? 1e18 : 10**lpTokenDecimals)) * (+(await vaultContract.getPricePerFullShare()) / 1e18);
 
         setBalances({
             token0: formatFromDecimal(+token0Balance, +token0Decimals),
@@ -171,82 +125,22 @@ const VaultById = () => {
         setActiveDW(value);
     }
 
-    const MainButton = () => {
-
-        if (!account) {
-            return <ConnectWallet >Connect Wallet</ConnectWallet>
-        }
-
-        else if (activeDW === ACTIVE_DVS.DEPOSIT) {
-
-            switch (radioChoice) {
-                case RADIO_CHOICE.TOKEN0:
-                    if (!allowances.token0) {
-                        return <ConnectWallet onClick={() => handleApprove()} >Approve {pool.token0.name}</ConnectWallet>
-                    }
-                    else if (+tokenInput > +balances.token0) {
-                        return <ConnectWallet disabled={true}> Insufficient {pool.token0.name} balance </ConnectWallet>
-                    }
-                    else {
-                        return <ConnectWallet onClick={() => handleDeposit()}> Deposit </ConnectWallet>
-                    }
-                case RADIO_CHOICE.TOKEN1:
-                    if (!allowances.token1) {
-                        return <ConnectWallet onClick={() => handleApprove()} >Approve {pool.token1.name}</ConnectWallet>
-                    }
-                    else if (+tokenInput > +balances.token1) {
-                        return <ConnectWallet disabled={true}> Insufficient {pool.token1.name} balance </ConnectWallet>
-                    }
-                    else {
-                        return <ConnectWallet onClick={() => handleDeposit()}> Deposit </ConnectWallet>
-                    }
-                case RADIO_CHOICE.LP_TOKEN:
-                    if (!allowances.lpToken) {
-                        return <ConnectWallet onClick={() => handleApprove()} >Approve {pool.lpName}</ConnectWallet>
-                    }
-                    else if (+tokenInput > +balances.lpToken) {
-                        return <ConnectWallet disabled={true}> Insufficient LP balance </ConnectWallet>
-                    }
-                    else {
-                        return <ConnectWallet onClick={() => handleDeposit()}> Deposit </ConnectWallet>
-                    }
-                case RADIO_CHOICE.ASTR:
-                    if (+tokenInput > +balances.astr) {
-                        return <ConnectWallet disabled={true}> Insufficient ASTR balance </ConnectWallet>
-                    }
-                    else {
-                        return <ConnectWallet onClick={() => handleDeposit()}> Deposit </ConnectWallet>
-                    }
-            }
-
-            return  <ConnectWallet onClick={() => handleDeposit()} >Deposit</ConnectWallet>
-        }
-
-        else if (activeDW === ACTIVE_DVS.WITHDRAW) {
-
-            if (!allowances.vault) {
-                return <ConnectWallet onClick={() => handleApproveForWithdraw()} >Approve vault tokens</ConnectWallet>
-            }
-            else {
-                return  <ConnectWallet onClick={() => handleWithdraw()} >Withdraw</ConnectWallet>
-            }
-        }
-    }
-
     const handleApprove = async () => {
 
         let tx;
-        const {token0, token1, lpToken, vault, router} = contracts;
+        const {lpContract, vaultContract, router} = vault.contracts;
+        const token0 = vault.token0.contract;
+        const token1 = vault?.token1?.contract;
 
         switch (radioChoice) {
             case RADIO_CHOICE.TOKEN0:
-               tx = await token0.connect(signer).approve(router.address, MAX_INT);
+               tx = vault.info.isLending ? await token0.connect(signer).approve(vaultContract.address, MAX_INT) : await token0.connect(signer).approve(router.address, MAX_INT);
                break;
             case RADIO_CHOICE.TOKEN1:
                 tx = await token1.connect(signer).approve(router.address, MAX_INT);
                 break;
             case RADIO_CHOICE.LP_TOKEN:
-                tx = await lpToken.connect(signer).approve(vault.address, MAX_INT);
+                tx = await lpContract.connect(signer).approve(vaultContract.address, MAX_INT);
                 break;
         }
 
@@ -261,10 +155,10 @@ const VaultById = () => {
 
     const handleApproveForWithdraw = async () => {
 
-        const {router, vault} = contracts;
+        const {router, vaultContract} = vault.contracts;
 
         try {
-            const tx = await vault.connect(signer).approve(router.address, MAX_INT);
+            const tx = await vaultContract.connect(signer).approve(router.address, MAX_INT);
             await tx.wait();
 
             await getAllowances();
@@ -277,22 +171,29 @@ const VaultById = () => {
     const handleDeposit = async () => {
 
         let tx;
-        const {token0, token1, vault, router} = contracts;
+        const {vaultContract, router} = vault.contracts;
+        const token0 = vault.token0.contract;
+        const token1 = vault?.token1?.contract;
 
         switch (radioChoice) {
             case RADIO_CHOICE.LP_TOKEN:
-                tx = await vault.connect(signer).deposit(formatToDecimal(tokenInput, 18));
+                tx = await vaultContract.connect(signer).deposit(formatToDecimal(tokenInput, 18));
                 break;
             case RADIO_CHOICE.TOKEN0:
                 const token0Decimals = await token0.decimals();
-                tx = await router.connect(signer).beefIn(pool.vaultAddress, 0, token0.address, formatToDecimal(tokenInput, token0Decimals));
+                tx = vault.info.isLending ?
+                    await vaultContract.connect(signer).deposit(formatToDecimal(tokenInput, token0Decimals))
+                    : await router.connect(signer).beefIn(vault.vaultAddress, 0, token0.address, formatToDecimal(tokenInput, token0Decimals));
                 break;
             case RADIO_CHOICE.TOKEN1:
                 const token1Decimals = await token1.decimals();
-                tx = await router.connect(signer).beefIn(pool.vaultAddress, 0, token1.address, formatToDecimal(tokenInput, token1Decimals))
+                tx = await router?.connect(signer).beefIn(vault.vaultAddress, 0, token1.address, formatToDecimal(tokenInput, token1Decimals))
                 break;
             case RADIO_CHOICE.ASTR:
-                tx = await router.connect(signer).beefInETH(pool.vaultAddress, 0, {value: formatToDecimal(tokenInput, 18)});
+                tx = vault.info.isLending ?
+                    await vaultContract.connect(signer).depositASTR({value: formatToDecimal(tokenInput, 18)})
+                    :
+                    await router.connect(signer).beefInETH(vault.vaultAddress, 0, {value: formatToDecimal(tokenInput, 18)});
                 break;
             default:
                 return
@@ -310,20 +211,26 @@ const VaultById = () => {
 
     const handleWithdraw = async () => {
         let tx;
-        const {token0, token1, vault, router} = contracts;
+        const {vaultContract, router} = vault.contracts;
+        const token0 = vault.token0.contract;
+        const token1 = vault?.token1?.contract;
 
-        const vaultLpMultiplier = formatFromDecimal((await vault.getPricePerFullShare()).toString(), 18)
+        const vaultLpMultiplier = formatFromDecimal((await vaultContract.getPricePerFullShare()).toString(), 18)
 
         switch (radioChoice) {
             case RADIO_CHOICE.LP_TOKEN:
-                tx = await router.connect(signer).beefOut(vault.address,  formatToDecimal(tokenInput / +vaultLpMultiplier, 18));
+                tx = await router.connect(signer).beefOut(vault.vaultAddress,  formatToDecimal(tokenInput / +vaultLpMultiplier, 18))
                 break;
             case RADIO_CHOICE.TOKEN0:
-                tx = await router.connect(signer).beefOutAndSwap(pool.vaultAddress, formatToDecimal(tokenInput / +vaultLpMultiplier, 18), token0.address, 0);
+                tx = !vault.info.isLending ? await router.connect(signer).beefOutAndSwap(vault.vaultAddress, formatToDecimal(tokenInput / +vaultLpMultiplier, 18), token0.address, 0)
+                :
+                await vaultContract.connect(signer).withdraw( (tokenInput / vaultLpMultiplier).toFixed(0));
                 break;
             case RADIO_CHOICE.TOKEN1:
-                tx = await router.connect(signer).beefOutAndSwap(pool.vaultAddress, formatToDecimal(tokenInput / +vaultLpMultiplier, 18), token1.address, 0)
+                tx = await router.connect(signer).beefOutAndSwap(vault.vaultAddress, formatToDecimal(tokenInput / +vaultLpMultiplier, 18), token1.address, 0)
                 break;
+            case RADIO_CHOICE.ASTR:
+                tx = await vaultContract.connect(signer).withdrawASTR((tokenInput / vaultLpMultiplier).toFixed(0));
             default:
                 return
         }
@@ -363,48 +270,111 @@ const VaultById = () => {
         }
     }
 
+    console.log(allowances);
+
+    const MainButton = () => {
+
+        if (!account) {
+            return <ConnectWallet >Connect Wallet</ConnectWallet>
+        }
+
+        else if (activeDW === ACTIVE_DVS.DEPOSIT) {
+
+            switch (radioChoice) {
+                case RADIO_CHOICE.TOKEN0:
+                    if (!allowances.token0) {
+                        return <ConnectWallet onClick={() => handleApprove()} >Approve {vault.token0.name}</ConnectWallet>
+                    }
+                    else if (+tokenInput > +balances.token0) {
+                        return <ConnectWallet disabled={true}> Insufficient {vault.token0.name} balance </ConnectWallet>
+                    }
+                    else {
+                        return <ConnectWallet onClick={() => handleDeposit()}> Deposit </ConnectWallet>
+                    }
+                case RADIO_CHOICE.TOKEN1:
+                    if (!allowances.token1) {
+                        return <ConnectWallet onClick={() => handleApprove()} >Approve {vault.token1.name}</ConnectWallet>
+                    }
+                    else if (+tokenInput > +balances.token1) {
+                        return <ConnectWallet disabled={true}> Insufficient {vault.token1.name} balance </ConnectWallet>
+                    }
+                    else {
+                        return <ConnectWallet onClick={() => handleDeposit()}> Deposit </ConnectWallet>
+                    }
+                case RADIO_CHOICE.LP_TOKEN:
+                    if (!allowances.lpToken) {
+                        return <ConnectWallet onClick={() => handleApprove()} >Approve {vault.name}</ConnectWallet>
+                    }
+                    else if (+tokenInput > +balances.lpToken) {
+                        return <ConnectWallet disabled={true}> Insufficient LP balance </ConnectWallet>
+                    }
+                    else {
+                        return <ConnectWallet onClick={() => handleDeposit()}> Deposit </ConnectWallet>
+                    }
+                case RADIO_CHOICE.ASTR:
+                    if (+tokenInput > +balances.astr) {
+                        return <ConnectWallet disabled={true}> Insufficient ASTR balance </ConnectWallet>
+                    }
+                    else {
+                        return <ConnectWallet onClick={() => handleDeposit()}> Deposit </ConnectWallet>
+                    }
+            }
+
+            return  <ConnectWallet onClick={() => handleDeposit()} >Deposit</ConnectWallet>
+
+        }
+
+        else if (activeDW === ACTIVE_DVS.WITHDRAW) {
+
+            if (!allowances.vault) {
+                return <ConnectWallet onClick={() => handleApproveForWithdraw()} >Approve vault tokens</ConnectWallet>
+            }
+            else {
+                return  <ConnectWallet onClick={() => handleWithdraw()} >Withdraw</ConnectWallet>
+            }
+        }
+    }
+
 
     const isMobileScreen = ( ) => {
         let query = window.matchMedia('(max-device-width: 480px)')
         return query.matches
       }
 
-
     return(<VidWrapper>
-
-        {pool ?
+        {vault ?
             <>
             <VidTopBar>
             <div style={{display: 'flex', gap: '0.8vw', alignItems: 'center'}}>
-                <ArrowBack style={{cursor: 'pointer'}} onClick={() => navigate("/vaults")}/>
-                {pool.token0.logo}
-                {pool.token1.logo}
-                <Font fw='500' fs={ isMobileScreen() ? '16px' : '0.93vw'} color='#333'>{pool.name}</Font>
+                <ArrowBack style={{cursor: 'pointer'}} onClick={() => handleVaultPage(null, null)}/>
+                {vault.token0.logo}
+                {vault?.token1?.logo}
+                <Font fw='500' fs={ isMobileScreen() ? '16px' : '0.93vw'} color='#333'>{vault.name}</Font>
                 <Font fw='500' fs={ isMobileScreen() ? '16px' : '0.93vw'} color='#828282'>vault</Font>
 
             </div>
-            <div><Font fs={ isMobileScreen() ? '12px' : '0.72vw'} fw='300'>Platform:</Font><Font fs={ isMobileScreen() ? '12px' : '0.72vw'} fw='500' color='#4F4F4F'> {pool.platform.name}</Font></div>
+            <div><Font fs={ isMobileScreen() ? '12px' : '0.72vw'} fw='300'>Platform:</Font><Font fs={ isMobileScreen() ? '12px' : '0.72vw'} fw='500' color='#4F4F4F'> {vault.projectData.name}</Font></div>
             </VidTopBar>
             <div style={{backgroundColor: isMobileScreen() ? '#fff' : ''}}>
             <WhiteBorderBar>
                 <WhiteBorderItem bg='#F5EFD7'>
                     <div>
                         <Font color='#272A30' fs={ isMobileScreen() ? '12px' : '0.72vw'} >TVL</Font>
-                        <div><Font fw='500' color='#828282'   fs={isMobileScreen () ? '14px' : '0.83vw'}>$</Font><Font  fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(pool.tvlLocal)}</Font></div>
+                        <div><Font fw='500' color='#828282'   fs={isMobileScreen () ? '14px' : '0.83vw'}>$</Font><Font  fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(vault.data.vaultTvl)}</Font></div>
                     </div>
                 </WhiteBorderItem>
 
                 <WhiteBorderItem bg='#E4DDEF'>
                     <div>
                         <Font color='#272A30' fs={ isMobileScreen() ? '12px' : '0.72vw'} >APY</Font>
-                        <div><Font fw='500'  fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(pool.apr.toFixed(2))}%</Font></div>
+                        <div><Font fw='500'  fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum(vault.data.apy.toFixed(2))}%</Font></div>
                     </div>
                 </WhiteBorderItem>
 
                 <WhiteBorderItem bg='#D5ECD8'>
                     <div>
                         <Font color='#272A30' fs={ isMobileScreen() ? '12px' : '0.72vw'} >Daily</Font>
-                        <div><Font fw='500' fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum((pool.apr / 365).toFixed(2))}%</Font></div>
+                        <div><Font fw='500' fs={isMobileScreen () ? '14px' : '0.83vw'}>{formattedNum((vault.data.apy / 365).toFixed(2))}%</Font></div>
                     </div>
                 </WhiteBorderItem>
 
@@ -412,7 +382,7 @@ const VaultById = () => {
                     <div style={{width: '100%', paddingLeft: isMobileScreen() ? '20px' : ''}}>
                         <Font fs={ isMobileScreen() ? '12px' : '0.72vw'}>Your deposit</Font>
                         <div><Font fw='500' fs={isMobileScreen () ? '14px' : '0.83vw'}>{balances ?  fromExponential(+balances.deposited) : null }</Font></div>
-                        <div style={{marginTop: '-0.36vw'}}><Font fw='300' color="#4F4F4F" fs={isMobileScreen () ? '14px' : '0.62vw'}>{balances ? fromExponential(+pool.deposited.usd): null}</Font></div>
+                        <div style={{marginTop: '-0.36vw'}}><Font fw='300' color="#4F4F4F" fs={isMobileScreen () ? '14px' : '0.62vw'}>${balances ? fromExponential(+userData.depositedUsd): null}</Font></div>
                     </div>
                     <VDivider/>
                     <div style={{width: '100%', paddingLeft: isMobileScreen() ? '20px' : '1.71vw'}}>
@@ -425,14 +395,14 @@ const VaultById = () => {
             <VIDLayout>
             <VIDLeftColumn>
             <VidBlock height={'21.26vw'}>
-            <VidBlockHeader><Font fw='500'  fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.platform.name} <Font  fs={isMobileScreen () ? '17px' : '0.93vw'}  color='#828282'></Font></Font></VidBlockHeader>
+            <VidBlockHeader><Font fw='500'  fs={isMobileScreen () ? '17px' : '0.93vw'}>{vault.projectData.name} <Font  fs={isMobileScreen () ? '17px' : '0.93vw'}  color='#828282'></Font></Font></VidBlockHeader>
             <HDivider/>
             <LinksRow>
-            <a href={pool.platform.website}>Website<OutLinkIcon ratio={isMobileScreen() ? '4vw' : '0.93vw'}/></a>
-            <a href={pool.platform.telegram}>Telegram<OutLinkIcon ratio={isMobileScreen() ? '4vw' : '0.93vw'}/></a>
-            <a href={pool.platform.twitter}>Twitter<OutLinkIcon ratio={isMobileScreen() ? '4vw' : '0.93vw'}/></a>
+            <a href={vault.projectData.website}>Website<OutLinkIcon ratio={isMobileScreen() ? '4vw' : '0.93vw'}/></a>
+            <a href={vault.projectData.telegram}>Telegram<OutLinkIcon ratio={isMobileScreen() ? '4vw' : '0.93vw'}/></a>
+            <a href={vault.projectData.twitter}>Twitter<OutLinkIcon ratio={isMobileScreen() ? '4vw' : '0.93vw'}/></a>
             </LinksRow>
-            <VidBlockText>{pool.platform.description}</VidBlockText>
+            <VidBlockText>{vault.projectData.description}</VidBlockText>
             </VidBlock>
             <VidBlock height={'24.23vw'} style={{
         borderBottomLeftRadius:  isMobileScreen() ?  '20px' : '',
@@ -453,39 +423,45 @@ const VaultById = () => {
             </VidBlock>
             { isMobileScreen() ? <></> : <>
             <VidBlock style={
-                {marginTop: isMobileScreen() ? '24px' : '', 
+                {marginTop: isMobileScreen() ? '24px' : '',
         borderTopLeftRadius:  isMobileScreen() ?  '20px' : '',
         borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}
         } height={'13.86vw'}>
                 <VidBlockHeader>
                 <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
                 <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
-                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token0.name}</Font>
+                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{vault.token0.name}</Font>
                 </div>
                 </VidBlockHeader>
                 <HDivider/>
                 <LinksRow>
-                    {pool.token0.website ? <a href={pool.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
-                    <a href={`https://blockscout.com/astar/address/${pool.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
-                <VidBlockText>{pool.token0.description}</VidBlockText>
+                    {vault.token0.website ? <a href={vault.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
+                    <a href={`https://blockscout.com/astar/address/${vault.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
+                <VidBlockText>{vault.token0.description}</VidBlockText>
             </VidBlock>
 
-            <VidBlock height={'8.96vw'}>
+            {!vault.info.isLending ?
+                <VidBlock height={'8.96vw'}>
                 <VidBlockHeader>
-                <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
-                <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
-                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token1.name}</Font>
-                </div>
+                    <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
+                    <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
+                        <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{vault.token1.name}</Font>
+                    </div>
                 </VidBlockHeader>
                 <HDivider/>
                 <LinksRow>
-                    {pool.token1.website ? <a href={pool.token1.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
-                    <a href={`https://blockscout.com/astar/address/${pool.token1.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
-                <VidBlockText mt='1.25vw'>{pool.token1.description}</VidBlockText>
-            </VidBlock> </>}
+                    {vault.token1.website ? <a href={vault.token1.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
+                    <a href={`https://blockscout.com/astar/address/${vault.token1.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a></LinksRow>
+                <VidBlockText mt='1.25vw'>{vault.token1.description}</VidBlockText>
+                </VidBlock>
+                :
+                null
+            }
+
+            </>}
             </VIDLeftColumn>
             <VidRightColumn>
-                <VidBlock style={{marginTop: isMobileScreen() ? '24px' : '', 
+                <VidBlock style={{marginTop: isMobileScreen() ? '24px' : '',
         borderBottomLeftRadius:  isMobileScreen() ?  '20px' : '',
         borderBottomRightRadius:   isMobileScreen() ?  '20px' : '',
 borderTopLeftRadius:  isMobileScreen() ?  '20px' : '',
@@ -502,34 +478,56 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                     </VidBlockHeader>
                 { isMobileScreen() ? <></> : <HDivider/>}
                 <VidBlockText mt='0.83vw'>
-                    Deposit your LP or ZAP⚡ in {pool.token0.name} or {pool.token1.name}
+                    <>
+                        {vault.info.isLending ?
+                            `Deposit your ${vault.token0.name}`
+                            :
+                            `Deposit your LP or ZAP⚡ in ${vault.token0.name} or ${vault.token1.name}`
+                        }
+                    </>
                 </VidBlockText>
                 <VidBlockText mt='0.83vw'>
                 WALLET:
                 </VidBlockText>
                 <Fieldset>
+                    {!vault.info.isLending ?
+                        <Field>
+                            <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.LP_TOKEN} name={vault.name} onClick={() => setRadioChoice(RADIO_CHOICE.LP_TOKEN)} />
+                            <label>{vault.name}</label>
+                        </Field>
+                        :
+                        null
+                    }
                     <Field>
-                        <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.LP_TOKEN} name={pool.lpName} onClick={() => setRadioChoice(RADIO_CHOICE.LP_TOKEN)} />
-                        <label>{pool.lpName}</label>
+                        <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.TOKEN0} name={vault.name} onClick={() => setRadioChoice(RADIO_CHOICE.TOKEN0)} />
+                        <label>{vault.token0.name}</label>
                     </Field>
-                    <Field>
-                        <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.TOKEN0} name={pool.token0.name} onClick={() => setRadioChoice(RADIO_CHOICE.TOKEN0)} />
-                        <label>{pool.token0.name}</label>
-                    </Field>
-                    <Field>
-                        <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.TOKEN1} name={pool.token1.name} onClick={() => setRadioChoice(RADIO_CHOICE.TOKEN1)} />
-                        {activeDW === ACTIVE_DVS.WITHDRAW ?
-                            <>
-                                {pool.token1.name === "WASTR" ? <label> ASTR </label> : <label> {pool.token1.name} </label>}
-                            </>
-                            :
-                            <label>{pool.token1.name}</label>
-                        }
+                    {!vault.info.isLending ?
+                        <Field>
+                            <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.TOKEN1} name={vault.name} onClick={() => setRadioChoice(RADIO_CHOICE.TOKEN1)} />
+                            {activeDW === ACTIVE_DVS.WITHDRAW ?
+                                <>
+                                    {vault.token1.name === "WASTR" ? <label> ASTR </label> : <label> {vault.token1.name} </label>}
+                                </>
+                                :
+                                <label>{vault.token1.name}</label>
+                            }
 
-                    </Field>
-                    {pool.isBeefInETH ?
+                        </Field>
+                        :
+                        null
+                    }
+                    {vault.info.isBeefInEth ?
                         <>
                             {activeDW !== ACTIVE_DVS.WITHDRAW ?
+                                <Field>
+                                    <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.ASTR} name={"ASTR"} onClick={() => setRadioChoice(RADIO_CHOICE.ASTR)}/>
+                                    <label>ASTR</label>
+                                </Field>
+                                :
+                                null
+                            }
+                            {activeDW === ACTIVE_DVS.WITHDRAW && vault.info.isLending ?
                                 <Field>
                                     <FieldInput type='radio' checked={radioChoice === RADIO_CHOICE.ASTR} name={"ASTR"} onClick={() => setRadioChoice(RADIO_CHOICE.ASTR)}/>
                                     <label>ASTR</label>
@@ -543,8 +541,8 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                     }
                 </Fieldset>
                 <AddBuyContainer>
-                <AddButton href={pool.addLpLink} target={"_blank"}>Add Liquidity</AddButton>
-                <BuyButton href={pool.buyLink} target={"_blank"}>Buy Token</BuyButton>
+                <AddButton href={vault.info.addLpLink} target={"_blank"}>Add Liquidity</AddButton>
+                <BuyButton href={vault.buyLink} target={"_blank"}>Buy Token</BuyButton>
                 </AddBuyContainer>
                 <InputContainer>
                 <div style={{display: 'flex', alignItem: 'center', justifyContent: 'center', visibility: 'hidden'}}><LogoIconBlack ratio={isMobileScreen() ? '5vw' : '0.94vw'}/></div>
@@ -574,7 +572,7 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                 </DoubleContainer>
 
                 <Font  fs={ isMobileScreen() ? '10px' :'0.62vw'} color='#828282' fw='400'>Performance fees are already subtracted from the displayed APY.</Font>
-                    {contracts && allowances && balances ?
+                    {allowances && balances ?
                         <MainButton/>
                         :
                         <h5> Loading... </h5>
@@ -583,38 +581,43 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                 </VidBlock>
                 { !isMobileScreen() ? <></> : <>
             <VidBlock style={
-                {marginTop: isMobileScreen() ? '24px' : '', 
+                {marginTop: isMobileScreen() ? '24px' : '',
         borderTopLeftRadius:  isMobileScreen() ?  '20px' : '',
         borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}
         } height={'13.86vw'}>
                 <VidBlockHeader>
                 <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
                 <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
-                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token0.name}</Font>
+                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{vault.token0.name}</Font>
                 </div>
                 </VidBlockHeader>
                 <HDivider/>
                 <LinksRow>
-                    {pool.token0.website ? <a href={pool.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
-                    <a href={`https://blockscout.com/astar/address/${pool.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
+                    {vault.token0.website ? <a href={vault.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
+                    <a href={`https://blockscout.com/astar/address/${vault.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
                 </LinksRow>
-                <VidBlockText>{pool.token0.description}</VidBlockText>
+                <VidBlockText>{vault.token0.description}</VidBlockText>
             </VidBlock>
 
-            <VidBlock height={'8.96vw'}>
-                <VidBlockHeader>
-                <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
-                <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
-                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{pool.token1.name}</Font>
-                <LinksRow>
-                    {pool.token1.website ? <a href={pool.token1.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
-                    <a href={`https://blockscout.com/astar/address/${pool.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
-                </LinksRow>
-                </div>
-                </VidBlockHeader>
-                <HDivider/>
-                <VidBlockText mt='1.25vw'>{pool.token1.description}</VidBlockText>
-            </VidBlock> </>}
+            {!vault.info.isLending ?
+                <VidBlock height={'8.96vw'}>
+                    <VidBlockHeader>
+                        <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>
+                        <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>
+                            <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{vault.token1.name}</Font>
+                            <LinksRow>
+                                {vault.token1.website ? <a href={vault.token1.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}
+                                <a href={`https://blockscout.com/astar/address/${vault.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>
+                            </LinksRow>
+                        </div>
+                    </VidBlockHeader>
+                    <HDivider/>
+                    <VidBlockText mt='1.25vw'>{vault.token1.description}</VidBlockText>
+                </VidBlock>
+                :
+                null
+            }
+            </>}
             </VidRightColumn>
             </VIDLayout>
             </>

@@ -28,7 +28,7 @@ import { CustomSpan } from '../Staking/stake/styled';
 const Recollateralize = () => {
 
   const {account} = useWeb3React()
-  const {contracts, signer, connectWallet} = useBlockChainContext();
+  const {contracts, signer, connectWallet, liquidity} = useBlockChainContext();
   const [info, setInfo] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
@@ -37,11 +37,11 @@ const Recollateralize = () => {
 
   useEffect(() => {
 
-    if (contracts) {
+    if (contracts && liquidity) {
       getInfo();
     }
 
-  }, [contracts])
+  }, [contracts, liquidity])
 
   useEffect(() => {
 
@@ -55,6 +55,10 @@ const Recollateralize = () => {
 
     const {BANK, BANK_SAFE, PRICE_ORACLE, USDC} = contracts;
 
+    const {oruPrice} = liquidity;
+
+    console.log(oruPrice);
+
     const recollat = await BANK.recollatAvailable();
     const tcr = +(await BANK.tcr()) / 1e6;
     const collateralBalance = +(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE)) / 1e6;
@@ -62,7 +66,7 @@ const Recollateralize = () => {
 
     const prices = {
       collatPrice: +(await PRICE_ORACLE.collatPrice()) / 1e6,
-      sharePrice: +(await PRICE_ORACLE.oruPrice()) / 1e6,
+      sharePrice: oruPrice,
     }
 
     setInfo({

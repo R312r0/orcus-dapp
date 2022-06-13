@@ -55,10 +55,12 @@ const Unstake = () => {
 
     const {ORU, ORU_STAKE, PRICE_ORACLE} = contracts;
 
+    const {oruPrice} = liquidity;
+
     const lpBalance = (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18) - 45000;
     const apr = (((((liquidity.oruPrice * 45000 * 30 * 12)) / 2) / ((liquidity.oruPrice * lpBalance)) * 100)).toFixed(0);
     const rate = +(await ORU_STAKE.oruPerShare()) / 1e18;
-    const tvl = ((+(await PRICE_ORACLE.oruPrice())) / 1e6) * (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18);
+    const tvl = oruPrice * (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18);
 
     console.log(rate);
 
