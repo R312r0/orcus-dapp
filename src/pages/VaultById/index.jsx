@@ -541,8 +541,8 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                     }
                 </Fieldset>
                 <AddBuyContainer>
-                <AddButton style={{visibility: vault.info.isLending ? "hidden" : "none"}} href={vault.info.addLpLink} target={"_blank"}>Add Liquidity</AddButton>
-                <BuyButton href={vault.buyLink} target={"_blank"}>Buy Token</BuyButton>
+                <AddButton style={{visibility: vault.info.isLending ? "hidden" : "none"}} href={vault.info.addLpLink}  onClick={() => console.log(vault.info.addLpLink)}  target={"_blank"}>Add Liquidity</AddButton>
+                <BuyButton href={vault.info.buyLink} target={"_blank"}>Buy Token</BuyButton>
                 </AddBuyContainer>
                 <InputContainer>
                 <div style={{display: 'flex', alignItem: 'center', justifyContent: 'center', visibility: 'hidden'}}><LogoIconBlack ratio={isMobileScreen() ? '5vw' : '0.94vw'}/></div>

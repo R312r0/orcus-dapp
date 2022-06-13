@@ -133,6 +133,7 @@ const Vaults = () => {
                             router
                         },
                         info: {
+                            addLpLink: vault.addLpLink,
                             buyLink: project.buyLink,
                             isBeefInEth,
                             isLending: project.lending
