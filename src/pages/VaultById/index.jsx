@@ -37,7 +37,7 @@ const VaultById = ({vault, userData, handleVaultPage}) => {
 
     // UX section
     const [ graphActiveItem, setActiveItem ] = useState('TVL')
-    const [activeDW, setActiveDW] = useState(ACTIVE_DVS.DEPOSIT);
+    const [activeDW, setActiveDW] = useState(!vault.old ?  ACTIVE_DVS.DEPOSIT: ACTIVE_DVS.WITHDRAW);
     const [radioChoice, setRadioChoice] = useState(vault.info.isLending ? RADIO_CHOICE.TOKEN0 : RADIO_CHOICE.LP_TOKEN)
     const [tokenInput, setTokenInput] = useState(null);
 
@@ -468,7 +468,7 @@ borderTopLeftRadius:  isMobileScreen() ?  '20px' : '',
 borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                     <VidBlockHeader>
                     <DWContainer>
-                    <DWButton data-value='Deposit' onClick={updateActiveDW} active={activeDW === 'Deposit'}>
+                    <DWButton style={{visibility: vault.old ? "hidden" : "none"}}  data-value='Deposit' onClick={updateActiveDW} active={activeDW === 'Deposit'}>
                     Deposit
                     </DWButton>
                     <DWButton data-value='Withdraw' onClick={updateActiveDW} active={activeDW === 'Withdraw'}>
@@ -541,7 +541,7 @@ borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'47.31vw'}>
                     }
                 </Fieldset>
                 <AddBuyContainer>
-                <AddButton href={vault.info.addLpLink} target={"_blank"}>Add Liquidity</AddButton>
+                <AddButton style={{visibility: vault.info.isLending ? "hidden" : "none"}} href={vault.info.addLpLink} target={"_blank"}>Add Liquidity</AddButton>
                 <BuyButton href={vault.buyLink} target={"_blank"}>Buy Token</BuyButton>
                 </AddBuyContainer>
                 <InputContainer>

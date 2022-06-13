@@ -17,6 +17,7 @@ import bai from '../assets/icons/BAI.svg';
 import sdn from '../assets/icons/SDN.svg';
 import wbtc from '../assets/icons/wbtc.svg';
 import astarexchange from '../assets/icons/astarexchange.svg';
+import starlay from '../assets/icons/starlay.webp';
 
 // Project logos
 import pandoraProject from '../assets/icons/Pandora.png'
@@ -261,7 +262,7 @@ export const TEST_VAULT = [
                 lpAddress: "0x5e8a60839dC6F9C7595E0d9519d4bdB947cEb7A6",
                 vaultAddress: "0x8317099f69ca210C18835fefB6dED806491B1768",
                 poolIndex: 1,
-                addLpLink: "https://pandoraswapxyz.org/add/0x8ea356004327E598729b4CE590eDC90428Dc6A89/0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
+                addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.PANDORA.address}/ASTR`,
                 token0: VAULT_TOKENS.PANDORA,
                 token1: VAULT_TOKENS.WASTR_PANDORA,
                 category: VAULT_CATEGORIES.NONE
@@ -271,7 +272,7 @@ export const TEST_VAULT = [
                 lpAddress: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
                 vaultAddress: "0x7b5F472e466f94642c4260e5E205d34DB15718A9",
                 poolIndex: 4,
-                addLpLink: "https://pandoraswapxyz.org/add/0x8ea356004327E598729b4CE590eDC90428Dc6A89/0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
+                addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDC.address}/${VAULT_TOKENS.PANDORA.address}`,
                 token0: VAULT_TOKENS.PANDORA,
                 token1: VAULT_TOKENS.USDC,
                 category: VAULT_CATEGORIES.NONE
@@ -281,7 +282,7 @@ export const TEST_VAULT = [
                 lpAddress: "0x3683d79a8Af26A56822C48a4eD1af80d51eB8399",
                 vaultAddress: "0xf1b4384808eb559Cbfc5855EdD96B79c54186B01",
                 poolIndex: 3,
-                addLpLink: "https://pandoraswapxyz.org/add/0x8ea356004327E598729b4CE590eDC90428Dc6A89/0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
+                addLpLink: `https://pandoraswapxyz.org/add/ASTR/${VAULT_TOKENS.USDC.address}`,
                 token0: VAULT_TOKENS.WASTR_PANDORA,
                 token1: VAULT_TOKENS.USDC,
                 category: VAULT_CATEGORIES.NONE
@@ -289,9 +290,9 @@ export const TEST_VAULT = [
             {
                 name: "USDT-USDC",
                 lpAddress: "0xcECbf254c22a5d5e5d75a215A4403A5B4dC1dA5A",
-                vaultAddress: "0xEb1648a7FA68e566EFc4f96532Be1b92991abcaE",
+                vaultAddress: "0x29A067d170b49E8EE4723B535Ff4d75fD35515e7",
                 poolIndex: 2,
-                addLpLink: "https://pandoraswapxyz.org/add/0x8ea356004327E598729b4CE590eDC90428Dc6A89/0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
+                addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDT.address}/${VAULT_TOKENS.USDC.address}`,
                 token0: VAULT_TOKENS.USDT,
                 token1: VAULT_TOKENS.USDC,
                 category: VAULT_CATEGORIES.STABLE
@@ -299,9 +300,9 @@ export const TEST_VAULT = [
             {
                 name: "USDC-DAI",
                 lpAddress: "0x148dF5088b74f511C8458b9d7c0f45c3F6971FAd",
-                vaultAddress: "0xD00FEeF0FCA5DA1a4E62d0C3D4CC14D899233Ac6",
+                vaultAddress: "0x365c0749E17bF32DAf26994939d33E08f41B3BFF",
                 poolIndex: 5,
-                addLpLink: "https://pandoraswapxyz.org/add/0x8ea356004327E598729b4CE590eDC90428Dc6A89/0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
+                addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDC.address}/${VAULT_TOKENS.DAI.address}`,
                 token0: VAULT_TOKENS.USDC,
                 token1: VAULT_TOKENS.DAI,
                 category: VAULT_CATEGORIES.STABLE
@@ -329,7 +330,7 @@ export const TEST_VAULT = [
                 lpAddress: "0x8a00655Da9D32537650fd885aDe7e550d4047e8A",
                 vaultAddress: "0xccBef9a10bA330C9fbfA553bbB36dBC01ce3e525",
                 poolIndex: 0,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.WASTR_ASTAR_EXCHANGE}`,
                 token0: VAULT_TOKENS.ASX,
                 token1: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
                 category: VAULT_CATEGORIES.NONE
@@ -337,9 +338,9 @@ export const TEST_VAULT = [
             {
                 name: "ASTR-USDC",
                 lpAddress: "0xA6E7448463dF706862E424208838047D8Aa0ED11",
-                vaultAddress: "0x93FFb578A9Da5900f439eE171F07A72aCf55ec09",
+                vaultAddress: "0x932CF353a568A87982775Fa3564988e7999e5315",
                 poolIndex: 2,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.USDC.address}`,
                 token0: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
                 token1: VAULT_TOKENS.USDC,
                 category: VAULT_CATEGORIES.NONE
@@ -347,9 +348,9 @@ export const TEST_VAULT = [
             {
                 name: "USDT-USDC",
                 lpAddress: "0x8c82b3F5b14fcFA60B5D10CB0551B7C81FBc97e6",
-                vaultAddress: "0x28D9D1d2eaa6763279758697c6b57300403559dB",
+                vaultAddress: "0x9D39698dd3D28b340C1d2407208B0406a0aC97D2",
                 poolIndex: 3,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.USDT.address}/${VAULT_TOKENS.USDC.address}`,
                 token0: VAULT_TOKENS.USDT,
                 token1: VAULT_TOKENS.USDC,
                 category: VAULT_CATEGORIES.STABLE
@@ -357,9 +358,9 @@ export const TEST_VAULT = [
             {
                 name: "BUSD-USDC",
                 lpAddress: "0x1e82d43Cad0F487f6b5ae5BA9Ce5ee64Ff762319",
-                vaultAddress: "0x0E50Ca9a884AAB747c8Bd69ccad981F1cA3b5AFb",
+                vaultAddress: "0xf531BFa7f76aCcafdE61a16ab44db06CB50F876C",
                 poolIndex: 4,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.BUSD.address}`,
                 token0: VAULT_TOKENS.BUSD,
                 token1: VAULT_TOKENS.USDC,
                 category: VAULT_CATEGORIES.STABLE
@@ -367,9 +368,9 @@ export const TEST_VAULT = [
             {
                 name: "DAI-USDC",
                 lpAddress: "0xfAfDB9e0Bb8516C18451583f7107C083eaC0D645",
-                vaultAddress: "0x1BEC05413c41d67F7de1AF61Cfb4CC86d3eFf42C",
+                vaultAddress: "0xD02f22572C966c8939111e2Fc9680de4a4BD87d6",
                 poolIndex: 5,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.DAI.address}/${VAULT_TOKENS.USDC.address}`,
                 token0: VAULT_TOKENS.DAI,
                 token1: VAULT_TOKENS.USDC,
                 category: VAULT_CATEGORIES.STABLE
@@ -377,9 +378,9 @@ export const TEST_VAULT = [
             {
                 name: "WSDN-ASTR",
                 lpAddress: "0x7C248996BE5502A64d55374c31bd1a164B95bf46",
-                vaultAddress: "0xBd08Cc5b5991DfcEAC16fA4a00Fb67eAd565f501",
+                vaultAddress: "0xF96003E550616d72CaFe8AD9C27DC1b1985C6F27",
                 poolIndex: 6,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.WSDN.address}/ETH`,
                 token0: VAULT_TOKENS.WSDN,
                 token1: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
                 category: VAULT_CATEGORIES.NONE
@@ -387,9 +388,9 @@ export const TEST_VAULT = [
             {
                 name: "WETH-ASTR",
                 lpAddress: "0x7f5F1200678e07D7Bbaee18a224F1231a1b1dae2",
-                vaultAddress: "0xcCa7227d024b71616597ad84714C80Ba24f6B458",
+                vaultAddress: "0x5327CE1fe93B8E9947145068EcFC5d81D5153A1f",
                 poolIndex: 7,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.WETH.address}`,
                 token0: VAULT_TOKENS.WETH,
                 token1: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
                 category: VAULT_CATEGORIES.NONE
@@ -397,9 +398,9 @@ export const TEST_VAULT = [
             {
                 name: "MATIC-ASTR",
                 lpAddress: "0x66Aa03C32ABcdCc498B77BC540BBBa4371887CAd",
-                vaultAddress: "0x114c82d70b706846A23a4DB7A5dE79bb9bD112E8",
+                vaultAddress: "0xb7aa125F07829A9bA7a4953aeFafafc224FF319F",
                 poolIndex: 8,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.MATIC.address}`,
                 token0: VAULT_TOKENS.MATIC,
                 token1: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
                 category: VAULT_CATEGORIES.NONE
@@ -407,19 +408,30 @@ export const TEST_VAULT = [
             {
                 name: "BNB-ASTR",
                 lpAddress: "0xD74F3e08b702556f6f43B08102c0171B3D879248",
-                vaultAddress: "0x63f7Fc2Cb312977ED8394935882D93e87f8CAf28",
+                vaultAddress: "0xE13b265eEED610365C756603c762baCD3033A3B0",
                 poolIndex: 9,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.BNB.address}`,
                 token0: VAULT_TOKENS.BNB,
                 token1: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
                 category: VAULT_CATEGORIES.NONE
             },
             {
                 name: "JPYC-USDC",
+                old: true,
                 lpAddress: "0x7b1E118Dff374994D483758Dac72178eE239f786",
                 vaultAddress: "0xbA59047a04d5886A45A186DE21d29471790a4A41",
                 poolIndex: 10,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.JPYC.address}/${VAULT_TOKENS.USDC.address}`,
+                token0: VAULT_TOKENS.JPYC,
+                token1: VAULT_TOKENS.USDC,
+                category: VAULT_CATEGORIES.NONE
+            },
+            {
+                name: "JPYC-USDC",
+                lpAddress: "0x7b1E118Dff374994D483758Dac72178eE239f786",
+                vaultAddress: "0xB4E623D62a0c79887630e9339Ca38a44a94f3DcA",
+                poolIndex: 10,
+                addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.JPYC.address}/${VAULT_TOKENS.USDC.address}`,
                 token0: VAULT_TOKENS.JPYC,
                 token1: VAULT_TOKENS.USDC,
                 category: VAULT_CATEGORIES.NONE
@@ -429,7 +441,7 @@ export const TEST_VAULT = [
                 lpAddress: "0xc6526305D08AfA882b497C9c660b778770b80e78",
                 vaultAddress: "0x3eB2969891389b729eb8E658742f3AbeaC633b99",
                 poolIndex: 11,
-                addLpLink: "https://astar.exchange/exchange/add/ETH/0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
+                addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.BAI.address}/${VAULT_TOKENS.USDC.address}`,
                 token0: VAULT_TOKENS.BAI,
                 token1: VAULT_TOKENS.USDC,
                 category: VAULT_CATEGORIES.NONE
@@ -438,13 +450,13 @@ export const TEST_VAULT = [
     },
     {
         name: "Starlay Finance",
-        logo: <img src={astarexchange} width='12'/>,
+        logo: <img src={starlay} width='12'/>,
 
-        description: "Starlay.",
-        website: "https://astar.exchange/exchange/swap",
-        telegram: null,
-        twitter: "https://twitter.com/AstarExchange",
-        buyLink: "https://astar.exchange/exchange/swap",
+        description: "Starlay Finance is the first lending protocol backed by Astar Network.",
+        website: "https://starlay.finance/",
+        telegram: "https://t.me/starlay_fi",
+        twitter: "https://twitter.com/starlay_fi",
+        buyLink: "https://app.arthswap.org/#/swap",
 
         lending: true,
 

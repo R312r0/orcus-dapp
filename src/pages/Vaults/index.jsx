@@ -347,7 +347,7 @@ const Vaults = () => {
     const isMobileScreen = ( ) => {
         let query = window.matchMedia('(max-device-width: 480px)')
         return query.matches
-      }
+    }
 
     const handleTopbarClick = (event) => {
         let value = event.currentTarget.dataset.value
@@ -545,8 +545,8 @@ const Vaults = () => {
                                                     </div>
                                                     <div>0</div>
                                                     <div style={{display: 'flex', flexDirection: 'column'}}><div>{userData ? formattedNum(userData[vault.baseIndex].depositedLp) : null}</div><FontSize fs='0.64vw'><LightText>${userData ? formattedNum(userData[vault.baseIndex].depositedUsd) : null}</LightText></FontSize></div>
-                                                    <div>{formattedNum(vault.data.apy.toFixed(2))}%</div>
-                                                    <div>{formattedNum((vault.data.apy / 365).toFixed(2))}%</div>
+                                                    <div>{!vault.old ? formattedNum(vault.data.apy.toFixed(2)) + "%" : "Paused"}</div>
+                                                    <div>{!vault.old ? formattedNum((vault.data.apy / 365).toFixed(2)) + "%" : "Paused"}</div>
                                                     <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(vault.data.vaultTvl.toFixed(2))}</div>
                                                     <div style={{display: 'flex', justifyContent: 'center'}}>
                                                         <GetBtn disabled={!userData} onClick={() => handleVaultPage(vault, userData[vault.baseIndex])} > Get </GetBtn>
