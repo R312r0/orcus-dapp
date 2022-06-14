@@ -33,6 +33,7 @@ import FarmsTableItem from './mobile-item/index'
 import VaultById from "../VaultById";
 import fromExponential from "from-exponential";
 import {CircularProgress} from "@mui/material";
+import StarlayABI from '../../abis/StarLayLendingPool.json';
 
 const TOP_BAR_CATEGORIES = {
     ALL: "All",
@@ -60,7 +61,7 @@ const Vaults = () => {
     const [provider, setProvider] = useState(null);
 
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const [isFilterOverlay, setFilterOverlay] = useState(false)
     const [isSortByOverlay, setSortByOverlay] = useState(false);
@@ -79,7 +80,7 @@ const Vaults = () => {
 
     useEffect(
         () => {
-            let timer1 = setTimeout(() => setTimeoutGone(true), 3 * 1000);
+            let timer1 = setTimeout(() => setTimeoutGone(true), 1000);
 
             return () => {
                 clearTimeout(timer1);
@@ -117,8 +118,6 @@ const Vaults = () => {
 
     const convertVaultsData = async () => {
 
-        setLoading(true);
-
         const readProvider = account ? signer : new ethers.providers.JsonRpcProvider(JSON_RPC_URL);
         let overallTvl = 0;
 
@@ -134,13 +133,14 @@ const Vaults = () => {
                     return await Promise.all(project.vaults.map(async vault => {
 
                         const lpContract = new ethers.Contract(vault.lpAddress, ERC20_ABI, readProvider); // Lp - ERC20 contract in case of single pool lp is just token, like USDC or DAI
+                        const lendingPool = new ethers.Contract("0x90384334333f3356eFDD5b20016350843b90f182", StarlayABI, readProvider);
                         const masterChief = !project.lending ? new ethers.Contract(project.masterChiefAddress, MASTER_CHEF_ABIS[project.name], readProvider) : null; // Check if lending we don't have master-chief.
                         const vaultContract = new ethers.Contract(vault.vaultAddress, !project.lending ? VAULT_ABI : VAULT_NATIVE_ABI, readProvider); // Pass
                         const token0Contract = new ethers.Contract(vault.token0.address,ERC20_ABI,readProvider);
                         const token1Contract = !project.lending ? new ethers.Contract(vault.token1.address,ERC20_ABI,readProvider) : null; // If lending we don't have second token
 
                         const {poolTvl, vaultTvl, lpPrice} = !project.lending ? await getPoolTVL(lpContract, masterChief, vaultContract) : await getLendingPoolTVL(lpContract, token0Contract, vaultContract); // If lending use new function instead default.
-                        const {apy} = !project.lending ? await getPoolApy(poolTvl, masterChief, project.name, vault.poolIndex, rewardTokenPrice) : await getLendingApy(poolTvl); // TODO: calculate lending pool APY
+                        const {apy} = !project.lending ? await getPoolApy(poolTvl, masterChief, project.name, vault.poolIndex, rewardTokenPrice) : await getLendingApy(lendingPool, vault.token0.address);
 
                         const isBeefInEth = vault.lpAddress === "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720" || vault.token0.name === "WASTR" || vault?.token1?.name === "WASTR";
 
@@ -206,20 +206,17 @@ const Vaults = () => {
             setClearVaults(arr);
             setFilteredVaults(arr);
             setOverallTVL(overallTvl);
-            setLoading(false);
         }
         catch (e) {
-            console.log("Read provider error");
             if (provider !== signer) {
                 setError({message: "Public RPC error please connect wallet to better loading speed!", type: 0})
-                setLoading(false)
             }
             else {
                 setError({message: "Somethings went wrong please reload page!", type: 1});
-                setLoading(false);
             }
-
         }
+
+        setLoading(false)
 
 
 
@@ -280,17 +277,18 @@ const Vaults = () => {
         const aprBase = ((a * mainTokenPrice) / tvl) * 100;
         const apy = ((1 + (aprBase / 100) / 8760)**8760-1) * 100;
 
-        return {apy}
+
+
+        return {apy: !Number.isFinite(apy) ? 0 : apy}
     }
 
-    const getLendingApy = async (liquidity) => {
+    const getLendingApy = async (lendingPool, assetAddress) => {
 
-        const secondYear = 3153600;
+        // const secondYear = 31536000;
         const RAY = 10**27;
-        const depositApr = (90/RAY) * 100;
-        // const apy = ((1 + (depositApr / 100) / 8760)**8760-1) * 100;
-        const depositAPY = ((1 + (depositApr / secondYear)) ^ secondYear) - 1;
-        const apy = depositAPY;
+
+        const liquidityRate = await lendingPool.getReserveData(assetAddress);
+        const apy = ((+liquidityRate.currentLiquidityRate)/RAY) * 100;
 
         return {apy};
     }
@@ -311,7 +309,6 @@ const Vaults = () => {
 
             const lpBalance = balance * multiplier;
             const usdBalance = lpBalance * val.data.lpPrice;
-
             deposited += usdBalance;
             overallYield += (usdBalance * 2) * (val.data.apy / 100);
 
@@ -599,7 +596,7 @@ const Vaults = () => {
                                                     <div>0</div>
                                                     <div style={{display: 'flex', flexDirection: 'column'}}><div>{userData ? formattedNum(userData[vault.baseIndex].depositedLp) : null}</div><FontSize fs='0.64vw'><LightText>${userData ? formattedNum(userData[vault.baseIndex].depositedUsd) : null}</LightText></FontSize></div>
                                                     <div>{!vault.old ? formattedNum(vault.data.apy.toFixed(2)) + "%" : "Paused"}</div>
-                                                    <div>{!vault.old ? formattedNum((vault.data.apy / 365).toFixed(2)) + "%" : "Paused"}</div>
+                                                    <div>{!vault.old ? formattedNum((vault.data.apy / 365).toFixed(3)) + "%" : "Paused"}</div>
                                                     <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(vault.data.vaultTvl.toFixed(2))}</div>
                                                     <div style={{display: 'flex', justifyContent: 'center'}}>
                                                         <GetBtn disabled={!userData} onClick={() => handleVaultPage(vault, userData[vault.baseIndex])} > Get </GetBtn>
