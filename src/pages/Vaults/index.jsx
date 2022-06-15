@@ -142,7 +142,7 @@ const Vaults = () => {
                         const token1Contract = !project.lending ? new ethers.Contract(vault.token1.address,ERC20_ABI,readProvider) : null; // If lending we don't have second token
 
                         const {poolTvl, vaultTvl, lpPrice} = !project.lending ? await getPoolTVL(lpContract, masterChief, vaultContract) : await getLendingPoolTVL(lpContract, token0Contract, vaultContract); // If lending use new function instead default.
-                        const {apy} = !project.lending ? await getPoolApy(poolTvl, masterChief, project.name, vault.poolIndex, rewardTokenPrice) : await getLendingApy(lendingPool, vault.token0.address);
+                        const {apy} = !project.lending ? await getPoolApy(poolTvl, masterChief, project.name, vault.poolIndex, rewardTokenPrice) : await getLendingApy(lendingPool, lpContract, vault.token0.address, rewardTokenPrice, vault.name);
 
                         const isBeefInEth = vault.lpAddress === "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720" || vault.token0.name === "WASTR" || vault?.token1?.name === "WASTR";
 
@@ -284,13 +284,30 @@ const Vaults = () => {
         return {apy: !Number.isFinite(apy) ? 0 : apy}
     }
 
-    const getLendingApy = async (lendingPool, assetAddress) => {
+    const getLendingApy = async (lendingPool, lpContract, assetAddress, rewardtokenPrice, name) => {
 
-        // const secondYear = 31536000;
         const RAY = 10**27;
+        const tokenData = await axios.get(`https://api.dexscreener.io/latest/dex/tokens/${assetAddress}`); // Pass
+        const depositTokenPrice = parseFloat(tokenData.data.pairs[0].priceUsd); // Pass
 
         const liquidityRate = await lendingPool.getReserveData(assetAddress);
-        const apy = ((+liquidityRate.currentLiquidityRate)/RAY) * 100;
+        const apr = ((+liquidityRate.currentLiquidityRate)/RAY) * 100;
+        const apy = ((1 + (apr / 100) / 8760)**8760-1) * 100;
+
+        // incentiveDepositAPRPercent = 100 * (lEmissionPerYear * REWARD_PRICE_USD * WEI_DECIMALS) / (totalLTokenSupply * TOKEN_PRICE_USD * UNDERLYING_TOKEN_DECIMALS)
+
+        const lEmissionPerYear = (2851855 * 12);
+
+        const decimals = +(await lpContract.decimals());
+        const total = +(await lpContract.totalSupply()) / 10**decimals;
+        const incentivesApr = 100 * (lEmissionPerYear * rewardtokenPrice) / (total);
+
+        console.log(name);
+        console.log(incentivesApr);
+        console.log(`Emision per year: ${lEmissionPerYear}`);
+        console.log(`Reward token price: ${rewardtokenPrice}`);
+        console.log(`Ltoken totalsupply: ${+total}`);
+        console.log(`Asset address: ${assetAddress}`);
 
         return {apy};
     }

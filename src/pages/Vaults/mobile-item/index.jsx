@@ -66,8 +66,6 @@ const PERCENTAGES = {
 const MobileTableItm = ({item, userData, handleVaultPage}) => {
   const [expanded, setExpanded] = useState(false);
 
-  console.log(item);
-
   return (
         <FarmsTableItem isExpanded={expanded}>
           <MainData>
