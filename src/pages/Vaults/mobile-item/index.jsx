@@ -65,6 +65,9 @@ const PERCENTAGES = {
 
 const MobileTableItm = ({item, userData, handleVaultPage}) => {
   const [expanded, setExpanded] = useState(false);
+
+  console.log(item);
+
   return (
         <FarmsTableItem isExpanded={expanded}>
           <MainData>
@@ -73,7 +76,7 @@ const MobileTableItm = ({item, userData, handleVaultPage}) => {
                 {item.token0.mobileLogo}
               </IconWrapper>
               <IconWrapper h='16px' w='16px'>
-                {item.token1.mobileLogo}
+                {!item.info.isLending ? item.token1.mobileLogo : null}
               </IconWrapper>
               <VDiv ml='0.781vw'>
                 <Text fw='500'>
