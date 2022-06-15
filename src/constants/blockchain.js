@@ -467,84 +467,96 @@ export const TEST_VAULT = [
                 lpAddress: "0xC404E12D3466acCB625c67dbAb2E1a8a457DEf3c",
                 vaultAddress: "0x67958bD44f5CD42F3d388141fCBC50b852cAb2f1",
                 token0: VAULT_TOKENS.USDC,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 570377
             },
             {
                 name: "WASTR",
-                lpAddress: "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
+                lpAddress: "0xc0043Ad81De6DB53a604e42377290EcfD4Bc5fED",
                 vaultAddress: "0x182F356e4Be1268083Fc8edBA4AE11dDDEd96213",
                 token0: VAULT_TOKENS.WASTR_PANDORA,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 570377
             },
             {
                 name: "DOT",
-                lpAddress: "0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF",
+                lpAddress: "0x86EADed1F56ad656657b90D60483e1d0a5f7C20b",
                 vaultAddress: "0x84e3B5eB278818631f3B932892818d9B5a4ef29B",
                 token0: VAULT_TOKENS.DOT,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 2851855
             },
 
             {
                 name: "DAI",
-                lpAddress: "0x6De33698e9e9b787e09d3Bd7771ef63557E148bb",
+                lpAddress: "0x4dd9c468A44F3FEF662c35c1E9a6108B70415C2c",
                 vaultAddress: "0x9fbc1563ccBe71fE2d06F4e4609dCe6F46CAC4f2",
                 token0: VAULT_TOKENS.DAI,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 570377,
             },
 
             {
                 name: "USDT",
-                lpAddress: "0x3795C36e7D12A8c252A20C5a7B455f7c57b60283",
+                lpAddress: "0x430D50963d9635bBef5a2fF27BD0bDDc26ed691F",
                 vaultAddress: "0x0B7812442b25Fef8A203425866b10B29CD2cdA24",
                 token0: VAULT_TOKENS.USDT,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 570377,
+
             },
 
             {
                 name: "BUSD",
-                lpAddress: "0x4Bf769b05E832FCdc9053fFFBC78Ca889aCb5E1E",
+                lpAddress: "0xb7aB962c42A8Bb443e0362f58a5A43814c573FFb",
                 vaultAddress: "0x66d71AcB10bd46d50ef999872c40954aD67f53A5",
                 token0: VAULT_TOKENS.BUSD,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 570377,
             },
 
             {
                 name: "WETH",
-                lpAddress: "0x81ECac0D6Be0550A00FF064a4f9dd2400585FE9c",
+                lpAddress: "0x61f5df7076D2BA75323129CC2724db3abDdC3073",
                 vaultAddress: "0x368Aa418674980e1A2abB9AC339A6bB213c8b70a",
                 token0: VAULT_TOKENS.WETH,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 285188,
             },
             {
                 name: "WBTC",
-                lpAddress: "0xad543f18cFf85c77E140E3E5E3c3392f6Ba9d5CA",
+                lpAddress: "0x93E008010B17a48A140EEA4283040adD92eAC576",
                 vaultAddress: "0x28a80eADCE6BDd87E80c9d4cdCA6CBe2E61aa9b4",
                 token0: VAULT_TOKENS.WBTC,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 285188,
             },
 
             {
                 name: "MATIC",
-                lpAddress: "0xdd90E5E87A2081Dcf0391920868eBc2FFB81a1aF",
+                lpAddress: "0xF49Ab32B1B13A50eEe2022347A31a69524E83671",
                 vaultAddress: "0x72F6217959210E7bBf983a2ac81D39082D69CC45",
                 token0: VAULT_TOKENS.MATIC,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 285188,
             },
 
             {
                 name: "BNB",
-                lpAddress: "0x7f27352D5F83Db87a5A3E00f4B07Cc2138D8ee52",
+                lpAddress: "0xd37991C23242439B0549c8328df5d83897D645AA",
                 vaultAddress: "0x24722435Bc98da4fa93Bb3D1622354dB31156FFD",
                 token0: VAULT_TOKENS.BNB,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 285188,
             },
 
             {
                 name: "SDN",
-                lpAddress: "0x75364D4F779d0Bd0facD9a218c67f87dD9Aff3b4",
+                lpAddress: "0x2308De041865503B3b24F5da4D1ab7308c4ff756",
                 vaultAddress: "0xBf211cc71EEBcE46117B25b47A0C30c7aE855fbC",
                 token0: VAULT_TOKENS.WSDN,
-                category: VAULT_CATEGORIES.BLUE_CHIPS
+                category: VAULT_CATEGORIES.BLUE_CHIPS,
+                emissionRate: 285188,
             },
 
         ]
