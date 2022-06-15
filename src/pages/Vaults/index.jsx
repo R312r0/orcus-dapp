@@ -78,6 +78,8 @@ const Vaults = () => {
 
     const [timeoutGone, setTimeoutGone] = useState(false);
 
+    const [userBalances, setUserBalances] = useState(null);
+
     useEffect(
         () => {
             let timer1 = setTimeout(() => setTimeoutGone(true), 1000);
@@ -298,6 +300,8 @@ const Vaults = () => {
         let deposited = 0;
         let overallYield = 0;
 
+        const userAstrBalance = true;
+
         const newVaults = await Promise.all(vaults.map(async val => {
 
             const {vaultContract} = val.contracts;
@@ -312,9 +316,29 @@ const Vaults = () => {
             deposited += usdBalance;
             overallYield += (usdBalance * 2) * (val.data.apy / 100);
 
+            let eligible;
+
+            const lpDepositTokenBalance = !val.info.isLending ? await val.contracts.lpContract.balanceOf(account) > 0 : 0;
+            const token0Balance = await val.token0.contract.balanceOf(account) > 0;
+            const token1Balance = !val.info.isLending ?  await val.token1.contract.balanceOf(account) > 0 : 0;
+
+            if (val.info.isLending) {
+                eligible = token0Balance;
+            }
+            else {
+                if (val.token0.name === "WASTR" || val.token1.name === "WASTR") {
+                    eligible = lpDepositTokenBalance || token0Balance || token1Balance || userAstrBalance
+                }
+
+                else {
+                    eligible = lpDepositTokenBalance || token0Balance || token1Balance
+                }
+            }
+
             return {
                 depositedLp: lpBalance,
-                depositedUsd: usdBalance
+                depositedUsd: usdBalance,
+                eligible
             }
 
         }))
@@ -381,7 +405,7 @@ const Vaults = () => {
                 newArr = firstArr;
                 break;
             case SECOND_BAR_CATEGORIES.ELIGIBLE:
-                newArr = firstArr;
+                newArr = firstArr.filter(item => userData[item.baseIndex].eligible);
                 break;
             case SECOND_BAR_CATEGORIES.MY:
                 newArr = firstArr.filter(item => userData[item.baseIndex].depositedLp > 0);
@@ -554,8 +578,8 @@ const Vaults = () => {
                             </> : <></>}
                             <VaultsContainer>
                                 <VaultItem onClick={handleVaultsClick} data-value={SECOND_BAR_CATEGORIES.ALL} active={vaultsValue === SECOND_BAR_CATEGORIES.ALL}>All Vaults</VaultItem>
-                                <VaultItem onClick={handleVaultsClick} data-value={SECOND_BAR_CATEGORIES.ELIGIBLE} active={vaultsValue === SECOND_BAR_CATEGORIES.ELIGIBLE}>Eligible Vaults</VaultItem>
-                                <VaultItem onClick={handleVaultsClick} data-value={SECOND_BAR_CATEGORIES.MY} active={vaultsValue === SECOND_BAR_CATEGORIES.MY}>My Vaults</VaultItem>
+                                <VaultItem disabled={!account || !userData} style={{visibility: !account || !userData ? "hidden" : "visible"}} onClick={handleVaultsClick} data-value={SECOND_BAR_CATEGORIES.ELIGIBLE} active={vaultsValue === SECOND_BAR_CATEGORIES.ELIGIBLE}>Eligible Vaults</VaultItem>
+                                <VaultItem disabled={!account || !userData} style={{visibility: !account || !userData ? "hidden" : "visible"}} onClick={handleVaultsClick} data-value={SECOND_BAR_CATEGORIES.MY} active={vaultsValue === SECOND_BAR_CATEGORIES.MY}>My Vaults</VaultItem>
                             </VaultsContainer>
                         </SearchRow>
                         <HDivider marginBottom='0'/>
