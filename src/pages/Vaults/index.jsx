@@ -142,7 +142,7 @@ const Vaults = () => {
                         const token1Contract = !project.lending ? new ethers.Contract(vault.token1.address,ERC20_ABI,readProvider) : null; // If lending we don't have second token
 
                         const {poolTvl, vaultTvl, lpPrice} = !project.lending ? await getPoolTVL(lpContract, masterChief, vaultContract) : await getLendingPoolTVL(lpContract, token0Contract, vaultContract); // If lending use new function instead default.
-                        const {apy} = !project.lending ? await getPoolApy(poolTvl, masterChief, project.name, vault.poolIndex, rewardTokenPrice) : await getLendingApy(lendingPool, lpContract, vault.token0.address, rewardTokenPrice, vault.name, vault.emissionRate);
+                        const {apy} = !project.lending ? await getPoolApy(poolTvl, masterChief, project.name, vault.poolIndex, rewardTokenPrice, vault.name) : await getLendingApy(lendingPool, lpContract, vault.token0.address, rewardTokenPrice, vault.name, vault.emissionRate);
 
                         const isBeefInEth = vault.lpAddress === "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720" || vault.token0.name === "WASTR" || vault?.token1?.name === "WASTR";
 
@@ -253,7 +253,7 @@ const Vaults = () => {
         return {poolTvl, vaultTvl, lpPrice: usd};
     }
 
-    const getPoolApy = async (tvl, contract, projName, poolIndex, mainTokenPrice) => {
+    const getPoolApy = async (tvl, contract, projName, poolIndex, mainTokenPrice, name) => {
         const astarBlockPerYear = 2502857.1428571427;
 
         let rewardPerBlock;
@@ -273,15 +273,16 @@ const Vaults = () => {
 
         const totalAllocationPoints = await contract.totalAllocPoint();
         const poolInfo = await contract.poolInfo(poolIndex);
+
         const poolWeight = +poolInfo.allocPoint / +totalAllocationPoints;
 
         const a = poolWeight * rewardPerYear;
         const aprBase = ((a * mainTokenPrice) / tvl) * 100;
         const apy = ((1 + (aprBase / 100) / 8760)**8760-1) * 100;
 
+        console.log(apy);
 
-
-        return {apy: !Number.isFinite(apy) ? 0 : apy}
+        return {apy: !Number.isFinite(apy) || isNaN(apy) ? 0 : apy}
     }
 
     const getLendingApy = async (lendingPool, lpContract, assetAddress, rewardtokenPrice, name, emissionRate) => {
@@ -473,7 +474,7 @@ const Vaults = () => {
 
                                 <TopCardMobile>
                                     <div style={{width: '100%', borderBottom: '1px solid #F2F2F2'}}>
-                                        TVL: <GreyText fs='0.94vw'>$</GreyText>{formattedNum(overallTVL)}
+                                        TVL: <GreyText fs='0.94vw'>$</GreyText>{overallTVL.toFixed(2)}
                                     </div>
                                     <div style={{width: '100%', display: 'flex'}}>
                                         <div style={{width: '50%', borderRight: '1px solid #F2F2F2'}}>Vaults: {clearVaults ? clearVaults.length : "Calculating..."}</div>
@@ -483,7 +484,7 @@ const Vaults = () => {
                             </> :
                             <LargeTopCard>
                                 <div style={{width: '12.05vw', display: 'flex', gap: '0.6vw', alignItems: 'center', justifyContent:'center'}}>
-                                    TVL: <div><GreyText mt='0vw' fs='0.94vw'>$</GreyText>{formattedNum(overallTVL)}</div>
+                                    TVL: <div><GreyText mt='0vw' fs='0.94vw'>$</GreyText>{overallTVL.toFixed(2)}</div>
                                 </div>
                                 <VDivider/>
                                 <div style={{width: '14.65vw'}}>
@@ -630,8 +631,8 @@ const Vaults = () => {
                                                     </div>
                                                     <div>0</div>
                                                     <div style={{display: 'flex', flexDirection: 'column'}}><div>{userData ? formattedNum(userData[vault.baseIndex].depositedLp) : null}</div><FontSize fs='0.64vw'><LightText>${userData ? formattedNum(userData[vault.baseIndex].depositedUsd) : null}</LightText></FontSize></div>
-                                                    <div>{!vault.old ? formattedNum(vault.data.apy.toFixed(2)) + "%" : "Paused"}</div>
-                                                    <div>{!vault.old ? formattedNum((vault.data.apy / 365).toFixed(3)) + "%" : "Paused"}</div>
+                                                    <div>{!vault.old ? isNaN(formattedNum(vault.data.apy.toFixed(2))) ? "0.00%" : formattedNum(vault.data.apy.toFixed(2)) + "%" : "Paused"}</div>
+                                                    <div>{!vault.old ? isNaN(formattedNum((vault.data.apy / 365).toFixed(3))) ? "0.00%" : formattedNum((vault.data.apy / 365).toFixed(3))  + "%" : "Paused"}</div>
                                                     <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(vault.data.vaultTvl.toFixed(2))}</div>
                                                     <div style={{display: 'flex', justifyContent: 'center'}}>
                                                         <GetBtn disabled={!userData} onClick={() => handleVaultPage(vault, userData[vault.baseIndex])} > Get </GetBtn>
