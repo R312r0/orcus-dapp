@@ -8,6 +8,7 @@ import {useNavigate, useParams} from "react-router";
 import {JSON_RPC_URL, MAX_INT, VAULTS} from "../../constants";
 import {useWeb3React} from "@web3-react/core";
 import {ethers} from "ethers";
+import BigNumber from 'bignumber.js';
 
 // ABIS
 import ROUTER_ABI from '../../abis/Vaults-zap-rotuer.json';
@@ -146,7 +147,7 @@ const VaultById = ({vault, userData, handleVaultPage}) => {
 
         try {
             await tx.wait();
-            await getAllowances();
+            await getAllowances(vault);
         }
         catch (e) {
             console.log(e.message);
@@ -161,7 +162,7 @@ const VaultById = ({vault, userData, handleVaultPage}) => {
             const tx = await vaultContract.connect(signer).approve(router.address, MAX_INT);
             await tx.wait();
 
-            await getAllowances();
+            await getAllowances(vault);
         }
         catch (e) {
             console.log(e.message);
@@ -201,7 +202,7 @@ const VaultById = ({vault, userData, handleVaultPage}) => {
 
         try {
             await tx.wait();
-            await getBalances();
+            await getBalances(vault);
             setTokenInput(0);
         }
         catch (e) {
@@ -215,29 +216,30 @@ const VaultById = ({vault, userData, handleVaultPage}) => {
         const token0 = vault.token0.contract;
         const token1 = vault?.token1?.contract;
 
-        const vaultLpMultiplier = formatFromDecimal((await vaultContract.getPricePerFullShare()).toString(), 18)
+        const vaultLpMultiplier = formatFromDecimal((await vaultContract.getPricePerFullShare()).toString(), 18);
+        const tokenInputFormatted = formatToDecimal(tokenInput, 18);
 
         switch (radioChoice) {
             case RADIO_CHOICE.LP_TOKEN:
-                tx = await router.connect(signer).beefOut(vault.vaultAddress,  formatToDecimal(tokenInput / +vaultLpMultiplier, 18))
+                tx = await router.connect(signer).beefOut(vault.vaultAddress, (+tokenInputFormatted / +vaultLpMultiplier).toFixed(0));
                 break;
             case RADIO_CHOICE.TOKEN0:
-                tx = !vault.info.isLending ? await router.connect(signer).beefOutAndSwap(vault.vaultAddress, formatToDecimal(tokenInput / +vaultLpMultiplier, 18), token0.address, 0)
+                tx = !vault.info.isLending ? await router.connect(signer).beefOutAndSwap(vault.vaultAddress, (+tokenInputFormatted / +vaultLpMultiplier).toFixed(0), token0.address, 0)
                 :
-                await vaultContract.connect(signer).withdraw( (tokenInput / vaultLpMultiplier).toFixed(0));
+                await vaultContract.connect(signer).withdraw( (+tokenInputFormatted / +vaultLpMultiplier).toFixed(0));
                 break;
             case RADIO_CHOICE.TOKEN1:
-                tx = await router.connect(signer).beefOutAndSwap(vault.vaultAddress, formatToDecimal(tokenInput / +vaultLpMultiplier, 18), token1.address, 0)
+                tx = await router.connect(signer).beefOutAndSwap(vault.vaultAddress, +tokenInputFormatted / +vaultLpMultiplier, token1.address, 0)
                 break;
             case RADIO_CHOICE.ASTR:
-                tx = await vaultContract.connect(signer).withdrawASTR((tokenInput / vaultLpMultiplier).toFixed(0));
+                tx = await vaultContract.connect(signer).withdrawASTR((+tokenInputFormatted / +vaultLpMultiplier).toFixed(0));
             default:
                 return
         }
 
         try {
             await tx.wait();
-            await getBalances();
+            await getBalances(vault);
         }
         catch (e) {
             console.log(e.message);
@@ -269,8 +271,6 @@ const VaultById = ({vault, userData, handleVaultPage}) => {
             setTokenInput(balances.deposited);
         }
     }
-
-    console.log(allowances);
 
     const MainButton = () => {
 

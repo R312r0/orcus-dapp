@@ -439,7 +439,7 @@ export const TEST_VAULT = [
             {
                 name: "BAI-USDC",
                 lpAddress: "0xc6526305D08AfA882b497C9c660b778770b80e78",
-                vaultAddress: "0x3eB2969891389b729eb8E658742f3AbeaC633b99",
+                vaultAddress: "0xB492AbCCe9805d49C87E2B92a1806192c9AA1976",
                 poolIndex: 11,
                 addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.BAI.address}/${VAULT_TOKENS.USDC.address}`,
                 token0: VAULT_TOKENS.BAI,
