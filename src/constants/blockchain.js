@@ -109,8 +109,14 @@ export const MASTER_CHEF_ABIS = {
     "Astar-Exchange": ASTAR_EXCHANGE_MASTER_CHIEF_ABI
 }
 
+export const PROJECT_LOGOS = {
+    PANDORA: <img src={pandoraProject} width='12'/>,
+    ASTAR_EXCHANGE: <img src={astarexchange} width='12'/>,
+    STARLAY: <img src={starlay} width='12'/>
+}
+
 export const VAULT_TOKENS = {
-    WASTR_PANDORA: {
+    WASTR: {
         name: "WASTR",
         address: "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
         description: "ASTAR network main token",

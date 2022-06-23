@@ -11,9 +11,9 @@ import CalendarVertical from "./assets/CalendarVertical";
 import {
     CONTRACT_ADDRESSES,
     JSON_RPC_URL,
-    MASTER_CHEF_ABIS,
+    MASTER_CHEF_ABIS, PROJECT_LOGOS,
     TEST_VAULT,
-    VAULT_CATEGORIES,
+    VAULT_CATEGORIES, VAULT_TOKENS,
     VAULTS
 } from "../../constants";
 import {useNavigate} from "react-router";
@@ -51,14 +51,11 @@ const SECOND_BAR_CATEGORIES = {
 const Vaults = () => {
 
     const {account} = useWeb3React();
-    const {signer, connectWallet} = useBlockChainContext();
+    const {signer, connectWallet, setGlobalVault} = useBlockChainContext();
     const navigate = useNavigate();
-
 
     const [selectedTopbarCategory, setTopbarCategory] = useState(TOP_BAR_CATEGORIES.ALL);
     const [vaultsValue, setVaultsValue] = useState('All Vaults')
-
-    const [provider, setProvider] = useState(null);
 
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -68,303 +65,147 @@ const Vaults = () => {
 
     const [searchVaultInput, setSearchVaultInput] = useState("");
 
-    const [clearVaults, setClearVaults] = useState(null);
+    const [clearVaults, setClearVaults] = useState([]);
+
     const [filteredVaults, setFilteredVaults] = useState(null);
     const [selectedVault, setSelectedVault] = useState(null);
-    const [userData, setUserData] = useState(null);
     const [selectedUserData, setSelectedUserData] = useState(null);
     const [overallTVL, setOverallTVL] = useState(0);
+
     const [topInfo, setTopInfo] = useState({deposited: 0, monthYield: 0, dailyYield: 0})
-
-    const [timeoutGone, setTimeoutGone] = useState(false);
-
-    const [userBalances, setUserBalances] = useState(null);
-
-    useEffect(
-        () => {
-            let timer1 = setTimeout(() => setTimeoutGone(true), 1000);
-
-            return () => {
-                clearTimeout(timer1);
-            };
-        },
-        []
-    );
-
-    useEffect(() => {
-
-        if (timeoutGone) {
-            if (signer) {
-                setProvider(signer);
-            }
-            else {
-                setProvider(new ethers.providers.JsonRpcProvider(JSON_RPC_URL));
-            }
-        }
-    }, [signer, timeoutGone])
-
-    useEffect(() => {
-        if (provider) {
-            convertVaultsData();
-        }
-    }, [provider])
+    const [backEndVaults, setBackEndVaults] = useState([]);
+    const [userData, setUserData] = useState([]);
 
 
     useEffect(() => {
 
-        if (clearVaults && account) {
-            getUserInfo(clearVaults);
+        getBackVault()
+            .then(res => {
+                setClearVaults(res);
+                setFilteredVaults(res);
+                setLoading(false);
+            })
+            .catch(e => {
+                setLoading(false);
+                setError({message: "Somethings went wrong please reload page!", type: 1})
+            })
+    }, [])
+
+    useEffect(() => {
+
+        if (signer && clearVaults.length > 0 && userData.length === 0) {
+            addUserData(clearVaults)
+                .then(({user, yieldInfo}) => {
+                    setTopInfo({deposited: yieldInfo.deposited, dailyYield: yieldInfo.overallYield / 365, monthYield: yieldInfo.overallYield / 12})
+                    setUserData(user);
+                })
         }
 
-    }, [account, clearVaults]);
+    }, [signer, clearVaults]);
 
-    const convertVaultsData = async () => {
+    useEffect(() => {
 
-        const readProvider = account ? signer : new ethers.providers.JsonRpcProvider(JSON_RPC_URL);
-        let overallTvl = 0;
+        if (userData.length > 0) {
 
-        try {
-            let vaultsArr = await Promise.all(
-                TEST_VAULT.map(async project => {
+            setClearVaults(prevState => prevState.map((item, _ind) => {
+                    return {
+                        ...item,
+                        user: {...userData[_ind]}
+                    }
+            }))
 
-                    const tokenData = await axios.get(`https://api.dexscreener.io/latest/dex/tokens/${project.rewardTokenAddress}`); // Pass
-                    const rewardTokenPrice = parseFloat(tokenData.data.pairs[0].priceUsd); // Pass
-
-                    const router = !project.lending ? new ethers.Contract(project.routerAddress, ROUTER_ABI, readProvider) : null; // Check if single pool we don't need router-zapper.
-
-                    return await Promise.all(project.vaults.map(async vault => {
-
-                        const lpContract = new ethers.Contract(vault.lpAddress, ERC20_ABI, readProvider); // Lp - ERC20 contract in case of single pool lp is just token, like USDC or DAI
-                        const lendingPool = new ethers.Contract("0x90384334333f3356eFDD5b20016350843b90f182", StarlayABI, readProvider);
-                        const masterChief = !project.lending ? new ethers.Contract(project.masterChiefAddress, MASTER_CHEF_ABIS[project.name], readProvider) : null; // Check if lending we don't have master-chief.
-                        const vaultContract = new ethers.Contract(vault.vaultAddress, !project.lending ? VAULT_ABI : VAULT_NATIVE_ABI, readProvider); // Pass
-                        const token0Contract = new ethers.Contract(vault.token0.address,ERC20_ABI,readProvider);
-                        const token1Contract = !project.lending ? new ethers.Contract(vault.token1.address,ERC20_ABI,readProvider) : null; // If lending we don't have second token
-
-                        const {poolTvl, vaultTvl, lpPrice} = !project.lending ? await getPoolTVL(lpContract, masterChief, vaultContract) : await getLendingPoolTVL(lpContract, token0Contract, vaultContract); // If lending use new function instead default.
-                        const {apy} = !project.lending ? await getPoolApy(poolTvl, masterChief, project.name, vault.poolIndex, rewardTokenPrice, vault.name) : await getLendingApy(lendingPool, lpContract, vault.token0.address, rewardTokenPrice, vault.name, vault.emissionRate);
-
-                        const isBeefInEth = vault.lpAddress === "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720" || vault.token0.name === "WASTR" || vault?.token1?.name === "WASTR";
-
-                        overallTvl += vaultTvl;
-
-                        return {
-                            projectData: {
-                                name: project.name,
-                                logo: project.logo,
-                                description: project.description,
-                                twitter: project.twitter,
-                                website: project.website,
-                                telegram: project.telegram,
-                            },
-                            data: {
-                                rewardTokenPrice,
-                                poolTvl,
-                                vaultTvl,
-                                lpPrice,
-                                apy,
-                            },
-                            contracts: {
-                                lpContract,
-                                masterChief,
-                                vaultContract,
-                                router
-                            },
-                            info: {
-                                addLpLink: vault.addLpLink,
-                                buyLink: project.buyLink,
-                                isBeefInEth,
-                                isLending: project.lending
-                            },
-                            ...vault,
-                            token0: {
-                                contract: token0Contract,
-                                ...vault.token0
-                            },
-                            token1: !project.lending ? {
-                                contract: token1Contract,
-                                ...vault.token1
-                            } : null, // If project is lending than we don't need token1 tho.
-                        }
-                    }))
+            setFilteredVaults(prevState => prevState.map((item, _ind) => {
+                    return {
+                        ...item,
+                        user: {...userData[_ind]}
+                    }
                 })
             )
-            let arr = []
-
-            vaultsArr.forEach(proj => {
-                proj.forEach(vault => {
-                    arr.push(vault)
-                })
-            })
-
-            //** Adding extra index for secondTopBar filtering.
-            arr = arr.map((item, _ind) => {
-                return {
-                    baseIndex: _ind,
-                    ...item
-                }
-            })
-
-            setClearVaults(arr);
-            setFilteredVaults(arr);
-            setOverallTVL(overallTvl);
-        }
-        catch (e) {
-            if (provider !== signer) {
-                setError({message: "Public RPC error please connect wallet to better loading speed!", type: 0})
-            }
-            else {
-                setError({message: "Somethings went wrong please reload page!", type: 1});
-            }
         }
 
-        setLoading(false)
+    }, [userData])
 
-
-
+    const getBackVault = async () => {
+        const {data: {vaults}} = await axios.get("http://localhost:3000/vaults");
+        setOverallTVL(vaults.map(item => item.vaultTvl).reduce((partialSum, a) => partialSum + a, 0))
+        return vaults;
     }
 
-    const getPoolTVL = async (lpContract, masterChief, vaultContract) => {
-
-        const {data: {pair: {liquidity: {usd}}}} = await axios.get(`https://api.dexscreener.com/latest/dex/pairs/astar/${lpContract.address}`)
-
-        const supply = +(await lpContract.totalSupply()) / 1e18;
-        const masterChiefBalance = +(await lpContract.balanceOf(masterChief.address)) / 1e18;
-
-        const lpPrice = usd / supply;
-
-        const poolTvl = masterChiefBalance * lpPrice;
-        const vaultTvl = ((+(await vaultContract.totalSupply()) / 1e18) * (+(await vaultContract.getPricePerFullShare()) / 1e18)) * lpPrice;
-
-        return {poolTvl, vaultTvl, lpPrice}
-
-    }
-
-    const getLendingPoolTVL = async (lpContract, tokenContract, vaultContract) => {
-
-        const tokenData = await axios.get(`https://api.dexscreener.io/latest/dex/tokens/${tokenContract.address}`); // Pass
-        const usd = parseFloat(tokenData.data.pairs[0].priceUsd);
-
-        const aTokenSupply = await lpContract.totalSupply();
-        const aTokenDecimals = await lpContract.decimals();
-
-        const poolTvl = (+aTokenSupply / 10**(+aTokenDecimals)) * usd;
-        const vaultTvl = ((+(await vaultContract.totalSupply()) / 10**aTokenDecimals)) * (+(await vaultContract.getPricePerFullShare()) / 1e18) * usd;
-        return {poolTvl, vaultTvl, lpPrice: usd};
-    }
-
-    const getPoolApy = async (tvl, contract, projName, poolIndex, mainTokenPrice, name) => {
-        const astarBlockPerYear = 2502857.1428571427;
-
-        let rewardPerBlock;
-
-        switch (projName) {
-
-            case "Pandora-Swap":
-                rewardPerBlock = +(await contract.pandoraPerBlock()) / 1e18;
-                break;
-            case "Astar-Exchange":
-                rewardPerBlock = +(await contract.solarPerBlock()) / 1e18;
-                break;
-
-        }
-
-        const rewardPerYear = rewardPerBlock * astarBlockPerYear;
-
-        const totalAllocationPoints = await contract.totalAllocPoint();
-        const poolInfo = await contract.poolInfo(poolIndex);
-
-        const poolWeight = +poolInfo.allocPoint / +totalAllocationPoints;
-
-        const a = poolWeight * rewardPerYear;
-        const aprBase = ((a * mainTokenPrice) / tvl) * 100;
-        const apy = ((1 + (aprBase / 100) / 8760)**8760-1) * 100;
-
-        console.log(apy);
-
-        return {apy: !Number.isFinite(apy) || isNaN(apy) ? 0 : apy}
-    }
-
-    const getLendingApy = async (lendingPool, lpContract, assetAddress, rewardtokenPrice, name, emissionRate) => {
-
-        const RAY = 10**27;
-        const tokenData = await axios.get(`https://api.dexscreener.io/latest/dex/tokens/${assetAddress}`); // Pass
-        const depositTokenPrice = parseFloat(tokenData.data.pairs[0].priceUsd); // Pass
-
-        const liquidityRate = await lendingPool.getReserveData(assetAddress);
-        const lendapr = ((+liquidityRate.currentLiquidityRate)/RAY) * 100;
-        const lendapy = ((1 + (lendapr / 100) / 8760)**8760-1) * 100;
-
-        const lEmissionPerYear = (emissionRate * 12);
-
-        const decimals = +(await lpContract.decimals());
-        const total = +(await lpContract.totalSupply()) / 10**decimals;
-        const incentivesApr = 100 * (lEmissionPerYear * rewardtokenPrice) / (total * depositTokenPrice);
-        const incentivesApy = ((1 + (incentivesApr / 100) / 8760)**8760-1) * 100;
-
-        const apy = lendapy + incentivesApy;
-
-        return {apy};
-    }
-
-    const getUserInfo = async (vaults) => {
+    const addUserData = async (vaults) => {
 
         let deposited = 0;
         let overallYield = 0;
 
-        const userAstrBalance = true;
+        const {data: {tokens}} = await axios.get("http://localhost:3000/tokens")
 
-        const newVaults = await Promise.all(vaults.map(async val => {
+        const balances = tokens.map(async (token) => {
 
-            const {vaultContract} = val.contracts;
-
-            const lpDecimals = +(await val.contracts.lpContract.decimals());
-
-            const balance = !val.info.isLending ? +(await vaultContract.balanceOf(account)) / 1e18 : +(await vaultContract.balanceOf(account)) / 10**lpDecimals;
-            const multiplier = +(await vaultContract.getPricePerFullShare()) / 1e18;
-
-            const lpBalance = balance * multiplier;
-            const usdBalance = lpBalance * val.data.lpPrice;
-            deposited += usdBalance;
-            overallYield += (usdBalance * 2) * (val.data.apy / 100);
-
-            let eligible;
-
-            const lpDepositTokenBalance = !val.info.isLending ? await val.contracts.lpContract.balanceOf(account) > 0 : 0;
-            const token0Balance = await val.token0.contract.balanceOf(account) > 0;
-            const token1Balance = !val.info.isLending ?  await val.token1.contract.balanceOf(account) > 0 : 0;
-
-            if (val.info.isLending) {
-                eligible = token0Balance;
-            }
-            else {
-                if (val.token0.name === "WASTR" || val.token1.name === "WASTR") {
-                    eligible = lpDepositTokenBalance || token0Balance || token1Balance || userAstrBalance
-                }
-
-                else {
-                    eligible = lpDepositTokenBalance || token0Balance || token1Balance
-                }
-            }
+            const contract = new ethers.Contract(token.address, ERC20_ABI, signer);
+            const balance = +(await contract.balanceOf(account)) / 10**token.decimals;
 
             return {
-                depositedLp: lpBalance,
-                depositedUsd: usdBalance,
+                name: token.name,
+                address: token.address,
+                userBalance: balance
+            }
+        })
+
+        const userTokenBalances = await Promise.all(balances);
+        const userAstrBalance = await signer.getBalance();
+
+        const formattedVaults = vaults.map(async (item) => {
+            const vaultContract = new ethers.Contract(item.vaultAddress, ERC20_ABI, signer);
+
+            const lpDecimals = !item.isLending ? 18 : 1;
+            const balance = +(await vaultContract.balanceOf(account)) / 10**lpDecimals;
+            const lpBalance = balance * item.vaultPriceMultiplier;
+            const usdBalance = lpBalance * item.lpPrice;
+            deposited += usdBalance;
+            overallYield += (usdBalance * 2) * (item.apy / 100);
+
+            let eligible = item.Tokens.map(token => userTokenBalances.find(bal => bal.name === token.name).userBalance > 0).includes(true);
+            eligible = balance > 0 || eligible;
+            eligible = item.Tokens.find(token => token.name === "WASTR") ? userAstrBalance > 0 || eligible : eligible;
+
+            console.log(eligible);
+
+            return {
+                lpBalance,
+                usdBalance,
                 eligible
             }
 
-        }))
+        })
 
-        setUserData(newVaults);
-        setTopInfo({deposited, dailyYield: overallYield / 365, monthYield: overallYield / 12})
-
+        return {user: await Promise.all(formattedVaults), yieldInfo: {deposited, overallYield}} ;
     }
 
-    const handleVaultPage = (vault, user) => {
+    // const getLendingApy = async (lendingPool, lpContract, assetAddress, rewardtokenPrice, name, emissionRate) => {
+    //
+    //     const RAY = 10**27;
+    //     const tokenData = await axios.get(`https://api.dexscreener.io/latest/dex/tokens/${assetAddress}`); // Pass
+    //     const depositTokenPrice = parseFloat(tokenData.data.pairs[0].priceUsd); // Pass
+    //
+    //     const liquidityRate = await lendingPool.getReserveData(assetAddress);
+    //     const lendapr = ((+liquidityRate.currentLiquidityRate)/RAY) * 100;
+    //     const lendapy = ((1 + (lendapr / 100) / 8760)**8760-1) * 100;
+    //
+    //     const lEmissionPerYear = (emissionRate * 12);
+    //
+    //     const decimals = +(await lpContract.decimals());
+    //     const total = +(await lpContract.totalSupply()) / 10**decimals;
+    //     const incentivesApr = 100 * (lEmissionPerYear * rewardtokenPrice) / (total * depositTokenPrice);
+    //     const incentivesApy = ((1 + (incentivesApr / 100) / 8760)**8760-1) * 100;
+    //
+    //     const apy = lendapy + incentivesApy;
+    //
+    //     return {apy};
+    // }
+    //
 
-        setSelectedVault(vault);
-        setSelectedUserData(user);
-
+    const handleVaultPage = (vault) => {
+        setGlobalVault(vault);
+        navigate(`/vaults/${vault.id}`)
     }
 
     // ** Search logic effects
@@ -417,10 +258,10 @@ const Vaults = () => {
                 newArr = firstArr;
                 break;
             case SECOND_BAR_CATEGORIES.ELIGIBLE:
-                newArr = firstArr.filter(item => userData[item.baseIndex].eligible);
+                newArr = firstArr.filter(item => item.user.eligible);
                 break;
             case SECOND_BAR_CATEGORIES.MY:
-                newArr = firstArr.filter(item => userData[item.baseIndex].depositedLp > 0);
+                newArr = firstArr.filter(item => item.user.lpBalance > 0);
                 break;
             default:
                 newArr = firstArr;
@@ -446,9 +287,6 @@ const Vaults = () => {
 
     return (
         <>
-        {selectedVault && selectedUserData ?
-            <VaultById vault={selectedVault} userData={selectedUserData} handleVaultPage={handleVaultPage}/>
-                :
                 <VaultsWrapper>
                     <HeadingText>Vaults</HeadingText>
                     <TopWrapper>
@@ -477,7 +315,7 @@ const Vaults = () => {
                                         TVL: <GreyText fs='0.94vw'>$</GreyText>{overallTVL.toFixed(2)}
                                     </div>
                                     <div style={{width: '100%', display: 'flex'}}>
-                                        <div style={{width: '50%', borderRight: '1px solid #F2F2F2'}}>Vaults: {clearVaults ? clearVaults.length : "Calculating..."}</div>
+                                        <div style={{width: '50%', borderRight: '1px solid #F2F2F2'}}>Vaults: {backEndVaults.length}</div>
                                         <div style={{width: '50%'}}> Daily Buyback: <GreyText fs='0.94vw'>$</GreyText> Not calculated yet!</div>
                                     </div>
                                 </TopCardMobile>
@@ -488,7 +326,7 @@ const Vaults = () => {
                                 </div>
                                 <VDivider/>
                                 <div style={{width: '14.65vw'}}>
-                                    Vaults: {clearVaults ? clearVaults.length : "Calculating..."}
+                                    Vaults: {backEndVaults.length}
                                 </div>
                                 <VDivider/>
                                 <div style={{width: '20vw'}}>
@@ -611,7 +449,8 @@ const Vaults = () => {
 
 
                                 if(isMobileScreen()){
-                                    return <FarmsTableItem item={vault} userData={userData ? userData[vault.baseIndex] : null} handleVaultPage={handleVaultPage}/>
+                                    return <h1> Mobile </h1>
+                                    // return <FarmsTableItem item={vault} userData={userData ? userData[vault.baseIndex] : null} handleVaultPage={handleVaultPage}/>
                                 }else{
 
                                     return(
@@ -621,21 +460,24 @@ const Vaults = () => {
                                                 <VaultItemContent>
                                                     <div style={{display: 'flex', gap: '1.2vw'}}>
                                                         <div style={{display: 'flex', gap: '0.87vw'}}>
-                                                            {vault.token0.logo}
-                                                            {vault?.token1?.logo}
+                                                            {vault.Tokens.map(token => {
+                                                                return VAULT_TOKENS[token.name].logo;
+                                                            })}
                                                         </div>
                                                         <div>
                                                             <div>{vault.name}</div>
-                                                            <FontSize fs='0.72vw'><LightText>Platform:</LightText> {vault.projectData.logo}  {vault.projectData.name}</FontSize>
+                                                            <FontSize fs='0.72vw'><LightText>Platform:</LightText> {PROJECT_LOGOS[vault.Project.id.toUpperCase()]} {vault.Project.name}</FontSize>
                                                         </div>
                                                     </div>
                                                     <div>0</div>
-                                                    <div style={{display: 'flex', flexDirection: 'column'}}><div>{userData ? formattedNum(userData[vault.baseIndex].depositedLp) : null}</div><FontSize fs='0.64vw'><LightText>${userData ? formattedNum(userData[vault.baseIndex].depositedUsd) : null}</LightText></FontSize></div>
-                                                    <div>{!vault.old ? isNaN(formattedNum(vault.data.apy.toFixed(2))) ? "0.00%" : formattedNum(vault.data.apy.toFixed(2)) + "%" : "Paused"}</div>
-                                                    <div>{!vault.old ? isNaN(formattedNum((vault.data.apy / 365).toFixed(3))) ? "0.00%" : formattedNum((vault.data.apy / 365).toFixed(3))  + "%" : "Paused"}</div>
-                                                    <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(vault.data.vaultTvl.toFixed(2))}</div>
+                                                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                                                        <div>{vault?.user ? formattedNum(vault.user.lpBalance) : "0.00"}</div>
+                                                        <FontSize fs='0.64vw'><LightText>${vault?.user ? formattedNum(vault.user.usdBalance) : "0.00"}</LightText></FontSize></div>
+                                                    <div>{!vault.old ? isNaN(formattedNum(vault.apy.toFixed(2))) ? "0.00%" : formattedNum(vault.apy.toFixed(2)) + "%" : "Paused"}</div>
+                                                    <div>{!vault.old ? isNaN(formattedNum((vault.apy / 365).toFixed(3))) ? "0.00%" : formattedNum((vault.apy / 365).toFixed(3))  + "%" : "Paused"}</div>
+                                                    <div><GreyText fs='0.93vw'>$</GreyText>{formattedNum(vault.vaultTvl.toFixed(2))}</div>
                                                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                                                        <GetBtn disabled={!userData} onClick={() => handleVaultPage(vault, userData[vault.baseIndex])} > Get </GetBtn>
+                                                        <GetBtn onClick={() => handleVaultPage(vault)} > Get </GetBtn>
                                                     </div>
                                                 </VaultItemContent>
                                             </VaultTableItem>
