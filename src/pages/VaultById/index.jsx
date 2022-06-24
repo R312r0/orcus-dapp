@@ -14,6 +14,7 @@ import BigNumber from 'bignumber.js';
 // ABIS
 import ROUTER_ABI from '../../abis/Vaults-zap-rotuer.json';
 import VAULT_ABI from '../../abis/Vault.json';
+import VAULT_LENDING_ABI from '../../abis/VaultNative.json';
 import ERC20_ABI from '../../abis/ERC20.json';
 import {useBlockChainContext} from "../../context/blockchain-context";
 import {formatFromDecimal, formattedNum, formatToDecimal} from "../../utils";
@@ -63,7 +64,7 @@ const VaultById = () => {
 
         if (signer) {
             if (!globalVault) {
-                axios.get(`http://localhost:3000/vault/${id}`).then(({data}) => {
+                axios.get(`http://ec2-3-70-29-118.eu-central-1.compute.amazonaws.com:3000/vault/${id}`).then(({data}) => {
                     setVault(init(data));
                 });
             }
@@ -89,16 +90,16 @@ const VaultById = () => {
     const init = (vault) => {
         const interactAssets = vault.Tokens.map(token => ({...token, contract: new ethers.Contract(token.address, ERC20_ABI, signer), beefIn: true}));
 
-        interactAssets.push({name: "VAULT", decimals: 18, address: vault.vaultAddress, contract: new ethers.Contract(vault.vaultAddress, ERC20_ABI, signer)});
+        interactAssets.push({name: "VAULT", decimals: vault.Tokens.length > 1 ? 18 : vault.Tokens[0].decimals , address: vault.vaultAddress, contract: new ethers.Contract(vault.vaultAddress, ERC20_ABI, signer)});
         if (vault.Tokens.length > 1) {
             interactAssets.push({name: vault.name, decimals: 18, address: vault.lpAddress, contract: new ethers.Contract(vault.lpAddress, ERC20_ABI, signer)});
         }
 
-        if (vault.Tokens.findIndex(item => item.name === "WASTR") !== -1 && vault.Tokens.length > 1) {
+        if (vault.Tokens.findIndex(item => item.name === "WASTR") !== -1) {
             interactAssets.push({name: "ASTR", beefIn: true})
         }
 
-        const vaultContract = new ethers.Contract(vault.vaultAddress, VAULT_ABI, signer); // TODO: add lending abi
+        const vaultContract = new ethers.Contract(vault.vaultAddress, vault.Tokens.length > 1 ? VAULT_ABI : VAULT_LENDING_ABI, signer);
         const routerContract =  vault.Tokens.length > 1 ? new ethers.Contract(vault.Project.routerAddress, ROUTER_ABI, signer) : null;
         setRadioChoice(vault.Tokens[0].name);
         return {...vault, vaultContract, routerContract, interactAssets};
@@ -141,7 +142,7 @@ const VaultById = () => {
 
             let bal;
 
-            if (token.name === "ASTR" && vaultLoc.Tokens.length > 1) {
+            if (token.name === "ASTR") {
                 bal = formatFromDecimal(+(await signer.getBalance()), 18);
             }
             else {
@@ -151,9 +152,7 @@ const VaultById = () => {
             return {name: token.name, bal};
         }))
 
-        // FIXME: something wrong here with Lending deposited.
-
-        const depositedLp = balances.find(item => item.name === "VAULT").bal / vaultLoc.vaultPriceMultiplier
+        const depositedLp = balances.find(item => item.name === "VAULT").bal * vaultLoc.vaultPriceMultiplier
         const depositedUsd = depositedLp * vaultLoc.lpPrice;
 
         setDeposited({lp: depositedLp, usd: depositedUsd})
@@ -177,10 +176,9 @@ const VaultById = () => {
 
         let tx;
         const {vaultContract, routerContract, interactAssets, Tokens} = vault;
+        const searchedAsset = interactAssets.find(item => item.name === radioChoice);
 
         if (Tokens.length > 1) {
-            const searchedAsset = interactAssets.find(item => item.name === radioChoice);
-
             if (searchedAsset.beefIn) {
                 tx = await searchedAsset.contract.approve(routerContract.address, MAX_INT);
             }
@@ -190,7 +188,7 @@ const VaultById = () => {
 
         }
         else {
-            console.log("Lending!")
+            tx = await searchedAsset.contract.approve(vaultContract.address, MAX_INT);
         }
 
         try {
@@ -201,29 +199,37 @@ const VaultById = () => {
             console.log(e.message);
         }
     }
-    //
-    // const handleApproveForWithdraw = async () => {
-    //
-    //     const {router, vaultContract} = vault.contracts;
-    //
-    //     try {
-    //         const tx = await vaultContract.connect(signer).approve(router.address, MAX_INT);
-    //         await tx.wait();
-    //
-    //         await getAllowances(vault);
-    //     }
-    //     catch (e) {
-    //         console.log(e.message);
-    //     }
-    // }
-    //
+
+    const handleApproveForWithdraw = async () => {
+
+        const vaultToken = vault.interactAssets.find(item => item.name === "VAULT").contract;
+
+        try {
+            let tx;
+
+            if (vault.Tokens.length > 1) {
+                tx = await vaultToken.approve(vault.routerAddress, MAX_INT);
+            }
+            else {
+                tx = await vaultToken.approve(vaultToken.address, MAX_INT);
+            }
+            await tx.wait();
+            await getAllowances(vault);
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+    }
+
+    console.log(vault);
+
     const handleDeposit = async () => {
 
         let tx;
         const {vaultContract, routerContract, interactAssets, Tokens} = vault;
+        const searchedAsset = interactAssets.find(item => item.name === radioChoice);
 
         if (Tokens.length > 1) {
-            const searchedAsset = interactAssets.find(item => item.name === radioChoice);
 
             if (searchedAsset.beefIn) {
 
@@ -232,17 +238,17 @@ const VaultById = () => {
                     : await routerContract.beefInETH(vault.vaultAddress, 0, {value: formatToDecimal(tokenInput, 18)});
             }
             else {
-                // TODO: add logic for lending too (depositASTR).
                 tx = await vaultContract.deposit(formatToDecimal(tokenInput, searchedAsset.decimals));
             }
         }
         else {
 
-            // FIXME: add searchedAsset becuase it can be WASTR so we can use native ASTR instead
-            // await vaultContract.connect(signer).depositASTR({value: formatToDecimal(tokenInput, 18)})
-            // TODO: if radiochoise astr then depositASTR if not than just deposit.
-
-            tx = await vaultContract.deposit(formatToDecimal(tokenInput, Tokens[0].decimals));
+            if (searchedAsset.name === "ASTR") {
+                tx = await vaultContract.depositASTR({value: formatToDecimal(tokenInput, 18)})
+            }
+            else {
+                tx = await vaultContract.deposit(formatToDecimal(tokenInput, Tokens[0].decimals));
+            }
         }
 
         try {
@@ -258,22 +264,25 @@ const VaultById = () => {
         let tx;
         const {vaultContract, routerContract, interactAssets, Tokens} = vault;
 
-        if (Tokens.length > 1) {
-            const searchedAsset = interactAssets.find(item => item.name === radioChoice);
+        const searchedAsset = interactAssets.find(item => item.name === radioChoice);
 
+        if (Tokens.length > 1) {
             if (searchedAsset.beefIn) {
                  tx = await routerContract.beefOutAndSwap(vault.vaultAddress, formatToDecimal(tokenInput, 18), searchedAsset.address, 0)
             }
             else {
                 tx = await routerContract.beefOut(vault.vaultAddress, formatToDecimal(tokenInput, 18));
             }
-
         }
 
         else {
-            console.log("Lending!")
-            // TODO: add lending logic too
-            // await vaultContract.connect(signer).withdraw( (+tokenInputFormatted / +vaultLpMultiplier).toFixed(0));
+
+            if (searchedAsset.name === "ASTR") {
+                tx = await vaultContract.withdrawASTR(formatToDecimal(tokenInput, 18))
+            }
+            else {
+                tx = await vaultContract.withdraw( formatToDecimal(tokenInput, searchedAsset.decimals));
+            }
         }
 
         try {
@@ -301,7 +310,7 @@ const VaultById = () => {
         }
         else {
             const allowance = allowances.find(item => item.name === radioChoice).allowance;
-            const balance = balances.find(item => item.name === radioChoice).bal >= tokenInput;
+            const balance = parseFloat(balances.find(item => item.name === radioChoice).bal) >= parseFloat(tokenInput);
 
             if (activeDW === ACTIVE_DVS.DEPOSIT) {
 
@@ -326,7 +335,7 @@ const VaultById = () => {
                 const vaultAllowance = allowances.find(item => item.name === "VAULT").allowance;
                 const vaultBalance = balances.find(item => item.name === "VAULT").bal >= (tokenInput || 0);
 
-                return <ConnectWallet disabled={!vaultBalance || !tokenInput} onClick={() => !vaultAllowance ? console.log("Approve") : handleWithdraw()}>
+                return <ConnectWallet disabled={!vaultBalance || (vaultAllowance && !tokenInput)} onClick={() => !vaultAllowance ? handleApproveForWithdraw() : handleWithdraw()}>
                             {!vaultAllowance ? "Approve vault tokens" : !vaultBalance ? "Insufficient vault-tokens balance" : "Withdraw"}
                         </ConnectWallet>
             }
@@ -482,7 +491,7 @@ const VaultById = () => {
                     <Fieldset>
                         {vault.interactAssets.filter(item => item.name !== "VAULT").map((asset, _ind) => {
 
-                                if (activeDW === ACTIVE_DVS.WITHDRAW && asset.name === "ASTR") {
+                                if (activeDW === ACTIVE_DVS.WITHDRAW && asset.name === "ASTR" && vault.Tokens.length > 1) {
                                     return
                                 }
 
