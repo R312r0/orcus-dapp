@@ -27,7 +27,7 @@ import UNISWAP_PAIR from '../../abis/UniswapPair.json';
 import ROUTER_ABI from '../../abis/Vaults-zap-rotuer.json';
 import ERC20_ABI from '../../abis/ERC20.json';
 
-import {formattedNum} from "../../utils";
+import {formatFromDecimal, formattedNum} from "../../utils";
 import axios from "axios";
 import FarmsTableItem from './mobile-item/index'
 import VaultById from "../VaultById";
@@ -156,8 +156,9 @@ const Vaults = () => {
         const formattedVaults = vaults.map(async (item) => {
             const vaultContract = new ethers.Contract(item.vaultAddress, ERC20_ABI, signer);
 
-            const lpDecimals = !item.isLending ? 18 : 1;
-            const balance = +(await vaultContract.balanceOf(account)) / 10**lpDecimals;
+            const lpDecimals = await (new ethers.Contract(item.lpAddress, ERC20_ABI, signer)).decimals()
+
+            const balance = formatFromDecimal(+(await vaultContract.balanceOf(account)), +lpDecimals);
             const lpBalance = balance * item.vaultPriceMultiplier;
             const usdBalance = lpBalance * item.lpPrice;
             deposited += usdBalance;
@@ -166,8 +167,6 @@ const Vaults = () => {
             let eligible = item.Tokens.map(token => userTokenBalances.find(bal => bal.name === token.name).userBalance > 0).includes(true);
             eligible = balance > 0 || eligible;
             eligible = item.Tokens.find(token => token.name === "WASTR") ? userAstrBalance > 0 || eligible : eligible;
-
-            console.log(eligible);
 
             return {
                 lpBalance,
@@ -315,7 +314,7 @@ const Vaults = () => {
                                         TVL: <GreyText fs='0.94vw'>$</GreyText>{overallTVL.toFixed(2)}
                                     </div>
                                     <div style={{width: '100%', display: 'flex'}}>
-                                        <div style={{width: '50%', borderRight: '1px solid #F2F2F2'}}>Vaults: {backEndVaults.length}</div>
+                                        <div style={{width: '50%', borderRight: '1px solid #F2F2F2'}}>Vaults: {clearVaults.length}</div>
                                         <div style={{width: '50%'}}> Daily Buyback: <GreyText fs='0.94vw'>$</GreyText> Not calculated yet!</div>
                                     </div>
                                 </TopCardMobile>
@@ -326,7 +325,7 @@ const Vaults = () => {
                                 </div>
                                 <VDivider/>
                                 <div style={{width: '14.65vw'}}>
-                                    Vaults: {backEndVaults.length}
+                                    Vaults: {clearVaults.length}
                                 </div>
                                 <VDivider/>
                                 <div style={{width: '20vw'}}>
