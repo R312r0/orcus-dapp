@@ -263,56 +263,56 @@ export const TEST_VAULT = [
         masterChiefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
 
         vaults: [
-            {
-                name: "PANDORA-WASTR",
-                lpAddress: "0x5e8a60839dC6F9C7595E0d9519d4bdB947cEb7A6",
-                vaultAddress: "0x8317099f69ca210C18835fefB6dED806491B1768",
-                poolIndex: 1,
-                addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.PANDORA.address}/ASTR`,
-                token0: VAULT_TOKENS.PANDORA,
-                token1: VAULT_TOKENS.WASTR_PANDORA,
-                category: VAULT_CATEGORIES.NONE
-            },
-            {
-                name: "USDC-PANDORA",
-                lpAddress: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
-                vaultAddress: "0x7b5F472e466f94642c4260e5E205d34DB15718A9",
-                poolIndex: 4,
-                addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDC.address}/${VAULT_TOKENS.PANDORA.address}`,
-                token0: VAULT_TOKENS.PANDORA,
-                token1: VAULT_TOKENS.USDC,
-                category: VAULT_CATEGORIES.NONE
-            },
-            {
-                name: "WASTR-USDC",
-                lpAddress: "0x3683d79a8Af26A56822C48a4eD1af80d51eB8399",
-                vaultAddress: "0xf1b4384808eb559Cbfc5855EdD96B79c54186B01",
-                poolIndex: 3,
-                addLpLink: `https://pandoraswapxyz.org/add/ASTR/${VAULT_TOKENS.USDC.address}`,
-                token0: VAULT_TOKENS.WASTR_PANDORA,
-                token1: VAULT_TOKENS.USDC,
-                category: VAULT_CATEGORIES.NONE
-            },
-            {
-                name: "USDT-USDC",
-                lpAddress: "0xcECbf254c22a5d5e5d75a215A4403A5B4dC1dA5A",
-                vaultAddress: "0x29A067d170b49E8EE4723B535Ff4d75fD35515e7",
-                poolIndex: 2,
-                addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDT.address}/${VAULT_TOKENS.USDC.address}`,
-                token0: VAULT_TOKENS.USDT,
-                token1: VAULT_TOKENS.USDC,
-                category: VAULT_CATEGORIES.STABLE
-            },
-            {
-                name: "USDC-DAI",
-                lpAddress: "0x148dF5088b74f511C8458b9d7c0f45c3F6971FAd",
-                vaultAddress: "0x365c0749E17bF32DAf26994939d33E08f41B3BFF",
-                poolIndex: 5,
-                addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDC.address}/${VAULT_TOKENS.DAI.address}`,
-                token0: VAULT_TOKENS.USDC,
-                token1: VAULT_TOKENS.DAI,
-                category: VAULT_CATEGORIES.STABLE
-            },
+            // {
+            //     name: "PANDORA-WASTR",
+            //     lpAddress: "0x5e8a60839dC6F9C7595E0d9519d4bdB947cEb7A6",
+            //     vaultAddress: "0x8317099f69ca210C18835fefB6dED806491B1768",
+            //     poolIndex: 1,
+            //     addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.PANDORA.address}/ASTR`,
+            //     token0: VAULT_TOKENS.PANDORA,
+            //     token1: VAULT_TOKENS.WASTR_PANDORA,
+            //     category: VAULT_CATEGORIES.NONE
+            // },
+            // {
+            //     name: "USDC-PANDORA",
+            //     lpAddress: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
+            //     vaultAddress: "0x7b5F472e466f94642c4260e5E205d34DB15718A9",
+            //     poolIndex: 4,
+            //     addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDC.address}/${VAULT_TOKENS.PANDORA.address}`,
+            //     token0: VAULT_TOKENS.PANDORA,
+            //     token1: VAULT_TOKENS.USDC,
+            //     category: VAULT_CATEGORIES.NONE
+            // },
+            // {
+            //     name: "WASTR-USDC",
+            //     lpAddress: "0x3683d79a8Af26A56822C48a4eD1af80d51eB8399",
+            //     vaultAddress: "0xf1b4384808eb559Cbfc5855EdD96B79c54186B01",
+            //     poolIndex: 3,
+            //     addLpLink: `https://pandoraswapxyz.org/add/ASTR/${VAULT_TOKENS.USDC.address}`,
+            //     token0: VAULT_TOKENS.WASTR_PANDORA,
+            //     token1: VAULT_TOKENS.USDC,
+            //     category: VAULT_CATEGORIES.NONE
+            // },
+            // {
+            //     name: "USDT-USDC",
+            //     lpAddress: "0xcECbf254c22a5d5e5d75a215A4403A5B4dC1dA5A",
+            //     vaultAddress: "0x29A067d170b49E8EE4723B535Ff4d75fD35515e7",
+            //     poolIndex: 2,
+            //     addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDT.address}/${VAULT_TOKENS.USDC.address}`,
+            //     token0: VAULT_TOKENS.USDT,
+            //     token1: VAULT_TOKENS.USDC,
+            //     category: VAULT_CATEGORIES.STABLE
+            // },
+            // {
+            //     name: "USDC-DAI",
+            //     lpAddress: "0x148dF5088b74f511C8458b9d7c0f45c3F6971FAd",
+            //     vaultAddress: "0x365c0749E17bF32DAf26994939d33E08f41B3BFF",
+            //     poolIndex: 5,
+            //     addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDC.address}/${VAULT_TOKENS.DAI.address}`,
+            //     token0: VAULT_TOKENS.USDC,
+            //     token1: VAULT_TOKENS.DAI,
+            //     category: VAULT_CATEGORIES.STABLE
+            // },
         ]
     },
     {

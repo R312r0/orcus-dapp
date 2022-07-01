@@ -64,7 +64,7 @@ const VaultById = () => {
 
         if (signer) {
             if (!globalVault) {
-                axios.get(`http://ec2-3-70-29-118.eu-central-1.compute.amazonaws.com:3000/vault/${id}`).then(({data}) => {
+                axios.get(`https://api.orcusfinance.io/vault/${id}`).then(({data}) => {
                     setVault(init(data));
                 });
             }

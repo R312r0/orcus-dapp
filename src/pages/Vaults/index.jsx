@@ -126,7 +126,7 @@ const Vaults = () => {
     }, [userData])
 
     const getBackVault = async () => {
-        const {data: {vaults}} = await axios.get("http://ec2-3-70-29-118.eu-central-1.compute.amazonaws.com:3000/vaults");
+        const {data: {vaults}} = await axios.get("https://api.orcusfinance.io/vaults");
         setOverallTVL(vaults.map(item => item.vaultTvl).reduce((partialSum, a) => partialSum + a, 0))
         return vaults;
     }
@@ -136,7 +136,7 @@ const Vaults = () => {
         let deposited = 0;
         let overallYield = 0;
 
-        const {data: {tokens}} = await axios.get("http://ec2-3-70-29-118.eu-central-1.compute.amazonaws.com:3000/vaults")
+        const {data: {tokens}} = await axios.get("https://api.orcusfinance.io/tokens")
 
         const balances = tokens.map(async (token) => {
 
