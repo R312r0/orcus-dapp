@@ -51,14 +51,10 @@ const VaultById = () => {
     const [tokenInput, setTokenInput] = useState("0.00");
     const [buttonLoading, setButtonLoading] = useState(false);
 
-
     // User section
     const [allowances, setAllowances] = useState(null);
     const [balances, setBalances] = useState(null);
     const [deposited, setDeposited] = useState({lp: 0, usd: 0})
-    //
-    // const [vaultLpMultiplier, setVaultLpMultiplier] = useState(null);
-    //
 
     useEffect(() => {
 

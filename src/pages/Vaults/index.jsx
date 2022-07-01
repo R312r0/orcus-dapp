@@ -37,9 +37,9 @@ import StarlayABI from '../../abis/StarLayLendingPool.json';
 
 const TOP_BAR_CATEGORIES = {
     ALL: "All",
-    STABLE: "Stablecoins",
-    BLUE_CHIPS: "Blue Chips",
-    ORCUS: "Orcus Vaults",
+    STABLE: "STABLE",
+    BLUE_CHIPS: "BLUE_CHIPS",
+    ORCUS: "ORCUS",
 }
 
 const SECOND_BAR_CATEGORIES = {
@@ -448,8 +448,7 @@ const Vaults = () => {
 
 
                                 if(isMobileScreen()){
-                                    return <h1> Mobile </h1>
-                                    // return <FarmsTableItem item={vault} userData={userData ? userData[vault.baseIndex] : null} handleVaultPage={handleVaultPage}/>
+                                    return <FarmsTableItem item={vault} handleVaultPage={handleVaultPage}/>
                                 }else{
 
                                     return(
