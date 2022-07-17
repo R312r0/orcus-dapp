@@ -31,7 +31,7 @@ const MintRedeeem = () => {
       });
       const URL = {
           method: 'post',
-          url: 'http://localhost:4350/graphql',
+          url: 'https://app.gc.subsquid.io/beta/orcus-final-squid/v0/graphql',
           headers: {
               'Content-Type': 'application/json'
           },
