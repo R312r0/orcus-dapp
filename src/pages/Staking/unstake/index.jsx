@@ -24,10 +24,10 @@ import {CONTRACT_ADDRESSES, MAX_INT, ORU_PER_BLOCK} from "../../../constants";
 import {formattedNum, formatToDecimal, getDateDiff} from "../../../utils";
 import {StakeBtn, StakeDataText} from "../stake/styled";
 
-const Unstake = () => {
+const Unstake = ({stakingData}) => {
 
   const {account} = useWeb3React();
-  const {contracts, connectWallet, signer, liquidity} = useBlockChainContext();
+  const {contracts, connectWallet, signer} = useBlockChainContext();
 
   const [xoruInput, setXOruInput] = useState(0);
   const [oruOutPut, setOruOutput] = useState(0);
@@ -37,11 +37,11 @@ const Unstake = () => {
 
   useEffect(() => {
 
-    if (contracts) {
+    if (contracts && stakingData) {
       getStakingInfo();
     }
 
-  },[contracts])
+  },[contracts, stakingData])
 
   useEffect(() => {
 
@@ -53,21 +53,14 @@ const Unstake = () => {
 
   const getStakingInfo = async () => {
 
-    const {ORU, ORU_STAKE, PRICE_ORACLE} = contracts;
+    const {ORU_STAKE, ORU} = contracts;
 
-    const {oruPrice} = liquidity;
-
-    const lpBalance = (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18) - 45000;
-    const apr = (((((liquidity.oruPrice * 45000 * 30 * 12)) / 2) / ((liquidity.oruPrice * lpBalance)) * 100)).toFixed(0);
     const rate = +(await ORU_STAKE.oruPerShare()) / 1e18;
-    const tvl = oruPrice * (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18);
-
-    console.log(rate);
+    const tvl = (+(await ORU.balanceOf(ORU_STAKE.address)) / 1e18) * stakingData;
 
     setStakingInfo({
-      tvl,
       rate,
-      apr
+      tvl
     })
   }
 
@@ -169,9 +162,9 @@ const Unstake = () => {
           <Text>
             <b>Staking</b>
           </Text>
-          <PercentageContainer>
+          <PercentageContainer style={{visibility: "hidden"}}>
             <Text>
-              <b>{stakingInfo ?  stakingInfo.apr : 0}% APR</b>
+              <b>% APR</b>
             </Text>
           </PercentageContainer>
         </HDiv>

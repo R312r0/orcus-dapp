@@ -1,6 +1,5 @@
 import {InjectedConnector} from "@web3-react/injected-connector";
 import USDCIcon from "../assets/icons/USDCIcon";
-import LogoIcon from "../assets/icons/LogoIcon";
 import OUSDIcon from "../assets/icons/OUSDIcon";
 import ORUIcon from "../assets/icons/ORUIcon";
 import BUSDIcon from '../assets/icons/BUSDIcon';
@@ -18,13 +17,14 @@ import sdn from '../assets/icons/SDN.svg';
 import wbtc from '../assets/icons/wbtc.svg';
 import astarexchange from '../assets/icons/astarexchange.svg';
 import starlay from '../assets/icons/starlay.webp';
+import arsw from '../assets/icons/arsw.png';
+import kgl from '../assets/icons/kgl.svg';
+import muuu from '../assets/icons/muuu.svg';
+import nika from '../assets/icons/nika.png';
 
 // Project logos
 import pandoraProject from '../assets/icons/Pandora.png'
-
-// MasterChef ABIs
-import PANDORA_MASTER_CHIEF_ABI from '../abis/PandoraChef.json';
-import ASTAR_EXCHANGE_MASTER_CHIEF_ABI from '../abis/AstarExchangeChef.json';
+import arthswapLogo from '../assets/icons/ArthIcon.png';
 
 export const MetaMask = new InjectedConnector({
     supportedChainIds: [31337, 592]
@@ -38,11 +38,12 @@ export const CONTRACT_ADDRESSES = {
     OUSD: "0x29F6e49c6E3397C3A84F715885F9F233A441165C", // Check +
     WASTR: "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720", // Check +
     USDC: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98", // Check +
+    IUSDC: "0xc404e12d3466accb625c67dbab2e1a8a457def3c", // Check +
 
     BANK: "0x9F1629D7e349b8aa379DD09eC161E7d8242C2102", // Check +
     BANK_SAFE: "0xd89dEa2daC8Fb73F4107C2cbeA5Eb36dab511F64", // Check +
     ORU_STAKE: "0x243e038685209B9B68e0521bD5838C6C937d666A", // Check +
-    PRICE_ORACLE: "0xD3f407b4c61b90ABFDD55A6099327EB30C358e71", // Check +
+    PRICE_ORACLE: "0xd3f407b4c61b90abfdd55a6099327eb30c358e71", // Check +
     OUSD_USDC_ORACLE: "0xc701FF0eF3a134c1b9455e0c456b23d51E792A50", // Check +
     MASTER_CHEF: "0xfa1Cfa75bFae8303A9Fe8aF711AacD59015eE6d4", // Check +
 
@@ -69,504 +70,123 @@ export const MASTER_CHEF_POOLS = [
     {name: "oUSD/ORU", address: "0x318d0540aec0709dDDD67480eFAC0EeF217Dfcf0", mobileToken0Icon: <OUSDIcon ratio={'5vw'}/>, token0Icon: <OUSDIcon ratio={'1.192vw'}/>,mobileToken1Icon: <ORUIcon ratio={'5vw'}/>, token1Icon: <ORUIcon ratio={'1.192vw'}/>, token0: "OUSD", token1: "ORU"},
 ]
 
-//0xf9784e15229E08cb417f4609B02d18081D7d2a7F
-
-const TOKEN_VAULT_ADDRESSES = {
-    PANDORA: "0x8ea356004327E598729b4CE590eDC90428Dc6A89",
-    WASTR: "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
-    USDC: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
-    USDT: "0x3795C36e7D12A8c252A20C5a7B455f7c57b60283",
-    DAI: "0x6De33698e9e9b787e09d3Bd7771ef63557E148bb"
-}
-
-const TOKEN_VAULT_LP_ADDRESSES = {
-    WASTR_PANDORA: "0x5e8a60839dC6F9C7595E0d9519d4bdB947cEb7A6",
-    PANDORA_USDC: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
-    WASTR_USDC: "0x3683d79a8Af26A56822C48a4eD1af80d51eB8399",
-    USDT_USDC: "0xcECbf254c22a5d5e5d75a215A4403A5B4dC1dA5A",
-    DAI_USDC: "0x148dF5088b74f511C8458b9d7c0f45c3F6971FAd"
-}
-
-const VAULT_ADDRESSES = {
-    ROUTER: "0x22E1f7Ed1A9118805a40d90aA61DB1312D96BE58",
-    PANDORA_WASTR_VAULT: "0x8317099f69ca210C18835fefB6dED806491B1768",
-    USDC_PANDORA_VAULT: "0x7b5F472e466f94642c4260e5E205d34DB15718A9",
-    USDC_WASTR_VAULT: "0xf1b4384808eb559Cbfc5855EdD96B79c54186B01",
-    USDT_USDC_VAULT: "0xEb1648a7FA68e566EFc4f96532Be1b92991abcaE",
-    DAI_USDC: "0xD00FEeF0FCA5DA1a4E62d0C3D4CC14D899233Ac6",
-    PANDORA_MASTER_CHEF: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC"
-}
-
-export const VAULT_CATEGORIES = {
-    STABLE: "Stablecoins",
-    BLUE_CHIPS: "Blue Chips",
-    ORCUS: "Orcus Vaults",
-    NONE: "none",
-}
-
-export const MASTER_CHEF_ABIS = {
-    "Pandora-Swap": PANDORA_MASTER_CHIEF_ABI,
-    "Astar-Exchange": ASTAR_EXCHANGE_MASTER_CHIEF_ABI
-}
-
 export const PROJECT_LOGOS = {
     PANDORA: <img src={pandoraProject} width='12'/>,
     ASTAR_EXCHANGE: <img src={astarexchange} width='12'/>,
-    STARLAY: <img src={starlay} width='12'/>
+    STARLAY: <img src={starlay} width='12'/>,
+    ARTHSWAP: <img src={arthswapLogo} width='12'/>
 }
 
 export const VAULT_TOKENS = {
     WASTR: {
         name: "WASTR",
-        address: "0xAeaaf0e2c81Af264101B9129C00F4440cCF0F720",
-        description: "ASTAR network main token",
-        website: "https://astar.network/",
-        logo: <img src={wastr} style={{width: "2.344vw", height: "2.344vw"}}/>,
-        mobileLogo:  <img src={wastr} style={{width: "5.344vw", height: "5.344vw"}}/>,
-    },
-    WASTR_ASTAR_EXCHANGE: {
-        name: "WASTR",
-        address: "0xEcC867DE9F5090F55908Aaa1352950b9eed390cD",
-        description: "ASTAR network main token",
-        website: "https://astar.network/",
         logo: <img src={wastr} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={wastr} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     WETH: {
         name: "WETH",
-        address: "0x81ECac0D6Be0550A00FF064a4f9dd2400585FE9c",
-        description: "Wrapped Ethereum ERC20 token",
-        website: "https://astar.network/",
         logo: <img src={weth} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={weth} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     MATIC: {
         name: "MATIC",
-        address: "0xdd90E5E87A2081Dcf0391920868eBc2FFB81a1aF",
-        description: "Wrapped Matic ERC20 token",
-        website: "https://astar.network/",
         logo: <img src={matic} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={matic} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     BNB: {
         name: "BNB",
-        address: "0x7f27352D5F83Db87a5A3E00f4B07Cc2138D8ee52",
-        description: "Binance main coin",
-        website: "https://astar.network/",
         logo: <img src={bnb} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={bnb} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     WBTC: {
         name: "WBTC",
-        address: "0xad543f18cFf85c77E140E3E5E3c3392f6Ba9d5CA",
-        description: "Wrapped Bitcoin",
-        website: "https://astar.network/",
         logo: <img src={wbtc} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={wbtc} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     WSDN: {
         name: "WSDN",
-        address: "0x75364D4F779d0Bd0facD9a218c67f87dD9Aff3b4",
-        description: "Shiden Network main token",
-        website: "https://astar.network/",
         logo: <img src={sdn} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={sdn} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     USDC: {
         name: "USDC",
-        address: "0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98",
-        description: "None",
-        website: null,
         logo: <USDCIcon/>,
         mobileLogo: <USDCIcon ratio='5vw'/>
     },
     USDT: {
         name: "USDT",
-        address: "0x3795C36e7D12A8c252A20C5a7B455f7c57b60283",
-        description: "None",
-        website: null,
         logo: <img src={usdt} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo: <img src={usdt} style={{width: "5.344vw", height: "5.344vw"}}/>
     },
     DAI: {
         name: "DAI",
-        address: "0x6De33698e9e9b787e09d3Bd7771ef63557E148bb",
-        description: "DAI",
-        website: null,
         logo: <img src={dai} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={dai} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     BUSD: {
         name: "BUSD",
-        address: "0x4Bf769b05E832FCdc9053fFFBC78Ca889aCb5E1E",
-        description: "Binance Smart Chain USD Coin",
-        website: null,
         logo: <BUSDIcon/>,
         mobileLogo:  <BUSDIcon ratio={"5vw"}/>,
     },
     JPYC: {
         name: "JPYC",
-        address: "0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB",
-        description: "JPYC",
-        website: null,
         logo: <img src={jpyc} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={jpyc} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     BAI: {
         name: "BAI",
-        address: "0x733ebcC6DF85f8266349DEFD0980f8Ced9B45f35",
-        description: "BAI",
-        website: null,
         logo: <img src={bai} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={bai} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     DOT: {
         name: "DOT",
-        address: "0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF",
-        description: "Polkadot chain main token",
-        website: null,
         logo: <img src={jpyc} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={jpyc} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     // Projects token
     PANDORA: {
         name: "PANDORA",
-        address: "0x8ea356004327E598729b4CE590eDC90428Dc6A89",
-        description: "PANDORA is the native token with an outstanding utility to empowers the whole Pandora Swap ecosystem.",
-        website: "https://pandoraswapxyz.org/",
         logo: <img src={pandora} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo:  <img src={pandora} style={{width: "5.344vw", height: "5.344vw"}}/>,
     },
     ASX: {
         name: "ASX",
-        address: "0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
-        description: "Astar Exchange main token.",
-        website: "https://astar.exchange/exchange/swap",
         logo: <img src={asx} style={{width: "2.344vw", height: "2.344vw"}}/>,
         mobileLogo: <img src={asx} style={{width: "5.344vw", height: "5.344vw"}}/>
+    },
+    ARSW: {
+        name: "ARSW",
+        logo: <img src={arsw} style={{width: "2.344vw", height: "2.344vw"}}/>,
+        mobileLogo: <img src={arsw} style={{width: "5.344vw", height: "5.344vw"}}/>
+    },
+    NIKA: {
+        name: "NIKA",
+        logo: <img src={nika} style={{width: "2.344vw", height: "2.344vw"}}/>,
+        mobileLogo: <img src={nika} style={{width: "5.344vw", height: "5.344vw"}}/>
+    },
+    MUUU: {
+        name: "MUUU",
+        logo: <img src={muuu} style={{width: "2.344vw", height: "2.344vw"}}/>,
+        mobileLogo: <img src={muuu} style={{width: "5.344vw", height: "5.344vw"}}/>
+    },
+    ORU: {
+        name: "ORU",
+        logo: <ORUIcon/>,
+        mobileLogo: <ORUIcon ratio={"5vw"}/>
+    },
+    oUSD: {
+        name: "OUSD",
+        logo: <OUSDIcon/>,
+        mobileLogo: <OUSDIcon ratio={"5vw"}/>
+    },
+    KGL: {
+        name: "KGL",
+        logo: <img src={kgl} style={{width: "2.344vw", height: "2.344vw"}}/>,
+        mobileLogo: <img src={kgl} style={{width: "5.344vw", height: "5.344vw"}}/>
+    },
+    LAY: {
+        name: "LAY",
+        logo: <img src={starlay} style={{width: "2.344vw", height: "2.344vw"}}/>,
+        mobileLogo: <img src={starlay} style={{width: "5.344vw", height: "5.344vw"}}/>
     }
-
 }
-
-export const TEST_VAULT = [
-    {
-        name: "Pandora-Swap",
-        logo: <img src={pandoraProject} width='12'/>,
-        description: "Pandora Swap is a One-Stop DeFi Hub with the most complete ecosystem within Astar Network focused on offering an accessible, transparent and secure experience for everyone.",
-        website: "https://pandoraswapxyz.org/",
-        telegram: "http://t.me/pandoraswap",
-        twitter: "https://twitter.com/pandora_swap",
-        buyLink: "https://pandoraswapxyz.org/swap",
-
-        rewardTokenAddress: "0x8ea356004327E598729b4CE590eDC90428Dc6A89",
-        routerAddress: "0x22E1f7Ed1A9118805a40d90aA61DB1312D96BE58",
-        masterChiefAddress: "0x894d03D77b42bBeC83CEe221596ba17a83b995eC",
-
-        vaults: [
-            // {
-            //     name: "PANDORA-WASTR",
-            //     lpAddress: "0x5e8a60839dC6F9C7595E0d9519d4bdB947cEb7A6",
-            //     vaultAddress: "0x8317099f69ca210C18835fefB6dED806491B1768",
-            //     poolIndex: 1,
-            //     addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.PANDORA.address}/ASTR`,
-            //     token0: VAULT_TOKENS.PANDORA,
-            //     token1: VAULT_TOKENS.WASTR_PANDORA,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "USDC-PANDORA",
-            //     lpAddress: "0x3ED26D25d047B0d01E181c1a0E955e00aac9A707",
-            //     vaultAddress: "0x7b5F472e466f94642c4260e5E205d34DB15718A9",
-            //     poolIndex: 4,
-            //     addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDC.address}/${VAULT_TOKENS.PANDORA.address}`,
-            //     token0: VAULT_TOKENS.PANDORA,
-            //     token1: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "WASTR-USDC",
-            //     lpAddress: "0x3683d79a8Af26A56822C48a4eD1af80d51eB8399",
-            //     vaultAddress: "0xf1b4384808eb559Cbfc5855EdD96B79c54186B01",
-            //     poolIndex: 3,
-            //     addLpLink: `https://pandoraswapxyz.org/add/ASTR/${VAULT_TOKENS.USDC.address}`,
-            //     token0: VAULT_TOKENS.WASTR_PANDORA,
-            //     token1: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "USDT-USDC",
-            //     lpAddress: "0xcECbf254c22a5d5e5d75a215A4403A5B4dC1dA5A",
-            //     vaultAddress: "0x29A067d170b49E8EE4723B535Ff4d75fD35515e7",
-            //     poolIndex: 2,
-            //     addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDT.address}/${VAULT_TOKENS.USDC.address}`,
-            //     token0: VAULT_TOKENS.USDT,
-            //     token1: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.STABLE
-            // },
-            // {
-            //     name: "USDC-DAI",
-            //     lpAddress: "0x148dF5088b74f511C8458b9d7c0f45c3F6971FAd",
-            //     vaultAddress: "0x365c0749E17bF32DAf26994939d33E08f41B3BFF",
-            //     poolIndex: 5,
-            //     addLpLink: `https://pandoraswapxyz.org/add/${VAULT_TOKENS.USDC.address}/${VAULT_TOKENS.DAI.address}`,
-            //     token0: VAULT_TOKENS.USDC,
-            //     token1: VAULT_TOKENS.DAI,
-            //     category: VAULT_CATEGORIES.STABLE
-            // },
-        ]
-    },
-    {
-
-        name: "Astar-Exchange",
-        logo: <img src={astarexchange} width='12'/>,
-
-        description: "Uniswap v2 fork on Astar Network, the most optimized contracts for P2P trading. Yield farm without lock-up.",
-        website: "https://astar.exchange/exchange/swap",
-        telegram: null,
-        twitter: "https://twitter.com/AstarExchange",
-        buyLink: "https://astar.exchange/exchange/swap",
-
-        rewardTokenAddress: "0x5D1af739FD538D363Fd61a59d3CBb7B70784A3AC",
-        routerAddress: "0xCC1c76C4ee74E7Bc5370FC9Ed9E31ed9054cc199",
-        masterChiefAddress: "0xC8E6b94B121dF6afa3f698df2c51F8B779A02170",
-
-        vaults: [
-            // {
-            //     name: "ASX-ASTR",
-            //     lpAddress: "0x8a00655Da9D32537650fd885aDe7e550d4047e8A",
-            //     vaultAddress: "0xccBef9a10bA330C9fbfA553bbB36dBC01ce3e525",
-            //     poolIndex: 0,
-            //     addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.WASTR_ASTAR_EXCHANGE}`,
-            //     token0: VAULT_TOKENS.ASX,
-            //     token1: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "ASTR-USDC",
-            //     lpAddress: "0xA6E7448463dF706862E424208838047D8Aa0ED11",
-            //     vaultAddress: "0x932CF353a568A87982775Fa3564988e7999e5315",
-            //     poolIndex: 2,
-            //     addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.USDC.address}`,
-            //     token0: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
-            //     token1: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "USDT-USDC",
-            //     lpAddress: "0x8c82b3F5b14fcFA60B5D10CB0551B7C81FBc97e6",
-            //     vaultAddress: "0x9D39698dd3D28b340C1d2407208B0406a0aC97D2",
-            //     poolIndex: 3,
-            //     addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.USDT.address}/${VAULT_TOKENS.USDC.address}`,
-            //     token0: VAULT_TOKENS.USDT,
-            //     token1: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.STABLE
-            // },
-            // {
-            //     name: "BUSD-USDC",
-            //     lpAddress: "0x1e82d43Cad0F487f6b5ae5BA9Ce5ee64Ff762319",
-            //     vaultAddress: "0xf531BFa7f76aCcafdE61a16ab44db06CB50F876C",
-            //     poolIndex: 4,
-            //     addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.BUSD.address}`,
-            //     token0: VAULT_TOKENS.BUSD,
-            //     token1: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.STABLE
-            // },
-            // {
-            //     name: "DAI-USDC",
-            //     lpAddress: "0xfAfDB9e0Bb8516C18451583f7107C083eaC0D645",
-            //     vaultAddress: "0xD02f22572C966c8939111e2Fc9680de4a4BD87d6",
-            //     poolIndex: 5,
-            //     addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.DAI.address}/${VAULT_TOKENS.USDC.address}`,
-            //     token0: VAULT_TOKENS.DAI,
-            //     token1: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.STABLE
-            // },
-            // {
-            //     name: "WSDN-ASTR",
-            //     lpAddress: "0x7C248996BE5502A64d55374c31bd1a164B95bf46",
-            //     vaultAddress: "0xF96003E550616d72CaFe8AD9C27DC1b1985C6F27",
-            //     poolIndex: 6,
-            //     addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.WSDN.address}/ETH`,
-            //     token0: VAULT_TOKENS.WSDN,
-            //     token1: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "WETH-ASTR",
-            //     lpAddress: "0x7f5F1200678e07D7Bbaee18a224F1231a1b1dae2",
-            //     vaultAddress: "0x5327CE1fe93B8E9947145068EcFC5d81D5153A1f",
-            //     poolIndex: 7,
-            //     addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.WETH.address}`,
-            //     token0: VAULT_TOKENS.WETH,
-            //     token1: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "MATIC-ASTR",
-            //     lpAddress: "0x66Aa03C32ABcdCc498B77BC540BBBa4371887CAd",
-            //     vaultAddress: "0xb7aa125F07829A9bA7a4953aeFafafc224FF319F",
-            //     poolIndex: 8,
-            //     addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.MATIC.address}`,
-            //     token0: VAULT_TOKENS.MATIC,
-            //     token1: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "BNB-ASTR",
-            //     lpAddress: "0xD74F3e08b702556f6f43B08102c0171B3D879248",
-            //     vaultAddress: "0xE13b265eEED610365C756603c762baCD3033A3B0",
-            //     poolIndex: 9,
-            //     addLpLink: `https://astar.exchange/exchange/add/ETH/${VAULT_TOKENS.BNB.address}`,
-            //     token0: VAULT_TOKENS.BNB,
-            //     token1: VAULT_TOKENS.WASTR_ASTAR_EXCHANGE,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "JPYC-USDC",
-            //     old: true,
-            //     lpAddress: "0x7b1E118Dff374994D483758Dac72178eE239f786",
-            //     vaultAddress: "0xbA59047a04d5886A45A186DE21d29471790a4A41",
-            //     poolIndex: 10,
-            //     addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.JPYC.address}/${VAULT_TOKENS.USDC.address}`,
-            //     token0: VAULT_TOKENS.JPYC,
-            //     token1: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "JPYC-USDC",
-            //     lpAddress: "0x7b1E118Dff374994D483758Dac72178eE239f786",
-            //     vaultAddress: "0xB4E623D62a0c79887630e9339Ca38a44a94f3DcA",
-            //     poolIndex: 10,
-            //     addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.JPYC.address}/${VAULT_TOKENS.USDC.address}`,
-            //     token0: VAULT_TOKENS.JPYC,
-            //     token1: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-            // {
-            //     name: "BAI-USDC",
-            //     lpAddress: "0xc6526305D08AfA882b497C9c660b778770b80e78",
-            //     vaultAddress: "0xB492AbCCe9805d49C87E2B92a1806192c9AA1976",
-            //     poolIndex: 11,
-            //     addLpLink: `https://astar.exchange/exchange/add/${VAULT_TOKENS.BAI.address}/${VAULT_TOKENS.USDC.address}`,
-            //     token0: VAULT_TOKENS.BAI,
-            //     token1: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.NONE
-            // },
-        ]
-    },
-    {
-        name: "Starlay Finance",
-        logo: <img src={starlay} width='12'/>,
-
-        description: "Starlay Finance is the first lending protocol backed by Astar Network.",
-        website: "https://starlay.finance/",
-        telegram: "https://t.me/starlay_fi",
-        twitter: "https://twitter.com/starlay_fi",
-        buyLink: "https://app.arthswap.org/#/swap",
-
-        lending: true,
-
-        rewardTokenAddress: "0xc4335B1b76fA6d52877b3046ECA68F6E708a27dd",
-        vaults: [
-            // {
-            //     name: "USDC",
-            //     lpAddress: "0xC404E12D3466acCB625c67dbAb2E1a8a457DEf3c",
-            //     vaultAddress: "0x67958bD44f5CD42F3d388141fCBC50b852cAb2f1",
-            //     token0: VAULT_TOKENS.USDC,
-            //     category: VAULT_CATEGORIES.BLUE_CHIPS,
-            //     emissionRate: 570377
-            // },
-            // {
-            //     name: "WASTR",
-            //     lpAddress: "0xc0043Ad81De6DB53a604e42377290EcfD4Bc5fED",
-            //     vaultAddress: "0x182F356e4Be1268083Fc8edBA4AE11dDDEd96213",
-            //     token0: VAULT_TOKENS.WASTR_PANDORA,
-            //     category: VAULT_CATEGORIES.BLUE_CHIPS,
-            //     emissionRate: 570377
-            // },
-            // {
-            //     name: "DOT",
-            //     lpAddress: "0x86EADed1F56ad656657b90D60483e1d0a5f7C20b",
-            //     vaultAddress: "0x84e3B5eB278818631f3B932892818d9B5a4ef29B",
-            //     token0: VAULT_TOKENS.DOT,
-            //     category: VAULT_CATEGORIES.BLUE_CHIPS,
-            //     emissionRate: 2851855
-            // },
-
-            // {
-            //     name: "DAI",
-            //     lpAddress: "0x4dd9c468A44F3FEF662c35c1E9a6108B70415C2c",
-            //     vaultAddress: "0x9fbc1563ccBe71fE2d06F4e4609dCe6F46CAC4f2",
-            //     token0: VAULT_TOKENS.DAI,
-            //     category: VAULT_CATEGORIES.BLUE_CHIPS,
-            //     emissionRate: 570377,
-            // },
-
-            // {
-            //     name: "USDT",
-            //     lpAddress: "0x430D50963d9635bBef5a2fF27BD0bDDc26ed691F",
-            //     vaultAddress: "0x0B7812442b25Fef8A203425866b10B29CD2cdA24",
-            //     token0: VAULT_TOKENS.USDT,
-            //     category: VAULT_CATEGORIES.BLUE_CHIPS,
-            //     emissionRate: 570377,
-            //
-            // },
-
-            // {
-            //     name: "BUSD",
-            //     lpAddress: "0xb7aB962c42A8Bb443e0362f58a5A43814c573FFb",
-            //     vaultAddress: "0x66d71AcB10bd46d50ef999872c40954aD67f53A5",
-            //     token0: VAULT_TOKENS.BUSD,
-            //     category: VAULT_CATEGORIES.BLUE_CHIPS,
-            //     emissionRate: 570377,
-            // },
-
-            // {
-            //     name: "WETH",
-            //     lpAddress: "0x61f5df7076D2BA75323129CC2724db3abDdC3073",
-            //     vaultAddress: "0x368Aa418674980e1A2abB9AC339A6bB213c8b70a",
-            //     token0: VAULT_TOKENS.WETH,
-            //     category: VAULT_CATEGORIES.BLUE_CHIPS,
-            //     emissionRate: 285188,
-            // },
-            // {
-            //     name: "WBTC",
-            //     lpAddress: "0x93E008010B17a48A140EEA4283040adD92eAC576",
-            //     vaultAddress: "0x28a80eADCE6BDd87E80c9d4cdCA6CBe2E61aa9b4",
-            //     token0: VAULT_TOKENS.WBTC,
-            //     category: VAULT_CATEGORIES.BLUE_CHIPS,
-            //     emissionRate: 285188,
-            // },
-
-            // {
-            //     name: "MATIC",
-            //     lpAddress: "0xF49Ab32B1B13A50eEe2022347A31a69524E83671",
-            //     vaultAddress: "0x72F6217959210E7bBf983a2ac81D39082D69CC45",
-            //     token0: VAULT_TOKENS.MATIC,
-            //     category: VAULT_CATEGORIES.BLUE_CHIPS,
-            //     emissionRate: 285188,
-            // },
-
-            // {
-            //     name: "BNB",
-            //     lpAddress: "0xd37991C23242439B0549c8328df5d83897D645AA",
-            //     vaultAddress: "0x24722435Bc98da4fa93Bb3D1622354dB31156FFD",
-            //     token0: VAULT_TOKENS.BNB,
-            //     category: VAULT_CATEGORIES.BLUE_CHIPS,
-            //     emissionRate: 285188,
-            // },
-
-            {
-                name: "SDN",
-                lpAddress: "0x2308De041865503B3b24F5da4D1ab7308c4ff756",
-                vaultAddress: "0xBf211cc71EEBcE46117B25b47A0C30c7aE855fbC",
-                token0: VAULT_TOKENS.WSDN,
-                category: VAULT_CATEGORIES.BLUE_CHIPS,
-                emissionRate: 285188,
-            },
-
-        ]
-    }
-
-    // TODO: new vaults coming soon.
-]

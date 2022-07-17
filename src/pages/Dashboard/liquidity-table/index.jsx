@@ -7,26 +7,23 @@ import {useBlockChainContext} from "../../../context/blockchain-context";
 import {CONTRACT_ADDRESSES} from "../../../constants";
 import {formattedNum} from "../../../utils";
 
-const LiquidityTable = () => {
+const LiquidityTable = ({lpPrice}) => {
 
-  const { contracts, liquidity } = useBlockChainContext()
+  const { contracts} = useBlockChainContext()
 
   const [protocolLiquidity, setProtocolLiquidity] = useState(null)
 
   useEffect(() => {
 
-    if (contracts && liquidity) {
+    if (contracts && lpPrice) {
       getProtocolLiquidity()
     }
 
-  }, [contracts, liquidity])
+  }, [contracts, lpPrice])
 
   const getProtocolLiquidity = async () => {
 
     const {ORU_USDC} = contracts;
-
-    const lpTotalSupply = +(await ORU_USDC.totalSupply()) / 1e18;
-    const lpPrice = liquidity.oruUsdcLiq / lpTotalSupply;
 
     const protocolOwned = (+(await ORU_USDC.balanceOf(CONTRACT_ADDRESSES.TREASURY)) / 1e18) * lpPrice;
     const protocolRented = (+(await ORU_USDC.balanceOf(CONTRACT_ADDRESSES.DUSTBIN)) / 1e18) * lpPrice;

@@ -9,31 +9,20 @@ import CardIcon from "./assets/CardIcon";
 import CalendarIcon from "./assets/CalendarIcon";
 import CalendarVertical from "./assets/CalendarVertical";
 import {
-    CONTRACT_ADDRESSES,
-    JSON_RPC_URL,
-    MASTER_CHEF_ABIS, PROJECT_LOGOS,
-    TEST_VAULT,
-    VAULT_CATEGORIES, VAULT_TOKENS,
-    VAULTS
+ PROJECT_LOGOS,
+ VAULT_TOKENS,
 } from "../../constants";
 import {useNavigate} from "react-router";
 import {useBlockChainContext} from "../../context/blockchain-context";
 import {useWeb3React} from "@web3-react/core";
 import {ethers} from "ethers";
 
-import VAULT_ABI from '../../abis/Vault.json';
-import VAULT_NATIVE_ABI from '../../abis/VaultNative.json';
-import UNISWAP_PAIR from '../../abis/UniswapPair.json';
-import ROUTER_ABI from '../../abis/Vaults-zap-rotuer.json';
 import ERC20_ABI from '../../abis/ERC20.json';
 
 import {formatFromDecimal, formattedNum} from "../../utils";
 import axios from "axios";
 import FarmsTableItem from './mobile-item/index'
-import VaultById from "../VaultById";
-import fromExponential from "from-exponential";
 import {CircularProgress} from "@mui/material";
-import StarlayABI from '../../abis/StarLayLendingPool.json';
 
 const TOP_BAR_CATEGORIES = {
     ALL: "All",
@@ -68,12 +57,9 @@ const Vaults = () => {
     const [clearVaults, setClearVaults] = useState([]);
 
     const [filteredVaults, setFilteredVaults] = useState(null);
-    const [selectedVault, setSelectedVault] = useState(null);
-    const [selectedUserData, setSelectedUserData] = useState(null);
     const [overallTVL, setOverallTVL] = useState(0);
 
     const [topInfo, setTopInfo] = useState({deposited: 0, monthYield: 0, dailyYield: 0})
-    const [backEndVaults, setBackEndVaults] = useState([]);
     const [userData, setUserData] = useState([]);
 
 
@@ -178,29 +164,6 @@ const Vaults = () => {
 
         return {user: await Promise.all(formattedVaults), yieldInfo: {deposited, overallYield}} ;
     }
-
-    // const getLendingApy = async (lendingPool, lpContract, assetAddress, rewardtokenPrice, name, emissionRate) => {
-    //
-    //     const RAY = 10**27;
-    //     const tokenData = await axios.get(`https://api.dexscreener.io/latest/dex/tokens/${assetAddress}`); // Pass
-    //     const depositTokenPrice = parseFloat(tokenData.data.pairs[0].priceUsd); // Pass
-    //
-    //     const liquidityRate = await lendingPool.getReserveData(assetAddress);
-    //     const lendapr = ((+liquidityRate.currentLiquidityRate)/RAY) * 100;
-    //     const lendapy = ((1 + (lendapr / 100) / 8760)**8760-1) * 100;
-    //
-    //     const lEmissionPerYear = (emissionRate * 12);
-    //
-    //     const decimals = +(await lpContract.decimals());
-    //     const total = +(await lpContract.totalSupply()) / 10**decimals;
-    //     const incentivesApr = 100 * (lEmissionPerYear * rewardtokenPrice) / (total * depositTokenPrice);
-    //     const incentivesApy = ((1 + (incentivesApr / 100) / 8760)**8760-1) * 100;
-    //
-    //     const apy = lendapy + incentivesApy;
-    //
-    //     return {apy};
-    // }
-    //
 
     const handleVaultPage = (vault) => {
         setGlobalVault(vault);

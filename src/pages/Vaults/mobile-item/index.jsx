@@ -1,69 +1,26 @@
 /* eslint-disable no-unused-vars */
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import React, {useEffect, useState} from 'react';
-import {ethers, FixedNumber} from "ethers";
-import UNISWAP_PAIR_ABI from '../../../abis/UniswapPair.json';
-
-import CircularProgress from '@mui/material/CircularProgress';
-import DepositingIcon from '../../../assets/icons/DepositingIcon';
-
-import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
-import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
-import OUSDIcon from '../../../assets/icons/OUSDIcon';
-import arbABI from '../../../abis/Arbitrager.json';
+import React, {useState} from 'react';
 import {
   ExpandBtn,
-  ExpandedData,
-  ExpandedDataWrapper,
   AdditionalExpanded,
   AdditionalRow,
-  Locked,
-  FarmsInputContainer,
-  FarmsSlider,
   FarmsTableItem,
   FarmsRow,
   FarmsColumn,
-  HDiv,
   IconWrapper,
   MainData,
   Text,
   VDiv,
-  VestingBtn,
-  VestRewardsBtn,
-  ColorfulBtn,
-  ColorfulBlock,
-  ColorfulBtnContainer,
-  HelpCircleContainer,
-  MobileFarmsSlider,
-  HelpText,
-  WithdrawBtn,
-  OutlineBtn,
 } from './styled';
 import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
-import {formattedNum, formatToDecimal} from "../../../utils";
-import {CONTRACT_ADDRESSES, MAX_INT, ORU_PER_BLOCK, PROJECT_LOGOS, VAULT_TOKENS} from "../../../constants";
-import ArthIcon from '../../../assets/icons/ArthIcon.png'
-import pool from "../../SwapPool/pool";
+import {formattedNum} from "../../../utils";
+import {PROJECT_LOGOS, VAULT_TOKENS} from "../../../constants";
 import {useNavigate} from "react-router";
-import fromExponential from "from-exponential";
-import ProfitControllerABI from '../../../abis/ProfitController.json';
-import PlusIcon from '../../../assets/icons/PlusIcon';
-import TrashIcon from '../../../assets/icons/TrashIcon';
-
-import Pandora from '../../../assets/icons/Pandora.png';
 import { HDivider } from '../styled';
-import VaultById from "../../VaultById";
 
-const PERCENTAGES = {
-  1: 0,
-  2: 0.25,
-  3: 0.5,
-  4: 0.75,
-  5: 1
-}
-
-const MobileTableItm = ({item, handleVaultPage}) => {
+const MobileTableItm = ({item}) => {
   const [expanded, setExpanded] = useState(false);
   const {setGlobalVault} = useBlockChainContext();
   const {account} = useWeb3React()

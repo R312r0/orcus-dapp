@@ -21,11 +21,6 @@ const requestOptions = {
 
 const ProfitManager = () => {
 
-  // const [ historyArray ,  ] = useState(
-  //     [{date: '2/19/2022', fee: '4,468 ORU', collateral: '0 ORU', arbitrager: '1,121 ORU', penalty: '33,057 ORU', totalORU: '38,645 ORU', totalUSD: '$ 4,048', txHash: '0x7025...edc0'},
-  //       {date: '2/19/2022', fee: '4,468 ORU', collateral: '0 ORU', arbitrager: '1,121 ORU', penalty: '33,057 ORU', totalORU: '38,645 ORU', totalUSD: '$ 4,048', txHash: '0x7025...edc0'},]
-  // )
-
   const [totalProfit, setTotalProfit] = useState(null);
   const [historyArray, setHistoryArray] = useState([]);
 
@@ -35,7 +30,7 @@ const ProfitManager = () => {
 
   const getProfitData = async () => {
 
-    const {data: {profitManagerItems, investements}} = JSON.parse(await (await fetch("https://app.gc.subsquid.io/beta/orcus/main1/graphql", requestOptions)).text())
+    const {data: {profitManagerItems, investements}} = JSON.parse(await (await fetch("http://localhost:4350/graphql", requestOptions)).text())
     let profit = 0;
 
     const formattedData = profitManagerItems.map((item, _ind) => {

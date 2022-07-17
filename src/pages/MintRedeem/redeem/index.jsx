@@ -32,15 +32,16 @@ import {useBlockChainContext} from "../../../context/blockchain-context";
 import {formattedNum, formatToDecimal} from "../../../utils";
 import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
 
-const Redeem = () => {
+const Redeem = ({bankData}) => {
 
   const {account} = useWeb3React();
-  const {contracts, connectWallet, signer, liquidity} = useBlockChainContext();
+  const {contracts, connectWallet, signer} = useBlockChainContext();
 
-  const [value, setValue] = React.useState('ORU');
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [redeemInfo, setRedeemInfo] = React.useState(null);
   const [userInfo, setUserInfo] = React.useState(null);
+
+  const [collateralBalance, setCollateralBalance] = React.useState(null);
 
   const [stalbeInput, setStableInput] = React.useState('');
   const [collatOutput, setCollatOutput] = React.useState(0);
@@ -49,9 +50,17 @@ const Redeem = () => {
   useEffect(() => {
 
     if (contracts) {
-      getRedeemInfo();
+      getCollateralBalance();
     }
-  }, [contracts]);
+
+  }, [contracts])
+
+  useEffect(() => {
+
+    if (bankData) {
+      setRedeemInfo({collatPrice: 1, sharePrice: bankData.oruPrice, stablePrice: bankData.ousdPrice, tcr: bankData.tcr, ecr: bankData.ecr})
+    }
+  }, [bankData]);
 
   useEffect(() => {
 
@@ -61,28 +70,13 @@ const Redeem = () => {
 
   }, [account])
 
-  const getRedeemInfo = async () => {
 
-    const {BANK, BANK_SAFE, PRICE_ORACLE, USDC} = contracts;
-    const ecr = (+(await BANK.ecr()) / 1e6);
+  const getCollateralBalance = async () => {
+    const {USDC, IUSDC, BANK_SAFE} = contracts;
 
-    const {oruPrice} = liquidity;
+    const bal = (+(await USDC.balanceOf(BANK_SAFE.address)) / 1e6) + (+(await IUSDC.balanceOf(BANK_SAFE.address)) / 1e6);
 
-    const collateralBalance = (+(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE))) / 1e6;
-    const aTokenBalance = (+(await BANK_SAFE.balanceOfAToken())) / 1e6;
-
-    const prices = {
-      collatPrice: +(await PRICE_ORACLE.collatPrice()) / 1e6,
-      sharePrice: oruPrice,
-      stablePrice: +(await PRICE_ORACLE.ousdPrice()) / 1e6
-    }
-
-    setRedeemInfo({
-      ecr,
-      poolBalance: collateralBalance + aTokenBalance,
-      prices
-    })
-
+    setCollateralBalance(bal);
   }
 
   const getUserInfo = async () => {
@@ -113,8 +107,8 @@ const Redeem = () => {
   const handleStableInput = (value) => {
 
       const ousdToRedeem = +value - (+value * 0.004);
-      let collatOut = ousdToRedeem / redeemInfo.prices.collatPrice;
-      const shareOut = (ousdToRedeem - (ousdToRedeem * (redeemInfo.ecr))) / redeemInfo.prices.sharePrice
+      let collatOut = ousdToRedeem / redeemInfo.collatPrice;
+      const shareOut = (ousdToRedeem - (ousdToRedeem * (redeemInfo.ecr))) / redeemInfo.sharePrice
       collatOut *= redeemInfo.ecr
 
       setStableInput(+value);
@@ -127,7 +121,6 @@ const Redeem = () => {
       try {
         const tx = await contracts.BANK.connect(signer).redeem(formatToDecimal(stalbeInput, 18), 0, 0);
         await tx.wait();
-        await getRedeemInfo();
         await getUserInfo();
       }
       catch (e) {
@@ -139,7 +132,6 @@ const Redeem = () => {
     try {
       const tx = await contracts.BANK.connect(signer).collect();
       await tx.wait();
-      await getRedeemInfo();
       await getUserInfo();
     }
     catch (e) {
@@ -211,7 +203,7 @@ const Redeem = () => {
           <BoldPlusIcon />
         </IconWrapper>
         <HDiv>
-          <Text>ECR {redeemInfo ? redeemInfo.ecr * 100 : 0}% </Text>
+          <Text>ECR {redeemInfo ? bankData.ecr * 100 : 0}% </Text>
           <Text>Balance: {userInfo ? formattedNum(userInfo.balances.usdcBalance) : 0}</Text>
         </HDiv>
         <RedeemInputWrapper>
@@ -225,7 +217,7 @@ const Redeem = () => {
           <ArrowDownIcon />
         </IconWrapper>
         <HDiv>
-          <Text>Output ORU {redeemInfo ? 100 - (redeemInfo.ecr * 100) : 0}%</Text>
+          <Text>Output ORU {redeemInfo ? 100 - (bankData.ecr * 100) : 0}%</Text>
           <Text>Balance: {userInfo ? formattedNum(userInfo.balances.oruBalance) : 0}</Text>
         </HDiv>
         <RedeemInputWrapper>
@@ -269,7 +261,7 @@ const Redeem = () => {
             </div>
             <div style={{ display: 'inherit', alignItems: 'inherit' }}>
               <RedeemDataText bfw='500'>
-                <b>{redeemInfo ? formattedNum(redeemInfo.poolBalance) : 0}</b>
+                <b>{redeemInfo ? formattedNum(collateralBalance) : 0}</b>
               </RedeemDataText>
               <RedeemDataText ml='0.677vw'>USD</RedeemDataText>
             </div>
@@ -283,7 +275,7 @@ const Redeem = () => {
               </RedeemDataText>
               <RedeemDataText>oUSD</RedeemDataText>
               <RedeemDataText bfw='500'>
-                <b>&nbsp; = {redeemInfo ? redeemInfo.prices.stablePrice : 0} </b>
+                <b>&nbsp; = {redeemInfo ? redeemInfo.stablePrice : 0} </b>
               </RedeemDataText>
               <RedeemDataText>&nbsp;USDC</RedeemDataText>
             </div>
@@ -297,7 +289,7 @@ const Redeem = () => {
               </RedeemDataText>
               <RedeemDataText>USDC</RedeemDataText>
               <RedeemDataText bfw='500'>
-                <b>&nbsp; = {redeemInfo ? (redeemInfo.prices.collatPrice / redeemInfo.prices.stablePrice).toFixed(6) : 0} </b>
+                <b>&nbsp; = {redeemInfo ? (redeemInfo.collatPrice / redeemInfo.stablePrice).toFixed(6) : 0} </b>
               </RedeemDataText>
               <RedeemDataText>&nbsp;oUSD</RedeemDataText>
             </div>

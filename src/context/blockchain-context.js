@@ -19,8 +19,6 @@ import GAGUE_ABI from '../abis/GaugeController.json'
 import LP_TOKEN_SRS from '../abis/lpTokenGuarded.json'
 import GAGUE_OUSD_ABI from '../abis/LiquidityGauge.json'
 
-import {formatFromDecimal} from "../utils";
-
 const BlockchainContext  = React.createContext();
 export const useBlockChainContext = () => useContext(BlockchainContext);
 
@@ -31,8 +29,6 @@ export const BlockchainContextProvider = ({children}) => {
 
     const [contracts, setContracts] = useState(null);
     const [signer, setSigner] = useState(null);
-    const [liquidity, setLiquidity] = useState(null);
-
     const [globalVault, setGlobalVault] = useState(null);
 
     useEffect(() => {
@@ -53,47 +49,6 @@ export const BlockchainContextProvider = ({children}) => {
 
     }, [active, account])
 
-
-    useEffect(() => {
-
-        if (contracts) {
-            getLiquidityPrices();
-        }
-
-
-    }, [contracts])
-
-    const getLiquidityPrices = async () => {
-
-        const {ORU_USDC, OUSD_USDC, OUSD_ORU} = contracts;
-
-        // ORU-USDC liquidity
-        const oruUsdcRes = await ORU_USDC.getReserves();
-
-        const oruPrice =  (formatFromDecimal(+oruUsdcRes[0], 6)) / (formatFromDecimal(+oruUsdcRes[1], 18));
-        const oruUsdcLiq = ((+oruUsdcRes[0] / 1e6)) + ((+oruUsdcRes[1] / 1e18) * oruPrice);
-
-        // ORU-USDC liquidity
-        const ousdUsdcRes = await OUSD_USDC.getReserves();
-
-        const ousdPrice = (+ousdUsdcRes[1] / 1e6) / (+ousdUsdcRes[0] / 1e18);
-        const ousdUsdcLiq = (ousdPrice * (+ousdUsdcRes[0] / 1e18)) + (+ousdUsdcRes[1] / 1e6);
-
-        // OUSD-ORU liquidity
-        // TODO: Add liquidity for this pair.
-        const oruOusdRes = await OUSD_ORU.getReserves();
-        const oruOusdLiq = (ousdPrice * (+oruOusdRes[0] / 1e18)) + (oruPrice * (+oruOusdRes[1] / 1e18))
-
-        setLiquidity({
-            oruPrice,
-            ousdPrice,
-            oruUsdcLiq,
-            ousdUsdcLiq,
-            oruOusdLiq
-        })
-
-    }
-
     const init = async () => {
 
         const readProvider = new ethers.providers.JsonRpcProvider(JSON_RPC_URL);
@@ -102,6 +57,7 @@ export const BlockchainContextProvider = ({children}) => {
             ORU: new ethers.Contract(CONTRACT_ADDRESSES.ORU, OrcusERC20_ABI, readProvider),
             OUSD: new ethers.Contract(CONTRACT_ADDRESSES.OUSD, OrcusERC20_ABI, readProvider),
             USDC: new ethers.Contract(CONTRACT_ADDRESSES.USDC, ERC20_ABI, readProvider),
+            IUSDC: new ethers.Contract(CONTRACT_ADDRESSES.IUSDC, ERC20_ABI, readProvider),
             WASTR: new ethers.Contract(CONTRACT_ADDRESSES.WASTR, ERC20_ABI, readProvider),
             XORU: new ethers.Contract(CONTRACT_ADDRESSES.ORU_STAKE, ERC20_ABI, readProvider),
         }
@@ -126,8 +82,6 @@ export const BlockchainContextProvider = ({children}) => {
             GAGUE_CONTROLLER: new ethers.Contract(CONTRACT_ADDRESSES.GAGUE_CONTROLLER, GAGUE_ABI, readProvider),
             SRS_LP_TOKEN: new ethers.Contract(CONTRACT_ADDRESSES.SRS_LP_TOKEN, LP_TOKEN_SRS, readProvider),
             GAGUE_OUSD: new ethers.Contract(CONTRACT_ADDRESSES.GAGUE_OUSD, GAGUE_OUSD_ABI, readProvider)
-
-            // TODO: add more.
         }
 
         setContracts({...tokens, ...pairs, ...contracts})
@@ -172,7 +126,6 @@ export const BlockchainContextProvider = ({children}) => {
         connectWallet,
         contracts,
         signer,
-        liquidity,
         globalVault,
         setGlobalVault
     }

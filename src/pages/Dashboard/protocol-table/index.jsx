@@ -5,62 +5,33 @@ import {useBlockChainContext} from "../../../context/blockchain-context";
 import {CONTRACT_ADDRESSES} from "../../../constants";
 import {formattedNum} from "../../../utils";
 
-const ProtocolTable = ({setProtocolTVL}) => {
+const ProtocolTable = ({protocolTvl}) => {
 
-    const {contracts, liquidity} = useBlockChainContext();
-    const [info, setInfo] = useState(null);
+    const {contracts} = useBlockChainContext();
+    const [addTvl, setAddTvl] = React.useState(null);
 
     useEffect(() => {
 
-        if (contracts && liquidity) {
-            getInfo();
+        if (contracts && protocolTvl) {
+            getAdditionalTVL()
         }
 
-    }, [contracts, liquidity])
+    }, [contracts, protocolTvl])
 
+    const getAdditionalTVL = async () => {
 
-    const getInfo = async () => {
+        const {BANK_SAFE, ORU_STAKE, USDC, IUSDC, ORU} = contracts;
 
-        const {USDC, BANK_SAFE, ORU, ORU_USDC, OUSD_USDC, OUSD_ORU} = contracts
-        const {oruPrice} = liquidity;
+        const bankTVL = (+(await USDC.balanceOf(BANK_SAFE.address)) / 1e6) + (+(await IUSDC.balanceOf(BANK_SAFE.address) / 1e6));
+        const oruStakeTVL = (+(await ORU.balanceOf(ORU_STAKE.address)) / 1e18) * protocolTvl.oruPrice;
 
-
-        const oruUSDCTVL =
-            (+(await ORU_USDC.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18) *
-            (liquidity.oruUsdcLiq / (+(await ORU_USDC.totalSupply()) / 1e18 ));
-
-        const ousdUSDCTVL =
-            (+(await OUSD_USDC.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18) *
-            (liquidity.ousdUsdcLiq / (+(await OUSD_USDC.totalSupply()) / 1e18 ));
-
-        const ousdOruTVL =
-            (+(await OUSD_ORU.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18) *
-            (liquidity.oruOusdLiq / (+(await OUSD_ORU.totalSupply()) / 1e18 ));
-
-        const bankTVL = (+(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE)) / 1e6) + (+(await BANK_SAFE.balanceOfAToken()) / 1e6);
-        const farmTVL = oruUSDCTVL + ousdUSDCTVL + ousdOruTVL; // TODO: change it.
-        const stakeTVL = (+(await ORU.balanceOf(CONTRACT_ADDRESSES.ORU_STAKE)) / 1e18) * (oruPrice);
-        const protocolTVL = liquidity.oruOusdLiq + liquidity.oruUsdcLiq + liquidity.ousdUsdcLiq
-
-        setProtocolTVL(protocolTVL)
-
-        setInfo({
-            bankTVL,
-            farmTVL,
-            stakeTVL,
-            protocolTVL
-        })
-
-
-
+        setAddTvl({bankTVL, oruStakeTVL});
     }
 
     const isMobileScreen = ( ) => {
       let query = window.matchMedia('(max-device-width: 480px)')
       return query.matches
     }
-  
-
 
   return (
     <ProtocolTableWrapper>
@@ -69,22 +40,22 @@ const ProtocolTable = ({setProtocolTVL}) => {
           <b>Protocol TVL</b>
         </Text>
         <Text>
-          <b>${info ? formattedNum(info.protocolTVL) : 0}</b>
+          <b>${protocolTvl ? formattedNum(protocolTvl.pair) : 0}</b>
         </Text>
       </HDiv>
       <HDiv mt={!isMobileScreen() ? '1.094vw' : '16px'}>
         <Text>Bank</Text>
-        <Text>${info ? formattedNum(info.bankTVL) : 0}</Text>
+        <Text>${protocolTvl ? formattedNum(addTvl?.bankTVL) : 0}</Text>
       </HDiv>
       <Divider />
       <HDiv>
         <Text>Farm</Text>
-        <Text>${info ? formattedNum(info.farmTVL) : 0}</Text>
+        <Text>${protocolTvl ? formattedNum(protocolTvl.farm) : 0}</Text>
       </HDiv>
       <Divider />
       <HDiv>
         <Text>Stake</Text>
-        <Text>${info ? formattedNum(info.stakeTVL) : 0}</Text>
+        <Text>${protocolTvl ? formattedNum(addTvl?.oruStakeTVL) : 0}</Text>
       </HDiv>
     </ProtocolTableWrapper>
   );

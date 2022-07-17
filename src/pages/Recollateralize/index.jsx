@@ -21,14 +21,14 @@ import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../context/blockchain-context";
 import {CONTRACT_ADDRESSES, MAX_INT} from "../../constants";
 import {formattedNum, formatToDecimal} from "../../utils";
-import {ethers} from "ethers";
 import { CustomSpan } from '../Staking/stake/styled';
+import axios from "axios";
 
 
 const Recollateralize = () => {
 
   const {account} = useWeb3React()
-  const {contracts, signer, connectWallet, liquidity} = useBlockChainContext();
+  const {contracts, signer, connectWallet} = useBlockChainContext();
   const [info, setInfo] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
@@ -37,11 +37,11 @@ const Recollateralize = () => {
 
   useEffect(() => {
 
-    if (contracts && liquidity) {
+    if (contracts) {
       getInfo();
     }
 
-  }, [contracts, liquidity])
+  }, [contracts])
 
   useEffect(() => {
 
@@ -53,20 +53,40 @@ const Recollateralize = () => {
 
   const getInfo = async () => {
 
-    const {BANK, BANK_SAFE, PRICE_ORACLE, USDC} = contracts;
+    const QUERY = JSON.stringify({
+      query: `
+        query mainData {
+                oruById(id: "1") {
+                    price
+                    totalSupply
+                }
+                bankById(id: "1") {
+                  tcr
+                }
+        }`,
+      variables: {}
+    });
 
-    const {oruPrice} = liquidity;
+    const URL = {
+      method: 'post',
+      url: 'http://localhost:4350/graphql',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data : QUERY
+    };
 
-    console.log(oruPrice);
+    const {data: {data}} = await axios(URL);
 
+    const {BANK, BANK_SAFE, USDC} = contracts;
     const recollat = await BANK.recollatAvailable();
-    const tcr = +(await BANK.tcr()) / 1e6;
+    const tcr = data.bankById.tcr;
     const collateralBalance = +(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE)) / 1e6;
     const aTokenBalance = (+(await BANK_SAFE.balanceOfAToken())) / 1e6;
 
     const prices = {
-      collatPrice: +(await PRICE_ORACLE.collatPrice()) / 1e6,
-      sharePrice: oruPrice,
+      collatPrice: 1,
+      sharePrice: data.oruById.price,
     }
 
     setInfo({
@@ -76,8 +96,6 @@ const Recollateralize = () => {
       poolBalance: collateralBalance + aTokenBalance,
 
     })
-
-    console.log(+recollat / 1e18)
   }
 
   const isMobileScreen = ( ) => {
@@ -86,16 +104,8 @@ const Recollateralize = () => {
   }
 
   const handleCollatInput = async (value) => {
-    // 0.005 bonus rate.
-
-    // uint256 _oruOut = (_collatInE18 *
-    //         _collatPrice *
-    //         (RATIO_PRECISION + bonusRate)) /
-    //     RATIO_PRECISION /
-    //     _oruPrice;
     setCollatInput(value);
     setShareOutput((value * info.prices.collatPrice) / info.prices.sharePrice);
-
   }
 
   const getUserInfo = async () => {

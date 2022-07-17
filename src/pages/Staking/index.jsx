@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import Stake from './stake';
 import {
@@ -9,9 +9,40 @@ import {
   ToggleBtnWrapper,
 } from './styled';
 import Unstake from './unstake';
+import axios from "axios";
 
 const MintRedeeem = () => {
   const [activeTab, setActiveTab] = React.useState('Stake');
+  const [stakingData, setStakingData] = React.useState(null);
+
+  useEffect(() => {
+      getData();
+  }, [])
+
+  const getData = async () => {
+      const QUERY = JSON.stringify({
+          query: `
+            query mainData {
+                oruById(id: "1") {
+                    price
+                }
+        }`,
+          variables: {}
+      });
+      const URL = {
+          method: 'post',
+          url: 'http://localhost:4350/graphql',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          data : QUERY
+      };
+
+      const {data: {data}} = await axios(URL);
+
+      setStakingData(data.oruById.price);
+  }
+
   const isMobileScreen = ( ) => {
     let query = window.matchMedia('(max-device-width: 480px)')
     return query.matches
@@ -36,7 +67,7 @@ const MintRedeeem = () => {
         </ToggleBtn>
       </ToggleBtnWrapper>
       </div>
-      <TabWrapper>{activeTab === 'Stake' ? <Stake /> : <Unstake />}</TabWrapper>
+      <TabWrapper>{activeTab === 'Stake' ? <Stake stakingData={stakingData}/> : <Unstake stakingData={stakingData}/>}</TabWrapper>
     </StakingWrapper>
   );
 };

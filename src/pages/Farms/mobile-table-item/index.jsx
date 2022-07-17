@@ -1,16 +1,12 @@
 /* eslint-disable no-unused-vars */
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React, {useEffect, useState} from 'react';
-import {ethers, FixedNumber} from "ethers";
-import UNISWAP_PAIR_ABI from '../../../abis/UniswapPair.json';
+import {ethers} from "ethers";
 
 import CircularProgress from '@mui/material/CircularProgress';
-import DepositingIcon from '../../../assets/icons/DepositingIcon';
 
 import HelpCircleIcon from '../../../assets/icons/HelpCircleIcon';
 import LogoIconBlack from '../../../assets/icons/LogoIconBlack';
-import OUSDIcon from '../../../assets/icons/OUSDIcon';
-import arbABI from '../../../abis/Arbitrager.json';
 import {
   ExpandBtn,
   ExpandedData,
@@ -19,7 +15,6 @@ import {
   AdditionalRow,
   Locked,
   FarmsInputContainer,
-  FarmsSlider,
   FarmsTableItem,
   FarmsRow,
   FarmsColumn,
@@ -29,25 +24,20 @@ import {
   Text,
   VDiv,
   VestingBtn,
-  VestRewardsBtn,
   ColorfulBtn,
   ColorfulBlock,
   ColorfulBtnContainer,
   HelpCircleContainer,
   MobileFarmsSlider,
   HelpText,
-  WithdrawBtn,
   OutlineBtn,
 } from './styled';
 import {useWeb3React} from "@web3-react/core";
 import {useBlockChainContext} from "../../../context/blockchain-context";
-import {formattedNum, formatToDecimal} from "../../../utils";
-import {CONTRACT_ADDRESSES, MAX_INT, ORU_PER_BLOCK} from "../../../constants";
+import {formattedNum} from "../../../utils";
+import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
 import ArthIcon from '../../../assets/icons/ArthIcon.png'
-import pool from "../../SwapPool/pool";
-import {useNavigate} from "react-router";
 import fromExponential from "from-exponential";
-import ProfitControllerABI from '../../../abis/ProfitController.json';
 import PlusIcon from '../../../assets/icons/PlusIcon';
 import TrashIcon from '../../../assets/icons/TrashIcon';
 import { HDivider } from '../styled';
@@ -63,8 +53,7 @@ const PERCENTAGES = {
 const MobileTableItm = ({index, item}) => {
 
   const { account } = useWeb3React();
-  const { contracts, signer, liquidity } = useBlockChainContext();
-  const navigate = useNavigate();
+  const { contracts, signer } = useBlockChainContext();
 
   const [poolInfo, setPoolInfo] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
@@ -78,7 +67,7 @@ const MobileTableItm = ({index, item}) => {
 
   useEffect(() => {
 
-    if (contracts && liquidity) {
+    if (contracts) {
         getPoolInfo();
     }
 
@@ -95,22 +84,14 @@ const MobileTableItm = ({index, item}) => {
 
 
   const getPoolInfo = async () => {
-    const {MASTER_CHEF, ORU} = contracts;
-    const {lpToken} = item;
+    const {MASTER_CHEF} = contracts;
+    const {tvl, apr, lpPrice} = item;
 
-    const lpPrice = item.liquidity /  (+(await lpToken.totalSupply()) / 1e18);
-    const lpBalance = +(await lpToken.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18;
     const poolInfo = await MASTER_CHEF.poolInfo(index);
-
-    console.log(poolInfo)
-
-    const apr = (((((liquidity.oruPrice * (ORU_PER_BLOCK / 3) * 86400 * 30 * 12)) / 2) / ((lpPrice * lpBalance)) * 100)).toFixed(0);
-
-    console.log(lpPrice);
 
     setPoolInfo({
       lockDuration: +poolInfo.lockDuration,
-      tvl: lpPrice * lpBalance,
+      tvl,
       lpPrice,
       apr
     })
@@ -122,8 +103,8 @@ const MobileTableItm = ({index, item}) => {
       const {MASTER_CHEF} = contracts;
       const {lpToken} = item;
 
-      const balance = await lpToken.balanceOf(account);
-      const allowance = await lpToken.allowance(account, CONTRACT_ADDRESSES.MASTER_CHEF);
+      const balance = await lpToken.connect(signer).balanceOf(account);
+      const allowance = await lpToken.connect(signer).allowance(account, CONTRACT_ADDRESSES.MASTER_CHEF);
       const userContractInfo = await MASTER_CHEF.userInfo(index, account);
       const pendingReward = +(await MASTER_CHEF.pendingOru(index, account)) / 1e18;
 
@@ -249,34 +230,6 @@ const MobileTableItm = ({index, item}) => {
               </Text>
             </div>
           </VDiv>
-
-          {/* <FarmsColumn center>  */}
-          {/* <IconWrapper >
-            <LogoIconBlack />
-          </IconWrapper> */}
-          {/* <Text ml='0.7vw'>
-            <b>ORU</b>
-          </Text> */}
-          {/* </FarmsColumn> */}
-          {/* <FarmsColumn center>
-          <Text
-           >
-            <b>${poolInfo && userInfo ? formattedNum(poolInfo.lpPrice * (userInfo.depositedAmt / 1e18)) : 0}</b>
-          </Text>
-          </FarmsColumn> */}
-          {/* <FarmsColumn center>
-          <Text >
-            <b>${poolInfo ? formattedNum(poolInfo?.tvl) : 0}</b>
-          </Text>
-          </FarmsColumn>
-          <FarmsColumn center>
-          <Text>APR</Text>
-          <Text ml='0.885vw' 
-
-          >
-            <b>{poolInfo ? formattedNum(poolInfo.apr) : 0}%</b>
-          </Text>
-          </FarmsColumn> */}
           <FarmsColumn  style={{flexDirection: 'column', textAlign: 'right', justifyContent: 'end', alignItems: 'end'}}>
               <div style={{fontSize: '10px', color: 'grey'}}>TVL</div>
           <Text>

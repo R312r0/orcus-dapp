@@ -1,15 +1,13 @@
 import { ArrowBack } from "@mui/icons-material";
 import LogoIconBlack from "../../assets/icons/LogoIconBlack";
-import OUSDIcon from "../../assets/icons/OUSDIcon";
 import OutLinkIcon from "../../assets/icons/OutLinkIcon";
 import { VidTopBar, GraphMenuContainer,Field,FieldInput,DoubleContainer,ConnectWallet, MaxButton, InputContainer, Input, AddButton, BuyButton, AddBuyContainer, Fieldset,DWContainer,DWButton, GraphMenuItem, LinksRow, VidBlockText, VidBlockHeader, VidBlock, HDivider, VIDLayout, VIDLeftColumn, VidRightColumn, VidWrapper, WhiteBorderItemLarge, Font, WhiteBorderItem, WhiteBorderBar, VDivider } from "./styled";
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
-import {JSON_RPC_URL, MAX_INT, VAULT_TOKENS, VAULTS} from "../../constants";
+import {MAX_INT, VAULT_TOKENS} from "../../constants";
 import {useWeb3React} from "@web3-react/core";
 import axios from "axios";
 import {ethers} from "ethers";
-import BigNumber from 'bignumber.js';
 
 // ABIS
 import ROUTER_ABI from '../../abis/Vaults-zap-rotuer.json';
@@ -18,7 +16,6 @@ import VAULT_LENDING_ABI from '../../abis/VaultNative.json';
 import ERC20_ABI from '../../abis/ERC20.json';
 import {useBlockChainContext} from "../../context/blockchain-context";
 import {formatFromDecimal, formattedNum, formatToDecimal} from "../../utils";
-import fromExponential from "from-exponential";
 
 const ACTIVE_DVS = {
     DEPOSIT: "Deposit",
@@ -538,41 +535,6 @@ const VaultById = () => {
                     }
                 </VidBlockText>
                 </VidBlock>
-                {/*{ !isMobileScreen() ? <></> : <>*/}
-                {/*<VidBlock style={{marginTop: isMobileScreen() ? '24px' : '', borderTopLeftRadius:  isMobileScreen() ?  '20px' : '', borderTopRightRadius:   isMobileScreen() ?  '20px' : ''}} height={'13.86vw'}>*/}
-                {/*<VidBlockHeader>*/}
-                {/*<div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>*/}
-                {/*<div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>*/}
-                {/*<Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{vault.token0.name}</Font>*/}
-                {/*</div>*/}
-                {/*</VidBlockHeader>*/}
-                {/*<HDivider/>*/}
-                {/*<LinksRow>*/}
-                {/*    {vault.token0.website ? <a href={vault.token0.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}*/}
-                {/*    <a href={`https://blockscout.com/astar/address/${vault.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>*/}
-                {/*</LinksRow>*/}
-                {/*<VidBlockText>{vault.token0.description}</VidBlockText>*/}
-                {/*</VidBlock>*/}
-
-            {/*{!vault.info.isLending ?*/}
-            {/*    <VidBlock height={'8.96vw'}>*/}
-            {/*        <VidBlockHeader>*/}
-            {/*            <div><Font  fs={ isMobileScreen() ? '12px' : '0.72vw'}  color='#828282'>ASSET DETAILS</Font></div>*/}
-            {/*            <div style={{marginTop: isMobileScreen() ? '8px' : '', marginBottom: isMobileScreen() ? '8px' : ''}}>*/}
-            {/*                <Font fw='500' fs={isMobileScreen () ? '17px' : '0.93vw'}>{vault.token1.name}</Font>*/}
-            {/*                <LinksRow>*/}
-            {/*                    {vault.token1.website ? <a href={vault.token1.website}>Website<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a> : null}*/}
-            {/*                    <a href={`https://blockscout.com/astar/address/${vault.token0.address}/transactions`}>Token Contract<OutLinkIcon ratio={ isMobileScreen() ? '4vw': '0.93vw'}/></a>*/}
-            {/*                </LinksRow>*/}
-            {/*            </div>*/}
-            {/*        </VidBlockHeader>*/}
-            {/*        <HDivider/>*/}
-            {/*        <VidBlockText mt='1.25vw'>{vault.token1.description}</VidBlockText>*/}
-            {/*    </VidBlock>*/}
-            {/*    :*/}
-            {/*    null*/}
-            {/*}*/}
-            {/*</>*/}
             </VidRightColumn>
             </VIDLayout>
             </>

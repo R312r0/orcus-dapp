@@ -15,39 +15,14 @@ import {
   TokenPrice,
   VDiv,
 } from './styled';
-import {useBlockChainContext} from "../../../context/blockchain-context";
 import {formattedNum} from "../../../utils";
 import {CONTRACT_ADDRESSES} from "../../../constants";
-import {useNavigate} from "react-router";
 import UnwrappedOUSDIcon from '../../../assets/icons/UnwrappedOUSDIcon';
+import axios from "axios";
 
-const OUSDTable = () => {
+const OUSDTable = ({data}) => {
 
-    const { contracts, liquidity } = useBlockChainContext();
-    const [ousdInfo, setOusdInfo] = useState(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-
-        if (contracts && liquidity) {
-            getInfo();
-        }
-
-    }, [contracts, liquidity])
-
-    const getInfo = async () => {
-        const {OUSD} = contracts;
-
-        const ousdPrice = liquidity.ousdPrice;
-        const totalSupply = +( await OUSD.totalSupply()) / 1e18;
-        const marketCap = ousdPrice * totalSupply;
-
-        setOusdInfo({
-            ousdPrice,
-            totalSupply,
-            marketCap
-        })
-    }
+    console.log(data);
 
     const addToken = async () => {
         try {
@@ -94,20 +69,20 @@ const OUSDTable = () => {
           </Text>
         </VDiv> : <></>
         }
-        <TokenPrice>${ousdInfo ? formattedNum(ousdInfo.ousdPrice) : 0}</TokenPrice>
+        <TokenPrice>${data ? formattedNum(data.price) : 0}</TokenPrice>
       </HDiv>
       <Divider margin='0.729vw 0' />
       <HDiv>
         <Text>Supply</Text>
         <Text>
-          <b>{ousdInfo ? formattedNum(ousdInfo.totalSupply) : 0}</b>
+          <b>{data ? formattedNum(data.totalSupply) : 0}</b>
         </Text>
       </HDiv>
       <Divider margin='0.938vw 0 0.781vw 0' />
       <HDiv>
         <Text>Market cap</Text>
         <Text>
-          <b>${ousdInfo ? formattedNum(ousdInfo.marketCap) : 0}</b>
+          <b>${data ? formattedNum(data.marketCap) : 0}</b>
         </Text>
       </HDiv>
       <Divider margin='0.781vw 0 1.719vw 0' />

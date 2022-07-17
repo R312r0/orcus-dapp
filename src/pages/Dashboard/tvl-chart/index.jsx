@@ -13,69 +13,19 @@ import { useWindowScale } from '../../../hooks';
 import { AreaChartWrapper, DateData, Text, TVLChartWrapper } from './styled';
 import {formatDate, formattedNum} from "../../../utils";
 
-const data = [
-  { value: 0, xAxis: '05', yAxis: 14000 },
-  { value: 10000, xAxis: '06', yAxis: 15000 },
-  { value: 1555, xAxis: '07', yAxis: 16000 },
-  { value: 12000, xAxis: '08', yAxis: 17000 },
-  { value: 4564, xAxis: '09', yAxis: 18000 },
-  { value: 17000, xAxis: '10', yAxis: 19000 },
+const TVLChart = ({chartsArr}) => {
+    const currentChartMargin = useWindowScale();
 
-  { value: 5000, xAxis: '11', yAxis: 20000 },
-];
-
-const TVLChart = ({protocolTVL}) => {
-  const currentChartMargin = useWindowScale();
-
-  const [chartsArr, setChartsArr] = useState(null);
-
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const graphql = JSON.stringify({
-        query: "query MyQuery {\n  tvlCharts(orderBy:currentTimestamp_ASC) {\n    id\n    currentTimestamp\n    value\n  }\n}",
-        variables: {}
-    })
-    const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: graphql,
-        redirect: 'follow'
-    };
-
-
-
-    useEffect(() => {
-        getData();
-    }, [])
-
-    const getData = async () => {
-
-        try {
-            const {data: tvlCharts} = JSON.parse((await (await fetch("https://app.gc.subsquid.io/beta/orcus/main/graphql", requestOptions)).text()))
-            const chart =  tvlCharts.tvlCharts.map(item => {
-                return {
-                    time: formatDate(new Date(+item.currentTimestamp)),
-                    value: +item.value
-                }
-            })
-
-            setChartsArr(chart);
-        }
-        catch (e) {
-            console.log(e.message)
-        }
-    }
     const isMobileScreen = ( ) => {
         let query = window.matchMedia('(max-device-width: 480px)')
         return query.matches
-      }
+    }
 
   return (
     <TVLChartWrapper>
       <Text>TVL</Text>
       <Text>
-        <b>$ {protocolTVL ? formattedNum(protocolTVL) : null }</b>
+        <b>$ {chartsArr ? formattedNum(chartsArr[chartsArr.length - 1].value) : null }</b>
       </Text>
         {chartsArr ?
             <AreaChartWrapper>

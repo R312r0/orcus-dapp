@@ -40,10 +40,7 @@ import {useBlockChainContext} from "../../../context/blockchain-context";
 import {formattedNum, formatToDecimal} from "../../../utils";
 import {CONTRACT_ADDRESSES, MAX_INT, ORU_PER_BLOCK} from "../../../constants";
 import ArthIcon from '../../../assets/icons/ArthIcon.png'
-import pool from "../../SwapPool/pool";
-import {useNavigate} from "react-router";
 import fromExponential from "from-exponential";
-import ProfitControllerABI from '../../../abis/ProfitController.json';
 import PlusIcon from '../../../assets/icons/PlusIcon';
 import TrashIcon from '../../../assets/icons/TrashIcon';
 
@@ -58,8 +55,7 @@ const PERCENTAGES = {
 const FarmsTableItm = ({index, item}) => {
 
   const { account } = useWeb3React();
-  const { contracts, signer, liquidity } = useBlockChainContext();
-  const navigate = useNavigate();
+  const { contracts, signer } = useBlockChainContext();
 
   const [poolInfo, setPoolInfo] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
@@ -73,11 +69,11 @@ const FarmsTableItm = ({index, item}) => {
 
   useEffect(() => {
 
-    if (contracts && liquidity) {
+    if (contracts && item && !userInfo) {
         getPoolInfo();
     }
 
-  }, [contracts])
+  }, [contracts, item])
 
   const proxyNavigation = ( link ) => {
     window.open(
@@ -96,24 +92,15 @@ const FarmsTableItm = ({index, item}) => {
 
 
   const getPoolInfo = async () => {
-    const {MASTER_CHEF, ORU} = contracts;
-    const {lpToken} = item;
+    const {MASTER_CHEF} = contracts;
 
-    const lpPrice = item.liquidity /  (+(await lpToken.totalSupply()) / 1e18);
-    const lpBalance = +(await lpToken.balanceOf(CONTRACT_ADDRESSES.MASTER_CHEF)) / 1e18;
     const poolInfo = await MASTER_CHEF.poolInfo(index);
-
-    console.log(poolInfo)
-
-    const apr = (((((liquidity.oruPrice * (ORU_PER_BLOCK / 3) * 86400 * 30 * 12)) / 2) / ((lpPrice * lpBalance)) * 100)).toFixed(0);
-
-    console.log(lpPrice);
 
     setPoolInfo({
       lockDuration: +poolInfo.lockDuration,
-      tvl: lpPrice * lpBalance,
-      lpPrice,
-      apr
+      tvl: item.tvl,
+      lpPrice: item.lpPrice,
+      apr: item.apr
     })
 
   }
@@ -123,15 +110,13 @@ const FarmsTableItm = ({index, item}) => {
       const {MASTER_CHEF} = contracts;
       const {lpToken} = item;
 
-      const balance = await lpToken.balanceOf(account);
-      const allowance = await lpToken.allowance(account, CONTRACT_ADDRESSES.MASTER_CHEF);
+      const balance = await lpToken.connect(signer).balanceOf(account);
+      const allowance = await lpToken.connect(signer).allowance(account, CONTRACT_ADDRESSES.MASTER_CHEF);
       const userContractInfo = await MASTER_CHEF.userInfo(index, account);
       const pendingReward = +(await MASTER_CHEF.pendingOru(index, account)) / 1e18;
 
       const locked = +userContractInfo.depositTime - (+(poolInfo.lockDuration)) >= +(new Date().getTime() / 1000).toFixed(0);
       const currentVestingSlot = +(await MASTER_CHEF.vestingSlot());
-
-      console.log(currentVestingSlot);
 
       setUserInfo({
         lpBalance: +balance,
@@ -178,11 +163,8 @@ const FarmsTableItm = ({index, item}) => {
 
     const {MASTER_CHEF} = contracts;
 
-    // const arbitrager = new ethers.Contract("0x7C79E596200F081219345eD06464927738d1d42E", arbABI, signer);
-
     try {
       const tx = await MASTER_CHEF.connect(signer).deposit(index, ethers.BigNumber.from(fromExponential(depositInput)), account);
-      // const tx = await arbitrager.buyOusd();
       await tx.wait();
       await getUserInfo();
     }
@@ -231,7 +213,7 @@ const FarmsTableItm = ({index, item}) => {
           </IconWrapper>
           <VDiv ml='0.781vw'>
             <Text>
-              <b>{item.name}</b>
+              <b>{item.name.toUpperCase()}</b>
             </Text>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img src={ArthIcon} width={15} height={15} />
@@ -292,14 +274,14 @@ const FarmsTableItm = ({index, item}) => {
                 <Text>
                   <b>{userInfo ? formattedNum(userInfo.lpBalance / 1e18) : 0.00}&nbsp;</b>
                 </Text>
-                <Text>{item.name} </Text>
+                <Text>{item.name.toUpperCase()} </Text>
               </HDiv>
               <FarmsInputContainer>
                 <input type='text'
                        disabled={true}
                        value={fromExponential(depositInput / 1e18)}/>
                 <Text>
-                  <b>{item.name}</b>
+                  <b>{item.name.toUpperCase()}</b>
                 </Text>
               </FarmsInputContainer>
               <FarmsSlider
@@ -356,7 +338,7 @@ const FarmsTableItm = ({index, item}) => {
                 <Text>
                   <b>{userInfo ?  fromExponential(userInfo.depositedAmt / 1e18) : 0.0}&nbsp;</b>
                 </Text>
-                <Text>{item.name} </Text>
+                <Text>{item.name.toUpperCase()} </Text>
               </HDiv>
               <FarmsInputContainer>
                 <input type='text'
@@ -364,7 +346,7 @@ const FarmsTableItm = ({index, item}) => {
                        value={fromExponential(withdrawInput / 1e18)}
                        />
                 <Text>
-                  <b>{item.name}</b>
+                  <b>{item.name.toUpperCase()}</b>
                 </Text>
               </FarmsInputContainer>
               <FarmsSlider

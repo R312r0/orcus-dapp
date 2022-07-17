@@ -41,12 +41,14 @@ import {CONTRACT_ADDRESSES, MAX_INT} from "../../../constants";
 import ORUIcon from '../../../assets/icons/ORUIcon';
 import ShoppingBagIcon from '../../../assets/icons/ShoppingBagIcon';
 
-const Mint = () => {
-  const [value, setValue] = React.useState('ORU');
+const Mint = ({bankData}) => {
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [mintInfo, setMintInfo] = React.useState(null);
   const [userInfo, setUserInfo] = React.useState(null);
+
+  const [collateralBalance, setCollateralBalance] = React.useState(null);
 
   const [collateralInput, setCollateralInput] = React.useState('');
   const [shareInput, setShareInput] = React.useState(0);
@@ -54,14 +56,23 @@ const Mint = () => {
   const [stableFeeVal, setStableFeeVal] = React.useState(0);
 
   const {account} = useWeb3React();
-  const {contracts, connectWallet, signer, liquidity} = useBlockChainContext();
+  const {contracts, connectWallet, signer} = useBlockChainContext();
 
   useEffect(() => {
 
-      if (contracts) {
-        getMintInfo();
-      }
-  }, [contracts]);
+    if (contracts) {
+      getCollateralBalance();
+    }
+  }, [contracts])
+
+  useEffect(() => {
+
+    if (bankData) {
+      setMintInfo({collatPrice: 1, sharePrice: bankData.oruPrice, stablePrice: bankData.ousdPrice, tcr: bankData.tcr, ecr: bankData.ecr})
+    }
+
+  }, [bankData])
+
 
   useEffect(() => {
 
@@ -71,27 +82,11 @@ const Mint = () => {
 
   }, [account])
 
-  const getMintInfo = async () => {
+  const getCollateralBalance = async () => {
+    const {USDC, IUSDC, BANK_SAFE} = contracts;
 
-    const {BANK, BANK_SAFE, PRICE_ORACLE, OUSD_USDC_ORACLE, USDC} = contracts;
-
-    const oruPrice = {liquidity};
-
-    const tcr = +(await BANK.tcr()) / 1e6;
-    const collateralBalance = +(await USDC.balanceOf(CONTRACT_ADDRESSES.BANK_SAFE)) / 1e6;
-    const aTokenBalance = (+(await BANK_SAFE.balanceOfAToken())) / 1e6;
-
-    const prices = {
-      collatPrice: +(await PRICE_ORACLE.collatPrice()) / 1e6,
-      sharePrice: oruPrice,
-      stablePrice: +(await PRICE_ORACLE.ousdPrice()) / 1e6
-    }
-
-    setMintInfo({
-      tcr,
-      poolBalance: collateralBalance + aTokenBalance,
-      prices,
-    })
+    const bal = (+(await USDC.balanceOf(BANK_SAFE.address)) / 1e6) + (+(await IUSDC.balanceOf(BANK_SAFE.address)) / 1e6)
+    setCollateralBalance(bal)
   }
 
   const getUserInfo = async () => {
@@ -153,7 +148,6 @@ const Mint = () => {
     try {
       const tx = await BANK.connect(signer).mint(collatInE6,  shareInE18, 0);
       await tx.wait()
-      await getMintInfo();
       await getUserInfo();
     }
     catch (e) {
@@ -164,10 +158,10 @@ const Mint = () => {
 
   const handleCollateralInput = async (value) => {
 
-      const {prices, tcr} = mintInfo;
+      const {collatPrice, sharePrice, tcr} = mintInfo;
 
-      let output = (+value * prices.collatPrice) / tcr;
-      const shareInput = ((output - (+value * prices.collatPrice)) / prices.sharePrice);
+      let output = (+value * collatPrice) / tcr;
+      const shareInput = ((output - (+value * collatPrice)) / sharePrice);
       const stableFee = output * 0.003;
       output -= stableFee;
 
@@ -226,11 +220,13 @@ const Mint = () => {
     return query.matches
   }
 
+  console.log(bankData);
+
   return (
     <>
       <MintBlockWrapper>
         <HDiv>
-          <Text>TCR {mintInfo ? mintInfo.tcr * 100 : 0}%</Text>
+          <Text>TCR {bankData ? formattedNum(bankData.tcr * 100) : 0}%</Text>
           <Text>Balance: {userInfo ? formattedNum(userInfo.usdcBal) : 0}</Text>
         </HDiv>
         <MintInputWrapper withSelect>
@@ -246,7 +242,7 @@ const Mint = () => {
           <BoldPlusIcon ratio='5vw'/>
         </IconWrapper>
         <HDiv>
-          <Text>Required ORU {mintInfo ? 100 - (mintInfo.tcr * 100) : 0 }%</Text>
+          <Text>Required ORU {mintInfo ? 100 - (bankData.tcr * 100) : 0 }%</Text>
           <Text>Balance: {userInfo ? formattedNum(userInfo.oruBal) : 0}</Text>
         </HDiv>
         <MintInputWrapper>
@@ -298,7 +294,7 @@ const Mint = () => {
           </div>
           <div style={{ display: 'inherit', alignItems: 'inherit' }}>
             <MintDataText bfw='500'>
-              <b>{mintInfo ? formattedNum(mintInfo.poolBalance) : 0}</b>
+              <b>{mintInfo ? formattedNum(collateralBalance) : 0}</b>
             </MintDataText>
             <MintDataText ml='0.677vw'>USD</MintDataText>
           </div>
@@ -319,7 +315,7 @@ const Mint = () => {
             </MintDataText>
             <MintDataText>oUSD</MintDataText>
             <MintDataText bfw='500'>
-              <b> = {mintInfo ? mintInfo.prices.stablePrice : 0} </b>
+              <b> = {mintInfo ? mintInfo.stablePrice : 0} </b>
             </MintDataText>
             <MintDataText>&nbsp;USD</MintDataText>
           </div>
@@ -333,7 +329,7 @@ const Mint = () => {
             </MintDataText>
             <MintDataText>USDC</MintDataText>
             <MintDataText bfw='500'>
-              <b> = {mintInfo ? (mintInfo.prices.collatPrice / mintInfo.prices.stablePrice).toFixed(6) : 0} </b>
+              <b> = {mintInfo ? (mintInfo.collatPrice / mintInfo.stablePrice).toFixed(6) : 0} </b>
             </MintDataText>
             <MintDataText>&nbsp;oUSD</MintDataText>
           </div>
@@ -353,12 +349,11 @@ const Mint = () => {
           <HDiv>
             <RedeemDataText>
               <div style={{display: 'flex', alignItems: 'center', gap: '0.4vw'}}>
-              <ORUIcon ratio={isMobileScreen() ? '5vw' : undefined}></ORUIcon>ORU
+              <ORUIcon ratio={isMobileScreen() ? '5vw' : undefined}/>ORU
               </div>
             </RedeemDataText>
             <RedeemDataText>
             <BuyBtn onClick={() => proxyNavigation()}>
-          {/* <ShoppingBagIcon fill='#fff' /> */}
           <ShoppingBagIcon fill='#fff'/>
           Buy
         </BuyBtn>

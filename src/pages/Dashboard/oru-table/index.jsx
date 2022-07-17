@@ -20,35 +20,10 @@ import {formattedNum} from "../../../utils";
 import {CONTRACT_ADDRESSES} from "../../../constants";
 import logoIcon from "../../../assets/icons/LogoIcon";
 import {useNavigate} from "react-router";
+import axios from "axios";
 
-const ORUTable = () => {
+const ORUTable = ({data}) => {
 
-    const { contracts, liquidity } = useBlockChainContext();
-    const [oruInfo, setOruInfo] = useState(null);
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-
-        if (contracts && liquidity) {
-            getInfo();
-        }
-
-    }, [contracts, liquidity])
-
-    const getInfo = async () => {
-        const {ORU} = contracts;
-
-        const oruPrice = liquidity.oruPrice
-        const totalSupply = +( await ORU.totalSupply()) / 1e18;
-        const marketCap = oruPrice * totalSupply;
-
-        setOruInfo({
-            oruPrice,
-            totalSupply,
-            marketCap
-        })
-    }
     const proxyNavigation = ( link ) => {
       window.open(
         'https://app.arthswap.org/#/swap',
@@ -91,20 +66,20 @@ const ORUTable = () => {
           </Text>
         </VDiv>
          : <></>}
-        <TokenPrice>${oruInfo ? formattedNum(oruInfo.oruPrice) : 0}</TokenPrice>
+        <TokenPrice>${data ? formattedNum(data.price) : 0}</TokenPrice>
       </HDiv>
       <Divider margin='0.729vw 0' />
       <HDiv>
         <Text>Supply</Text>
         <Text>
-          <b>{oruInfo ? formattedNum(oruInfo.totalSupply) : 0}</b>
+          <b>{data ? formattedNum(data.totalSupply) : 0}</b>
         </Text>
       </HDiv>
       <Divider margin='0.938vw 0 0.781vw 0' />
       <HDiv>
         <Text>Market cap</Text>
         <Text>
-          <b>${oruInfo ? formattedNum(oruInfo.marketCap) : 0}</b>
+          <b>${data ? formattedNum(data.marketCap) : 0}</b>
         </Text>
       </HDiv>
       <Divider margin='0.781vw 0 1.719vw 0' />
