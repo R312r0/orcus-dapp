@@ -133,7 +133,7 @@ const Farms = () => {
 
     const URL = {
       method: 'post',
-      url: 'https://app.gc.subsquid.io/beta/orcus-final-squid/v0/graphql',
+      url: 'https://app.gc.subsquid.io/beta/orcus/v1-stable/graphql',
       headers: {
         'Content-Type': 'application/json'
       },
